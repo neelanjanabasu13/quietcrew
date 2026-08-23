@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import { StepSequence } from "@/components/FlowDiagram";
 import { LiveWorkflow, Marquee, RotatingWord } from "@/components/LiveWorkflow";
 import {
   ArtefactTile,
@@ -12,6 +11,7 @@ import {
   LeaseAnswer,
   WeeklyReport,
 } from "@/components/Artefacts";
+import { ExampleTabs } from "@/components/ExampleTabs";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import {
   Accordion,
@@ -89,6 +89,7 @@ const sectors = [
   },
   {
     title: "Property",
+    label: "Property",
     who: "Estate and letting agents, property managers, commercial property firms.",
     work: "Enquiry handling, leases and documents, approvals, system updates.",
   },
@@ -101,6 +102,7 @@ const sectors = [
 
 const examples: {
   title: string;
+  label: string;
   steps: string[];
   before: string;
   approvalIndex: number;
@@ -108,6 +110,7 @@ const examples: {
 }[] = [
   {
     title: "Recruitment",
+    label: "Recruitment",
     steps: ["CV arrives", "Details extracted", "ATS updated", "Summary written", "Recruiter notified"],
     before:
       "Before: someone opens the CV, retypes six fields into the ATS, writes a summary, and forwards it on. Ten minutes, forty times a week.",
@@ -116,6 +119,7 @@ const examples: {
   },
   {
     title: "Sales",
+    label: "Sales",
     steps: ["New lead", "Company researched", "Qualified", "CRM enriched", "Brief sent to rep"],
     before: "Before: the rep Googles the company the morning of the call, if there's time.",
     approvalIndex: 2,
@@ -131,6 +135,7 @@ const examples: {
   },
   {
     title: "Agency",
+    label: "Agencies",
     steps: ["New client won", "Project created", "Tasks generated", "Team assigned", "Onboarding starts"],
     before: "Before: a half-remembered checklist, done slightly differently every time.",
     approvalIndex: 3,
