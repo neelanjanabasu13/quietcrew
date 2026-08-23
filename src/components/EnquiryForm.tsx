@@ -22,7 +22,7 @@ const empty: Fields = {
 const sizes = ["1-9", "10-24", "25-49", "50-149", "150+"];
 
 const fieldClass =
-  "w-full rounded-[14px] border-0 bg-white px-4 py-3.5 text-[16px] text-ink placeholder:text-muted-paper";
+  "w-full rounded-[14px] border-0 bg-muted px-4 py-3.5 text-[16px] text-ink placeholder:text-muted-paper";
 
 export function EnquiryForm() {
   const [values, setValues] = useState<Fields>(empty);
@@ -167,7 +167,7 @@ function Field({
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} className="mt-2 text-[13px] font-semibold text-violet">tt
+        <p id={`${id}-error`} className="mt-2 text-[13px] font-semibold text-violet">
           {error}
         </p>
       )}
