@@ -20,7 +20,7 @@ export function SiteNav() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper/95 backdrop-blur-[2px]">
+    <header className="sticky top-0 z-50 border-b border-line bg-paper">
       <nav aria-label="Primary" className="container-page flex h-16 items-center justify-between">
         <Link
           to="/"
