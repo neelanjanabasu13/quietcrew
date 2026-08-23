@@ -28,14 +28,14 @@ function PrivacyPage() {
     <div className="min-h-screen bg-paper">
       <SiteNav />
       <main className="container-page section-y max-w-[760px]">
-        <p className="eyebrow">Legal</p>
+        <p className="mono-label text-muted-paper">Legal</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Privacy notice</h1>
-        <p className="mt-4 rounded-md border border-line bg-accent-soft px-4 py-3 text-[15px] text-accent">
+        <p className="mt-6 border-l-2 border-hivis bg-secondary px-4 py-3 text-[15px] text-ink">
           Draft for legal review. This is starter wording for a UK business and must be checked by a
           solicitor before launch.
         </p>
 
-        <div className="prose-quiet mt-10 space-y-8 text-[17px] leading-[1.65] text-ink">
+        <div className="mt-10 space-y-8 text-[17px] leading-[1.65] text-ink">
           <section>
             <h2 className="text-2xl">Who we are</h2>
             <p className="mt-3">
@@ -102,7 +102,7 @@ function PrivacyPage() {
             </p>
           </section>
 
-          <p className="text-[15px] text-muted">Last updated: placeholder date.</p>
+          <p className="text-[15px] text-muted-paper">Last updated: placeholder date.</p>
         </div>
       </main>
       <SiteFooter />
