@@ -130,17 +130,17 @@ export function EnquiryForm() {
       </div>
 
       {formError && (
-        <p className="mt-5 border-l-2 border-hivis pl-3 text-[15px] text-hivis" role="alert">
+        <p className="mt-5 rounded-[12px] bg-violet-tint px-4 py-3 text-[15px] text-violet" role="alert">
           {formError}
         </p>
       )}
 
-      <button type="submit" className="btn-hivis mt-7 w-full md:w-auto" disabled={submitting}>
+      <button type="submit" className="pill-btn btn-primary-dark mt-7 w-full md:w-auto" disabled={submitting}>
         {submitting ? "Sending" : "Book a free Workflow Review"}
       </button>
-      <p className="mt-4 text-[15px] text-muted-ink">
+      <p className="mt-4 text-[15px] text-muted-paper">
         We use your details only to reply to this enquiry. See our{" "}
-        <a href="/privacy" className="text-hivis underline underline-offset-4">
+        <a href="/privacy" className="font-semibold text-violet underline underline-offset-4">
           privacy notice
         </a>
         .
@@ -162,12 +162,12 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="mono-label mb-2 block text-muted-ink">
+      <label htmlFor={id} className="mb-2 block text-[14px] font-semibold text-ink">
         {label}
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} className="mono-label mt-2 text-hivis">
+        <p id={`${id}-error`} className="mt-2 text-[13px] font-semibold text-violet">tt
           {error}
         </p>
       )}
