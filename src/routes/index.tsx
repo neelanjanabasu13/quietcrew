@@ -445,30 +445,13 @@ function Index() {
                 <span className="text-peach">in practice</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[560px] text-[16px] text-muted-on-violet">
-                Four workflows, and the manual version they replace.
+                Pick the one that looks like your business.
               </p>
             </Reveal>
 
-            <div className="mt-16 space-y-8">
-              {examples.map((ex, i) => (
-                <Reveal
-                  key={ex.title}
-                  className="grid items-start gap-8 rounded-[20px] bg-white/[0.07] p-6 md:grid-cols-[1.1fr_0.9fr] md:p-9"
-                  delay={i * 50}
-                >
-                  <div>
-                    <h3 className="text-[1.6rem] md:text-[2rem]">{ex.title}</h3>
-                    <div className="mt-6">
-                      <StepSequence steps={ex.steps} approvalIndex={ex.approvalIndex} />
-                    </div>
-                    <p className="mt-6 max-w-[520px] text-[15px] text-muted-on-violet">{ex.before}</p>
-                  </div>
-                  <ArtefactTile tone="violet" className="bg-white/10">
-                    {ex.artefact}
-                  </ArtefactTile>
-                </Reveal>
-              ))}
-            </div>
+            <Reveal className="mt-14">
+              <ExampleTabs examples={examples} />
+            </Reveal>
 
             <Reveal className="mt-10 text-center">
               <p className="text-[14px] text-muted-on-violet">
