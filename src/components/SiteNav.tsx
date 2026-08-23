@@ -20,57 +20,67 @@ export function SiteNav() {
   }, [open]);
 
   return (
-    <header className="on-ink sticky top-0 z-50 border-b border-rule-dark bg-ink text-paper">
-      <nav aria-label="Primary" className="container-page flex h-[68px] items-center justify-between">
-        <Link to="/" className="font-display text-[1.15rem] font-bold uppercase tracking-[0.02em] text-paper">
-          Quietcrew
-        </Link>
-
-        <div className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="mono-label text-muted-ink transition-colors hover:text-hivis"
-            >
-              {l.label}
-            </a>
-          ))}
-          <a href="/#book" className="btn-hivis">
-            Book a Workflow Review
-          </a>
-        </div>
-
-        <button
-          type="button"
-          className="inline-flex h-11 w-11 items-center justify-center border border-rule-dark text-paper md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
+    <header className="absolute inset-x-0 top-0 z-50 pt-5">
+      <div className="container-page">
+        <nav
+          aria-label="Primary"
+          className="flex items-center justify-between gap-6 rounded-[999px] bg-white px-5 py-3 soft-shadow"
         >
-          {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
-        </button>
-      </nav>
+          <Link to="/" className="text-[1.05rem] font-extrabold tracking-[-0.02em] text-ink">
+            Quietcrew
+          </Link>
+
+          <div className="hidden items-center gap-7 md:flex">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-[15px] font-semibold text-muted-paper transition-colors hover:text-violet"
+              >
+                {l.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="hidden items-center gap-2 md:flex">
+            <a href="mailto:hello@quietcrew.co.uk" className="pill-btn btn-ghost-light">
+              Email us
+            </a>
+            <a href="/#book" className="pill-btn btn-primary-dark">
+              Book a Workflow Review
+            </a>
+          </div>
+
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-violet-tint text-ink md:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+          </button>
+        </nav>
+      </div>
 
       {open && (
-        <div
-          id="mobile-menu"
-          className="menu-sheet fixed inset-0 top-[68px] z-50 flex flex-col px-5 py-6 md:hidden"
-        >
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="border-b border-rule-dark py-5 font-display text-2xl font-bold uppercase text-paper"
-            >
-              {l.label}
+        <div id="mobile-menu" className="container-page md:hidden">
+          <div className="menu-sheet mt-3 rounded-[20px] p-4 soft-shadow-lg">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="block border-b border-border py-4 text-[18px] font-bold text-ink last:border-b-0"
+              >
+                {l.label}
+              </a>
+            ))}
+            <a href="/#book" onClick={() => setOpen(false)} className="pill-btn btn-primary-dark mt-4 w-full">
+              Book a Workflow Review
             </a>
-          ))}
-          <a href="/#book" onClick={() => setOpen(false)} className="btn-hivis mt-8 w-full">
-            Book a Workflow Review
-          </a>
+          </div>
         </div>
       )}
     </header>
