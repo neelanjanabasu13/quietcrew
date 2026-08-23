@@ -93,22 +93,30 @@ const examples = [
     steps: ["CV arrives", "Details extracted", "ATS updated", "Summary written", "Recruiter notified"],
     before:
       "Before: someone opens the CV, retypes six fields into the ATS, writes a summary, and forwards it on. Ten minutes, forty times a week.",
+    annotate: { index: 3, text: "HUMAN APPROVAL" },
+    reference: "QC-101 / RECRUITMENT INTAKE",
   },
   {
     title: "Sales",
     steps: ["New lead", "Company researched", "Qualified", "CRM enriched", "Brief sent to rep"],
     before: "Before: the rep Googles the company the morning of the call, if there's time.",
+    annotate: { index: 2, text: "HUMAN APPROVAL" },
+    reference: "QC-102 / LEAD QUALIFICATION",
   },
   {
     title: "Property",
     steps: ["Lease received", "Key terms extracted", "System updated", "Made searchable", "Team notified"],
     before:
       "Before: the lease sits in a folder and someone reads all forty pages when a question comes up.",
+    annotate: { index: 1, text: "HUMAN APPROVAL" },
+    reference: "QC-103 / LEASE ABSTRACTION",
   },
   {
     title: "Agency",
     steps: ["New client won", "Project created", "Tasks generated", "Team assigned", "Onboarding starts"],
     before: "Before: a half-remembered checklist, done slightly differently every time.",
+    annotate: { index: 3, text: "HUMAN APPROVAL" },
+    reference: "QC-104 / CLIENT ONBOARDING",
   },
 ];
 
@@ -200,6 +208,35 @@ const faqs = [
   },
 ];
 
+/** Large mono section marker with a hairline rule across the full content width. */
+function SectionMark({ num, name, tone }: { num: string; name: string; tone: "ink" | "paper" | "hivis" }) {
+  const text = tone === "ink" ? "text-muted-ink" : "text-muted-paper";
+  const rule = tone === "ink" ? "border-rule-dark" : tone === "hivis" ? "border-ink" : "border-rule-light";
+  const numColour = tone === "ink" ? "text-hivis" : "text-ink";
+  return (
+    <div className={`border-b ${rule} pb-4`}>
+      <p className="mono-num">
+        <span className={numColour}>{num}</span>
+        <span className={`${text} ml-2`}>/ {name}</span>
+      </p>
+    </div>
+  );
+}
+
+function PullQuote({ children }: { children: React.ReactNode }) {
+  return (
+    <section className="bg-hivis text-ink">
+      <div className="container-page py-16 md:py-24">
+        <Reveal>
+          <blockquote className="max-w-[1000px] font-display text-[1.9rem] font-bold leading-[1.05] tracking-[-0.02em] md:text-[3.2rem]">
+            {children}
+          </blockquote>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-paper">
@@ -207,97 +244,108 @@ function Index() {
 
       <main>
         {/* Hero */}
-        <section className="border-b border-line">
+        <section className="on-ink bg-ink text-paper">
           <div className="container-page section-y">
-            <Reveal className="max-w-[820px]">
-              <h1 className="text-[2.15rem] leading-[1.1] md:text-[3.4rem]">
+            <Reveal className="max-w-[980px]">
+              <p className="mono-num text-hivis">00 / QUIETCREW</p>
+              <h1 className="mt-6 text-[2.4rem] leading-[1.0] md:text-[4.6rem]">
                 You bought the software. Your team is still doing the work in between.
               </h1>
-              <p className="mt-6 max-w-[660px] text-[1.05rem] text-muted md:text-[1.15rem]">
+              <p className="mt-8 max-w-[720px] text-[1.05rem] text-muted-ink md:text-[1.15rem]">
                 Quietcrew connects the tools you already use, automates the repetitive work around them,
                 and adds AI only where it genuinely helps. It runs quietly in the background. Your team
                 just stops doing the busywork.
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href="#book" className="btn-accent">
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <a href="#book" className="btn-hivis">
                   Book a free Workflow Review
                 </a>
-                <a href="#examples" className="btn-quiet">
+                <a href="#examples" className="btn-outline-paper">
                   See what we automate
                 </a>
               </div>
-              <p className="mt-5 max-w-[600px] text-[15px] text-muted">
+              <p className="mono-label mt-6 max-w-[620px] normal-case tracking-[0.04em] text-muted-ink">
                 30 minutes. No pitch. You leave with a map of one process and an honest answer on whether
                 it&rsquo;s worth automating.
               </p>
             </Reveal>
 
-            <Reveal className="mt-14" delay={80}>
+            <Reveal className="mt-16 border-t border-rule-dark pt-14" delay={80}>
               <HeroFlow />
             </Reveal>
           </div>
         </section>
 
-        {/* The problem */}
-        <section className="border-b border-line">
-          <div className="container-page section-y max-w-[820px]">
-            <Reveal>
-              <h2 className="text-3xl md:text-4xl">Your tools changed. The work didn&rsquo;t.</h2>
-              <p className="mt-6 text-muted">
-                Most growing businesses already own a CRM, an accounting system, an industry platform, a
-                project tool and a dozen spreadsheets. Some have started using AI. None of that stopped
-                people copying information between systems, chasing approvals, retyping documents,
-                preparing the same report every week and remembering to follow up.
-              </p>
-              <p className="mt-4 text-muted">
-                That gap between the software and the work is where your team&rsquo;s time actually goes.
-                It rarely shows up on any budget line, which is why it never gets fixed.
-              </p>
-              <blockquote className="mt-10 border-l-2 border-accent pl-6 font-display text-xl leading-snug md:text-2xl">
-                You don&rsquo;t need more technology. You need the manual work taken off people&rsquo;s
-                desks.
-              </blockquote>
+        {/* 01 The problem */}
+        <section className="bg-paper text-ink">
+          <div className="container-page section-y">
+            <SectionMark num="01" name="PROBLEM" tone="paper" />
+            <Reveal className="mt-10 grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
+              <h2 className="text-[2rem] md:text-[3rem]">Your tools changed. The work didn&rsquo;t.</h2>
+              <div>
+                <p className="text-muted-paper">
+                  Most growing businesses already own a CRM, an accounting system, an industry platform, a
+                  project tool and a dozen spreadsheets. Some have started using AI. None of that stopped
+                  people copying information between systems, chasing approvals, retyping documents,
+                  preparing the same report every week and remembering to follow up.
+                </p>
+                <p className="mt-5 text-muted-paper">
+                  That gap between the software and the work is where your team&rsquo;s time actually goes.
+                  It rarely shows up on any budget line, which is why it never gets fixed.
+                </p>
+              </div>
             </Reveal>
           </div>
         </section>
 
-        {/* Services */}
-        <section id="services" className="scroll-mt-20 border-b border-line">
+        {/* Pull quote */}
+        <PullQuote>
+          You don&rsquo;t need more technology. You need the manual work taken off people&rsquo;s desks.
+        </PullQuote>
+
+        {/* 02 Services */}
+        <section id="services" className="scroll-mt-[68px] bg-paper text-ink">
           <div className="container-page section-y">
-            <Reveal>
-              <p className="eyebrow">Services</p>
-              <h2 className="mt-3 text-3xl md:text-4xl">Three ways we take work off your desks</h2>
+            <SectionMark num="02" name="SERVICES" tone="paper" />
+            <Reveal className="mt-10">
+              <h2 className="max-w-[820px] text-[2rem] md:text-[3rem]">
+                Three ways we take work off your desks
+              </h2>
             </Reveal>
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
+            <div className="mt-12 grid border-t border-rule-light md:grid-cols-3">
               {services.map((s, i) => (
-                <Reveal key={s.title} className="card-quiet flex flex-col p-6" delay={i * 60}>
-                  {s.tag && (
-                    <span className="mb-4 inline-flex w-fit rounded-sm bg-accent-soft px-2.5 py-1 text-[12px] font-medium text-accent">
-                      {s.tag}
-                    </span>
-                  )}
-                  <h3 className="text-xl">{s.title}</h3>
-                  <p className="mt-3 text-[15px] text-muted">{s.line}</p>
-                  <p className="mt-4 text-[15px] text-ink">
-                    <span className="font-medium">Examples: </span>
+                <Reveal
+                  key={s.title}
+                  className="flex flex-col border-b border-rule-light py-8 md:border-r md:px-7 md:last:border-r-0 md:first:pl-0"
+                  delay={i * 60}
+                >
+                  <p className="mono-label text-muted-paper">
+                    {String(i + 1).padStart(2, "0")}
+                    {s.tag ? ` / ${s.tag}` : ""}
+                  </p>
+                  <h3 className="mt-5 text-[1.4rem]">{s.title}</h3>
+                  <p className="mt-4 text-[16px] text-muted-paper">{s.line}</p>
+                  <p className="mt-5 text-[16px]">
+                    <span className="mono-label">Examples: </span>
                     {s.examples}
                   </p>
-                  <p className="mt-auto border-t border-line pt-4 text-[14px] font-medium text-accent">
-                    {s.price}
-                  </p>
+                  <p className="mono-label mt-auto border-t border-rule-light pt-5 text-ink">{s.price}</p>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        {/* AI, only where it helps */}
-        <section className="border-b border-line bg-accent-soft">
+        {/* 03 AI, only where it helps */}
+        <section className="bg-paper text-ink">
           <div className="container-page section-y">
-            <Reveal className="max-w-[760px]">
-              <h2 className="text-3xl md:text-4xl">You don&rsquo;t need an AI strategy to work with us.</h2>
+            <SectionMark num="03" name="AI, ONLY WHERE IT HELPS" tone="paper" />
+            <Reveal className="mt-10 max-w-[860px]">
+              <h2 className="text-[2rem] md:text-[3rem]">
+                You don&rsquo;t need an AI strategy to work with us.
+              </h2>
             </Reveal>
-            <div className="mt-10 grid gap-8 md:grid-cols-3">
+            <div className="mt-12 grid border-t border-rule-light md:grid-cols-3">
               {[
                 {
                   q: "Not using AI?",
@@ -312,69 +360,92 @@ function Index() {
                   a: "We'll close the manual gaps still sitting between your people, your software and your AI.",
                 },
               ].map((c, i) => (
-                <Reveal key={c.q} delay={i * 60}>
-                  <h3 className="text-lg text-accent">{c.q}</h3>
-                  <p className="mt-2 text-[15px] text-ink">{c.a}</p>
+                <Reveal
+                  key={c.q}
+                  className="border-b border-rule-light py-8 md:border-r md:px-7 md:last:border-r-0 md:first:pl-0"
+                  delay={i * 60}
+                >
+                  <p className="mono-label text-muted-paper">{String(i + 1).padStart(2, "0")}</p>
+                  <h3 className="mt-4 text-[1.25rem]">{c.q}</h3>
+                  <p className="mt-3 text-[16px] text-muted-paper">{c.a}</p>
                 </Reveal>
               ))}
             </div>
-            <Reveal className="mt-12">
-              <blockquote className="max-w-[760px] border-l-2 border-accent pl-6 font-display text-xl leading-snug md:text-2xl">
-                If existing software can solve it, we connect it. If automation can solve it, we automate
-                it. If AI makes it better, we add AI. In that order.
-              </blockquote>
-            </Reveal>
           </div>
         </section>
 
-        {/* Who we help */}
-        <section id="who-we-help" className="scroll-mt-20 border-b border-line">
+        {/* Pull quote */}
+        <PullQuote>
+          If existing software can solve it, we connect it. If automation can solve it, we automate it. If
+          AI makes it better, we add AI. In that order.
+        </PullQuote>
+
+        {/* 04 Who we help */}
+        <section id="who-we-help" className="scroll-mt-[68px] bg-paper text-ink">
           <div className="container-page section-y">
-            <Reveal>
-              <p className="eyebrow">Who we help</p>
-              <h2 className="mt-3 text-3xl md:text-4xl">Built for firms running on several systems</h2>
-              <p className="mt-4 max-w-[680px] text-[15px] text-muted">
+            <SectionMark num="04" name="WHO WE HELP" tone="paper" />
+            <Reveal className="mt-10">
+              <h2 className="max-w-[860px] text-[2rem] md:text-[3rem]">
+                Built for firms running on several systems
+              </h2>
+              <p className="mt-5 max-w-[680px] text-[16px] text-muted-paper">
                 Typically service businesses with 15 to 150 people, several systems, and no in-house
                 engineering team.
               </p>
             </Reveal>
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 border-t border-rule-light">
               {sectors.map((s, i) => (
-                <Reveal key={s.title} className="card-quiet p-5" delay={i * 50}>
-                  <h3 className="text-lg">{s.title}</h3>
-                  <p className="mt-2 text-[15px] text-muted">{s.who}</p>
-                  <p className="mt-2 text-[15px] text-ink">{s.work}</p>
+                <Reveal
+                  key={s.title}
+                  className="grid gap-3 border-b border-rule-light py-7 md:grid-cols-[64px_1fr_1.2fr] md:gap-8"
+                  delay={i * 50}
+                >
+                  <p className="mono-label text-muted-paper">{String(i + 1).padStart(2, "0")}</p>
+                  <h3 className="text-[1.2rem]">{s.title}</h3>
+                  <div>
+                    <p className="text-[16px] text-muted-paper">{s.who}</p>
+                    <p className="mt-1 text-[16px]">{s.work}</p>
+                  </div>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Workflow examples */}
-        <section id="examples" className="scroll-mt-20 border-b border-line">
-          <div className="container-page section-y">
-            <Reveal>
-              <h2 className="text-3xl md:text-4xl">What this looks like in practice</h2>
-              <p className="mt-4 text-[15px] text-muted">
+        {/* 05 Workflow examples: the centrepiece */}
+        <section id="examples" className="on-ink scroll-mt-[68px] bg-ink text-paper">
+          <div className="container-page py-20 md:py-40">
+            <SectionMark num="05" name="WORKFLOW EXAMPLES" tone="ink" />
+            <Reveal className="mt-12">
+              <h2 className="max-w-[900px] text-[2.2rem] md:text-[3.6rem]">
+                What this looks like in practice
+              </h2>
+              <p className="mt-6 max-w-[620px] text-[16px] text-muted-ink">
                 Four workflows, and the manual version they replace.
               </p>
             </Reveal>
-            <div className="mt-10 space-y-5">
+            <div className="mt-16 border-t border-rule-dark">
               {examples.map((ex, i) => (
-                <Reveal key={ex.title} className="card-quiet p-6" delay={i * 50}>
-                  <h3 className="text-lg">{ex.title}</h3>
-                  <div className="mt-4">
+                <Reveal key={ex.title} className="border-b border-rule-dark py-14" delay={i * 50}>
+                  <div className="flex items-baseline gap-4">
+                    <span className="mono-label text-hivis">{ex.reference}</span>
+                  </div>
+                  <h3 className="mt-3 text-[1.6rem] md:text-[2.1rem]">{ex.title}</h3>
+                  <div className="mt-8">
                     <StepFlow
                       steps={ex.steps}
+                      annotate={ex.annotate}
                       label={`${ex.title} workflow: ${ex.steps.join(", then ")}.`}
                     />
                   </div>
-                  <p className="mt-4 text-[15px] italic text-muted">{ex.before}</p>
+                  <p className="mono-label mt-6 max-w-[720px] normal-case tracking-[0.04em] text-muted-ink">
+                    {ex.before}
+                  </p>
                 </Reveal>
               ))}
             </div>
-            <Reveal className="mt-6">
-              <p className="text-[14px] italic text-muted">
+            <Reveal className="mt-8">
+              <p className="mono-label text-muted-ink">
                 Illustrative workflows. Real client examples and figures will be published as engagements
                 complete.
               </p>
@@ -382,77 +453,98 @@ function Index() {
           </div>
         </section>
 
-        {/* How it works */}
-        <section id="how-it-works" className="scroll-mt-20 border-b border-line">
+        {/* 06 How it works */}
+        <section id="how-it-works" className="scroll-mt-[68px] bg-paper text-ink">
           <div className="container-page section-y">
-            <Reveal>
-              <p className="eyebrow">How it works</p>
-              <h2 className="mt-3 text-3xl md:text-4xl">Five steps, start to finish</h2>
+            <SectionMark num="06" name="HOW IT WORKS" tone="paper" />
+            <Reveal className="mt-10">
+              <h2 className="text-[2rem] md:text-[3rem]">Five steps, start to finish</h2>
             </Reveal>
-            <ol className="mt-10 grid gap-6 md:grid-cols-5">
+            <ol className="mt-12 grid border-t border-rule-light md:grid-cols-5">
               {steps.map((s, i) => (
-                <Reveal key={s.title} as="li" className="border-t border-line pt-4" delay={i * 50}>
-                  <span className="font-display text-sm font-semibold text-accent">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mt-2 text-[17px]">{s.title}</h3>
-                  <p className="mt-2 text-[15px] text-muted">{s.body}</p>
+                <Reveal
+                  key={s.title}
+                  as="li"
+                  className="border-b border-rule-light py-7 md:border-r md:px-5 md:last:border-r-0 md:first:pl-0"
+                  delay={i * 50}
+                >
+                  <span className="mono-num text-ink">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="mt-4 text-[1.05rem]">{s.title}</h3>
+                  <p className="mt-3 text-[15px] text-muted-paper">{s.body}</p>
                 </Reveal>
               ))}
             </ol>
           </div>
         </section>
 
-        {/* Data */}
-        <section className="border-b border-line">
+        {/* 07 Your data stays yours */}
+        <section className="bg-hivis text-ink">
           <div className="container-page section-y">
-            <Reveal>
-              <p className="eyebrow">How we handle your data</p>
-              <h2 className="mt-3 text-3xl md:text-4xl">Your data stays yours</h2>
+            <SectionMark num="07" name="HOW WE HANDLE YOUR DATA" tone="hivis" />
+            <Reveal className="mt-10">
+              <h2 className="text-[2rem] md:text-[3rem]">Your data stays yours</h2>
             </Reveal>
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
+            <div className="mt-12 grid border-t border-ink md:grid-cols-4">
               {dataPoints.map((d, i) => (
-                <Reveal key={d.title} className="card-quiet p-6" delay={i * 50}>
-                  <h3 className="text-[17px]">{d.title}</h3>
-                  <p className="mt-2 text-[15px] text-muted">{d.body}</p>
+                <Reveal
+                  key={d.title}
+                  className="border-b border-ink py-8 md:border-r md:px-6 md:last:border-r-0 md:first:pl-0"
+                  delay={i * 50}
+                >
+                  <p className="mono-label">{String(i + 1).padStart(2, "0")}</p>
+                  <h3 className="mt-4 text-[1.15rem]">{d.title}</h3>
+                  <p className="mt-3 text-[16px]">{d.body}</p>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Why Quietcrew */}
-        <section className="border-b border-line">
+        {/* 08 Why Quietcrew */}
+        <section className="bg-paper text-ink">
           <div className="container-page section-y">
-            <Reveal>
-              <h2 className="text-3xl md:text-4xl">Why Quietcrew</h2>
+            <SectionMark num="08" name="WHY QUIETCREW" tone="paper" />
+            <Reveal className="mt-10">
+              <h2 className="text-[2rem] md:text-[3rem]">Why Quietcrew</h2>
             </Reveal>
-            <div className="mt-10 grid gap-8 sm:grid-cols-2">
+            <div className="mt-12 grid border-t border-rule-light sm:grid-cols-2">
               {whyUs.map((w, i) => (
-                <Reveal key={w.title} delay={i * 50}>
-                  <h3 className="text-[17px]">{w.title}</h3>
-                  <p className="mt-2 text-[15px] text-muted">{w.body}</p>
+                <Reveal
+                  key={w.title}
+                  className="border-b border-rule-light py-8 sm:odd:pr-8 sm:even:border-l sm:even:pl-8"
+                  delay={i * 50}
+                >
+                  <p className="mono-label text-muted-paper">{String(i + 1).padStart(2, "0")}</p>
+                  <h3 className="mt-4 text-[1.15rem]">{w.title}</h3>
+                  <p className="mt-3 text-[16px] text-muted-paper">{w.body}</p>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        {/* FAQ */}
-        <section id="faq" className="scroll-mt-20 border-b border-line">
-          <div className="container-page section-y max-w-[820px]">
-            <Reveal>
-              <p className="eyebrow">FAQ</p>
-              <h2 className="mt-3 text-3xl md:text-4xl">Questions we get asked</h2>
+        {/* 09 FAQ */}
+        <section id="faq" className="scroll-mt-[68px] bg-paper text-ink">
+          <div className="container-page section-y">
+            <SectionMark num="09" name="FAQ" tone="paper" />
+            <Reveal className="mt-10">
+              <h2 className="text-[2rem] md:text-[3rem]">Questions we get asked</h2>
             </Reveal>
-            <Reveal className="mt-8">
-              <Accordion type="single" collapsible className="w-full">
+            <Reveal className="mt-10 max-w-[900px]">
+              <Accordion type="single" collapsible className="w-full border-t border-rule-light">
                 {faqs.map((f, i) => (
-                  <AccordionItem key={f.q} value={`item-${i}`} className="border-line">
-                    <AccordionTrigger className="text-left font-display text-[17px] hover:no-underline">
-                      {f.q}
+                  <AccordionItem key={f.q} value={`item-${i}`} className="border-b border-rule-light">
+                    <AccordionTrigger className="py-6 text-left font-display text-[1.15rem] font-bold hover:no-underline">
+                      <span className="flex gap-5">
+                        <span className="mono-label pt-1 text-muted-paper">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span>{f.q}</span>
+                      </span>
                     </AccordionTrigger>
-                    <AccordionContent className="text-[15px] text-muted">{f.a}</AccordionContent>
+                    <AccordionContent className="pb-7 pl-[52px] text-[16px] text-muted-paper">
+                      {f.a}
+                    </AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
@@ -460,19 +552,22 @@ function Index() {
           </div>
         </section>
 
-        {/* Final CTA */}
-        <section id="book" className="scroll-mt-20 bg-accent-soft">
+        {/* 10 Final CTA */}
+        <section id="book" className="on-ink scroll-mt-[68px] bg-ink text-paper">
           <div className="container-page section-y">
-            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+            <SectionMark num="10" name="BOOK A WORKFLOW REVIEW" tone="ink" />
+            <div className="mt-12 grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
               <Reveal>
-                <h2 className="text-3xl md:text-4xl">What&rsquo;s still manual in your business?</h2>
-                <p className="mt-4 text-[16px] text-ink">
+                <h2 className="text-[2rem] md:text-[3rem]">
+                  What&rsquo;s still manual in your business?
+                </h2>
+                <p className="mt-6 text-[16px] text-muted-ink">
                   Show us one repetitive process. In 30 minutes we&rsquo;ll map it, tell you what could be
                   automated, roughly what it would cost, and whether it&rsquo;s worth doing at all.
                 </p>
-                <p className="mt-6 text-[15px] text-muted">
+                <p className="mono-label mt-8 normal-case tracking-[0.04em] text-muted-ink">
                   Prefer email? Write to{" "}
-                  <a href="mailto:hello@quietcrew.co.uk" className="text-accent underline underline-offset-4">
+                  <a href="mailto:hello@quietcrew.co.uk" className="text-hivis underline underline-offset-4">
                     hello@quietcrew.co.uk
                   </a>
                   .
@@ -482,16 +577,16 @@ function Index() {
               <Reveal delay={60}>
                 <EnquiryForm />
 
-                <div className="mt-6 rounded-md border border-dashed border-accent bg-surface p-6">
-                  <h3 className="text-[17px]">Or pick a time now</h3>
-                  <p className="mt-2 text-[15px] text-muted">
+                <div className="mt-6 border border-rule-dark p-6">
+                  <p className="mono-label text-hivis">Or pick a time now</p>
+                  <p className="mt-3 text-[16px] text-muted-ink">
                     Cal.com embed placeholder. Replace the block below with your own Cal.com embed or
                     booking link (for example cal.com/quietcrew/workflow-review).
                   </p>
                   {/* CAL.COM EMBED PLACEHOLDER
                       Paste the Cal.com inline embed script or iframe here, pointed at
                       your own booking link. Nothing else on the page needs to change. */}
-                  <div className="mt-4 flex h-32 items-center justify-center rounded-md border border-line bg-paper text-[14px] text-muted">
+                  <div className="mono-label mt-5 flex h-32 items-center justify-center border border-rule-dark text-muted-ink">
                     Cal.com booking embed goes here
                   </div>
                 </div>
