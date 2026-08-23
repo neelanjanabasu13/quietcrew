@@ -89,7 +89,6 @@ const sectors = [
   },
   {
     title: "Property",
-    label: "Property",
     who: "Estate and letting agents, property managers, commercial property firms.",
     work: "Enquiry handling, leases and documents, approvals, system updates.",
   },
@@ -127,6 +126,7 @@ const examples: {
   },
   {
     title: "Property",
+    label: "Property",
     steps: ["Lease received", "Key terms extracted", "System updated", "Made searchable", "Team notified"],
     before:
       "Before: the lease sits in a folder and someone reads all forty pages when a question comes up.",
