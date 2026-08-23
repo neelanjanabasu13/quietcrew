@@ -257,7 +257,7 @@ function Index() {
                   <br />
                   <span className="text-peach">
                     Your team still does{" "}
-                    <RotatingWord words={["the CVs.", "the invoices.", "the chasing.", "the reports."]} />
+                    <RotatingWord words={["the copying.", "the chasing.", "the CVs.", "the leases.", "the reports."]} />
                   </span>
                 </h1>
               </Reveal>
