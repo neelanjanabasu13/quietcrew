@@ -149,8 +149,8 @@ const dataPoints = [
     body: "A data processing agreement and a scope of work signed up front, every time.",
   },
   {
-    title: "Registered and insured.",
-    body: "ICO registered and covered by professional indemnity insurance.",
+    title: "A person approves anything irreversible.",
+    body: "Payments, deletions and messages to your customers always wait for a human to sign off. Automation does the work, it does not make the decisions.",
   },
 ];
 
