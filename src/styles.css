@@ -3,35 +3,35 @@
 @import "tw-animate-css";
 
 /*
- * Quietcrew design system: "night crew".
- * Workwear and British industrial signage. Near black, hard white,
- * high visibility yellow. Zero radius, no shadows, no gradients.
- * Structure comes from 1px hairlines and full bleed colour blocks.
+ * Quietcrew design system: saturated violet, warm peach accent,
+ * cream and white bands. Soft rounded shapes, wide low opacity shadows,
+ * one typeface (Plus Jakarta Sans).
  */
 
 @theme inline {
-  --radius-none: 0px;
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
-  --radius-2xl: 0px;
-  --radius-full: 0px;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
 
-  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: var(--ink);
+  --color-violet-deep: var(--violet-deep);
+  --color-violet-deeper: var(--violet-deeper);
+  --color-violet: var(--violet);
+  --color-violet-tint: var(--violet-tint);
+  --color-peach: var(--peach);
+  --color-cream: var(--cream);
   --color-paper: var(--paper);
-  --color-hivis: var(--hivis);
-  --color-hivis-deep: var(--hivis-deep);
-  --color-rule-dark: var(--rule-dark);
-  --color-rule-light: var(--rule-light);
-  --color-muted-ink: var(--muted-ink);
+  --color-ink: var(--ink);
   --color-muted-paper: var(--muted-paper);
+  --color-muted-on-violet: var(--muted-on-violet);
 
-  /* shadcn semantic tokens mapped onto the night crew palette */
+  /* shadcn semantic tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -48,22 +48,22 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--rule-light);
-  --color-input: var(--rule-light);
-  --color-ring: var(--ink);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--violet);
 }
 
 :root {
-  --radius: 0px;
-
-  --ink: #0f1115;
+  --violet-deep: #3a1e9e;
+  --violet-deeper: #2b1580;
+  --violet: #6b4ef5;
+  --violet-tint: #efebff;
+  --peach: #f7c9a3;
+  --cream: #faf5ef;
   --paper: #ffffff;
-  --hivis: #ffd400;
-  --hivis-deep: #e5be00;
-  --rule-dark: #262a32;
-  --rule-light: #d7dae0;
-  --muted-ink: #9ba1ac;
-  --muted-paper: #565b64;
+  --ink: #1a1633;
+  --muted-paper: #6b6880;
+  --muted-on-violet: #c9c2ee;
 
   --background: var(--paper);
   --foreground: var(--ink);
@@ -73,25 +73,25 @@
   --popover-foreground: var(--ink);
   --primary: var(--ink);
   --primary-foreground: var(--paper);
-  --secondary: #f2f3f5;
+  --secondary: var(--violet-tint);
   --secondary-foreground: var(--ink);
-  --muted: #f2f3f5;
+  --muted: #f3f2f7;
   --muted-foreground: var(--muted-paper);
-  --accent: var(--hivis);
-  --accent-foreground: var(--ink);
+  --accent: var(--violet-tint);
+  --accent-foreground: var(--violet);
   --destructive: #b3261e;
   --destructive-foreground: #ffffff;
+  --border: #e8e5f2;
 }
 
 @layer base {
   * {
-    border-color: var(--rule-light);
-    border-radius: 0 !important;
+    border-color: var(--border);
   }
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 72px;
+    scroll-padding-top: 110px;
   }
 
   body {
@@ -100,7 +100,7 @@
     font-family: var(--font-sans);
     font-size: 18px;
     font-weight: 400;
-    line-height: 1.55;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -109,29 +109,27 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: -0.02em;
-    line-height: 1.03;
-    font-stretch: 112%;
-    font-variation-settings: "wdth" 112;
+    line-height: 1.05;
     color: inherit;
   }
 
-  /* Focus: 2px black on white surfaces, 2px yellow on ink surfaces. */
   :focus-visible {
-    outline: 2px solid var(--ink);
-    outline-offset: 2px;
+    outline: 2px solid var(--violet);
+    outline-offset: 3px;
+    border-radius: 999px;
   }
-  .on-ink :focus-visible,
-  .on-ink:focus-visible {
-    outline: 2px solid var(--hivis);
-    outline-offset: 2px;
+  .on-violet :focus-visible,
+  .on-violet:focus-visible {
+    outline: 2px solid var(--peach);
+    outline-offset: 3px;
   }
 }
 
 @utility container-page {
   width: 100%;
-  max-width: 1180px;
+  max-width: 1120px;
   margin-inline: auto;
   padding-inline: 20px;
 }
@@ -139,111 +137,127 @@
 @utility section-y {
   padding-block: 64px;
   @media (min-width: 768px) {
-    padding-block: 104px;
+    padding-block: 120px;
   }
 }
 
-/* Mono label: every eyebrow, price, step number, form label, annotation. */
+/* Small label text: no monospace, weight 600, gentle tracking. */
 @utility mono-label {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1.4;
 }
 
 @utility mono-num {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 0.86rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
   line-height: 1.2;
 }
 
-@utility btn-hivis {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background-color: var(--hivis);
-  color: var(--ink);
-  border: 1px solid var(--ink);
-  padding: 0.85rem 1.4rem;
-  transition:
-    background-color 120ms linear,
-    color 120ms linear;
-}
-@utility btn-hivis {
-  &:hover {
-    background-color: var(--ink);
-    color: var(--hivis);
-  }
+@utility soft-shadow {
+  box-shadow: 0 24px 60px -30px rgba(26, 22, 51, 0.28);
 }
 
-/* Secondary: outline only. Inverts to solid on hover. */
-@utility btn-outline-ink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background-color: transparent;
-  color: var(--ink);
-  border: 1px solid var(--ink);
-  padding: 0.85rem 1.4rem;
-  transition:
-    background-color 120ms linear,
-    color 120ms linear;
-}
-@utility btn-outline-ink {
-  &:hover {
-    background-color: var(--ink);
-    color: var(--paper);
-  }
+@utility soft-shadow-lg {
+  box-shadow: 0 40px 90px -40px rgba(26, 22, 51, 0.35);
 }
 
-@utility btn-outline-paper {
+@utility violet-glow {
+  background-image: radial-gradient(
+    ellipse 90% 70% at 50% 32%,
+    #4a29c4 0%,
+    var(--violet-deep) 45%,
+    var(--violet-deeper) 100%
+  );
+}
+
+@utility pill-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background-color: transparent;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.5rem;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease,
+    opacity 160ms ease;
+}
+
+@utility btn-primary-dark {
+  background-color: var(--ink);
   color: var(--paper);
-  border: 1px solid var(--muted-ink);
-  padding: 0.85rem 1.4rem;
-  transition:
-    background-color 120ms linear,
-    color 120ms linear,
-    border-color 120ms linear;
-}
-@utility btn-outline-paper {
   &:hover {
-    background-color: var(--paper);
-    border-color: var(--paper);
-    color: var(--ink);
+    background-color: var(--violet);
   }
+}
+
+@utility btn-white {
+  background-color: var(--paper);
+  color: var(--ink);
+  &:hover {
+    background-color: var(--peach);
+  }
+}
+
+@utility btn-ghost-light {
+  background-color: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--border);
+  &:hover {
+    background-color: var(--violet-tint);
+  }
+}
+
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: var(--violet-tint);
+  color: var(--violet);
+}
+
+@utility eyebrow-on-violet {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+/* Artefact tiles */
+@utility tile-violet {
+  border-radius: 20px;
+  background-image: linear-gradient(150deg, #4a2ec0 0%, #2b1580 100%);
+}
+
+@utility tile-peach {
+  border-radius: 20px;
+  background-image: linear-gradient(150deg, #f7c9a3 0%, #faf5ef 100%);
 }
 
 /* Fade and rise on scroll, once only. */
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(16px);
   transition:
-    opacity 300ms ease-out,
-    transform 300ms ease-out;
+    opacity 420ms ease-out,
+    transform 420ms ease-out;
 }
 .reveal.is-visible {
   opacity: 1;
@@ -264,8 +278,7 @@
   }
 }
 
-/* Full-screen mobile menu sheet: must be fully opaque over page content. */
 @utility menu-sheet {
-  background-color: var(--ink);
+  background-color: var(--paper);
   isolation: isolate;
 }

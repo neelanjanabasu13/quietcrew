@@ -1,269 +1,138 @@
 /**
- * Technical schematics. Inline SVG only, no libraries, no images.
- * Squares and rectangles, 1px strokes, square terminals instead of arrowheads,
- * mono annotations in the style of an engineering drawing.
- * One ambient motion only: a solid yellow dot travelling slowly left to right.
+ * Hero flow diagram only. Soft rounded nodes, violet and peach,
+ * drawn on the deep violet hero background. Inline SVG, no libraries.
  */
 
-const INK = "var(--ink)";
-const PAPER = "var(--paper)";
-const HIVIS = "var(--hivis)";
-const MUTED_INK = "var(--muted-ink)";
+const PEACH = "var(--peach)";
+const WHITE = "#ffffff";
+const SOFT = "rgba(255,255,255,0.55)";
 
-const MONO = '"IBM Plex Mono", ui-monospace, monospace';
-
-function Terminal({ x, y, stroke }: { x: number; y: number; stroke: string }) {
-  return <rect x={x - 3} y={y - 3} width="6" height="6" fill={stroke} />;
-}
+const FONT = '"Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif';
 
 function Dot({ path, dur = "9s" }: { path: string; dur?: string }) {
   return (
-    <rect x="-4" y="-4" width="8" height="8" fill={HIVIS} className="flow-dot">
+    <circle r="5" fill={PEACH} className="flow-dot">
       <animateMotion dur={dur} repeatCount="indefinite" path={path} />
-    </rect>
+    </circle>
   );
 }
 
-/** Hero schematic. Ink section: yellow strokes, white mono labels. */
 export function HeroFlow() {
   const label =
-    "Schematic: your systems feed into Quietcrew, which connects, automates and adds practical AI, so the work happens on its own.";
+    "Diagram: your systems feed into Quietcrew, which connects, automates and adds practical AI, so the work happens on its own.";
 
   return (
     <div role="img" aria-label={label}>
       {/* Horizontal on desktop */}
-      <svg viewBox="0 0 1000 220" className="hidden w-full md:block" focusable="false" aria-hidden="true">
-        {/* registration marks */}
-        <path d="M0 8 V0 H8" stroke={HIVIS} strokeWidth="1" fill="none" />
-        <path d="M1000 8 V0 H992" stroke={HIVIS} strokeWidth="1" fill="none" />
-        <path d="M0 212 V220 H8" stroke={HIVIS} strokeWidth="1" fill="none" />
-        <path d="M1000 212 V220 H992" stroke={HIVIS} strokeWidth="1" fill="none" />
-
-        <line x1="290" y1="110" x2="370" y2="110" stroke={HIVIS} strokeWidth="1" />
-        <line x1="630" y1="110" x2="710" y2="110" stroke={HIVIS} strokeWidth="1" />
-        <Terminal x={290} y={110} stroke={HIVIS} />
-        <Terminal x={370} y={110} stroke={HIVIS} />
-        <Terminal x={630} y={110} stroke={HIVIS} />
-        <Terminal x={710} y={110} stroke={HIVIS} />
-        <Dot path="M290 110 H710" />
+      <svg viewBox="0 0 1000 190" className="hidden w-full md:block" focusable="false" aria-hidden="true">
+        <line x1="300" y1="95" x2="360" y2="95" stroke={SOFT} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="640" y1="95" x2="700" y2="95" stroke={SOFT} strokeWidth="1.5" strokeLinecap="round" />
+        <Dot path="M300 95 H700" />
 
         <g>
-          <rect x="30" y="62" width="260" height="96" fill="none" stroke={HIVIS} strokeWidth="1" />
-          <text x="42" y="54" fill={MUTED_INK} fontFamily={MONO} fontSize="11" letterSpacing="1.1">
-            01 / INPUT
+          <rect x="30" y="50" width="270" height="90" rx="20" fill="rgba(255,255,255,0.08)" />
+          <text x="165" y="88" textAnchor="middle" fill={WHITE} fontFamily={FONT} fontSize="17" fontWeight="700">
+            Your systems
           </text>
-          <text x="160" y="105" textAnchor="middle" fill={PAPER} fontFamily={MONO} fontSize="15" letterSpacing="1.2">
-            YOUR SYSTEMS
-          </text>
-          <text x="160" y="130" textAnchor="middle" fill={MUTED_INK} fontFamily={MONO} fontSize="11" letterSpacing="1">
-            CRM / FINANCE / SPREADSHEETS
+          <text x="165" y="112" textAnchor="middle" fill="var(--muted-on-violet)" fontFamily={FONT} fontSize="13">
+            CRM, finance, spreadsheets
           </text>
         </g>
 
         <g>
-          <rect x="370" y="48" width="260" height="124" fill={HIVIS} stroke={HIVIS} strokeWidth="1" />
-          <text x="382" y="40" fill={MUTED_INK} fontFamily={MONO} fontSize="11" letterSpacing="1.1">
-            02 / QUIETCREW
+          <rect x="360" y="38" width="280" height="114" rx="22" fill={PEACH} />
+          <text x="500" y="88" textAnchor="middle" fill="var(--ink)" fontFamily={FONT} fontSize="19" fontWeight="800">
+            Quietcrew
           </text>
-          <text x="500" y="100" textAnchor="middle" fill={INK} fontFamily={MONO} fontSize="17" letterSpacing="1.6">
-            QUIETCREW
-          </text>
-          <text x="500" y="126" textAnchor="middle" fill={INK} fontFamily={MONO} fontSize="11" letterSpacing="1">
-            CONNECT / AUTOMATE
-          </text>
-          <text x="500" y="144" textAnchor="middle" fill={INK} fontFamily={MONO} fontSize="11" letterSpacing="1">
-            PRACTICAL AI
+          <text x="500" y="114" textAnchor="middle" fill="var(--ink)" fontFamily={FONT} fontSize="13">
+            Connect, automate, practical AI
           </text>
         </g>
 
         <g>
-          <rect x="710" y="62" width="260" height="96" fill="none" stroke={HIVIS} strokeWidth="1" />
-          <text x="722" y="54" fill={MUTED_INK} fontFamily={MONO} fontSize="11" letterSpacing="1.1">
-            03 / OUTPUT
+          <rect x="700" y="50" width="270" height="90" rx="20" fill="rgba(255,255,255,0.08)" />
+          <text x="835" y="88" textAnchor="middle" fill={WHITE} fontFamily={FONT} fontSize="17" fontWeight="700">
+            Work happens
           </text>
-          <text x="840" y="105" textAnchor="middle" fill={PAPER} fontFamily={MONO} fontSize="15" letterSpacing="1.2">
-            WORK HAPPENS
-          </text>
-          <text x="840" y="130" textAnchor="middle" fill={MUTED_INK} fontFamily={MONO} fontSize="11" letterSpacing="1">
-            ON ITS OWN
+          <text x="835" y="112" textAnchor="middle" fill="var(--muted-on-violet)" fontFamily={FONT} fontSize="13">
+            on its own
           </text>
         </g>
-
-        <text x="30" y="204" fill={MUTED_INK} fontFamily={MONO} fontSize="10" letterSpacing="1.2">
-          QC-000 / BACKGROUND PROCESS / SCALE 1:1
-        </text>
       </svg>
 
       {/* Stacked on mobile */}
-      <svg viewBox="0 0 320 470" className="mx-auto block w-full max-w-[320px] md:hidden" focusable="false" aria-hidden="true">
-        <line x1="160" y1="110" x2="160" y2="160" stroke={HIVIS} strokeWidth="1" />
-        <line x1="160" y1="300" x2="160" y2="350" stroke={HIVIS} strokeWidth="1" />
-        <Terminal x={160} y={110} stroke={HIVIS} />
-        <Terminal x={160} y={160} stroke={HIVIS} />
-        <Terminal x={160} y={300} stroke={HIVIS} />
-        <Terminal x={160} y={350} stroke={HIVIS} />
-        <Dot path="M160 110 V350" />
+      <svg
+        viewBox="0 0 320 420"
+        className="mx-auto block w-full max-w-[320px] md:hidden"
+        focusable="false"
+        aria-hidden="true"
+      >
+        <line x1="160" y1="100" x2="160" y2="140" stroke={SOFT} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="160" y1="270" x2="160" y2="310" stroke={SOFT} strokeWidth="1.5" strokeLinecap="round" />
+        <Dot path="M160 100 V310" />
 
         <g>
-          <rect x="8" y="20" width="304" height="90" fill="none" stroke={HIVIS} strokeWidth="1" />
-          <text x="8" y="14" fill={MUTED_INK} fontFamily={MONO} fontSize="10" letterSpacing="1">
-            01 / INPUT
+          <rect x="8" y="10" width="304" height="90" rx="20" fill="rgba(255,255,255,0.08)" />
+          <text x="160" y="50" textAnchor="middle" fill={WHITE} fontFamily={FONT} fontSize="16" fontWeight="700">
+            Your systems
           </text>
-          <text x="160" y="60" textAnchor="middle" fill={PAPER} fontFamily={MONO} fontSize="14" letterSpacing="1.2">
-            YOUR SYSTEMS
-          </text>
-          <text x="160" y="84" textAnchor="middle" fill={MUTED_INK} fontFamily={MONO} fontSize="10" letterSpacing="1">
-            CRM / FINANCE / SPREADSHEETS
+          <text x="160" y="74" textAnchor="middle" fill="var(--muted-on-violet)" fontFamily={FONT} fontSize="12">
+            CRM, finance, spreadsheets
           </text>
         </g>
 
         <g>
-          <rect x="8" y="160" width="304" height="140" fill={HIVIS} stroke={HIVIS} strokeWidth="1" />
-          <text x="160" y="216" textAnchor="middle" fill={INK} fontFamily={MONO} fontSize="16" letterSpacing="1.6">
-            QUIETCREW
+          <rect x="8" y="140" width="304" height="130" rx="22" fill={PEACH} />
+          <text x="160" y="198" textAnchor="middle" fill="var(--ink)" fontFamily={FONT} fontSize="18" fontWeight="800">
+            Quietcrew
           </text>
-          <text x="160" y="242" textAnchor="middle" fill={INK} fontFamily={MONO} fontSize="10" letterSpacing="1">
-            CONNECT / AUTOMATE
-          </text>
-          <text x="160" y="260" textAnchor="middle" fill={INK} fontFamily={MONO} fontSize="10" letterSpacing="1">
-            PRACTICAL AI
+          <text x="160" y="224" textAnchor="middle" fill="var(--ink)" fontFamily={FONT} fontSize="12">
+            Connect, automate, practical AI
           </text>
         </g>
 
         <g>
-          <rect x="8" y="350" width="304" height="90" fill="none" stroke={HIVIS} strokeWidth="1" />
-          <text x="160" y="390" textAnchor="middle" fill={PAPER} fontFamily={MONO} fontSize="14" letterSpacing="1.2">
-            WORK HAPPENS
+          <rect x="8" y="310" width="304" height="90" rx="20" fill="rgba(255,255,255,0.08)" />
+          <text x="160" y="350" textAnchor="middle" fill={WHITE} fontFamily={FONT} fontSize="16" fontWeight="700">
+            Work happens
           </text>
-          <text x="160" y="414" textAnchor="middle" fill={MUTED_INK} fontFamily={MONO} fontSize="10" letterSpacing="1">
-            ON ITS OWN
+          <text x="160" y="374" textAnchor="middle" fill="var(--muted-on-violet)" fontFamily={FONT} fontSize="12">
+            on its own
           </text>
         </g>
-
-        <text x="8" y="462" fill={MUTED_INK} fontFamily={MONO} fontSize="9" letterSpacing="1.2">
-          QC-000 / BACKGROUND PROCESS
-        </text>
       </svg>
     </div>
   );
 }
 
-/**
- * Step schematic for the workflow examples. Rendered on ink by default.
- * `annotate` marks one step index with a HUMAN APPROVAL tag.
- * `ref` is the small drawing reference printed under the schematic.
- */
-export function StepFlow({
-  steps,
-  label,
-  annotate,
-  reference,
-  variant = "ink",
-}: {
-  steps: string[];
-  label: string;
-  annotate?: { index: number; text: string };
-  reference?: string;
-  variant?: "ink" | "paper";
-}) {
-  const boxW = 176;
-  const gap = 44;
-  const top = 34;
-  const boxH = 62;
-  const height = 148;
-  const width = steps.length * boxW + (steps.length - 1) * gap;
-  const mid = top + boxH / 2;
-
-  const stroke = variant === "ink" ? HIVIS : INK;
-  const textColour = variant === "ink" ? PAPER : INK;
-  const noteColour = variant === "ink" ? MUTED_INK : "var(--muted-paper)";
-  const activeFill = HIVIS;
-  const activeText = INK;
-
+/** Soft step sequence used inside the workflow examples. Rounded pills of text, no hard edges. */
+export function StepSequence({ steps, approvalIndex }: { steps: string[]; approvalIndex?: number }) {
   return (
-    <div className="-mx-1 overflow-x-auto px-1 py-1">
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        width={width}
-        height={height}
-        role="img"
-        aria-label={label}
-        className="h-auto max-w-none md:w-full"
-        style={{ minWidth: width * 0.66 }}
-      >
-        {steps.map((step, i) => {
-          const x = i * (boxW + gap);
-          const isActive = annotate?.index === i;
-          return (
-            <g key={step}>
-              {i > 0 && (
-                <>
-                  <line x1={x - gap} y1={mid} x2={x} y2={mid} stroke={stroke} strokeWidth="1" />
-                  <Terminal x={x - gap} y={mid} stroke={stroke} />
-                  <Terminal x={x} y={mid} stroke={stroke} />
-                </>
-              )}
-              <rect
-                x={x}
-                y={top}
-                width={boxW}
-                height={boxH}
-                fill={isActive ? activeFill : "none"}
-                stroke={isActive ? activeFill : stroke}
-                strokeWidth="1"
-              />
-              <text
-                x={x + 2}
-                y={top - 12}
-                fill={noteColour}
-                fontFamily={MONO}
-                fontSize="10"
-                letterSpacing="1.1"
-              >
-                {String(i + 1).padStart(2, "0")}
-              </text>
-              <foreignObject x={x} y={top} width={boxW} height={boxH}>
-                <div
-                  // eslint-disable-next-line react/no-unknown-property
-                  {...{ xmlns: "http://www.w3.org/1999/xhtml" }}
-                  style={{
-                    fontFamily: MONO,
-                    fontSize: "11px",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    lineHeight: 1.35,
-                    color: isActive ? activeText : textColour,
-                  }}
-                  className="flex h-full w-full items-center justify-center px-3 text-center"
-                >
-                  {step}
-                </div>
-              </foreignObject>
-              {isActive && (
-                <>
-                  <line x1={x + boxW / 2} y1={top + boxH} x2={x + boxW / 2} y2={top + boxH + 20} stroke={stroke} strokeWidth="1" />
-                  <text
-                    x={x + boxW / 2}
-                    y={top + boxH + 34}
-                    textAnchor="middle"
-                    fill={stroke}
-                    fontFamily={MONO}
-                    fontSize="10"
-                    letterSpacing="1.2"
-                  >
-                    {annotate.text}
-                  </text>
-                </>
-              )}
-            </g>
-          );
-        })}
-        {reference && (
-          <text x="0" y={height - 4} fill={noteColour} fontFamily={MONO} fontSize="9" letterSpacing="1.2">
-            {reference}
-          </text>
-        )}
-      </svg>
-    </div>
+    <ol className="flex flex-wrap items-center gap-2">
+      {steps.map((step, i) => (
+        <li key={step} className="flex items-center gap-2">
+          <span
+            className={
+              "inline-flex flex-col items-start rounded-[999px] px-4 py-2 text-[14px] font-semibold " +
+              (approvalIndex === i
+                ? "bg-peach text-ink"
+                : "bg-white/10 text-white")
+            }
+          >
+            {step}
+          </span>
+          {approvalIndex === i && (
+            <span className="rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-white">
+              Human approval
+            </span>
+          )}
+          {i < steps.length - 1 && (
+            <span aria-hidden="true" className="text-muted-on-violet">
+              &rarr;
+            </span>
+          )}
+        </li>
+      ))}
+    </ol>
   );
 }
