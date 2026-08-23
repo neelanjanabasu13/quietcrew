@@ -369,10 +369,19 @@ function Index() {
                   )}
                   <h3 className="text-[1.35rem]">{s.title}</h3>
                   <p className="mt-3 text-[16px] text-muted-paper">{s.line}</p>
-                  <p className="mt-4 text-[15px] text-muted-paper">
-                    <span className="font-semibold text-ink">Examples: </span>
-                    {s.examples}
-                  </p>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {s.examples
+                      .split(",")
+                      .slice(0, 4)
+                      .map((chip) => (
+                        <li
+                          key={chip}
+                          className="rounded-full bg-violet-tint px-3 py-1.5 text-[13px] font-semibold text-violet"
+                        >
+                          {chip.trim().replace(/\.$/, "")}
+                        </li>
+                      ))}
+                  </ul>
                   <p className="mt-5 text-[15px] font-semibold text-violet">{s.price}</p>
                   <div className="mt-6">
                     <ArtefactTile tone={i === 2 ? "peach" : "violet"}>{s.artefact}</ArtefactTile>
