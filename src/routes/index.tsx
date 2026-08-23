@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import { StepSequence } from "@/components/FlowDiagram";
 import { LiveWorkflow, Marquee, RotatingWord } from "@/components/LiveWorkflow";
 import {
   ArtefactTile,
@@ -12,6 +11,7 @@ import {
   LeaseAnswer,
   WeeklyReport,
 } from "@/components/Artefacts";
+import { ExampleTabs } from "@/components/ExampleTabs";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import {
   Accordion,
@@ -101,6 +101,7 @@ const sectors = [
 
 const examples: {
   title: string;
+  label: string;
   steps: string[];
   before: string;
   approvalIndex: number;
@@ -108,6 +109,7 @@ const examples: {
 }[] = [
   {
     title: "Recruitment",
+    label: "Recruitment",
     steps: ["CV arrives", "Details extracted", "ATS updated", "Summary written", "Recruiter notified"],
     before:
       "Before: someone opens the CV, retypes six fields into the ATS, writes a summary, and forwards it on. Ten minutes, forty times a week.",
@@ -116,6 +118,7 @@ const examples: {
   },
   {
     title: "Sales",
+    label: "Sales",
     steps: ["New lead", "Company researched", "Qualified", "CRM enriched", "Brief sent to rep"],
     before: "Before: the rep Googles the company the morning of the call, if there's time.",
     approvalIndex: 2,
@@ -123,6 +126,7 @@ const examples: {
   },
   {
     title: "Property",
+    label: "Property",
     steps: ["Lease received", "Key terms extracted", "System updated", "Made searchable", "Team notified"],
     before:
       "Before: the lease sits in a folder and someone reads all forty pages when a question comes up.",
@@ -131,6 +135,7 @@ const examples: {
   },
   {
     title: "Agency",
+    label: "Agencies",
     steps: ["New client won", "Project created", "Tasks generated", "Team assigned", "Onboarding starts"],
     before: "Before: a half-remembered checklist, done slightly differently every time.",
     approvalIndex: 3,
@@ -252,7 +257,7 @@ function Index() {
                   <br />
                   <span className="text-peach">
                     Your team still does{" "}
-                    <RotatingWord words={["the CVs.", "the invoices.", "the chasing.", "the reports."]} />
+                    <RotatingWord words={["the copying.", "the chasing.", "the CVs.", "the leases.", "the reports."]} />
                   </span>
                 </h1>
               </Reveal>
@@ -445,30 +450,13 @@ function Index() {
                 <span className="text-peach">in practice</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[560px] text-[16px] text-muted-on-violet">
-                Four workflows, and the manual version they replace.
+                Pick the one that looks like your business.
               </p>
             </Reveal>
 
-            <div className="mt-16 space-y-8">
-              {examples.map((ex, i) => (
-                <Reveal
-                  key={ex.title}
-                  className="grid items-start gap-8 rounded-[20px] bg-white/[0.07] p-6 md:grid-cols-[1.1fr_0.9fr] md:p-9"
-                  delay={i * 50}
-                >
-                  <div>
-                    <h3 className="text-[1.6rem] md:text-[2rem]">{ex.title}</h3>
-                    <div className="mt-6">
-                      <StepSequence steps={ex.steps} approvalIndex={ex.approvalIndex} />
-                    </div>
-                    <p className="mt-6 max-w-[520px] text-[15px] text-muted-on-violet">{ex.before}</p>
-                  </div>
-                  <ArtefactTile tone="violet" className="bg-white/10">
-                    {ex.artefact}
-                  </ArtefactTile>
-                </Reveal>
-              ))}
-            </div>
+            <Reveal className="mt-14">
+              <ExampleTabs examples={examples} />
+            </Reveal>
 
             <Reveal className="mt-10 text-center">
               <p className="text-[14px] text-muted-on-violet">

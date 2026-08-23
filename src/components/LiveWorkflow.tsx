@@ -4,7 +4,7 @@
  * rules in styles.css and the useReducedMotion hook below.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 function useReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -67,105 +67,224 @@ export function Marquee({ items }: { items: string[] }) {
   );
 }
 
-const RUN = [
-  { step: "CV arrives", detail: "priya-r-cv.pdf received" },
-  { step: "Details extracted", detail: "6 fields read from the document" },
-  { step: "ATS updated", detail: "Record created, no retyping" },
-  { step: "Summary written", detail: "One paragraph, plus the source file" },
-  { step: "Recruiter notified", detail: "Sent, ready for a human decision" },
-];
+type Run = {
+  tab: string;
+  caption: string;
+  title: string;
+  steps: { step: string; detail: string }[];
+  fields: [string, string][];
+  summary: string;
+  before: string;
+};
 
-const FIELDS: [string, string][] = [
-  ["Current role", "Senior Analyst, financial services"],
-  ["Notice period", "One month"],
-  ["Salary expectation", "£58,000 to £62,000"],
-  ["Location", "Manchester, hybrid"],
-  ["Right to work", "UK, no sponsorship needed"],
-  ["Key skills", "SQL, forecasting, Power BI"],
+/** One run per sector, so a visitor can pick the version that looks like their business. */
+export const RUNS: Run[] = [
+  {
+    tab: "Recruitment",
+    caption: "Recruitment, CV to ATS",
+    title: "New candidate: Hannah Wright, Senior Analyst",
+    steps: [
+      { step: "CV arrives", detail: "hannah-wright-cv.pdf received" },
+      { step: "Details extracted", detail: "6 fields read from the document" },
+      { step: "ATS updated", detail: "Record created, no retyping" },
+      { step: "Summary written", detail: "One paragraph, plus the source file" },
+      { step: "Recruiter notified", detail: "Sent, ready for a human decision" },
+    ],
+    fields: [
+      ["Current role", "Senior Analyst, financial services"],
+      ["Notice period", "One month"],
+      ["Salary expectation", "£58,000 to £62,000"],
+      ["Location", "Manchester, hybrid"],
+      ["Right to work", "UK, no sponsorship needed"],
+      ["Key skills", "SQL, forecasting, Power BI"],
+    ],
+    summary:
+      "Seven years in analytics, currently leading a small reporting team, looking for a step into management.",
+    before: "Before: someone opens the CV, retypes six fields, writes the summary and forwards it on.",
+  },
+  {
+    tab: "Property",
+    caption: "Property, lease to searchable answer",
+    title: "Lease summary: 23 High Street, Harrogate",
+    steps: [
+      { step: "Lease received", detail: "lease-23-high-street.pdf received" },
+      { step: "Key terms extracted", detail: "Dates, rent, breaks and repairs read" },
+      { step: "System updated", detail: "Property record filled in" },
+      { step: "Made searchable", detail: "Answers cite the clause and page" },
+      { step: "Team notified", detail: "Sent, ready for a human decision" },
+    ],
+    fields: [
+      ["Tenant", "Bramley Dental Practice Ltd"],
+      ["Term", "10 years from 1 March 2024"],
+      ["Rent", "£28,500 a year, quarterly"],
+      ["Break clause", "Year 5, six months' notice"],
+      ["Repairs", "Tenant internal, landlord structure"],
+      ["Next review", "1 March 2029"],
+    ],
+    summary:
+      "Repair liability sits with the tenant internally, with structural costs recovered through the service charge. Clause 4.2, page 11.",
+    before: "Before: the lease sits in a folder and someone reads forty pages when a question comes up.",
+  },
+  {
+    tab: "Professional services",
+    caption: "Professional services, enquiry to matter",
+    title: "New enquiry: Whitfield Joinery Ltd",
+    steps: [
+      { step: "Enquiry arrives", detail: "Website form received" },
+      { step: "Checks run", detail: "Company and conflict checks completed" },
+      { step: "File opened", detail: "Matter created in the practice system" },
+      { step: "Engagement letter drafted", detail: "Ready for a partner to approve" },
+      { step: "Client emailed", detail: "Sent once a person signs it off" },
+    ],
+    fields: [
+      ["Contact", "Andrew Whitfield, Director"],
+      ["Work type", "Commercial contract review"],
+      ["Company number", "09 442 118"],
+      ["Conflict check", "Clear"],
+      ["Fee basis", "Fixed fee, £1,200"],
+      ["Owner", "Sarah Bennett"],
+    ],
+    summary:
+      "File opened and the engagement letter drafted. Nothing goes to the client until a partner approves it.",
+    before: "Before: someone rekeys the enquiry, runs the checks by hand and drafts the letter from an old one.",
+  },
+  {
+    tab: "Agency",
+    caption: "Agency, client won to project set up",
+    title: "Project created: Ashcroft Retail, brand refresh",
+    steps: [
+      { step: "Client won", detail: "Deal marked closed in the CRM" },
+      { step: "Project created", detail: "Board and folders set up" },
+      { step: "Tasks generated", detail: "Standard onboarding plan applied" },
+      { step: "Team assigned", detail: "Owners and dates filled in" },
+      { step: "Kick-off booked", detail: "Invites sent to both sides" },
+    ],
+    fields: [
+      ["Client", "Ashcroft Retail Ltd"],
+      ["Budget", "£24,000"],
+      ["Start", "Monday 7 September"],
+      ["Lead", "James Holloway"],
+      ["Tasks created", "18"],
+      ["Kick-off", "Thursday, 11:00"],
+    ],
+    summary:
+      "Every new project starts the same way, with the same checklist, without anyone remembering to do it.",
+    before: "Before: a half-remembered checklist, done slightly differently every time.",
+  },
 ];
 
 /**
  * Hero product mock. A workflow running in front of you: steps tick through
- * on a loop and the finished artefact fills in on the right.
+ * on a loop and the finished artefact fills in on the right. Sector tabs let
+ * a visitor jump straight to the version that resembles their own business.
  */
 export function LiveWorkflow() {
   const reduced = useReducedMotion();
-  const [active, setActive] = useState(reduced ? RUN.length - 1 : 0);
-  const started = useRef(false);
+  const [tab, setTab] = useState(0);
+  const [active, setActive] = useState(0);
+  const run = RUNS[tab]!;
 
   useEffect(() => {
     if (reduced) {
-      setActive(RUN.length - 1);
+      setActive(run.steps.length - 1);
       return;
     }
-    started.current = true;
+    setActive(0);
     const id = window.setInterval(() => {
-      setActive((v) => (v + 1) % (RUN.length + 1));
+      setActive((v) => (v + 1) % (run.steps.length + 1));
     }, 1400);
     return () => window.clearInterval(id);
-  }, [reduced]);
+  }, [reduced, tab, run.steps.length]);
 
-  const done = Math.min(active, RUN.length - 1);
-  const complete = active >= RUN.length - 1;
+  const done = Math.min(active, run.steps.length - 1);
+  const complete = active >= run.steps.length - 1;
 
   return (
-    <div className="live-panel" role="img" aria-label="Example of a Quietcrew workflow running: a CV arrives, details are extracted, the ATS is updated, a summary is written and the recruiter is notified.">
-      <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3.5">
-        <span className="live-dot" />
-        <p className="text-[13px] font-semibold text-white">Workflow running</p>
-        <p className="ml-auto text-[12px] text-muted-on-violet">Recruitment, CV to ATS</p>
+    <div>
+      <div className="mb-4 flex flex-wrap items-center gap-2" role="tablist" aria-label="Choose a sector">
+        <span className="mr-1 text-[13px] text-muted-on-violet">Show me:</span>
+        {RUNS.map((r, i) => (
+          <button
+            key={r.tab}
+            type="button"
+            role="tab"
+            id={`live-tab-${i}`}
+            aria-selected={i === tab}
+            aria-controls="live-panel"
+            onClick={() => setTab(i)}
+            className={`rounded-full px-4 py-2 text-[13.5px] font-semibold transition-colors ${
+              i === tab
+                ? "bg-white text-ink"
+                : "bg-white/10 text-white hover:bg-white/20"
+            }`}
+          >
+            {r.tab}
+          </button>
+        ))}
       </div>
 
-      <div className="grid gap-0 md:grid-cols-[0.9fr_1.1fr]">
-        <ol className="space-y-1 p-5">
-          {RUN.map((r, i) => {
-            const state = i < done ? "done" : i === done ? "active" : "idle";
-            return (
-              <li key={r.step} className={`live-step live-step-${state}`}>
-                <span className="live-tick">{state === "idle" ? "" : "✓"}</span>
-                <span>
-                  <span className="block text-[14px] font-semibold text-white">{r.step}</span>
-                  <span className="block text-[12.5px] text-muted-on-violet">{r.detail}</span>
-                </span>
-              </li>
-            );
-          })}
-        </ol>
+      <div
+        className="live-panel"
+        id="live-panel"
+        role="tabpanel"
+        aria-labelledby={`live-tab-${tab}`}
+      >
+        <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3.5">
+          <span className="live-dot" />
+          <p className="text-[13px] font-semibold text-white">Workflow running</p>
+          <p className="ml-auto text-[12px] text-muted-on-violet">{run.caption}</p>
+        </div>
 
-        <div className="border-t border-white/10 p-5 md:border-l md:border-t-0">
-          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/60">
-            Example output
-          </p>
-          <div className="rounded-[14px] bg-white p-4 text-left">
-            <p className="text-[13px] font-bold text-ink">New candidate: Priya R, Senior Analyst</p>
-            <div className="mt-2">
-              {FIELDS.map(([label, value], i) => (
-                <div
-                  key={label}
-                  className="live-field flex items-start justify-between gap-4 border-b border-border py-1.5 last:border-b-0"
-                  style={{ opacity: complete || i <= done + 1 ? 1 : 0.12 }}
-                >
-                  <span className="text-[11.5px] font-semibold uppercase tracking-[0.05em] text-muted-paper">
-                    {label}
+        <div className="grid gap-0 md:grid-cols-[0.9fr_1.1fr]">
+          <ol className="space-y-1 p-5">
+            {run.steps.map((r, i) => {
+              const state = i < done ? "done" : i === done ? "active" : "idle";
+              return (
+                <li key={r.step} className={`live-step live-step-${state}`}>
+                  <span className="live-tick" aria-hidden="true">
+                    {state === "idle" ? "" : "✓"}
                   </span>
-                  <span className="text-right text-[12.5px] text-ink">{value}</span>
-                </div>
-              ))}
-            </div>
-            <p
-              className="mt-3 text-[12.5px] text-muted-paper transition-opacity duration-500"
-              style={{ opacity: complete ? 1 : 0.15 }}
-            >
-              Seven years in analytics, currently leading a small reporting team, looking for a step
-              into management.
+                  <span>
+                    <span className="block text-[14px] font-semibold text-white">{r.step}</span>
+                    <span className="block text-[12.5px] text-muted-on-violet">{r.detail}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+
+          <div className="border-t border-white/10 p-5 md:border-l md:border-t-0">
+            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/60">
+              Example output
             </p>
+            <div className="rounded-[14px] bg-white p-4 text-left">
+              <p className="text-[13px] font-bold text-ink">{run.title}</p>
+              <div className="mt-2">
+                {run.fields.map(([label, value], i) => (
+                  <div
+                    key={label}
+                    className="live-field flex items-start justify-between gap-4 border-b border-border py-1.5 last:border-b-0"
+                    style={{ opacity: complete || i <= done + 1 ? 1 : 0.12 }}
+                  >
+                    <span className="text-[11.5px] font-semibold uppercase tracking-[0.05em] text-muted-paper">
+                      {label}
+                    </span>
+                    <span className="text-right text-[12.5px] text-ink">{value}</span>
+                  </div>
+                ))}
+              </div>
+              <p
+                className="mt-3 text-[12.5px] text-muted-paper transition-opacity duration-500"
+                style={{ opacity: complete ? 1 : 0.15 }}
+              >
+                {run.summary}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <p className="border-t border-white/10 px-5 py-3 text-[12px] text-muted-on-violet">
-        Before: someone opens the CV, retypes six fields, writes the summary and forwards it on.
-      </p>
+        <p className="border-t border-white/10 px-5 py-3 text-[12px] text-muted-on-violet">{run.before}</p>
+      </div>
     </div>
   );
 }
