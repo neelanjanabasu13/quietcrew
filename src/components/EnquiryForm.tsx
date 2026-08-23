@@ -22,7 +22,7 @@ const empty: Fields = {
 const sizes = ["1-9", "10-24", "25-49", "50-149", "150+"];
 
 const fieldClass =
-  "w-full border border-rule-dark bg-ink px-3 py-3 text-[16px] text-paper placeholder:text-muted-ink focus:border-hivis";
+  "w-full rounded-[14px] border-0 bg-muted px-4 py-3.5 text-[16px] text-ink placeholder:text-muted-paper";
 
 export function EnquiryForm() {
   const [values, setValues] = useState<Fields>(empty);
@@ -77,12 +77,12 @@ export function EnquiryForm() {
 
   if (sent) {
     return (
-      <div className="border border-hivis bg-ink p-8" role="status" aria-live="polite">
-        <p className="mono-label text-hivis">Enquiry received</p>
-        <h3 className="mt-3 text-2xl text-paper">
+      <div className="rounded-[20px] bg-white p-8 soft-shadow-lg" role="status" aria-live="polite">
+        <p className="eyebrow">Enquiry received</p>
+        <h3 className="mt-4 text-2xl text-ink">
           Thanks. We&rsquo;ll come back to you within one working day.
         </h3>
-        <p className="mt-3 text-[16px] text-muted-ink">
+        <p className="mt-3 text-[16px] text-muted-paper">
           If it is easier, you can also pick a time directly using the booking option below.
         </p>
       </div>
@@ -90,7 +90,7 @@ export function EnquiryForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="border border-rule-dark p-6 md:p-8">
+    <form onSubmit={onSubmit} noValidate className="rounded-[20px] bg-white p-6 soft-shadow-lg md:p-8">
       <div className="grid gap-5 md:grid-cols-2">
         <Field id="name" label="Name" error={errors.name}>
           <input id="name" name="name" className={fieldClass} value={values.name} onChange={set("name")} autoComplete="name" aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
@@ -130,17 +130,17 @@ export function EnquiryForm() {
       </div>
 
       {formError && (
-        <p className="mt-5 border-l-2 border-hivis pl-3 text-[15px] text-hivis" role="alert">
+        <p className="mt-5 rounded-[12px] bg-violet-tint px-4 py-3 text-[15px] text-violet" role="alert">
           {formError}
         </p>
       )}
 
-      <button type="submit" className="btn-hivis mt-7 w-full md:w-auto" disabled={submitting}>
+      <button type="submit" className="pill-btn btn-primary-dark mt-7 w-full md:w-auto" disabled={submitting}>
         {submitting ? "Sending" : "Book a free Workflow Review"}
       </button>
-      <p className="mt-4 text-[15px] text-muted-ink">
+      <p className="mt-4 text-[15px] text-muted-paper">
         We use your details only to reply to this enquiry. See our{" "}
-        <a href="/privacy" className="text-hivis underline underline-offset-4">
+        <a href="/privacy" className="font-semibold text-violet underline underline-offset-4">
           privacy notice
         </a>
         .
@@ -162,12 +162,12 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="mono-label mb-2 block text-muted-ink">
+      <label htmlFor={id} className="mb-2 block text-[14px] font-semibold text-ink">
         {label}
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} className="mono-label mt-2 text-hivis">
+        <p id={`${id}-error`} className="mt-2 text-[13px] font-semibold text-violet">
           {error}
         </p>
       )}
