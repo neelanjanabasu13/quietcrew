@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import { HeroFlow, StepSequence } from "@/components/FlowDiagram";
+import { StepSequence } from "@/components/FlowDiagram";
+import { LiveWorkflow, Marquee, RotatingWord } from "@/components/LiveWorkflow";
 import {
   ArtefactTile,
   CandidateSummary,
