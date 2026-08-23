@@ -25,12 +25,12 @@ export const Route = createFileRoute("/privacy")({
 
 function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-paper">
+    <div className="min-h-screen bg-white">
       <SiteNav />
       <main className="container-page section-y max-w-[760px]">
-        <p className="mono-label text-muted-paper">Legal</p>
+        <p className="eyebrow">Legal</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Privacy notice</h1>
-        <p className="mt-6 border-l-2 border-hivis bg-secondary px-4 py-3 text-[15px] text-ink">
+        <p className="mt-6 rounded-[16px] bg-violet-tint px-5 py-4 text-[15px] text-ink">
           Draft for legal review. This is starter wording for a UK business and must be checked by a
           solicitor before launch.
         </p>
