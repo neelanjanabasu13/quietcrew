@@ -309,17 +309,30 @@ function Index() {
                 <br />
                 <span className="text-violet">The work didn&rsquo;t.</span>
               </h2>
-              <p className="mt-7 text-muted-paper">
-                Most growing businesses already own a CRM, an accounting system, an industry platform, a
-                project tool and a dozen spreadsheets. Some have started using AI. None of that stopped
-                people copying information between systems, chasing approvals, retyping documents,
-                preparing the same report every week and remembering to follow up.
-              </p>
-              <p className="mt-5 text-muted-paper">
-                That gap between the software and the work is where your team&rsquo;s time actually goes.
-                It rarely shows up on any budget line, which is why it never gets fixed.
+              <p className="mx-auto mt-7 max-w-[620px] text-muted-paper">
+                You own the systems. Your people still fill the gaps between them by hand, and that time
+                never shows up on a budget line.
               </p>
             </Reveal>
+
+            <Reveal className="mt-10 flex flex-wrap justify-center gap-2.5" delay={60}>
+              {[
+                "Copying between systems",
+                "Chasing approvals",
+                "Retyping documents",
+                "The same weekly report",
+                "Remembering to follow up",
+                "Updating the CRM",
+              ].map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-full bg-white px-4 py-2 text-[14px] font-semibold text-muted-paper soft-shadow"
+                >
+                  {chip}
+                </span>
+              ))}
+            </Reveal>
+
 
             <Reveal className="mx-auto mt-14 max-w-[900px]">
               <p className="text-[1.7rem] font-extrabold leading-[1.15] tracking-[-0.02em] md:text-[2.6rem]">
