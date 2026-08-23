@@ -4,7 +4,7 @@
  * rules in styles.css and the useReducedMotion hook below.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 function useReducedMotion() {
   const [reduced, setReduced] = useState(false);

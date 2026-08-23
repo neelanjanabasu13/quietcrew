@@ -54,7 +54,7 @@ export function CandidateSummary() {
         </span>
         <div className="min-w-0">
           <p className="text-[13px] font-bold text-ink">Quietcrew</p>
-          <p className="truncate text-[13px] text-muted-paper">New candidate: Priya R, Senior Analyst</p>
+          <p className="truncate text-[13px] text-muted-paper">New candidate: Hannah Wright, Senior Analyst</p>
         </div>
       </div>
       <div className="mt-3">
