@@ -383,7 +383,7 @@ function Index() {
                       ))}
                   </ul>
                   <p className="mt-5 text-[15px] font-semibold text-violet">{s.price}</p>
-                  <div className="mt-6">
+                  <div className="mt-auto pt-6">
                     <ArtefactTile tone={i === 2 ? "peach" : "violet"}>{s.artefact}</ArtefactTile>
                   </div>
                 </Reveal>
