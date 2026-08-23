@@ -208,3 +208,9 @@
     display: none;
   }
 }
+
+/* Full-screen mobile menu sheet: must be fully opaque over page content. */
+@utility menu-sheet {
+  background-color: var(--paper);
+  isolation: isolate;
+}

@@ -56,7 +56,7 @@ export function SiteNav() {
       {open && (
         <div
           id="mobile-menu"
-          className="fixed inset-0 top-16 z-50 flex flex-col gap-2 bg-paper px-5 py-8 md:hidden"
+          className="menu-sheet fixed inset-0 top-16 z-50 flex flex-col gap-2 px-5 py-8 md:hidden"
         >
           {links.map((l) => (
             <a
