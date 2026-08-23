@@ -378,7 +378,7 @@ function Index() {
                           key={chip}
                           className="rounded-full bg-violet-tint px-3 py-1.5 text-[13px] font-semibold text-violet"
                         >
-                          {chip.trim().replace(/\.$/, "")}
+                          {chip.trim().replace(/\.$/, "").replace(/^./, (c) => c.toUpperCase())}
                         </li>
                       ))}
                   </ul>
