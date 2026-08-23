@@ -237,40 +237,64 @@ function Index() {
       <main>
         {/* Hero */}
         <section className="on-violet violet-glow relative text-white">
-          <div className="container-page pb-20 pt-[140px] text-center md:pb-28 md:pt-[190px]">
-            <Reveal className="mx-auto max-w-[900px]">
-              <span
-                aria-hidden="true"
-                className="mx-auto mb-8 flex h-14 w-14 items-center justify-center rounded-[18px] bg-white/95 text-[1.35rem] font-extrabold text-violet soft-shadow"
-              >
-                Q
-              </span>
-              <h1 className="text-[2.4rem] md:text-[4.2rem]">
-                You bought the software.
-                <br />
-                Your team is still doing
-                <br />
-                <span className="text-peach">the work in between.</span>
-              </h1>
-              <p className="mx-auto mt-8 max-w-[680px] text-[1.05rem] text-muted-on-violet md:text-[1.15rem]">
-                Quietcrew connects the tools you already use, automates the repetitive work around them,
-                and adds AI only where it genuinely helps. It runs quietly in the background. Your team
-                just stops doing the busywork.
-              </p>
-              <div className="mt-9 flex justify-center">
-                <a href="#book" className="pill-btn btn-white px-7 py-4 text-[1rem]">
-                  Book a free Workflow Review
-                </a>
-              </div>
-              <p className="mx-auto mt-5 max-w-[560px] text-[15px] text-muted-on-violet">
-                30 minutes. No pitch. You leave with a map of one process and an honest answer on whether
-                it&rsquo;s worth automating.
-              </p>
-            </Reveal>
+          <div className="container-page pb-16 pt-[140px] md:pb-24 md:pt-[180px]">
+            <div className="grid items-end gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+              <Reveal>
+                <span
+                  aria-hidden="true"
+                  className="mb-7 flex h-12 w-12 items-center justify-center rounded-[16px] bg-white/95 text-[1.2rem] font-extrabold text-violet soft-shadow"
+                >
+                  Q
+                </span>
+                <h1 className="text-[2.6rem] md:text-[4.4rem]">
+                  You bought the software.
+                  <br />
+                  <span className="text-peach">
+                    Your team still does{" "}
+                    <RotatingWord words={["the CVs.", "the invoices.", "the chasing.", "the reports."]} />
+                  </span>
+                </h1>
+              </Reveal>
 
-            <Reveal className="mt-16" delay={80}>
-              <HeroFlow />
+              <Reveal delay={80}>
+                <p className="max-w-[520px] text-[1.05rem] text-muted-on-violet md:text-[1.15rem]">
+                  We connect the tools you already own and automate the work between them. It runs in the
+                  background. Your team just stops doing it.
+                </p>
+                <div className="mt-7 flex flex-wrap items-center gap-3">
+                  <a href="#book" className="pill-btn btn-white px-7 py-4 text-[1rem]">
+                    Book a free Workflow Review
+                  </a>
+                  <a
+                    href="#examples"
+                    className="pill-btn px-7 py-4 text-[1rem] text-white ring-1 ring-white/40 hover:bg-white/10"
+                  >
+                    See it working
+                  </a>
+                </div>
+                <p className="mt-4 text-[15px] text-muted-on-violet">
+                  30 minutes. No pitch. One process mapped, and an honest answer.
+                </p>
+              </Reveal>
+            </div>
+
+            <Reveal className="mt-14" delay={120}>
+              <LiveWorkflow />
             </Reveal>
+          </div>
+
+          <div className="border-t border-white/10 py-5 text-muted-on-violet">
+            <Marquee
+              items={[
+                "CV to ATS",
+                "Invoice to finance system",
+                "Lease to searchable answer",
+                "Enquiry to CRM",
+                "Client won to project set up",
+                "Weekly report, written and sent",
+                "Approval chased, then closed",
+              ]}
+            />
           </div>
         </section>
 
