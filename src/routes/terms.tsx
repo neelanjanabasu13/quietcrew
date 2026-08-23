@@ -28,9 +28,9 @@ function TermsPage() {
     <div className="min-h-screen bg-paper">
       <SiteNav />
       <main className="container-page section-y max-w-[760px]">
-        <p className="eyebrow">Legal</p>
+        <p className="mono-label text-muted-paper">Legal</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Terms of use</h1>
-        <p className="mt-4 rounded-md border border-line bg-accent-soft px-4 py-3 text-[15px] text-accent">
+        <p className="mt-6 border-l-2 border-hivis bg-secondary px-4 py-3 text-[15px] text-ink">
           Draft for legal review. This is starter wording for a UK business and must be checked by a
           solicitor before launch.
         </p>
@@ -91,7 +91,7 @@ function TermsPage() {
             </p>
           </section>
 
-          <p className="text-[15px] text-muted">Last updated: placeholder date.</p>
+          <p className="text-[15px] text-muted-paper">Last updated: placeholder date.</p>
         </div>
       </main>
       <SiteFooter />

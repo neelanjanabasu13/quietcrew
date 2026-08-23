@@ -3,31 +3,35 @@
 @import "tw-animate-css";
 
 /*
- * Quietcrew design system.
- * Light palette only. Warm paper background, deep green accent, thin rules.
- * Never hardcode colours in components: use the semantic utilities below
- * (bg-paper, text-ink, text-muted, border-line, bg-accent, bg-accent-soft).
+ * Quietcrew design system: "night crew".
+ * Workwear and British industrial signage. Near black, hard white,
+ * high visibility yellow. Zero radius, no shadows, no gradients.
+ * Structure comes from 1px hairlines and full bleed colour blocks.
  */
 
 @theme inline {
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 6px;
-  --radius-xl: 10px;
+  --radius-none: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-full: 0px;
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 
   --color-ink: var(--ink);
   --color-paper: var(--paper);
-  --color-surface: var(--surface);
-  --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
-  --color-accent-soft: var(--accent-soft);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
+  --color-hivis: var(--hivis);
+  --color-hivis-deep: var(--hivis-deep);
+  --color-rule-dark: var(--rule-dark);
+  --color-rule-light: var(--rule-light);
+  --color-muted-ink: var(--muted-ink);
+  --color-muted-paper: var(--muted-paper);
 
-  /* shadcn semantic tokens mapped onto the Quietcrew palette */
+  /* shadcn semantic tokens mapped onto the night crew palette */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -38,59 +42,65 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--line);
-  --color-input: var(--line);
-  --color-ring: var(--accent);
+  --color-border: var(--rule-light);
+  --color-input: var(--rule-light);
+  --color-ring: var(--ink);
 }
 
 :root {
-  --radius: 6px;
+  --radius: 0px;
 
-  --ink: #12120f;
-  --paper: #fbfaf7;
-  --surface: #ffffff;
-  --accent: #1f4d3d;
-  --accent-strong: #163a2d;
-  --accent-soft: #e8efea;
-  --muted: #6e6e66;
-  --line: #e4e1d9;
+  --ink: #0f1115;
+  --paper: #ffffff;
+  --hivis: #ffd400;
+  --hivis-deep: #e5be00;
+  --rule-dark: #262a32;
+  --rule-light: #d7dae0;
+  --muted-ink: #9ba1ac;
+  --muted-paper: #565b64;
 
   --background: var(--paper);
   --foreground: var(--ink);
-  --card: var(--surface);
+  --card: var(--paper);
   --card-foreground: var(--ink);
-  --popover: var(--surface);
+  --popover: var(--paper);
   --popover-foreground: var(--ink);
-  --primary: var(--accent);
-  --primary-foreground: #ffffff;
-  --secondary: var(--accent-soft);
-  --secondary-foreground: var(--accent);
-  --muted-foreground: var(--muted);
-  --accent-foreground: var(--accent);
-  --destructive: #9b2c1e;
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: #f2f3f5;
+  --secondary-foreground: var(--ink);
+  --muted: #f2f3f5;
+  --muted-foreground: var(--muted-paper);
+  --accent: var(--hivis);
+  --accent-foreground: var(--ink);
+  --destructive: #b3261e;
   --destructive-foreground: #ffffff;
 }
 
 @layer base {
   * {
-    border-color: var(--line);
+    border-color: var(--rule-light);
+    border-radius: 0 !important;
   }
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 84px;
+    scroll-padding-top: 72px;
   }
 
   body {
     background-color: var(--paper);
     color: var(--ink);
     font-family: var(--font-sans);
-    font-size: 17px;
-    line-height: 1.65;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -99,90 +109,135 @@
   h3,
   h4 {
     font-family: var(--font-display);
+    font-weight: 700;
     letter-spacing: -0.02em;
-    line-height: 1.12;
-    font-weight: 600;
-    color: var(--ink);
+    line-height: 1.03;
+    font-stretch: 112%;
+    font-variation-settings: "wdth" 112;
+    color: inherit;
   }
 
+  /* Focus: 2px black on white surfaces, 2px yellow on ink surfaces. */
   :focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-    border-radius: 2px;
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+  .on-ink :focus-visible,
+  .on-ink:focus-visible {
+    outline: 2px solid var(--hivis);
+    outline-offset: 2px;
   }
 }
 
 @utility container-page {
   width: 100%;
-  max-width: 1080px;
+  max-width: 1180px;
   margin-inline: auto;
   padding-inline: 20px;
 }
 
 @utility section-y {
-  padding-block: 56px;
+  padding-block: 64px;
   @media (min-width: 768px) {
-    padding-block: 96px;
+    padding-block: 104px;
   }
 }
 
-@utility eyebrow {
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
+/* Mono label: every eyebrow, price, step number, form label, annotation. */
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-weight: 600;
-  color: var(--muted);
+  line-height: 1.4;
 }
 
-@utility btn-accent {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border-radius: 6px;
-  background-color: var(--accent);
-  color: #ffffff;
+@utility mono-num {
+  font-family: var(--font-mono);
   font-weight: 500;
-  font-size: 0.98rem;
-  padding: 0.7rem 1.25rem;
-  transition: background-color 160ms ease;
-}
-@utility btn-accent {
-  &:hover {
-    background-color: var(--accent-strong);
-  }
+  font-size: 0.86rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
 }
 
-@utility btn-quiet {
+@utility btn-hivis {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid var(--line);
-  background-color: var(--surface);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: var(--hivis);
   color: var(--ink);
-  font-weight: 500;
-  font-size: 0.98rem;
-  padding: 0.7rem 1.25rem;
+  border: 1px solid var(--ink);
+  padding: 0.85rem 1.4rem;
   transition:
-    background-color 160ms ease,
-    border-color 160ms ease;
+    background-color 120ms linear,
+    color 120ms linear;
 }
-@utility btn-quiet {
+@utility btn-hivis {
   &:hover {
-    background-color: var(--accent-soft);
-    border-color: var(--accent-soft);
+    background-color: var(--ink);
+    color: var(--hivis);
   }
 }
 
-@utility card-quiet {
-  background-color: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 8px;
+/* Secondary: outline only. Inverts to solid on hover. */
+@utility btn-outline-ink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 0.85rem 1.4rem;
+  transition:
+    background-color 120ms linear,
+    color 120ms linear;
+}
+@utility btn-outline-ink {
+  &:hover {
+    background-color: var(--ink);
+    color: var(--paper);
+  }
 }
 
-/* Fade and rise on scroll, 300ms, once only. */
+@utility btn-outline-paper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: transparent;
+  color: var(--paper);
+  border: 1px solid var(--muted-ink);
+  padding: 0.85rem 1.4rem;
+  transition:
+    background-color 120ms linear,
+    color 120ms linear,
+    border-color 120ms linear;
+}
+@utility btn-outline-paper {
+  &:hover {
+    background-color: var(--paper);
+    border-color: var(--paper);
+    color: var(--ink);
+  }
+}
+
+/* Fade and rise on scroll, once only. */
 .reveal {
   opacity: 0;
   transform: translateY(14px);
@@ -211,6 +266,6 @@
 
 /* Full-screen mobile menu sheet: must be fully opaque over page content. */
 @utility menu-sheet {
-  background-color: var(--paper);
+  background-color: var(--ink);
   isolation: isolate;
 }

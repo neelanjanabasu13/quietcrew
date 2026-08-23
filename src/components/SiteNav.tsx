@@ -20,30 +20,30 @@ export function SiteNav() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper">
-      <nav aria-label="Primary" className="container-page flex h-16 items-center justify-between">
-        <Link
-          to="/"
-          className="font-display text-lg font-700 tracking-tight text-ink"
-          style={{ fontWeight: 700 }}
-        >
+    <header className="on-ink sticky top-0 z-50 border-b border-rule-dark bg-ink text-paper">
+      <nav aria-label="Primary" className="container-page flex h-[68px] items-center justify-between">
+        <Link to="/" className="font-display text-[1.15rem] font-bold uppercase tracking-[0.02em] text-paper">
           Quietcrew
         </Link>
 
-        <div className="hidden items-center gap-7 md:flex">
+        <div className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-[15px] text-muted transition-colors hover:text-ink">
+            <a
+              key={l.href}
+              href={l.href}
+              className="mono-label text-muted-ink transition-colors hover:text-hivis"
+            >
               {l.label}
             </a>
           ))}
-          <a href="/#book" className="btn-accent text-[15px]">
+          <a href="/#book" className="btn-hivis">
             Book a Workflow Review
           </a>
         </div>
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center border border-rule-dark text-paper md:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -56,19 +56,19 @@ export function SiteNav() {
       {open && (
         <div
           id="mobile-menu"
-          className="menu-sheet fixed inset-0 top-16 z-50 flex flex-col gap-2 px-5 py-8 md:hidden"
+          className="menu-sheet fixed inset-0 top-[68px] z-50 flex flex-col px-5 py-6 md:hidden"
         >
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="border-b border-line py-4 font-display text-2xl text-ink"
+              className="border-b border-rule-dark py-5 font-display text-2xl font-bold uppercase text-paper"
             >
               {l.label}
             </a>
           ))}
-          <a href="/#book" onClick={() => setOpen(false)} className="btn-accent mt-6 w-full">
+          <a href="/#book" onClick={() => setOpen(false)} className="btn-hivis mt-8 w-full">
             Book a Workflow Review
           </a>
         </div>
