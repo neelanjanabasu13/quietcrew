@@ -24,6 +24,89 @@ const DESCRIPTION =
   "Quietcrew connects the tools you already use and automates the repetitive work around them, so your team stops doing the busywork. Book a free 30 minute Workflow Review.";
 const OG_IMAGE = "https://quietcrew.ai/og-quietcrew.jpg";
 
+const faqEntries: { q: string; a: string }[] = [
+  {
+    q: "Do I need to know anything about AI?",
+    a: "No. You do not even need to use AI today. Show us the process that is causing you pain and we will work out the technology.",
+  },
+  {
+    q: "Will this work with our existing software?",
+    a: "Usually yes, because most business software can be connected, and where a system is closed we work around it rather than asking you to replace it. We check this during the Workflow Review before quoting anything.",
+  },
+  {
+    q: "Could I not just use Zapier?",
+    a: "Sometimes, yes. If your problem is a straightforward Zapier workflow, we will tell you. We tend to help when a process crosses several systems, needs judgement or document understanding, or is not obvious enough to automate from a template.",
+  },
+  {
+    q: "What happens to our data?",
+    a: "It stays in the tools and accounts you already control wherever possible, and if a workflow uses an AI provider we tell you which one and what it receives. We agree scope, access and data handling with you before anything connects.",
+  },
+  {
+    q: "How much does it cost?",
+    a: "Most first projects are £2,000 to £10,000 depending on how many systems are involved. We give a fixed price after the Workflow Review, before any work starts.",
+  },
+  {
+    q: "How long does it take?",
+    a: "Most automation work takes one to three weeks, and internal AI tools usually take two to four, depending on how many systems are involved.",
+  },
+];
+
+const serviceOfferings = [
+  {
+    name: "Workflow & Systems Automation",
+    description:
+      "Connecting the systems you already own and automating the repetitive steps between them, including onboarding, document processing, approvals and scheduled reporting.",
+    price: 2000,
+  },
+  {
+    name: "Sales Workflow Automation",
+    description:
+      "Automating the repetitive work around the sale, including lead research and qualification, CRM enrichment, account briefs before meetings, follow-up and pipeline reporting.",
+    price: 2500,
+  },
+  {
+    name: "Internal AI Tools",
+    description:
+      "Practical internal AI tools built around a specific job, such as question answering across your documents, contract and lease intelligence and proposal drafting from past work.",
+    price: 4000,
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqEntries.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const servicesSchema = {
+  "@context": "https://schema.org",
+  "@graph": serviceOfferings.map((s) => ({
+    "@type": "Service",
+    name: s.name,
+    description: s.description,
+    serviceType: s.name,
+    areaServed: { "@type": "Country", name: "United Kingdom" },
+    provider: {
+      "@type": "Organization",
+      name: "Quietcrew",
+      url: "https://quietcrew.ai",
+      email: "hello@quietcrew.ai",
+    },
+    offers: {
+      "@type": "Offer",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        priceCurrency: "GBP",
+        minPrice: s.price,
+      },
+    },
+  })),
+};
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -36,9 +119,14 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: OG_IMAGE },
     ],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(faqSchema) },
+      { type: "application/ld+json", children: JSON.stringify(servicesSchema) },
+    ],
   }),
   component: Index,
 });
+
 
 const services = [
   {
