@@ -135,11 +135,12 @@
 }
 
 @utility section-y {
-  padding-block: 64px;
+  padding-block: 48px;
   @media (min-width: 768px) {
-    padding-block: 120px;
+    padding-block: 88px;
   }
 }
+
 
 /* Small label text: no monospace, weight 600, gentle tracking. */
 @utility mono-label {
