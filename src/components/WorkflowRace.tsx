@@ -68,7 +68,10 @@ export function WorkflowRace({
         subtitle="A person moves it along"
         items={manual}
         done={manualDone}
-        meter={`${manualMinutes} min of someone's day`}
+        meterValue={`${manualMinutes}`}
+        meterUnit="min"
+        meterNote="of someone's day"
+        angle={(manualMinutes / Math.max(manual.length * minutesPerManualStep, 1)) * 360}
         pending="waiting on a person"
       />
       <Lane
@@ -78,12 +81,97 @@ export function WorkflowRace({
         items={steps}
         done={autoDone}
         approvalIndex={approvalIndex}
-        meter={`${autoSeconds} seconds, no retyping`}
+        meterValue={`${autoSeconds}`}
+        meterUnit="sec"
+        meterNote="no retyping"
+        angle={(autoSeconds / Math.max(steps.length * 9, 1)) * 360}
         pending="running"
       />
     </div>
   );
 }
+
+function TimerDial({
+  value,
+  unit,
+  note,
+  angle,
+  after,
+}: {
+  value: string;
+  unit: string;
+  note: string;
+  angle: number;
+  after: boolean;
+}) {
+  return (
+    <div
+      className={`mt-4 flex items-center gap-3 rounded-[14px] px-4 py-3 ${
+        after ? "bg-peach/15" : "bg-white/[0.06]"
+      }`}
+    >
+      <span className="relative grid h-11 w-11 shrink-0 place-items-center">
+        <svg viewBox="0 0 44 44" className="h-11 w-11" aria-hidden="true">
+          <circle
+            cx="22"
+            cy="22"
+            r="17"
+            fill="none"
+            strokeWidth="2"
+            className={after ? "stroke-peach/35" : "stroke-white/25"}
+          />
+          <line
+            x1="22"
+            y1="9"
+            x2="22"
+            y2="6"
+            strokeWidth="2"
+            strokeLinecap="round"
+            className={after ? "stroke-peach" : "stroke-white/60"}
+          />
+          <g
+            style={{
+              transform: `rotate(${angle}deg)`,
+              transformOrigin: "22px 22px",
+              transition: "transform 500ms ease-out",
+            }}
+          >
+            <line
+              x1="22"
+              y1="22"
+              x2="22"
+              y2="11"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              className={after ? "stroke-peach" : "stroke-white/70"}
+            />
+          </g>
+          <circle cx="22" cy="22" r="2" className={after ? "fill-peach" : "fill-white/70"} />
+        </svg>
+      </span>
+      <span className="flex flex-col leading-tight">
+        <span className="flex items-baseline gap-1">
+          <span
+            className={`text-[1.5rem] font-extrabold tabular-nums tracking-[-0.02em] ${
+              after ? "text-peach" : "text-white"
+            }`}
+          >
+            {value}
+          </span>
+          <span
+            className={`text-[12px] font-semibold uppercase tracking-[0.12em] ${
+              after ? "text-peach" : "text-muted-on-violet"
+            }`}
+          >
+            {unit}
+          </span>
+        </span>
+        <span className="text-[12.5px] text-muted-on-violet">{note}</span>
+      </span>
+    </div>
+  );
+}
+
 
 function Lane({
   tone,
@@ -92,7 +180,10 @@ function Lane({
   items,
   done,
   approvalIndex,
-  meter,
+  meterValue,
+  meterUnit,
+  meterNote,
+  angle,
   pending,
 }: {
   tone: "before" | "after";
@@ -101,7 +192,10 @@ function Lane({
   items: string[];
   done: number;
   approvalIndex?: number;
-  meter: string;
+  meterValue: string;
+  meterUnit: string;
+  meterNote: string;
+  angle: number;
   pending: string;
 }) {
   const after = tone === "after";
@@ -171,11 +265,14 @@ function Lane({
         })}
       </ol>
 
-      <p
-        className={`mt-4 text-[12.5px] font-semibold ${after ? "text-peach" : "text-muted-on-violet"}`}
-      >
-        {meter}
-      </p>
+      <TimerDial
+        value={meterValue}
+        unit={meterUnit}
+        note={meterNote}
+        angle={angle}
+        after={after}
+      />
+
 
       <ul className="sr-only">
         {items.map((item) => (
