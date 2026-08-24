@@ -71,33 +71,32 @@ const services = [
   },
 ];
 
-const sectors = [
+const sectors: { title: string; who: string; work?: string }[] = [
   {
     title: "Recruitment & Staffing",
-    who: "Recruitment agencies, executive search, staffing firms.",
-    work: "Candidate processing, ATS and CRM admin, research, client reporting, sales admin.",
+    who: "Your recruiters should be talking to candidates and clients, not copying CVs into an ATS or cleaning up CRM records.",
+    work: "CV → extract details → ATS → summary → recruiter",
   },
   {
     title: "Professional Services",
-    who: "Consultancies, advisory and specialist B2B firms.",
-    work: "Document work, research, reporting, knowledge retrieval, client administration.",
+    who: "If expensive consultants are spending hours preparing reports, searching old documents or doing repetitive client admin, there's probably work we can remove.",
   },
   {
     title: "Marketing & Digital Agencies",
-    who: "Marketing, digital, branding, web, design and PR.",
-    work: "Client onboarding, project setup, reporting, CRM, sales admin.",
+    who: "The work around client delivery adds up: onboarding, project setup, reporting, CRM updates and all the little hand-offs nobody wants to own.",
+    work: "Client won → project → tasks → onboarding",
   },
   {
     title: "Property",
-    who: "Estate and letting agents, property managers, commercial property firms.",
-    work: "Enquiry handling, leases and documents, approvals, system updates.",
+    who: "Enquiries, leases, documents, approvals and updates across multiple systems create a surprising amount of admin.",
+    work: "Lease → extract key information → searchable → team",
   },
   {
     title: "Accounting & Bookkeeping",
-    who: "Practices, bookkeepers, outsourced finance and payroll.",
-    work: "Document processing, onboarding, approvals, reporting, data entry.",
+    who: "Lots of documents, lots of recurring processes and lots of information moving between clients, people and systems. That's usually fertile ground for automation.",
   },
 ];
+
 
 const examples: {
   title: string;
@@ -437,13 +436,14 @@ function Index() {
             <Reveal className="mx-auto max-w-[820px] text-center">
               <Eyebrow tone="violet">Who we help</Eyebrow>
               <h2 className="mt-5 text-[2.2rem] md:text-[3.4rem]">
-                Built for firms running
+                The businesses we
                 <br />
-                <span className="text-peach">on several systems</span>
+                <span className="text-peach">tend to be useful for</span>
               </h2>
-              <p className="mx-auto mt-6 max-w-[620px] text-[16px] text-muted-on-violet">
-                Typically service businesses with 15 to 150 people, several systems, and no in-house
-                engineering team.
+              <p className="mx-auto mt-6 max-w-[680px] text-[16px] text-muted-on-violet">
+                We are a good fit for growing service businesses where people are expensive, processes have
+                grown organically, and there isn&rsquo;t an engineering team sitting around waiting to
+                automate them.
               </p>
             </Reveal>
 
@@ -456,10 +456,15 @@ function Index() {
                 >
                   <h3 className="text-[1.2rem]">{s.title}</h3>
                   <p className="mt-3 text-[15px] text-muted-on-violet">{s.who}</p>
-                  <p className="mt-2 text-[15px] text-white">{s.work}</p>
+                  {s.work ? (
+                    <p className="mt-4 text-[13px] font-semibold uppercase tracking-[0.08em] text-peach">
+                      {s.work}
+                    </p>
+                  ) : null}
                 </Reveal>
               ))}
             </div>
+
 
             <Reveal id="examples" className="mx-auto mt-24 max-w-[820px] scroll-mt-[110px] text-center">
               <Eyebrow tone="violet">Workflow examples</Eyebrow>
