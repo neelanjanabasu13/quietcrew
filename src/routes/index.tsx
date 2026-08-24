@@ -189,6 +189,8 @@ const examples: {
   title: string;
   label: string;
   steps: string[];
+  manual: string[];
+  minutesPerManualStep: number;
   before: string;
   approvalIndex: number;
   artefact: ReactNode;
@@ -197,6 +199,14 @@ const examples: {
     title: "Recruitment",
     label: "Recruitment",
     steps: ["CV arrives", "Details extracted", "ATS updated", "Summary written", "Recruiter notified"],
+    manual: [
+      "CV lands in a shared inbox",
+      "Someone opens it and reads it",
+      "Six fields retyped into the ATS",
+      "Summary written by hand",
+      "Forwarded on to the recruiter",
+    ],
+    minutesPerManualStep: 2,
     before:
       "Before this ran on its own, someone opened each CV, retyped six fields into the ATS, wrote a summary and forwarded it on, which took about ten minutes and happened forty times a week.",
     approvalIndex: 3,
@@ -206,6 +216,14 @@ const examples: {
     title: "Sales",
     label: "Sales",
     steps: ["New lead", "Company researched", "Qualified", "CRM enriched", "Brief sent to rep"],
+    manual: [
+      "Lead sits in the CRM untouched",
+      "Rep opens the company website",
+      "Notes copied into the record",
+      "Fit worked out from memory",
+      "Call taken with whatever is known",
+    ],
+    minutesPerManualStep: 3,
     before:
       "Before this ran on its own, the rep researched the company on the morning of the call, whenever there was time for it.",
     approvalIndex: 2,
@@ -215,6 +233,14 @@ const examples: {
     title: "Property",
     label: "Property",
     steps: ["Lease received", "Key terms extracted", "System updated", "Made searchable", "Team notified"],
+    manual: [
+      "Lease filed away as a PDF",
+      "Question comes in from a colleague",
+      "Forty pages read again",
+      "Clause found and quoted by hand",
+      "Answer emailed back the next day",
+    ],
+    minutesPerManualStep: 6,
     before:
       "Before this ran on its own, the lease sat in a folder and somebody read all forty pages each time a question came up.",
     approvalIndex: 1,
@@ -224,12 +250,21 @@ const examples: {
     title: "Agency",
     label: "Agencies",
     steps: ["New client won", "Project created", "Tasks generated", "Team assigned", "Onboarding starts"],
+    manual: [
+      "Deal marked won in the CRM",
+      "Project board built from scratch",
+      "Tasks copied from an older project",
+      "Owners and dates chased in chat",
+      "Kick-off booked a week later",
+    ],
+    minutesPerManualStep: 5,
     before:
       "Before this ran on its own, onboarding relied on a half-remembered checklist that was done slightly differently every time.",
     approvalIndex: 3,
     artefact: <WeeklyReport />,
   },
 ];
+
 
 const steps = [
   {
