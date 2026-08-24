@@ -102,7 +102,7 @@ function Login() {
             {error}
           </p>
         ) : null}
-        <button type="submit" disabled={busy} className="pill-btn btn-violet w-full px-7 py-4">
+        <button type="submit" disabled={busy} className="pill-btn btn-primary-dark w-full px-7 py-4">
           {busy ? "Signing in" : "Sign in"}
         </button>
       </form>

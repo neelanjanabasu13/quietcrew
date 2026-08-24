@@ -92,7 +92,7 @@ function Consent() {
           type="button"
           disabled={busy}
           onClick={() => decide(true)}
-          className="pill-btn btn-violet px-7 py-4"
+          className="pill-btn btn-primary-dark px-7 py-4"
         >
           Approve
         </button>
@@ -100,7 +100,7 @@ function Consent() {
           type="button"
           disabled={busy}
           onClick={() => decide(false)}
-          className="pill-btn btn-outline px-7 py-4"
+          className="pill-btn btn-ghost-light px-7 py-4"
         >
           Deny
         </button>
