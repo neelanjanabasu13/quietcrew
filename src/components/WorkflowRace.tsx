@@ -180,7 +180,10 @@ function Lane({
   items,
   done,
   approvalIndex,
-  meter,
+  meterValue,
+  meterUnit,
+  meterNote,
+  angle,
   pending,
 }: {
   tone: "before" | "after";
@@ -189,7 +192,10 @@ function Lane({
   items: string[];
   done: number;
   approvalIndex?: number;
-  meter: string;
+  meterValue: string;
+  meterUnit: string;
+  meterNote: string;
+  angle: number;
   pending: string;
 }) {
   const after = tone === "after";
