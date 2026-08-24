@@ -214,12 +214,6 @@ function Index() {
           <div className="container-page pb-16 pt-[140px] md:pb-24 md:pt-[180px]">
             <div className="grid items-end gap-10 lg:grid-cols-[1.05fr_0.95fr]">
               <Reveal>
-                <span
-                  aria-hidden="true"
-                  className="mb-7 flex h-12 w-12 items-center justify-center rounded-[16px] bg-white/95 text-[1.2rem] font-extrabold text-violet soft-shadow"
-                >
-                  Q
-                </span>
                 <h1 className="text-[2.6rem] md:text-[4.4rem]">
                   You bought the software.
                   <br />
