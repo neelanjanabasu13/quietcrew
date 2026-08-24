@@ -265,11 +265,14 @@ function Lane({
         })}
       </ol>
 
-      <p
-        className={`mt-4 text-[12.5px] font-semibold ${after ? "text-peach" : "text-muted-on-violet"}`}
-      >
-        {meter}
-      </p>
+      <TimerDial
+        value={meterValue}
+        unit={meterUnit}
+        note={meterNote}
+        angle={angle}
+        after={after}
+      />
+
 
       <ul className="sr-only">
         {items.map((item) => (
