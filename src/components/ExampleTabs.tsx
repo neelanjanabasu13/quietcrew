@@ -53,15 +53,39 @@ export function ExampleTabs({ examples }: { examples: WorkflowExample[] }) {
       >
         <div>
           <h3 className="text-[1.6rem] md:text-[2rem]">{ex.title}</h3>
-          <div className="mt-6">
-            <StepSequence steps={ex.steps} approvalIndex={ex.approvalIndex} />
+
+          <div className="mt-6 rounded-[14px] bg-white/[0.06] p-5">
+            <Ribbon tone="before">Before</Ribbon>
+            <p className="mt-3 max-w-[520px] text-[15px] leading-[1.6] text-muted-on-violet">
+              {ex.before}
+            </p>
           </div>
-          <p className="mt-6 max-w-[520px] text-[15px] text-muted-on-violet">{ex.before}</p>
+
+          <div className="mt-4 rounded-[14px] bg-white/[0.06] p-5">
+            <Ribbon tone="after">After</Ribbon>
+            <div className="mt-4">
+              <StepSequence steps={ex.steps} approvalIndex={ex.approvalIndex} />
+            </div>
+          </div>
         </div>
         <ArtefactTile tone="violet" className="bg-white/10">
-          {ex.artefact}
+          <Ribbon tone="after">After: what you receive</Ribbon>
+          <div className="mt-4">{ex.artefact}</div>
         </ArtefactTile>
       </div>
     </div>
   );
 }
+
+function Ribbon({ tone, children }: { tone: "before" | "after"; children: ReactNode }) {
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${
+        tone === "before" ? "bg-white/15 text-white" : "bg-peach text-ink"
+      }`}
+    >
+      {children}
+    </span>
+  );
+}
+

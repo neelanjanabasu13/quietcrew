@@ -1,6 +1,6 @@
 /**
  * Mocked output artefacts. Illustrative examples of what a deliverable looks like,
- * built in HTML and CSS only. Every tile carries an EXAMPLE OUTPUT corner label.
+ * built in HTML and CSS only.
  */
 
 import type { ReactNode } from "react";
@@ -20,17 +20,11 @@ export function ArtefactTile({
         tone === "violet" ? "tile-violet" : "tile-peach"
       } ${className}`}
     >
-      <p
-        className={`mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] ${
-          tone === "violet" ? "text-white/70" : "text-muted-paper"
-        }`}
-      >
-        Example output
-      </p>
       {children}
     </div>
   );
 }
+
 
 function Card({ children }: { children: ReactNode }) {
   return <div className="rounded-[14px] bg-white p-4 text-left soft-shadow">{children}</div>;

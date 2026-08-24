@@ -255,8 +255,9 @@ export function LiveWorkflow() {
 
           <div className="border-t border-white/10 p-5 md:border-l md:border-t-0">
             <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/60">
-              Example output
+              After
             </p>
+
             <div className="rounded-[14px] bg-white p-4 text-left">
               <p className="text-[13px] font-bold text-ink">{run.title}</p>
               <div className="mt-2">
