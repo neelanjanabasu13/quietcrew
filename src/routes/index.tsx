@@ -63,7 +63,7 @@ const services = [
   {
     tag: null,
     title: "Internal AI Tools",
-    line: "Focused tools that make your own information usable, not another chatbot.",
+    line: "Sometimes the problem isn't moving information, it's finding it. We build simple AI tools that help your team use the information sitting in your documents and systems, built around a specific job your team needs to do rather than another generic chatbot.",
     examples:
       "Company knowledge assistant, question-answering across your documents, contract and lease intelligence, proposal drafting from past work, policy and operations assistants.",
     price: "From £4,000, 2 to 4 weeks",
