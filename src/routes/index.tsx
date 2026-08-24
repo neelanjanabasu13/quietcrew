@@ -174,28 +174,28 @@ const dataPoints = [
 
 const faqs = [
   {
-    q: "How much does this cost?",
+    q: "Do I need to know anything about AI?",
+    a: "No. You don't even need to use AI today. Show us the process that's causing you pain and we'll work out the technology.",
+  },
+  {
+    q: "Will this work with our existing software?",
+    a: "Usually yes, because most business software can be connected, and where a system is closed we work around it rather than asking you to replace it. We check this during the Workflow Review before quoting anything.",
+  },
+  {
+    q: "Couldn't I just use Zapier?",
+    a: "Sometimes, yes. If your problem is a straightforward Zapier workflow, we'll tell you. We tend to help when a process crosses several systems, needs judgement or document understanding, or isn't obvious enough to automate from a template.",
+  },
+  {
+    q: "What happens to our data?",
+    a: "It stays in the tools and accounts you already control wherever possible, and if a workflow uses an AI provider we tell you which one and what it receives. We agree scope, access and data handling with you before anything connects.",
+  },
+  {
+    q: "How much does it cost?",
     a: "Most first projects are £2,000 to £10,000 depending on how many systems are involved. We give a fixed price after the Workflow Review, before any work starts.",
   },
   {
     q: "How long does it take?",
     a: "Most automation work takes one to three weeks, and internal AI tools usually take two to four, depending on how many systems are involved.",
-  },
-  {
-    q: "What if it breaks?",
-    a: "Things do change, because software updates, interfaces move and processes evolve, so every build includes a settling-in period, and we offer an ongoing care plan if you would rather we looked after it permanently.",
-  },
-  {
-    q: "Do we own what you build?",
-    a: "Yes, because it runs in your accounts and under your logins, so if you stop working with us everything carries on running exactly as it did.",
-  },
-  {
-    q: "How is this different from hiring a freelancer to set up Zapier?",
-    a: "A freelancer builds the workflow you describe, whereas we work out whether it is the right workflow in the first place, what it is actually costing you, and what should happen when it meets the exceptions, so you are buying the diagnosis and the outcome rather than a file.",
-  },
-  {
-    q: "What if you look at our process and it isn't worth automating?",
-    a: "Then we tell you and you have lost half an hour, which does happen from time to time, and we would much rather say it than sell you something you do not need.",
   },
 ];
 
