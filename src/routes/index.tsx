@@ -495,12 +495,12 @@ function Index() {
             <Reveal className="mx-auto max-w-[760px] text-center">
               <Eyebrow>How it works</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
-                Five steps,
+                Start with one
                 <br />
-                <span className="text-violet">start to finish</span>
+                <span className="text-violet">annoying workflow.</span>
               </h2>
             </Reveal>
-            <ol className="mt-14 grid gap-6 md:grid-cols-5">
+            <ol className="mt-14 grid gap-6 md:grid-cols-4">
               {steps.map((s, i) => (
                 <Reveal
                   key={s.title}
@@ -516,6 +516,12 @@ function Index() {
                 </Reveal>
               ))}
             </ol>
+            <Reveal className="mx-auto mt-10 max-w-[620px] text-center">
+              <p className="text-[18px] text-muted-paper">
+                Sometimes the answer is that it isn&rsquo;t worth doing, and we&rsquo;ll say so.
+              </p>
+            </Reveal>
+
           </div>
         </section>
 
