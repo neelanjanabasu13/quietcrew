@@ -146,26 +146,23 @@ const examples: {
 
 const steps = [
   {
-    title: "Show us what is still manual",
-    body: "Pick one process and talk us through where the time actually goes.",
+    title: "Show us the annoying bit",
+    body: "Pick one process your team does again and again.",
   },
   {
-    title: "We map it",
-    body: "We write down the people, the systems, the steps and the handoffs, along with what the process costs you over a year.",
+    title: "We work out what's happening",
+    body: "We map the people, systems, hand-offs and time involved. Then we tell you whether it's worth fixing.",
   },
   {
-    title: "We pick the simplest fix",
-    body: "That might be existing software, an integration, automation, AI or a combination of them, and if it is not worth doing at all we will say so.",
+    title: "We build the simplest solution",
+    body: "That might be an integration, automation, AI, or a combination. We won't add technology just because we can.",
   },
   {
-    title: "We build it",
-    body: "Most builds take one to four weeks, they run in your systems, and your team is involved as we go.",
-  },
-  {
-    title: "We measure it",
-    body: "We check the time you have got back, then look at where the next hour is going.",
+    title: "See if it worked",
+    body: "We measure the time saved. If there's another workflow worth tackling, we move onto that.",
   },
 ];
+
 
 const dataPoints = [
   {
