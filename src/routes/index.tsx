@@ -406,39 +406,28 @@ function Index() {
             <Reveal className="mx-auto max-w-[780px] text-center">
               <Eyebrow>AI, only where it helps</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3rem]">
-                You don&rsquo;t need an AI strategy
+                AI isn&rsquo;t
                 <br />
-                <span className="text-violet">to work with us.</span>
+                <span className="text-violet">the starting point.</span>
               </h2>
-            </Reveal>
-            <div className="mt-12 grid gap-6 md:grid-cols-3">
-              {[
-                {
-                  q: "Not using AI?",
-                  a: "We'll tell you where it would save real time, and just as importantly where it wouldn't.",
-                },
-                {
-                  q: "Experimenting with AI?",
-                  a: "We'll connect it to actual workflows and the systems you already run.",
-                },
-                {
-                  q: "Already using AI?",
-                  a: "We'll close the manual gaps still sitting between your people, your software and your AI.",
-                },
-              ].map((c, i) => (
-                <Reveal key={c.q} className="rounded-[20px] bg-cream p-6" delay={i * 60}>
-                  <h3 className="text-[1.2rem]">{c.q}</h3>
-                  <p className="mt-3 text-[16px] text-muted-paper">{c.a}</p>
-                </Reveal>
-              ))}
-            </div>
-
-            <Reveal className="mx-auto mt-16 max-w-[900px] text-center">
-              <p className="text-[1.6rem] font-extrabold leading-[1.15] tracking-[-0.02em] md:text-[2.4rem]">
-                If existing software can solve it, we connect it. If automation can solve it, we automate
-                it. <span className="text-violet">If AI makes it better, we add AI. In that order.</span>
+              <p className="mx-auto mt-6 max-w-[620px] text-[18px] text-muted-paper">
+                Some businesses already use AI, others don&rsquo;t, and it doesn&rsquo;t really matter. We
+                start with the work that&rsquo;s taking your team too long.
+              </p>
+              <p className="mx-auto mt-4 max-w-[620px] text-[18px] text-muted-paper">
+                Sometimes the answer is connecting two systems you already pay for, sometimes it&rsquo;s a
+                straightforward automation, and sometimes AI can do something that wasn&rsquo;t practical
+                before.
               </p>
             </Reveal>
+
+            <Reveal className="mx-auto mt-14 max-w-[900px] text-center">
+              <p className="text-[1.6rem] font-extrabold leading-[1.15] tracking-[-0.02em] md:text-[2.4rem]">
+                We&rsquo;ll use whatever makes the most sense,{" "}
+                <span className="text-violet">and tell you when AI doesn&rsquo;t.</span>
+              </p>
+            </Reveal>
+
           </div>
         </section>
 
