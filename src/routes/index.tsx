@@ -431,12 +431,39 @@ function Index() {
           </div>
         </section>
 
-        {/* Workflow examples: the centrepiece */}
-        <section id="examples" className="on-violet violet-glow scroll-mt-[110px] text-white">
+        {/* Who we help + workflow examples: the centrepiece */}
+        <section id="who-we-help" className="on-violet violet-glow scroll-mt-[110px] text-white">
           <div className="container-page py-24 md:py-36">
             <Reveal className="mx-auto max-w-[820px] text-center">
-              <Eyebrow tone="violet">Workflow examples</Eyebrow>
+              <Eyebrow tone="violet">Who we help</Eyebrow>
               <h2 className="mt-5 text-[2.2rem] md:text-[3.4rem]">
+                Built for firms running
+                <br />
+                <span className="text-peach">on several systems</span>
+              </h2>
+              <p className="mx-auto mt-6 max-w-[620px] text-[16px] text-muted-on-violet">
+                Typically service businesses with 15 to 150 people, several systems, and no in-house
+                engineering team.
+              </p>
+            </Reveal>
+
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
+              {sectors.map((s, i) => (
+                <Reveal
+                  key={s.title}
+                  className="rounded-[20px] bg-white/10 p-6"
+                  delay={i * 50}
+                >
+                  <h3 className="text-[1.2rem]">{s.title}</h3>
+                  <p className="mt-3 text-[15px] text-muted-on-violet">{s.who}</p>
+                  <p className="mt-2 text-[15px] text-white">{s.work}</p>
+                </Reveal>
+              ))}
+            </div>
+
+            <Reveal id="examples" className="mx-auto mt-24 max-w-[820px] scroll-mt-[110px] text-center">
+              <Eyebrow tone="violet">Workflow examples</Eyebrow>
+              <h2 className="mt-5 text-[2rem] md:text-[3rem]">
                 What this looks like
                 <br />
                 <span className="text-peach">in practice</span>
@@ -459,36 +486,6 @@ function Index() {
           </div>
         </section>
 
-        {/* Who we help */}
-        <section id="who-we-help" className="scroll-mt-[110px] bg-cream text-ink">
-          <div className="container-page section-y">
-            <Reveal className="mx-auto max-w-[780px] text-center">
-              <Eyebrow>Who we help</Eyebrow>
-              <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
-                Built for firms running
-                <br />
-                <span className="text-violet">on several systems</span>
-              </h2>
-              <p className="mx-auto mt-6 max-w-[620px] text-[16px] text-muted-paper">
-                Typically service businesses with 15 to 150 people, several systems, and no in-house
-                engineering team.
-              </p>
-            </Reveal>
-            <div className="mt-12 grid gap-5 md:grid-cols-2">
-              {sectors.map((s, i) => (
-                <Reveal
-                  key={s.title}
-                  className="rounded-[20px] bg-white p-6 soft-shadow"
-                  delay={i * 50}
-                >
-                  <h3 className="text-[1.2rem]">{s.title}</h3>
-                  <p className="mt-3 text-[15px] text-muted-paper">{s.who}</p>
-                  <p className="mt-2 text-[15px] text-ink">{s.work}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* How it works */}
         <section id="how-it-works" className="scroll-mt-[110px] bg-white text-ink">
