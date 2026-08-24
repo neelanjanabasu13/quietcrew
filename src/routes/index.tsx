@@ -45,7 +45,7 @@ const services = [
   {
     tag: "Most common starting point",
     title: "Workflow & Systems Automation",
-    line: "Your systems probably work fine individually. We connect them so your team doesn't have to sit in the middle moving information from one to another.",
+    line: "Your systems probably work fine individually. We connect them so your team does not have to sit in the middle moving information from one to another.",
     examples:
       "Client and staff onboarding, document processing, moving data between systems, approvals and sign-offs, scheduled reporting, follow-up chasing.",
     price: "From £2,000, 1 to 3 weeks",
@@ -54,7 +54,7 @@ const services = [
   {
     tag: null,
     title: "Sales Workflow Automation",
-    line: "Your salespeople shouldn't spend half their day researching accounts, updating the CRM and writing follow-ups. We automate the repetitive work around the sale, not the relationship itself.",
+    line: "Your salespeople should not spend half their day researching accounts, updating the CRM and writing follow-ups. We automate the repetitive work around the sale, not the relationship itself.",
     examples:
       "Lead research and qualification, CRM enrichment and hygiene, account briefs before meetings, automated follow-up, pipeline reporting.",
     price: "From £2,500, 1 to 3 weeks",
@@ -63,7 +63,7 @@ const services = [
   {
     tag: null,
     title: "Internal AI Tools",
-    line: "Sometimes the problem isn't moving information, it's finding it. We build simple AI tools that help your team use the information sitting in your documents and systems, built around a specific job your team needs to do rather than another generic chatbot.",
+    line: "Sometimes the problem is not moving information, it is finding it. We build simple AI tools that help your team use the information sitting in your documents and systems, built around a specific job your team needs to do rather than another generic chatbot.",
     examples:
       "Company knowledge assistant, question-answering across your documents, contract and lease intelligence, proposal drafting from past work, policy and operations assistants.",
     price: "From £4,000, 2 to 4 weeks",
@@ -79,7 +79,7 @@ const sectors: { title: string; who: string; work?: string }[] = [
   },
   {
     title: "Professional Services",
-    who: "If expensive consultants are spending hours preparing reports, searching old documents or doing repetitive client admin, there's probably work we can remove.",
+    who: "If expensive consultants are spending hours preparing reports, searching old documents or doing repetitive client admin, there is probably work we can remove.",
   },
   {
     title: "Marketing & Digital Agencies",
@@ -150,12 +150,12 @@ const steps = [
     body: "Pick one job your team repeats every week, such as retyping CV fields, tidying CRM records or chasing an approval.",
   },
   {
-    title: "We work out what's happening",
+    title: "We work out what is happening",
     body: "We follow it through the people, the systems and the hand-offs, and count the hours it eats. Then we tell you whether it is worth fixing.",
   },
   {
     title: "We build the simplest solution",
-    body: "That might be an integration, an automation, AI, or a combination of the three. We won't add technology just because we can.",
+    body: "That might be an integration, an automation, AI, or a combination of the three. We will not add technology just because we can.",
   },
   {
     title: "See if it worked",
@@ -166,24 +166,24 @@ const steps = [
 
 const dataPoints = [
   "Wherever possible, we build inside the tools and accounts you already control rather than creating another place to store your data.",
-  "If a workflow uses an AI provider, we'll tell you which one, what information it receives and how that data is handled.",
-  "For sensitive actions such as payments, deletions or customer communications, we'll agree where human approval is required before we build the workflow.",
-  "Before anything connects to your systems, we'll agree the scope, access and data handling with you.",
+  "If a workflow uses an AI provider, we will tell you which one, what information it receives and how that data is handled.",
+  "For sensitive actions such as payments, deletions or customer communications, we will agree where human approval is required before we build the workflow.",
+  "Before anything connects to your systems, we will agree the scope, access and data handling with you.",
 ];
 
 
 const faqs = [
   {
     q: "Do I need to know anything about AI?",
-    a: "No. You don't even need to use AI today. Show us the process that's causing you pain and we'll work out the technology.",
+    a: "No. You do not even need to use AI today. Show us the process that is causing you pain and we will work out the technology.",
   },
   {
     q: "Will this work with our existing software?",
     a: "Usually yes, because most business software can be connected, and where a system is closed we work around it rather than asking you to replace it. We check this during the Workflow Review before quoting anything.",
   },
   {
-    q: "Couldn't I just use Zapier?",
-    a: "Sometimes, yes. If your problem is a straightforward Zapier workflow, we'll tell you. We tend to help when a process crosses several systems, needs judgement or document understanding, or isn't obvious enough to automate from a template.",
+    q: "Could I not just use Zapier?",
+    a: "Sometimes, yes. If your problem is a straightforward Zapier workflow, we will tell you. We tend to help when a process crosses several systems, needs judgement or document understanding, or is not obvious enough to automate from a template.",
   },
   {
     q: "What happens to our data?",
@@ -281,7 +281,7 @@ function Index() {
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
                 Your tools changed.
                 <br />
-                <span className="text-violet">The work didn&rsquo;t.</span>
+                <span className="text-violet">The work did not.</span>
               </h2>
               <p className="mx-auto mt-7 max-w-[620px] text-muted-paper">
                 Most businesses already have plenty of software. The problem is all the work people
@@ -310,7 +310,7 @@ function Index() {
 
             <Reveal className="mx-auto mt-14 max-w-[900px]">
               <p className="text-[1.7rem] font-extrabold leading-[1.15] tracking-[-0.02em] md:text-[2.6rem]">
-                You don&rsquo;t need more technology.{" "}
+                You do not need more technology.{" "}
                 <span className="text-violet">
                   You need the manual work taken off people&rsquo;s desks.
                 </span>
@@ -372,25 +372,25 @@ function Index() {
             <Reveal className="mx-auto max-w-[780px] text-center">
               <Eyebrow>AI, only where it helps</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3rem]">
-                AI isn&rsquo;t
+                AI is not
                 <br />
                 <span className="text-violet">the starting point.</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[620px] text-[18px] text-muted-paper">
-                Some businesses already use AI, others don&rsquo;t, and it doesn&rsquo;t really matter. We
-                start with the work that&rsquo;s taking your team too long.
+                Some businesses already use AI, others do not, and it does not really matter. We
+                start with the work that is taking your team too long.
               </p>
               <p className="mx-auto mt-4 max-w-[620px] text-[18px] text-muted-paper">
-                Sometimes the answer is connecting two systems you already pay for, sometimes it&rsquo;s a
-                straightforward automation, and sometimes AI can do something that wasn&rsquo;t practical
+                Sometimes the answer is connecting two systems you already pay for, sometimes it is a
+                straightforward automation, and sometimes AI can do something that was not practical
                 before.
               </p>
             </Reveal>
 
             <Reveal className="mx-auto mt-14 max-w-[900px] text-center">
               <p className="text-[1.6rem] font-extrabold leading-[1.15] tracking-[-0.02em] md:text-[2.4rem]">
-                We&rsquo;ll use whatever makes the most sense,{" "}
-                <span className="text-violet">and tell you when AI doesn&rsquo;t.</span>
+                We will use whatever makes the most sense,{" "}
+                <span className="text-violet">and tell you when AI does not.</span>
               </p>
             </Reveal>
 
@@ -409,7 +409,7 @@ function Index() {
               </h2>
               <p className="mx-auto mt-6 max-w-[680px] text-[16px] text-muted-on-violet">
                 We are a good fit for growing service businesses where people are expensive, processes have
-                grown organically, and there isn&rsquo;t an engineering team sitting around waiting to
+                grown organically, and there is no engineering team sitting around waiting to
                 automate them.
               </p>
             </Reveal>
@@ -488,7 +488,7 @@ function Index() {
             </ol>
             <Reveal className="mx-auto mt-10 max-w-[620px] text-center">
               <p className="text-[18px] text-muted-paper">
-                Sometimes the answer is that it isn&rsquo;t worth doing, and we&rsquo;ll say so.
+                Sometimes the answer is that it is not worth doing, and we will say so.
               </p>
             </Reveal>
 
@@ -501,21 +501,21 @@ function Index() {
             <Reveal className="mx-auto max-w-[780px] text-center">
               <Eyebrow tone="violet">Why Quietcrew</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
-                We&rsquo;re
+                We are
                 <br />
                 <span className="text-peach">deliberately small.</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[660px] text-[18px] text-muted-on-violet">
-                You won&rsquo;t get a sales team, a six-week discovery exercise and a 70-page transformation
-                plan.
+                You will not get a sales team, a six-week discovery exercise and a 70-page slide
+                deck.
               </p>
               <p className="mx-auto mt-4 max-w-[660px] text-[18px] text-muted-on-violet">
-                You&rsquo;ll speak to the people who understand the problem and the people building the
+                You will speak to the people who understand the problem and the people building the
                 solution.
               </p>
               <p className="mx-auto mt-4 max-w-[660px] text-[18px] text-muted-on-violet">
-                We start small, usually with one annoying workflow. If we can&rsquo;t see a sensible return,
-                we&rsquo;ll tell you. If we can, we&rsquo;ll build it quickly and measure whether it actually
+                We start small, usually with one annoying workflow. If we cannot see a sensible return,
+                we will tell you. If we can, we will build it quickly and measure whether it actually
                 saved your team time. Then you decide whether we do another one.
               </p>
             </Reveal>
@@ -579,13 +579,13 @@ function Index() {
               <Reveal>
                 <Eyebrow tone="violet">Book a Workflow Review</Eyebrow>
                 <h2 className="mt-5 text-[2rem] md:text-[3rem]">
-                  What&rsquo;s still manual
+                  What is still manual
                   <br />
                   <span className="text-peach">in your business?</span>
                 </h2>
                 <p className="mt-6 text-[16px] text-muted-on-violet">
-                  Show us one repetitive process. In 30 minutes we&rsquo;ll map it, tell you what could be
-                  automated, roughly what it would cost, and whether it&rsquo;s worth doing at all.
+                  Show us one repetitive process. In 30 minutes we will map it, tell you what could be
+                  automated, roughly what it would cost, and whether it is worth doing at all.
                 </p>
                 <p className="mt-8 text-[15px] text-muted-on-violet">
                   Prefer email? Write to{" "}
