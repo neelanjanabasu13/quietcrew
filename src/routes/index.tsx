@@ -496,7 +496,8 @@ function Index() {
 
         {/* FAQ */}
         <section id="faq" className="scroll-mt-[110px] bg-white text-ink">
-          <div className="container-page pb-16 md:pb-28">
+          <div className="container-page pt-20 pb-16 md:pt-32 md:pb-28">
+
             <Reveal className="mx-auto max-w-[760px] text-center">
               <Eyebrow>FAQ</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
