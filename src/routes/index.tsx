@@ -281,7 +281,8 @@ function Index() {
                   </a>
                 </div>
                 <p className="mt-4 text-[15px] text-muted-on-violet">
-                  30 minutes. No pitch. One process mapped, and an honest answer.
+                  It takes 30 minutes, there is no pitch, and you leave with one process mapped and an
+                  honest answer about it.
                 </p>
               </Reveal>
             </div>
