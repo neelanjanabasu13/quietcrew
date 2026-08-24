@@ -4,17 +4,20 @@
  */
 
 import { useState, type ReactNode } from "react";
-import { StepSequence } from "@/components/FlowDiagram";
 import { ArtefactTile } from "@/components/Artefacts";
+import { WorkflowRace } from "@/components/WorkflowRace";
 
 export type WorkflowExample = {
   title: string;
   label: string;
   steps: string[];
+  manual: string[];
+  minutesPerManualStep: number;
   before: string;
   approvalIndex: number;
   artefact: ReactNode;
 };
+
 
 export function ExampleTabs({ examples }: { examples: WorkflowExample[] }) {
   const [i, setI] = useState(0);
