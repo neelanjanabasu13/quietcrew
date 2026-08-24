@@ -26,9 +26,15 @@ export function SiteNav() {
           aria-label="Primary"
           className="flex items-center justify-between gap-6 rounded-[999px] bg-white px-5 py-3 soft-shadow"
         >
-          <Link to="/" className="text-[1.05rem] font-extrabold tracking-[-0.02em] text-ink">
-            Quietcrew
+          <Link
+            to="/"
+            aria-label="Quietcrew home"
+            className="text-[1.25rem] font-extrabold leading-none tracking-[-0.03em] text-ink"
+          >
+            <span className="text-violet">Quiet</span>
+            <span className="text-ink">crew</span>
           </Link>
+
 
           <div className="hidden items-center gap-7 md:flex">
             {links.map((l) => (
