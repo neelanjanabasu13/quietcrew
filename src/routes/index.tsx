@@ -266,8 +266,8 @@ function Index() {
 
               <Reveal delay={80}>
                 <p className="max-w-[520px] text-[1.05rem] text-muted-on-violet md:text-[1.15rem]">
-                  We connect the tools you already own and automate the work between them. It runs in the
-                  background. Your team just stops doing it.
+                  We connect the tools you already own and automate the work that sits between them, so it
+                  runs quietly in the background and your team simply stops doing it.
                 </p>
                 <div className="mt-7 flex flex-wrap items-center gap-3">
                   <a href="#book" className="pill-btn btn-white px-7 py-4 text-[1rem]">
