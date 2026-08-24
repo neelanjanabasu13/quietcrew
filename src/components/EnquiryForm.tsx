@@ -136,7 +136,7 @@ export function EnquiryForm() {
       )}
 
       <button type="submit" className="pill-btn btn-primary-dark mt-7 w-full md:w-auto" disabled={submitting}>
-        {submitting ? "Sending" : "Book a free Workflow Review"}
+        {submitting ? "Sending" : "Book a Free Workflow Review"}
       </button>
       <p className="mt-4 text-[15px] text-muted-paper">
         We use your details only to reply to this enquiry. See our{" "}
