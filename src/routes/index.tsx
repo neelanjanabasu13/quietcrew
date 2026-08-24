@@ -165,42 +165,12 @@ const steps = [
 
 
 const dataPoints = [
-  {
-    title: "It stays in your systems.",
-    body: "We build inside your accounts and your storage wherever possible. We orchestrate the work, we don't hold your data.",
-  },
-  {
-    title: "Nothing is used to train AI models.",
-    body: "We use commercial API tiers with training switched off, and we name every provider involved in your build.",
-  },
-  {
-    title: "Written agreements before anything connects.",
-    body: "A data processing agreement and a scope of work signed up front, every time.",
-  },
-  {
-    title: "A person approves anything irreversible.",
-    body: "Payments, deletions and messages to your customers always wait for a human to sign off. Automation does the work, it does not make the decisions.",
-  },
+  "Wherever possible, we build inside the tools and accounts you already control rather than creating another place to store your data.",
+  "If a workflow uses an AI provider, we'll tell you which one, what information it receives and how that data is handled.",
+  "For sensitive actions such as payments, deletions or customer communications, we'll agree where human approval is required before we build the workflow.",
+  "Before anything connects to your systems, we'll agree the scope, access and data handling with you.",
 ];
 
-const whyUs = [
-  {
-    title: "We start with the business problem",
-    body: "The first conversation is about what is costing you time, rather than about whichever technology happens to be fashionable this year.",
-  },
-  {
-    title: "We improve what you already have",
-    body: "There is no rip and replace, so your team keeps working in the systems they already know.",
-  },
-  {
-    title: "You own what we build",
-    body: "Everything runs in your own accounts, which means there is nothing to lock you in and nothing to take away.",
-  },
-  {
-    title: "Small first projects, delivered quickly",
-    body: "Most first projects land in one to four weeks for £2,000 to £10,000, so you can find out whether this works for you without making a large bet.",
-  },
-];
 
 const faqs = [
   {
