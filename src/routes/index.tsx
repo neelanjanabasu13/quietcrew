@@ -45,7 +45,7 @@ const services = [
   {
     tag: "Most common starting point",
     title: "Workflow & Systems Automation",
-    line: "Connect the software you already use and automate the repetitive steps between it.",
+    line: "Your systems probably work fine individually. We connect them so your team doesn't have to sit in the middle moving information from one to another.",
     examples:
       "Client and staff onboarding, document processing, moving data between systems, approvals and sign-offs, scheduled reporting, follow-up chasing.",
     price: "From £2,000, 1 to 3 weeks",
