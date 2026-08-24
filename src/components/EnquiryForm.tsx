@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { submitEnquiry } from "@/lib/enquiries.functions";
+
 
 type Fields = {
   name: string;
@@ -31,6 +33,8 @@ export function EnquiryForm() {
   const [sent, setSent] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [trap, setTrap] = useState("");
+  const send = useServerFn(submitEnquiry);
+
 
   const set = (key: keyof Fields) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setValues((prev) => ({ ...prev, [key]: event.target.value }));
@@ -57,23 +61,26 @@ export function EnquiryForm() {
     if (!validate()) return;
 
     setSubmitting(true);
-    const { error } = await supabase.from("enquiries").insert({
-      name: values.name.trim(),
-      company: values.company.trim(),
-      email: values.email.trim(),
-      company_size: values.companySize,
-      systems: values.systems.trim() || null,
-      manual_work: values.manual.trim() || null,
-    });
-    setSubmitting(false);
-
-    if (error) {
+    try {
+      await send({
+        data: {
+          name: values.name.trim(),
+          company: values.company.trim(),
+          email: values.email.trim(),
+          companySize: values.companySize,
+          systems: values.systems.trim() || undefined,
+          manualWork: values.manual.trim() || undefined,
+        },
+      });
+      setValues(empty);
+      setSent(true);
+    } catch {
       setFormError("Something went wrong sending that. Please email hello@quietcrew.ai instead.");
-      return;
+    } finally {
+      setSubmitting(false);
     }
-    setValues(empty);
-    setSent(true);
   }
+
 
   if (sent) {
     return (
