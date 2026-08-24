@@ -5,7 +5,11 @@ export function SiteFooter() {
     <footer className="on-violet bg-violet-deeper text-white">
       <div className="container-page grid gap-10 py-16 md:grid-cols-3">
         <div>
-          <p className="text-xl font-extrabold tracking-[-0.02em]">Quietcrew</p>
+          <p className="text-[1.6rem] font-extrabold leading-none tracking-[-0.03em]">
+            <span className="text-peach">Quiet</span>
+            <span className="text-white">crew</span>
+          </p>
+
           <p className="mt-3 text-[15px] text-muted-on-violet">The work gets done in the background.</p>
           <a
             href="mailto:hello@quietcrew.ai"
