@@ -43,9 +43,12 @@ export function SiteFooter() {
 
         <div className="text-[14px] text-muted-on-violet">
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted-on-violet">Company</p>
-          <p className="mt-4">Quietcrew Ltd (placeholder)</p>
-          <p>Registered in England and Wales, company number 00000000 (placeholder)</p>
-          <p>Registered address: Address line 1, Town, Postcode (placeholder)</p>
+          <p className="mt-4">Quietcrew, United Kingdom</p>
+          <p>
+            <a href="mailto:hello@quietcrew.co.uk" className="underline underline-offset-4">
+              hello@quietcrew.co.uk
+            </a>
+          </p>
           <p className="mt-5">© {new Date().getFullYear()} Quietcrew. All rights reserved.</p>
         </div>
       </div>
