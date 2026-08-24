@@ -40,7 +40,7 @@ function PrivacyPage() {
             <h2 className="text-2xl">Who we are</h2>
             <p className="mt-3">
               Quietcrew is a United Kingdom business and is the data controller for the personal data
-              described here. You can reach us at hello@quietcrew.co.uk.
+              described here. You can reach us at hello@quietcrew.ai.
             </p>
           </section>
 
@@ -88,7 +88,7 @@ function PrivacyPage() {
             <p className="mt-3">
               Under UK GDPR you can ask for a copy of your personal data, ask us to correct or delete it,
               object to or restrict how we use it, and ask us to transfer it. Write to
-              hello@quietcrew.co.uk and we will respond within one month. If you are unhappy with our
+              hello@quietcrew.ai and we will respond within one month. If you are unhappy with our
               response you can complain to the Information Commissioner&rsquo;s Office at ico.org.uk.
             </p>
           </section>

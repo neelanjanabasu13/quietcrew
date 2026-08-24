@@ -23,7 +23,7 @@ import {
 const TITLE = "Quietcrew | Workflow automation and practical AI for UK businesses";
 const DESCRIPTION =
   "Quietcrew connects the tools you already use and automates the repetitive work around them, so your team stops doing the busywork. Book a free 30 minute Workflow Review.";
-const OG_IMAGE = "https://quietcrew.co.uk/og-quietcrew.jpg";
+const OG_IMAGE = "https://quietcrew.ai/og-quietcrew.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -589,8 +589,8 @@ function Index() {
                 </p>
                 <p className="mt-8 text-[15px] text-muted-on-violet">
                   Prefer email? Write to{" "}
-                  <a href="mailto:hello@quietcrew.co.uk" className="font-semibold text-peach underline underline-offset-4">
-                    hello@quietcrew.co.uk
+                  <a href="mailto:hello@quietcrew.ai" className="font-semibold text-peach underline underline-offset-4">
+                    hello@quietcrew.ai
                   </a>
                   .
                 </p>

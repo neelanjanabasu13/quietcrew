@@ -8,10 +8,10 @@ export function SiteFooter() {
           <p className="text-xl font-extrabold tracking-[-0.02em]">Quietcrew</p>
           <p className="mt-3 text-[15px] text-muted-on-violet">The work gets done in the background.</p>
           <a
-            href="mailto:hello@quietcrew.co.uk"
+            href="mailto:hello@quietcrew.ai"
             className="mt-5 inline-block text-[15px] font-semibold text-peach underline underline-offset-4"
           >
-            hello@quietcrew.co.uk
+            hello@quietcrew.ai
           </a>
         </div>
 
@@ -45,8 +45,8 @@ export function SiteFooter() {
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted-on-violet">Company</p>
           <p className="mt-4">Quietcrew, United Kingdom</p>
           <p>
-            <a href="mailto:hello@quietcrew.co.uk" className="underline underline-offset-4">
-              hello@quietcrew.co.uk
+            <a href="mailto:hello@quietcrew.ai" className="underline underline-offset-4">
+              hello@quietcrew.ai
             </a>
           </p>
           <p className="mt-5">© {new Date().getFullYear()} Quietcrew. All rights reserved.</p>
