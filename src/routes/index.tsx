@@ -189,20 +189,20 @@ const dataPoints = [
 
 const whyUs = [
   {
-    title: "Business problem first.",
-    body: "We start with what's costing you time, not with what technology is fashionable.",
+    title: "We start with the business problem",
+    body: "The first conversation is about what is costing you time, rather than about whichever technology happens to be fashionable this year.",
   },
   {
-    title: "We improve what you already have.",
-    body: "No rip and replace. Your team keeps the systems they know.",
+    title: "We improve what you already have",
+    body: "There is no rip and replace, so your team keeps working in the systems they already know.",
   },
   {
-    title: "You own what we build.",
-    body: "It runs in your accounts. No lock-in.",
+    title: "You own what we build",
+    body: "Everything runs in your own accounts, which means there is nothing to lock you in and nothing to take away.",
   },
   {
-    title: "Fast and small.",
-    body: "Most first projects land in one to four weeks for £2,000 to £10,000, so you find out if this works without a big bet.",
+    title: "Small first projects, delivered quickly",
+    body: "Most first projects land in one to four weeks for £2,000 to £10,000, so you can find out whether this works for you without making a large bet.",
   },
 ];
 
