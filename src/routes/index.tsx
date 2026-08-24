@@ -112,7 +112,7 @@ const examples: {
     label: "Recruitment",
     steps: ["CV arrives", "Details extracted", "ATS updated", "Summary written", "Recruiter notified"],
     before:
-      "Before: someone opens the CV, retypes six fields into the ATS, writes a summary, and forwards it on. Ten minutes, forty times a week.",
+      "Before this ran on its own, someone opened each CV, retyped six fields into the ATS, wrote a summary and forwarded it on, which took about ten minutes and happened forty times a week.",
     approvalIndex: 3,
     artefact: <CandidateSummary />,
   },
@@ -120,7 +120,8 @@ const examples: {
     title: "Sales",
     label: "Sales",
     steps: ["New lead", "Company researched", "Qualified", "CRM enriched", "Brief sent to rep"],
-    before: "Before: the rep Googles the company the morning of the call, if there's time.",
+    before:
+      "Before this ran on its own, the rep researched the company on the morning of the call, whenever there was time for it.",
     approvalIndex: 2,
     artefact: <AccountBrief />,
   },
@@ -129,7 +130,7 @@ const examples: {
     label: "Property",
     steps: ["Lease received", "Key terms extracted", "System updated", "Made searchable", "Team notified"],
     before:
-      "Before: the lease sits in a folder and someone reads all forty pages when a question comes up.",
+      "Before this ran on its own, the lease sat in a folder and somebody read all forty pages each time a question came up.",
     approvalIndex: 1,
     artefact: <LeaseAnswer />,
   },
@@ -137,7 +138,8 @@ const examples: {
     title: "Agency",
     label: "Agencies",
     steps: ["New client won", "Project created", "Tasks generated", "Team assigned", "Onboarding starts"],
-    before: "Before: a half-remembered checklist, done slightly differently every time.",
+    before:
+      "Before this ran on its own, onboarding relied on a half-remembered checklist that was done slightly differently every time.",
     approvalIndex: 3,
     artefact: <WeeklyReport />,
   },
@@ -145,24 +147,24 @@ const examples: {
 
 const steps = [
   {
-    title: "Show us what's still manual.",
-    body: "One process. Tell us where the time goes.",
+    title: "Show us what is still manual",
+    body: "Pick one process and talk us through where the time actually goes.",
   },
   {
-    title: "We map it.",
-    body: "People, systems, steps, handoffs, and what it costs you a year.",
+    title: "We map it",
+    body: "We write down the people, the systems, the steps and the handoffs, along with what the process costs you over a year.",
   },
   {
-    title: "We pick the simplest fix.",
-    body: "Existing software, an integration, automation, AI, or a combination. Sometimes the answer is that it isn't worth doing, and we'll say so.",
+    title: "We pick the simplest fix",
+    body: "That might be existing software, an integration, automation, AI or a combination of them, and if it is not worth doing at all we will say so.",
   },
   {
-    title: "We build it.",
-    body: "Usually one to four weeks, in your systems, with your team involved.",
+    title: "We build it",
+    body: "Most builds take one to four weeks, they run in your systems, and your team is involved as we go.",
   },
   {
-    title: "We measure it.",
-    body: "Time saved, then the next opportunity.",
+    title: "We measure it",
+    body: "We check the time you have got back, then look at where the next hour is going.",
   },
 ];
 
