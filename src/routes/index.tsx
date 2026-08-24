@@ -213,23 +213,23 @@ const faqs = [
   },
   {
     q: "How long does it take?",
-    a: "One to three weeks for most automation work, two to four for internal AI tools.",
+    a: "Most automation work takes one to three weeks, and internal AI tools usually take two to four, depending on how many systems are involved.",
   },
   {
     q: "What if it breaks?",
-    a: "Things change: software updates, APIs move, processes evolve. Every build includes a settling-in period, and we offer an ongoing care plan if you'd rather we look after it permanently.",
+    a: "Things do change, because software updates, interfaces move and processes evolve, so every build includes a settling-in period, and we offer an ongoing care plan if you would rather we looked after it permanently.",
   },
   {
     q: "Do we own what you build?",
-    a: "Yes. It runs in your accounts, under your logins. If you stop working with us, everything keeps running.",
+    a: "Yes, because it runs in your accounts and under your logins, so if you stop working with us everything carries on running exactly as it did.",
   },
   {
     q: "How is this different from hiring a freelancer to set up Zapier?",
-    a: "A freelancer builds the workflow you describe. We work out whether it's the right workflow, what it's actually costing you, and what happens when it hits the exceptions. You're buying the diagnosis and the outcome, not a file.",
+    a: "A freelancer builds the workflow you describe, whereas we work out whether it is the right workflow in the first place, what it is actually costing you, and what should happen when it meets the exceptions, so you are buying the diagnosis and the outcome rather than a file.",
   },
   {
     q: "What if you look at our process and it isn't worth automating?",
-    a: "Then we tell you, and you've lost half an hour. That happens, and we'd rather say it than sell you something you don't need.",
+    a: "Then we tell you and you have lost half an hour, which does happen from time to time, and we would much rather say it than sell you something you do not need.",
   },
 ];
 
