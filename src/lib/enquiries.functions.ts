@@ -11,7 +11,7 @@ const enquirySchema = z.object({
 })
 
 export const submitEnquiry = createServerFn({ method: 'POST' })
-  .inputValidator((data: unknown) => enquirySchema.parse(data))
+  .validator((data: unknown) => enquirySchema.parse(data))
   .handler(async ({ data }) => {
     const { submitEnquiryImpl } = await import('./enquiries.server')
     return submitEnquiryImpl(data)
