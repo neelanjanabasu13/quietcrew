@@ -318,8 +318,8 @@ function Index() {
                 <span className="text-violet">The work didn&rsquo;t.</span>
               </h2>
               <p className="mx-auto mt-7 max-w-[620px] text-muted-paper">
-                You own the systems. Your people still fill the gaps between them by hand, and that time
-                never shows up on a budget line.
+                Most businesses already have plenty of software. The problem is all the work people
+                still do between those systems.
               </p>
             </Reveal>
 
