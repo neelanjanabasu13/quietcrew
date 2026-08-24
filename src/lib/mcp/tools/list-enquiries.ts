@@ -16,6 +16,9 @@ export default defineTool({
       .optional()
       .describe("Optional text to match against the company name or the manual work described."),
   },
+  outputSchema: {
+    enquiries: z.array(z.record(z.string(), z.unknown())),
+  },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ limit, search }, ctx) => {
     if (!ctx.isAuthenticated()) {

@@ -10,6 +10,11 @@ export default defineTool({
   inputSchema: {
     days: z.number().int().min(1).max(365).default(30).describe("How many days back to include."),
   },
+  outputSchema: {
+    windowDays: z.number(),
+    total: z.number(),
+    byCompanySize: z.record(z.string(), z.number()),
+  },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ days }, ctx) => {
     if (!ctx.isAuthenticated()) {

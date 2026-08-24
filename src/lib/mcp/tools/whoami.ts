@@ -1,4 +1,5 @@
 import { defineTool } from "@lovable.dev/mcp-js";
+import { z } from "zod";
 import { supabaseForUser } from "../supabase";
 
 export default defineTool({
@@ -7,6 +8,11 @@ export default defineTool({
   description:
     "Report the signed-in Quietcrew account and whether it holds the administrator role needed to read enquiries.",
   inputSchema: {},
+  outputSchema: {
+    email: z.string().nullable(),
+    roles: z.array(z.string()),
+    isAdmin: z.boolean(),
+  },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async (_input, ctx) => {
     if (!ctx.isAuthenticated()) {
