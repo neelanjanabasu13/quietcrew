@@ -43,7 +43,7 @@ export function SiteNav() {
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
-            <a href="mailto:hello@quietcrew.co.uk" className="pill-btn btn-ghost-light">
+            <a href="mailto:hello@quietcrew.ai" className="pill-btn btn-ghost-light">
               Email us
             </a>
             <a href="/#book" className="pill-btn btn-primary-dark">

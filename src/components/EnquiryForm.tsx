@@ -68,7 +68,7 @@ export function EnquiryForm() {
     setSubmitting(false);
 
     if (error) {
-      setFormError("Something went wrong sending that. Please email hello@quietcrew.co.uk instead.");
+      setFormError("Something went wrong sending that. Please email hello@quietcrew.ai instead.");
       return;
     }
     setValues(empty);
