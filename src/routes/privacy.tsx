@@ -101,7 +101,7 @@ function PrivacyPage() {
             </p>
           </section>
 
-          <p className="text-[15px] text-muted-paper">Last updated: placeholder date.</p>
+          <p className="text-[15px] text-muted-paper">Last updated: August 2026.</p>
         </div>
       </main>
       <SiteFooter />

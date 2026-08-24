@@ -599,19 +599,6 @@ function Index() {
               <Reveal delay={60}>
                 <EnquiryForm />
 
-                <div className="mt-6 rounded-[20px] bg-white/[0.09] p-6">
-                  <p className="eyebrow-on-violet">Or pick a time now</p>
-                  <p className="mt-4 text-[16px] text-muted-on-violet">
-                    Cal.com embed placeholder. Replace the block below with your own Cal.com embed or
-                    booking link (for example cal.com/quietcrew/workflow-review).
-                  </p>
-                  {/* CAL.COM EMBED PLACEHOLDER
-                      Paste the Cal.com inline embed script or iframe here, pointed at
-                      your own booking link. Nothing else on the page needs to change. */}
-                  <div className="mt-5 flex h-32 items-center justify-center rounded-[14px] bg-white/10 text-[14px] text-muted-on-violet">
-                    Cal.com booking embed goes here
-                  </div>
-                </div>
               </Reveal>
             </div>
           </div>
