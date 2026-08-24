@@ -5,7 +5,6 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { LiveWorkflow, Marquee, RotatingWord } from "@/components/LiveWorkflow";
 import {
-  ArtefactTile,
   CandidateSummary,
   AccountBrief,
   LeaseAnswer,
