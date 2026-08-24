@@ -210,7 +210,7 @@ function Index() {
       <main>
         {/* Hero */}
         <section className="on-violet violet-glow relative text-white">
-          <div className="container-page pb-16 pt-[140px] md:pb-24 md:pt-[180px]">
+          <div className="container-page pb-12 pt-[120px] md:pb-16 md:pt-[150px]">
             <div className="grid items-end gap-10 lg:grid-cols-[1.05fr_0.95fr]">
               <Reveal>
                 <h1 className="text-[2.6rem] md:text-[4.4rem]">
@@ -246,7 +246,7 @@ function Index() {
               </Reveal>
             </div>
 
-            <Reveal className="mt-14" delay={120}>
+            <Reveal className="mt-10" delay={120}>
               <LiveWorkflow />
             </Reveal>
           </div>
@@ -314,7 +314,7 @@ function Index() {
               </h2>
             </Reveal>
 
-            <div className="mt-14 grid gap-6 md:grid-cols-3">
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
               {services.map((s, i) => (
                 <Reveal
                   key={s.title}
@@ -348,7 +348,7 @@ function Index() {
 
         {/* AI, only where it helps */}
         <section className="bg-white text-ink">
-          <div className="container-page pb-16 md:pb-28">
+          <div className="container-page pb-12 md:pb-20">
             <Reveal className="mx-auto max-w-[780px] text-center">
               <Eyebrow>AI, only where it helps</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3rem]">
@@ -368,7 +368,7 @@ function Index() {
 
         {/* Who we help + workflow examples: the centrepiece */}
         <section id="who-we-help" className="on-violet violet-glow scroll-mt-[110px] text-white">
-          <div className="container-page py-24 md:py-36">
+          <div className="container-page py-16 md:py-24">
             <Reveal className="mx-auto max-w-[820px] text-center">
               <Eyebrow tone="violet">Who we help</Eyebrow>
               <h2 className="mt-5 text-[2.2rem] md:text-[3.4rem]">
@@ -382,7 +382,7 @@ function Index() {
               </p>
             </Reveal>
 
-            <div className="mt-12 grid gap-5 md:grid-cols-2">
+            <div className="mt-10 grid gap-5 md:grid-cols-2">
               {sectors.map((s, i) => (
                 <Reveal
                   key={s.title}
@@ -401,7 +401,7 @@ function Index() {
             </div>
 
 
-            <Reveal id="examples" className="mx-auto mt-20 max-w-[820px] scroll-mt-[110px] text-center">
+            <Reveal id="examples" className="mx-auto mt-16 max-w-[820px] scroll-mt-[110px] text-center">
               <Eyebrow tone="violet">Workflow examples</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3rem]">
                 What this looks like
@@ -434,7 +434,7 @@ function Index() {
                 <span className="text-violet">annoying workflow.</span>
               </h2>
             </Reveal>
-            <ol className="mt-14 grid gap-6 md:grid-cols-4">
+            <ol className="mt-10 grid gap-6 md:grid-cols-4">
               {steps.map((s, i) => (
                 <Reveal
                   key={s.title}
@@ -478,7 +478,7 @@ function Index() {
               </p>
             </Reveal>
 
-            <Reveal className="mx-auto mt-14 max-w-[880px] rounded-[20px] bg-white/[0.09] p-7 md:p-9">
+            <Reveal className="mx-auto mt-10 max-w-[880px] rounded-[20px] bg-white/[0.09] p-7 md:p-9">
               <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-peach">
                 Data &amp; control
               </p>
@@ -496,7 +496,7 @@ function Index() {
 
         {/* FAQ */}
         <section id="faq" className="scroll-mt-[110px] bg-white text-ink">
-          <div className="container-page pt-20 pb-16 md:pt-32 md:pb-28">
+          <div className="container-page pt-16 pb-12 md:pt-24 md:pb-20">
 
             <Reveal className="mx-auto max-w-[760px] text-center">
               <Eyebrow>FAQ</Eyebrow>
@@ -506,7 +506,7 @@ function Index() {
                 <span className="text-violet">we get asked</span>
               </h2>
             </Reveal>
-            <Reveal className="mx-auto mt-12 max-w-[880px]">
+            <Reveal className="mx-auto mt-10 max-w-[880px]">
               <Accordion type="single" collapsible className="w-full">
                 {faqs.map((f, i) => (
                   <AccordionItem
@@ -528,7 +528,7 @@ function Index() {
         {/* Final CTA */}
         <section id="book" className="on-violet violet-glow scroll-mt-[110px] text-white">
           <div className="container-page section-y">
-            <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
               <Reveal>
                 <Eyebrow tone="violet">Book a Workflow Review</Eyebrow>
                 <h2 className="mt-5 text-[2rem] md:text-[3rem]">
