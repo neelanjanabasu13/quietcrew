@@ -359,9 +359,9 @@ function Index() {
             <Reveal className="mx-auto max-w-[760px] text-center">
               <Eyebrow>What you get</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
-                Three ways we take
+                What we can take
                 <br />
-                <span className="text-violet">work off your desks</span>
+                <span className="text-violet">off your team&rsquo;s plate</span>
               </h2>
             </Reveal>
 
