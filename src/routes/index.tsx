@@ -259,32 +259,7 @@ const dataPoints = [
 ];
 
 
-const faqs = [
-  {
-    q: "Do I need to know anything about AI?",
-    a: "No. You do not even need to use AI today. Show us the process that is causing you pain and we will work out the technology.",
-  },
-  {
-    q: "Will this work with our existing software?",
-    a: "Usually yes, because most business software can be connected, and where a system is closed we work around it rather than asking you to replace it. We check this during the Workflow Review before quoting anything.",
-  },
-  {
-    q: "Could I not just use Zapier?",
-    a: "Sometimes, yes. If your problem is a straightforward Zapier workflow, we will tell you. We tend to help when a process crosses several systems, needs judgement or document understanding, or is not obvious enough to automate from a template.",
-  },
-  {
-    q: "What happens to our data?",
-    a: "It stays in the tools and accounts you already control wherever possible, and if a workflow uses an AI provider we tell you which one and what it receives. We agree scope, access and data handling with you before anything connects.",
-  },
-  {
-    q: "How much does it cost?",
-    a: "Most first projects are £2,000 to £10,000 depending on how many systems are involved. We give a fixed price after the Workflow Review, before any work starts.",
-  },
-  {
-    q: "How long does it take?",
-    a: "Most automation work takes one to three weeks, and internal AI tools usually take two to four, depending on how many systems are involved.",
-  },
-];
+const faqs = faqEntries;
 
 function Eyebrow({ children, tone = "light" }: { children: ReactNode; tone?: "light" | "violet" }) {
   return <p className={tone === "light" ? "eyebrow" : "eyebrow-on-violet"}>{children}</p>;
