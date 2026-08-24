@@ -80,7 +80,7 @@ export function EnquiryForm() {
       <div className="rounded-[20px] bg-white p-8 soft-shadow-lg" role="status" aria-live="polite">
         <p className="eyebrow">Enquiry received</p>
         <h3 className="mt-4 text-2xl text-ink">
-          Thanks. We&rsquo;ll come back to you within one working day.
+          Thanks. We will come back to you within one working day.
         </h3>
         <p className="mt-3 text-[16px] text-muted-paper">
           If it is easier, you can also pick a time directly using the booking option below.
