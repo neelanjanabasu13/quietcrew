@@ -165,42 +165,12 @@ const steps = [
 
 
 const dataPoints = [
-  {
-    title: "It stays in your systems.",
-    body: "We build inside your accounts and your storage wherever possible. We orchestrate the work, we don't hold your data.",
-  },
-  {
-    title: "Nothing is used to train AI models.",
-    body: "We use commercial API tiers with training switched off, and we name every provider involved in your build.",
-  },
-  {
-    title: "Written agreements before anything connects.",
-    body: "A data processing agreement and a scope of work signed up front, every time.",
-  },
-  {
-    title: "A person approves anything irreversible.",
-    body: "Payments, deletions and messages to your customers always wait for a human to sign off. Automation does the work, it does not make the decisions.",
-  },
+  "Wherever possible, we build inside the tools and accounts you already control rather than creating another place to store your data.",
+  "If a workflow uses an AI provider, we'll tell you which one, what information it receives and how that data is handled.",
+  "For sensitive actions such as payments, deletions or customer communications, we'll agree where human approval is required before we build the workflow.",
+  "Before anything connects to your systems, we'll agree the scope, access and data handling with you.",
 ];
 
-const whyUs = [
-  {
-    title: "We start with the business problem",
-    body: "The first conversation is about what is costing you time, rather than about whichever technology happens to be fashionable this year.",
-  },
-  {
-    title: "We improve what you already have",
-    body: "There is no rip and replace, so your team keeps working in the systems they already know.",
-  },
-  {
-    title: "You own what we build",
-    body: "Everything runs in your own accounts, which means there is nothing to lock you in and nothing to take away.",
-  },
-  {
-    title: "Small first projects, delivered quickly",
-    body: "Most first projects land in one to four weeks for £2,000 to £10,000, so you can find out whether this works for you without making a large bet.",
-  },
-];
 
 const faqs = [
   {
@@ -525,25 +495,43 @@ function Index() {
           </div>
         </section>
 
-        {/* Your data stays yours */}
+        {/* Deliberately small + data & control */}
         <section className="on-violet violet-glow text-white">
           <div className="container-page section-y">
-            <Reveal className="mx-auto max-w-[760px] text-center">
-              <Eyebrow tone="violet">How we handle your data</Eyebrow>
+            <Reveal className="mx-auto max-w-[780px] text-center">
+              <Eyebrow tone="violet">Why Quietcrew</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
-                Your data
+                We&rsquo;re
                 <br />
-                <span className="text-peach">stays yours</span>
+                <span className="text-peach">deliberately small.</span>
               </h2>
+              <p className="mx-auto mt-6 max-w-[660px] text-[18px] text-muted-on-violet">
+                You won&rsquo;t get a sales team, a six-week discovery exercise and a 70-page transformation
+                plan.
+              </p>
+              <p className="mx-auto mt-4 max-w-[660px] text-[18px] text-muted-on-violet">
+                You&rsquo;ll speak to the people who understand the problem and the people building the
+                solution.
+              </p>
+              <p className="mx-auto mt-4 max-w-[660px] text-[18px] text-muted-on-violet">
+                We start small, usually with one annoying workflow. If we can&rsquo;t see a sensible return,
+                we&rsquo;ll tell you. If we can, we&rsquo;ll build it quickly and measure whether it actually
+                saved your team time. Then you decide whether we do another one.
+              </p>
             </Reveal>
-            <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {dataPoints.map((d, i) => (
-                <Reveal key={d.title} className="rounded-[20px] bg-white/[0.09] p-6" delay={i * 50}>
-                  <h3 className="text-[1.1rem]">{d.title}</h3>
-                  <p className="mt-3 text-[15px] text-muted-on-violet">{d.body}</p>
-                </Reveal>
-              ))}
-            </div>
+
+            <Reveal className="mx-auto mt-16 max-w-[880px] rounded-[20px] bg-white/[0.09] p-7 md:p-9">
+              <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-peach">
+                Data &amp; control
+              </p>
+              <ul className="mt-6 grid gap-5 md:grid-cols-2">
+                {dataPoints.map((d) => (
+                  <li key={d} className="text-[16px] text-muted-on-violet">
+                    {d}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
 
             <Reveal className="mx-auto mt-12 max-w-[760px]">
               <ArtefactTile tone="violet" className="bg-white/10">
@@ -553,25 +541,6 @@ function Index() {
           </div>
         </section>
 
-        {/* Why Quietcrew */}
-        <section className="bg-white text-ink">
-          <div className="container-page section-y">
-            <Reveal className="mx-auto max-w-[760px] text-center">
-              <Eyebrow>Why Quietcrew</Eyebrow>
-              <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
-                Why <span className="text-violet">Quietcrew</span>
-              </h2>
-            </Reveal>
-            <div className="mt-14 grid gap-6 sm:grid-cols-2">
-              {whyUs.map((w, i) => (
-                <Reveal key={w.title} className="rounded-[20px] bg-cream p-6" delay={i * 50}>
-                  <h3 className="text-[1.15rem]">{w.title}</h3>
-                  <p className="mt-3 text-[16px] text-muted-paper">{w.body}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* FAQ */}
         <section id="faq" className="scroll-mt-[110px] bg-white text-ink">
