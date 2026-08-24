@@ -112,7 +112,7 @@ const examples: {
     label: "Recruitment",
     steps: ["CV arrives", "Details extracted", "ATS updated", "Summary written", "Recruiter notified"],
     before:
-      "Before: someone opens the CV, retypes six fields into the ATS, writes a summary, and forwards it on. Ten minutes, forty times a week.",
+      "Before this ran on its own, someone opened each CV, retyped six fields into the ATS, wrote a summary and forwarded it on, which took about ten minutes and happened forty times a week.",
     approvalIndex: 3,
     artefact: <CandidateSummary />,
   },
@@ -120,7 +120,8 @@ const examples: {
     title: "Sales",
     label: "Sales",
     steps: ["New lead", "Company researched", "Qualified", "CRM enriched", "Brief sent to rep"],
-    before: "Before: the rep Googles the company the morning of the call, if there's time.",
+    before:
+      "Before this ran on its own, the rep researched the company on the morning of the call, whenever there was time for it.",
     approvalIndex: 2,
     artefact: <AccountBrief />,
   },
@@ -129,7 +130,7 @@ const examples: {
     label: "Property",
     steps: ["Lease received", "Key terms extracted", "System updated", "Made searchable", "Team notified"],
     before:
-      "Before: the lease sits in a folder and someone reads all forty pages when a question comes up.",
+      "Before this ran on its own, the lease sat in a folder and somebody read all forty pages each time a question came up.",
     approvalIndex: 1,
     artefact: <LeaseAnswer />,
   },
@@ -137,7 +138,8 @@ const examples: {
     title: "Agency",
     label: "Agencies",
     steps: ["New client won", "Project created", "Tasks generated", "Team assigned", "Onboarding starts"],
-    before: "Before: a half-remembered checklist, done slightly differently every time.",
+    before:
+      "Before this ran on its own, onboarding relied on a half-remembered checklist that was done slightly differently every time.",
     approvalIndex: 3,
     artefact: <WeeklyReport />,
   },
@@ -145,24 +147,24 @@ const examples: {
 
 const steps = [
   {
-    title: "Show us what's still manual.",
-    body: "One process. Tell us where the time goes.",
+    title: "Show us what is still manual",
+    body: "Pick one process and talk us through where the time actually goes.",
   },
   {
-    title: "We map it.",
-    body: "People, systems, steps, handoffs, and what it costs you a year.",
+    title: "We map it",
+    body: "We write down the people, the systems, the steps and the handoffs, along with what the process costs you over a year.",
   },
   {
-    title: "We pick the simplest fix.",
-    body: "Existing software, an integration, automation, AI, or a combination. Sometimes the answer is that it isn't worth doing, and we'll say so.",
+    title: "We pick the simplest fix",
+    body: "That might be existing software, an integration, automation, AI or a combination of them, and if it is not worth doing at all we will say so.",
   },
   {
-    title: "We build it.",
-    body: "Usually one to four weeks, in your systems, with your team involved.",
+    title: "We build it",
+    body: "Most builds take one to four weeks, they run in your systems, and your team is involved as we go.",
   },
   {
-    title: "We measure it.",
-    body: "Time saved, then the next opportunity.",
+    title: "We measure it",
+    body: "We check the time you have got back, then look at where the next hour is going.",
   },
 ];
 
@@ -187,20 +189,20 @@ const dataPoints = [
 
 const whyUs = [
   {
-    title: "Business problem first.",
-    body: "We start with what's costing you time, not with what technology is fashionable.",
+    title: "We start with the business problem",
+    body: "The first conversation is about what is costing you time, rather than about whichever technology happens to be fashionable this year.",
   },
   {
-    title: "We improve what you already have.",
-    body: "No rip and replace. Your team keeps the systems they know.",
+    title: "We improve what you already have",
+    body: "There is no rip and replace, so your team keeps working in the systems they already know.",
   },
   {
-    title: "You own what we build.",
-    body: "It runs in your accounts. No lock-in.",
+    title: "You own what we build",
+    body: "Everything runs in your own accounts, which means there is nothing to lock you in and nothing to take away.",
   },
   {
-    title: "Fast and small.",
-    body: "Most first projects land in one to four weeks for £2,000 to £10,000, so you find out if this works without a big bet.",
+    title: "Small first projects, delivered quickly",
+    body: "Most first projects land in one to four weeks for £2,000 to £10,000, so you can find out whether this works for you without making a large bet.",
   },
 ];
 
@@ -211,23 +213,23 @@ const faqs = [
   },
   {
     q: "How long does it take?",
-    a: "One to three weeks for most automation work, two to four for internal AI tools.",
+    a: "Most automation work takes one to three weeks, and internal AI tools usually take two to four, depending on how many systems are involved.",
   },
   {
     q: "What if it breaks?",
-    a: "Things change: software updates, APIs move, processes evolve. Every build includes a settling-in period, and we offer an ongoing care plan if you'd rather we look after it permanently.",
+    a: "Things do change, because software updates, interfaces move and processes evolve, so every build includes a settling-in period, and we offer an ongoing care plan if you would rather we looked after it permanently.",
   },
   {
     q: "Do we own what you build?",
-    a: "Yes. It runs in your accounts, under your logins. If you stop working with us, everything keeps running.",
+    a: "Yes, because it runs in your accounts and under your logins, so if you stop working with us everything carries on running exactly as it did.",
   },
   {
     q: "How is this different from hiring a freelancer to set up Zapier?",
-    a: "A freelancer builds the workflow you describe. We work out whether it's the right workflow, what it's actually costing you, and what happens when it hits the exceptions. You're buying the diagnosis and the outcome, not a file.",
+    a: "A freelancer builds the workflow you describe, whereas we work out whether it is the right workflow in the first place, what it is actually costing you, and what should happen when it meets the exceptions, so you are buying the diagnosis and the outcome rather than a file.",
   },
   {
     q: "What if you look at our process and it isn't worth automating?",
-    a: "Then we tell you, and you've lost half an hour. That happens, and we'd rather say it than sell you something you don't need.",
+    a: "Then we tell you and you have lost half an hour, which does happen from time to time, and we would much rather say it than sell you something you do not need.",
   },
 ];
 
@@ -264,8 +266,8 @@ function Index() {
 
               <Reveal delay={80}>
                 <p className="max-w-[520px] text-[1.05rem] text-muted-on-violet md:text-[1.15rem]">
-                  We connect the tools you already own and automate the work between them. It runs in the
-                  background. Your team just stops doing it.
+                  We connect the tools you already own and automate the work that sits between them, so it
+                  runs quietly in the background and your team simply stops doing it.
                 </p>
                 <div className="mt-7 flex flex-wrap items-center gap-3">
                   <a href="#book" className="pill-btn btn-white px-7 py-4 text-[1rem]">
@@ -279,7 +281,8 @@ function Index() {
                   </a>
                 </div>
                 <p className="mt-4 text-[15px] text-muted-on-violet">
-                  30 minutes. No pitch. One process mapped, and an honest answer.
+                  It takes 30 minutes, there is no pitch, and you leave with one process mapped and an
+                  honest answer about it.
                 </p>
               </Reveal>
             </div>

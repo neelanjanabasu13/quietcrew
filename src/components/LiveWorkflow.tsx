@@ -100,7 +100,7 @@ export const RUNS: Run[] = [
     ],
     summary:
       "Seven years in analytics, currently leading a small reporting team, looking for a step into management.",
-    before: "Before: someone opens the CV, retypes six fields, writes the summary and forwards it on.",
+    before: "Before this ran on its own, someone opened the CV, retyped six fields, wrote the summary and forwarded it on.",
   },
   {
     tab: "Property",
@@ -123,7 +123,7 @@ export const RUNS: Run[] = [
     ],
     summary:
       "Repair liability sits with the tenant internally, with structural costs recovered through the service charge. Clause 4.2, page 11.",
-    before: "Before: the lease sits in a folder and someone reads forty pages when a question comes up.",
+    before: "Before this ran on its own, the lease sat in a folder and somebody read forty pages whenever a question came up.",
   },
   {
     tab: "Professional services",
@@ -146,7 +146,7 @@ export const RUNS: Run[] = [
     ],
     summary:
       "File opened and the engagement letter drafted. Nothing goes to the client until a partner approves it.",
-    before: "Before: someone rekeys the enquiry, runs the checks by hand and drafts the letter from an old one.",
+    before: "Before this ran on its own, someone rekeyed the enquiry, ran the checks by hand and drafted the letter from an older one.",
   },
   {
     tab: "Agency",
@@ -169,7 +169,7 @@ export const RUNS: Run[] = [
     ],
     summary:
       "Every new project starts the same way, with the same checklist, without anyone remembering to do it.",
-    before: "Before: a half-remembered checklist, done slightly differently every time.",
+    before: "Before this ran on its own, setup relied on a half-remembered checklist that was done slightly differently every time.",
   },
 ];
 
