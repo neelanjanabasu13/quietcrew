@@ -33,6 +33,8 @@ export function EnquiryForm() {
   const [sent, setSent] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [trap, setTrap] = useState("");
+  const send = useServerFn(submitEnquiry);
+
 
   const set = (key: keyof Fields) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setValues((prev) => ({ ...prev, [key]: event.target.value }));
