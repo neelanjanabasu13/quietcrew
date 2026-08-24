@@ -436,13 +436,14 @@ function Index() {
             <Reveal className="mx-auto max-w-[820px] text-center">
               <Eyebrow tone="violet">Who we help</Eyebrow>
               <h2 className="mt-5 text-[2.2rem] md:text-[3.4rem]">
-                Built for firms running
+                The businesses we
                 <br />
-                <span className="text-peach">on several systems</span>
+                <span className="text-peach">tend to be useful for</span>
               </h2>
-              <p className="mx-auto mt-6 max-w-[620px] text-[16px] text-muted-on-violet">
-                Typically service businesses with 15 to 150 people, several systems, and no in-house
-                engineering team.
+              <p className="mx-auto mt-6 max-w-[680px] text-[16px] text-muted-on-violet">
+                We are a good fit for growing service businesses where people are expensive, processes have
+                grown organically, and there isn&rsquo;t an engineering team sitting around waiting to
+                automate them.
               </p>
             </Reveal>
 
@@ -455,10 +456,15 @@ function Index() {
                 >
                   <h3 className="text-[1.2rem]">{s.title}</h3>
                   <p className="mt-3 text-[15px] text-muted-on-violet">{s.who}</p>
-                  <p className="mt-2 text-[15px] text-white">{s.work}</p>
+                  {s.work ? (
+                    <p className="mt-4 text-[13px] font-semibold uppercase tracking-[0.08em] text-peach">
+                      {s.work}
+                    </p>
+                  ) : null}
                 </Reveal>
               ))}
             </div>
+
 
             <Reveal id="examples" className="mx-auto mt-24 max-w-[820px] scroll-mt-[110px] text-center">
               <Eyebrow tone="violet">Workflow examples</Eyebrow>
