@@ -39,7 +39,7 @@ function TermsPage() {
           <section>
             <h2 className="text-2xl">About these terms</h2>
             <p className="mt-3">
-              This website is operated by Quietcrew Ltd (placeholder company number 00000000), registered
+              This website is operated by Quietcrew, a business registered
               in England and Wales. By using the site you accept these terms. If you do not accept them,
               please do not use the site.
             </p>
@@ -91,7 +91,7 @@ function TermsPage() {
             </p>
           </section>
 
-          <p className="text-[15px] text-muted-paper">Last updated: placeholder date.</p>
+          <p className="text-[15px] text-muted-paper">Last updated: August 2026.</p>
         </div>
       </main>
       <SiteFooter />

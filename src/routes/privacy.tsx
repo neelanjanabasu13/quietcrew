@@ -39,8 +39,7 @@ function PrivacyPage() {
           <section>
             <h2 className="text-2xl">Who we are</h2>
             <p className="mt-3">
-              Quietcrew Ltd (placeholder company number 00000000), registered in England and Wales at
-              Address line 1, Town, Postcode (placeholder), is the data controller for the personal data
+              Quietcrew is a United Kingdom business and is the data controller for the personal data
               described here. You can reach us at hello@quietcrew.co.uk.
             </p>
           </section>
@@ -102,7 +101,7 @@ function PrivacyPage() {
             </p>
           </section>
 
-          <p className="text-[15px] text-muted-paper">Last updated: placeholder date.</p>
+          <p className="text-[15px] text-muted-paper">Last updated: August 2026.</p>
         </div>
       </main>
       <SiteFooter />
