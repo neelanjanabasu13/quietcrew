@@ -300,16 +300,6 @@ function Index() {
                 </span>
               ))}
             </Reveal>
-
-
-            <Reveal className="mx-auto mt-14 max-w-[900px]">
-              <p className="text-[1.7rem] font-extrabold leading-[1.15] tracking-[-0.02em] md:text-[2.6rem]">
-                You do not need more technology.{" "}
-                <span className="text-violet">
-                  You need the manual work taken off people&rsquo;s desks.
-                </span>
-              </p>
-            </Reveal>
           </div>
         </section>
 
@@ -350,10 +340,7 @@ function Index() {
                         </li>
                       ))}
                   </ul>
-                  <p className="mt-5 text-[15px] font-semibold text-violet">{s.price}</p>
-                  <div className="mt-auto pt-6">
-                    <ArtefactTile tone={i === 2 ? "peach" : "violet"}>{s.artefact}</ArtefactTile>
-                  </div>
+                  <p className="mt-auto pt-5 text-[15px] font-semibold text-violet">{s.price}</p>
                 </Reveal>
               ))}
             </div>
@@ -371,23 +358,12 @@ function Index() {
                 <span className="text-violet">the starting point.</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[620px] text-[18px] text-muted-paper">
-                Some businesses already use AI, others do not, and it does not really matter. We
-                start with the work that is taking your team too long.
-              </p>
-              <p className="mx-auto mt-4 max-w-[620px] text-[18px] text-muted-paper">
-                Sometimes the answer is connecting two systems you already pay for, sometimes it is a
-                straightforward automation, and sometimes AI can do something that was not practical
-                before.
+                We start with the work that is taking your team too long. Sometimes the answer is
+                connecting two systems you already pay for, sometimes a straightforward automation, and
+                sometimes AI can do something that was not practical before. We will use whatever makes
+                the most sense, and tell you when AI does not.
               </p>
             </Reveal>
-
-            <Reveal className="mx-auto mt-14 max-w-[900px] text-center">
-              <p className="text-[1.6rem] font-extrabold leading-[1.15] tracking-[-0.02em] md:text-[2.4rem]">
-                We will use whatever makes the most sense,{" "}
-                <span className="text-violet">and tell you when AI does not.</span>
-              </p>
-            </Reveal>
-
           </div>
         </section>
 
@@ -402,9 +378,8 @@ function Index() {
                 <span className="text-peach">tend to be useful for</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[680px] text-[16px] text-muted-on-violet">
-                We are a good fit for growing service businesses where people are expensive, processes have
-                grown organically, and there is no engineering team sitting around waiting to
-                automate them.
+                Growing service businesses where people are expensive, processes grew organically and
+                nobody has time to automate them.
               </p>
             </Reveal>
 
@@ -427,26 +402,22 @@ function Index() {
             </div>
 
 
-            <Reveal id="examples" className="mx-auto mt-24 max-w-[820px] scroll-mt-[110px] text-center">
+            <Reveal id="examples" className="mx-auto mt-20 max-w-[820px] scroll-mt-[110px] text-center">
               <Eyebrow tone="violet">Workflow examples</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3rem]">
                 What this looks like
                 <br />
                 <span className="text-peach">in practice</span>
               </h2>
-              <p className="mx-auto mt-6 max-w-[560px] text-[16px] text-muted-on-violet">
-                Pick the one that looks like your business.
-              </p>
             </Reveal>
 
-            <Reveal className="mt-14">
+            <Reveal className="mt-12">
               <ExampleTabs examples={examples} />
             </Reveal>
 
-            <Reveal className="mt-10 text-center">
+            <Reveal className="mt-8 text-center">
               <p className="text-[14px] text-muted-on-violet">
-                Illustrative workflows. Real client examples and figures will be published as engagements
-                complete.
+                Illustrative workflows, not client results.
               </p>
             </Reveal>
           </div>
@@ -485,7 +456,6 @@ function Index() {
                 Sometimes the answer is that it is not worth doing, and we will say so.
               </p>
             </Reveal>
-
           </div>
         </section>
 
