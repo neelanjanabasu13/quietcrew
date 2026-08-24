@@ -500,21 +500,16 @@ function Index() {
                 <span className="text-peach">deliberately small.</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[660px] text-[18px] text-muted-on-violet">
-                You will not get a sales team, a six-week discovery exercise and a 70-page slide
-                deck.
+                There is no sales team and no six-week discovery exercise, so you speak to the people
+                who understand the problem and build the solution.
               </p>
               <p className="mx-auto mt-4 max-w-[660px] text-[18px] text-muted-on-violet">
-                You will speak to the people who understand the problem and the people building the
-                solution.
-              </p>
-              <p className="mx-auto mt-4 max-w-[660px] text-[18px] text-muted-on-violet">
-                We start small, usually with one annoying workflow. If we cannot see a sensible return,
-                we will tell you. If we can, we will build it quickly and measure whether it actually
-                saved your team time. Then you decide whether we do another one.
+                We start with one annoying workflow, build it quickly and measure the hours it gave
+                back. Then you decide whether we do another one.
               </p>
             </Reveal>
 
-            <Reveal className="mx-auto mt-16 max-w-[880px] rounded-[20px] bg-white/[0.09] p-7 md:p-9">
+            <Reveal className="mx-auto mt-14 max-w-[880px] rounded-[20px] bg-white/[0.09] p-7 md:p-9">
               <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-peach">
                 Data &amp; control
               </p>
@@ -525,12 +520,6 @@ function Index() {
                   </li>
                 ))}
               </ul>
-            </Reveal>
-
-            <Reveal className="mx-auto mt-12 max-w-[760px]">
-              <ArtefactTile tone="violet" className="bg-white/10">
-                <WeeklyReport />
-              </ArtefactTile>
             </Reveal>
           </div>
         </section>
