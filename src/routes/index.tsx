@@ -93,7 +93,7 @@ const sectors: { title: string; who: string; work?: string }[] = [
   },
   {
     title: "Accounting & Bookkeeping",
-    who: "Lots of documents, lots of recurring processes and lots of information moving between clients, people and systems. That's usually fertile ground for automation.",
+    who: "Invoices and receipts to sort, the same month-end checks every month, and records to keep straight across your practice software, so there is usually plenty here worth automating.",
   },
 ];
 
@@ -147,19 +147,19 @@ const examples: {
 const steps = [
   {
     title: "Show us the annoying bit",
-    body: "Pick one process your team does again and again.",
+    body: "Pick one job your team repeats every week, such as retyping CV fields, tidying CRM records or chasing an approval.",
   },
   {
     title: "We work out what's happening",
-    body: "We map the people, systems, hand-offs and time involved. Then we tell you whether it's worth fixing.",
+    body: "We follow it through the people, the systems and the hand-offs, and count the hours it eats. Then we tell you whether it is worth fixing.",
   },
   {
     title: "We build the simplest solution",
-    body: "That might be an integration, automation, AI, or a combination. We won't add technology just because we can.",
+    body: "That might be an integration, an automation, AI, or a combination of the three. We won't add technology just because we can.",
   },
   {
     title: "See if it worked",
-    body: "We measure the time saved. If there's another workflow worth tackling, we move onto that.",
+    body: "We measure the hours it gave back. If there is another job worth tackling, we move onto that one.",
   },
 ];
 
