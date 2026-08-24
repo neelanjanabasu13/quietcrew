@@ -54,7 +54,7 @@ const services = [
   {
     tag: null,
     title: "Sales Workflow Automation",
-    line: "Take the admin out of selling so your people spend the time actually selling.",
+    line: "Your salespeople shouldn't spend half their day researching accounts, updating the CRM and writing follow-ups. We automate the repetitive work around the sale, not the relationship itself.",
     examples:
       "Lead research and qualification, CRM enrichment and hygiene, account briefs before meetings, automated follow-up, pipeline reporting.",
     price: "From £2,500, 1 to 3 weeks",
