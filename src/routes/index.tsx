@@ -71,33 +71,32 @@ const services = [
   },
 ];
 
-const sectors = [
+const sectors: { title: string; who: string; work?: string }[] = [
   {
     title: "Recruitment & Staffing",
-    who: "Recruitment agencies, executive search, staffing firms.",
-    work: "Candidate processing, ATS and CRM admin, research, client reporting, sales admin.",
+    who: "Your recruiters should be talking to candidates and clients, not copying CVs into an ATS or cleaning up CRM records.",
+    work: "CV → extract details → ATS → summary → recruiter",
   },
   {
     title: "Professional Services",
-    who: "Consultancies, advisory and specialist B2B firms.",
-    work: "Document work, research, reporting, knowledge retrieval, client administration.",
+    who: "If expensive consultants are spending hours preparing reports, searching old documents or doing repetitive client admin, there's probably work we can remove.",
   },
   {
     title: "Marketing & Digital Agencies",
-    who: "Marketing, digital, branding, web, design and PR.",
-    work: "Client onboarding, project setup, reporting, CRM, sales admin.",
+    who: "The work around client delivery adds up: onboarding, project setup, reporting, CRM updates and all the little hand-offs nobody wants to own.",
+    work: "Client won → project → tasks → onboarding",
   },
   {
     title: "Property",
-    who: "Estate and letting agents, property managers, commercial property firms.",
-    work: "Enquiry handling, leases and documents, approvals, system updates.",
+    who: "Enquiries, leases, documents, approvals and updates across multiple systems create a surprising amount of admin.",
+    work: "Lease → extract key information → searchable → team",
   },
   {
     title: "Accounting & Bookkeeping",
-    who: "Practices, bookkeepers, outsourced finance and payroll.",
-    work: "Document processing, onboarding, approvals, reporting, data entry.",
+    who: "Lots of documents, lots of recurring processes and lots of information moving between clients, people and systems. That's usually fertile ground for automation.",
   },
 ];
+
 
 const examples: {
   title: string;
