@@ -33,6 +33,11 @@ export function SiteFooter() {
               </a>
             </li>
             <li>
+              <Link to="/company-information" className="text-[15px] font-semibold text-white hover:text-peach">
+                Company information
+              </Link>
+            </li>
+            <li>
               <Link to="/privacy" className="text-[15px] font-semibold text-white hover:text-peach">
                 Privacy
               </Link>
@@ -47,7 +52,7 @@ export function SiteFooter() {
 
         <div className="text-[14px] text-muted-on-violet">
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted-on-violet">Company</p>
-          <p className="mt-4">Quietcrew Ltd</p>
+          <p className="mt-4">QUIETCREW LTD · Registered in England and Wales · Company number 17444773</p>
           <p>
             <a href="mailto:hello@quietcrew.ai" className="underline underline-offset-4">
               hello@quietcrew.ai
