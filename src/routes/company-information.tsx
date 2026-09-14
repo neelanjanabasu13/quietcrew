@@ -54,6 +54,12 @@ function CompanyInformationPage() {
                 <dt className="text-[14px] font-semibold text-muted-paper">Incorporated</dt>
                 <dd className="font-semibold text-ink">7 September 2026</dd>
               </div>
+              <div className="flex flex-col gap-1 md:col-span-2">
+                <dt className="text-[14px] font-semibold text-muted-paper">Registered office</dt>
+                <dd className="font-semibold text-ink">
+                  Flat 23 Princess Court, 105 Hornsey Lane, London, England, N6 5XD
+                </dd>
+              </div>
             </dl>
           </section>
 
