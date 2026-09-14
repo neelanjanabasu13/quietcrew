@@ -47,7 +47,7 @@ export function SiteFooter() {
 
         <div className="text-[14px] text-muted-on-violet">
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted-on-violet">Company</p>
-          <p className="mt-4">Quietcrew, United Kingdom</p>
+          <p className="mt-4">Quietcrew Ltd</p>
           <p>
             <a href="mailto:hello@quietcrew.ai" className="underline underline-offset-4">
               hello@quietcrew.ai
