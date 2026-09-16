@@ -28,6 +28,11 @@ export function SiteFooter() {
               </a>
             </li>
             <li>
+              <Link to="/goldmine" className="text-[15px] font-semibold text-white hover:text-peach">
+                Goldmine
+              </Link>
+            </li>
+            <li>
               <a href="/#book" className="text-[15px] font-semibold text-white hover:text-peach">
                 Book a Workflow Review
               </a>
