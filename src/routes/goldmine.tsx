@@ -9,30 +9,61 @@ const TITLE = "Goldmine by Quietcrew | Local prospect discovery for agencies";
 const DESCRIPTION =
   "Goldmine finds local businesses in a London area and category you choose, checks their customer reputation against what Gemini, OpenAI and Claude actually say about them, and prepares the evidence and outreach drafts.";
 
-// The engine accepts any area or neighbourhood name as free text, so the field is a
-// searchable input with suggestions rather than a short fixed list.
-const localities = [
-  "Acton", "Angel", "Archway", "Balham", "Barnes", "Barnet", "Battersea", "Bayswater",
-  "Beckenham", "Belsize Park", "Bermondsey", "Bethnal Green", "Blackheath", "Bloomsbury",
-  "Bounds Green", "Bow", "Brentford", "Brixton", "Bromley", "Camberwell", "Camden Town",
-  "Canary Wharf", "Catford", "Chalk Farm", "Chelsea", "Chingford", "Chiswick", "Clapham",
-  "Clapton", "Clerkenwell", "Colliers Wood", "Covent Garden", "Cricklewood", "Crouch End",
-  "Croydon", "Crystal Palace", "Dalston", "Dulwich", "Ealing", "Earlsfield", "East Dulwich",
-  "Edgware", "Eltham", "Enfield", "Finchley", "Finsbury Park", "Forest Hill", "Fulham",
-  "Golders Green", "Greenwich", "Hackney", "Hammersmith", "Hampstead", "Hanwell", "Harringay",
-  "Harrow", "Hendon", "Herne Hill", "Highbury", "Highgate", "Holborn", "Holloway", "Hornsey",
-  "Hounslow", "Ilford", "Islington", "Kennington", "Kensal Rise", "Kensington", "Kentish Town",
-  "Kilburn", "Kingston upon Thames", "Lewisham", "Leyton", "Leytonstone", "Maida Vale",
-  "Marylebone", "Mayfair", "Mill Hill", "Mitcham", "Morden", "Mortlake", "Muswell Hill",
-  "New Cross", "Notting Hill", "Nunhead", "Palmers Green", "Peckham", "Pimlico", "Putney",
-  "Queens Park", "Raynes Park", "Richmond", "Romford", "Ruislip", "Shepherd's Bush",
-  "Shoreditch", "Sidcup", "Soho", "South Woodford", "Southfields", "Southgate", "Stanmore",
-  "Stepney", "Stockwell", "Stoke Newington", "Storeys Gate", "Stratford", "Streatham",
-  "Surbiton", "Sutton", "Swiss Cottage", "Sydenham", "Teddington", "Thornton Heath",
-  "Tooting", "Tottenham", "Tufnell Park", "Twickenham", "Vauxhall", "Walthamstow",
-  "Wandsworth", "Wanstead", "Wembley", "West Hampstead", "West Norwood", "Westminster",
-  "Whetstone", "Willesden Green", "Wimbledon", "Winchmore Hill", "Woodford", "Woolwich",
+// Areas are grouped by London region, the same way the engine groups them.
+const localityGroups: { region: string; areas: string[] }[] = [
+  {
+    region: "Central London",
+    areas: [
+      "Bayswater", "Bloomsbury", "Chelsea", "Clerkenwell", "Covent Garden", "Holborn",
+      "Kensington", "Marylebone", "Mayfair", "Notting Hill", "Pimlico", "Soho", "Westminster",
+    ],
+  },
+  {
+    region: "North London",
+    areas: [
+      "Angel", "Archway", "Barnet", "Belsize Park", "Camden Town", "Crouch End", "Finchley",
+      "Finsbury Park", "Golders Green", "Hampstead", "Harringay", "Hendon", "Highbury",
+      "Highgate", "Holloway", "Hornsey", "Islington", "Kentish Town", "Mill Hill",
+      "Muswell Hill", "Palmers Green", "Southgate", "Stoke Newington", "Tottenham",
+      "Tufnell Park", "Whetstone", "Winchmore Hill", "Wood Green",
+    ],
+  },
+  {
+    region: "East London",
+    areas: [
+      "Bethnal Green", "Bow", "Canary Wharf", "Chingford", "Clapton", "Dalston", "Hackney",
+      "Ilford", "Leyton", "Leytonstone", "Romford", "Shoreditch", "South Woodford", "Stepney",
+      "Stratford", "Walthamstow", "Wanstead", "Woodford",
+    ],
+  },
+  {
+    region: "South London",
+    areas: [
+      "Balham", "Battersea", "Beckenham", "Bermondsey", "Blackheath", "Brixton", "Bromley",
+      "Camberwell", "Catford", "Clapham", "Croydon", "Crystal Palace", "Dulwich",
+      "East Dulwich", "Eltham", "Forest Hill", "Greenwich", "Herne Hill", "Kennington",
+      "Lewisham", "New Cross", "Nunhead", "Peckham", "Sidcup", "Stockwell", "Streatham",
+      "Sydenham", "Thornton Heath", "Tooting", "Vauxhall", "West Norwood", "Woolwich",
+    ],
+  },
+  {
+    region: "West London",
+    areas: [
+      "Acton", "Barnes", "Brentford", "Chiswick", "Cricklewood", "Ealing", "Fulham",
+      "Hammersmith", "Hanwell", "Harrow", "Hounslow", "Kensal Rise", "Kilburn", "Maida Vale",
+      "Queens Park", "Richmond", "Ruislip", "Shepherd's Bush", "Stanmore", "Swiss Cottage",
+      "Teddington", "Twickenham", "Wembley", "West Hampstead", "Willesden Green",
+    ],
+  },
+  {
+    region: "South West London",
+    areas: [
+      "Colliers Wood", "Earlsfield", "Kingston upon Thames", "Mitcham", "Morden", "Mortlake",
+      "Putney", "Raynes Park", "Southfields", "Surbiton", "Sutton", "Wandsworth", "Wimbledon",
+    ],
+  },
 ];
+
 
 // These match the categories the engine currently supports.
 const categories = [
