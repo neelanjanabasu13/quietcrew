@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -441,6 +441,38 @@ function Index() {
                 </Reveal>
               ))}
             </div>
+
+            {/* Goldmine: a Quietcrew service, highlighted */}
+            <Reveal className="mt-6">
+              <div className="on-violet violet-glow rounded-[24px] p-7 text-white soft-shadow-lg md:p-10">
+                <div className="grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
+                  <div>
+                    <p className="eyebrow-on-violet">One of our services</p>
+                    <h3 className="mt-4 text-[1.7rem] md:text-[2.2rem]">
+                      Goldmine <span className="text-peach">by Quietcrew</span>
+                    </h3>
+                    <p className="mt-4 max-w-[600px] text-[16px] text-muted-on-violet">
+                      A product for SEO and marketing agencies. Choose a London area and a business
+                      category, and Goldmine finds the businesses there, weighs their customer
+                      reputation against what Gemini, OpenAI and Claude actually say about them, and
+                      prepares the evidence and the first outreach drafts. You decide whom to
+                      approach.
+                    </p>
+                    <p className="mt-5 text-[15px] font-semibold text-peach">
+                      £19 per area and category scan, introductory price
+                    </p>
+                  </div>
+                  <div className="lg:justify-self-end">
+                    <Link
+                      to="/goldmine"
+                      className="pill-btn btn-white inline-block px-7 py-4 text-[1rem]"
+                    >
+                      See Goldmine
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </section>
 
