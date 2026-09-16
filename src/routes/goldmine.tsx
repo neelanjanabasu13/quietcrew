@@ -9,29 +9,43 @@ const TITLE = "Goldmine by Quietcrew | Local prospect discovery for agencies";
 const DESCRIPTION =
   "Goldmine finds local businesses in a London area and category you choose, checks their customer reputation against what Gemini, OpenAI and Claude actually say about them, and prepares the evidence and outreach drafts.";
 
+// The engine accepts any area or neighbourhood name as free text, so the field is a
+// searchable input with suggestions rather than a short fixed list.
 const localities = [
-  "Camden",
-  "Clapham",
-  "Crouch End",
-  "Ealing",
-  "Hackney",
-  "Highgate",
-  "Islington",
-  "Putney",
-  "Shoreditch",
-  "Wimbledon",
+  "Acton", "Angel", "Archway", "Balham", "Barnes", "Barnet", "Battersea", "Bayswater",
+  "Beckenham", "Belsize Park", "Bermondsey", "Bethnal Green", "Blackheath", "Bloomsbury",
+  "Bounds Green", "Bow", "Brentford", "Brixton", "Bromley", "Camberwell", "Camden Town",
+  "Canary Wharf", "Catford", "Chalk Farm", "Chelsea", "Chingford", "Chiswick", "Clapham",
+  "Clapton", "Clerkenwell", "Colliers Wood", "Covent Garden", "Cricklewood", "Crouch End",
+  "Croydon", "Crystal Palace", "Dalston", "Dulwich", "Ealing", "Earlsfield", "East Dulwich",
+  "Edgware", "Eltham", "Enfield", "Finchley", "Finsbury Park", "Forest Hill", "Fulham",
+  "Golders Green", "Greenwich", "Hackney", "Hammersmith", "Hampstead", "Hanwell", "Harringay",
+  "Harrow", "Hendon", "Herne Hill", "Highbury", "Highgate", "Holborn", "Holloway", "Hornsey",
+  "Hounslow", "Ilford", "Islington", "Kennington", "Kensal Rise", "Kensington", "Kentish Town",
+  "Kilburn", "Kingston upon Thames", "Lewisham", "Leyton", "Leytonstone", "Maida Vale",
+  "Marylebone", "Mayfair", "Mill Hill", "Mitcham", "Morden", "Mortlake", "Muswell Hill",
+  "New Cross", "Notting Hill", "Nunhead", "Palmers Green", "Peckham", "Pimlico", "Putney",
+  "Queens Park", "Raynes Park", "Richmond", "Romford", "Ruislip", "Shepherd's Bush",
+  "Shoreditch", "Sidcup", "Soho", "South Woodford", "Southfields", "Southgate", "Stanmore",
+  "Stepney", "Stockwell", "Stoke Newington", "Storeys Gate", "Stratford", "Streatham",
+  "Surbiton", "Sutton", "Swiss Cottage", "Sydenham", "Teddington", "Thornton Heath",
+  "Tooting", "Tottenham", "Tufnell Park", "Twickenham", "Vauxhall", "Walthamstow",
+  "Wandsworth", "Wanstead", "Wembley", "West Hampstead", "West Norwood", "Westminster",
+  "Whetstone", "Willesden Green", "Wimbledon", "Winchmore Hill", "Woodford", "Woolwich",
 ];
 
+// These match the categories the engine currently supports.
 const categories = [
-  "Accountants",
-  "Dentists",
-  "Estate agents",
-  "Independent gyms",
-  "Law firms",
-  "Physiotherapists",
   "Restaurants and cafés",
-  "Salons and barbers",
+  "Beauty and aesthetics",
+  "Dental",
+  "Fitness",
+  "Legal",
+  "Home services",
+  "Estate agencies",
+  "Hair",
 ];
+
 
 const providers = ["Gemini", "OpenAI", "Claude"];
 
