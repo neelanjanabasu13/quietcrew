@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
+import { GoldmineResults } from "@/components/GoldmineResults";
 
 const TITLE = "Goldmine by Quietcrew | Local prospect discovery for agencies";
 const DESCRIPTION =
@@ -152,6 +153,28 @@ function Goldmine() {
                   will start working when it is connected.
                 </p>
               </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Results preview, fixture data only */}
+        <section className="bg-white text-ink">
+          <div className="container-page section-y">
+            <Reveal className="mx-auto max-w-[760px] text-center">
+              <Eyebrow>Results preview</Eyebrow>
+              <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
+                What a finished scan
+                <br />
+                <span className="text-violet">looks like to read</span>
+              </h2>
+              <p className="mx-auto mt-6 max-w-[640px] text-muted-paper">
+                The screen below is filled with example data so you can see how results arrive and
+                how the drafts sit alongside them. No provider is contacted from this page.
+              </p>
+            </Reveal>
+
+            <Reveal className="mt-10">
+              <GoldmineResults />
             </Reveal>
           </div>
         </section>
