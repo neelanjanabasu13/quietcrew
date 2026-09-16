@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { normaliseEngineScan } from "./orders.server";
+import { mapRunStatus, normaliseEngineRun, normaliseOutreach } from "./mapping";
 import { fixturePendingSnapshot, fixtureSnapshot } from "./fixtures";
-import { deriveStatus } from "./types";
 
 describe("Goldmine fixtures", () => {
   it("labels every fixture snapshot as example data", () => {
