@@ -175,7 +175,7 @@ export async function readScanForOrder(orderId: string, userId: string): Promise
     const snapshot = normaliseEngineScan(payload, order.locality, order.category);
     await supabaseAdmin
       .from("goldmine_orders")
-      .update({ scan_status: snapshot.status, results: snapshot as unknown as Record<string, unknown> })
+      .update({ scan_status: snapshot.status, results: JSON.parse(JSON.stringify(snapshot)) })
       .eq("id", orderId);
     return snapshot;
   } catch (err) {
@@ -276,7 +276,7 @@ export async function recordPaymentEvent(input: {
     provider: input.provider,
     event_id: input.eventId,
     order_id: input.orderId,
-    payload: input.payload as Record<string, unknown>,
+    payload: JSON.parse(JSON.stringify(input.payload ?? null)),
   });
 
   if (error) {
