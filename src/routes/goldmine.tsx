@@ -94,8 +94,8 @@ function Goldmine() {
             <Reveal className="mx-auto mt-10 max-w-[720px]" delay={80}>
               <div className="rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-8">
                 <p className="text-[15px] text-muted-paper">
-                  Example choices are shown here so you can see how the intake works. The live
-                  version will list exactly the areas and categories the engine supports.
+                  The scan runs on any London area you type. The list of suggestions is there to
+                  help, not to limit you.
                 </p>
 
                 <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -103,25 +103,25 @@ function Goldmine() {
                     <label htmlFor="goldmine-locality" className="mono-label text-muted-paper">
                       Locality
                     </label>
-                    <select
+                    <input
                       id="goldmine-locality"
+                      type="text"
+                      list="goldmine-locality-options"
+                      autoComplete="off"
+                      placeholder="Start typing, for example Muswell Hill"
                       aria-describedby="goldmine-locality-help"
                       className="mt-2 w-full rounded-[16px] border border-border bg-white px-4 py-3 text-[16px] font-semibold text-ink"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        Choose a London area
-                      </option>
+                    />
+                    <datalist id="goldmine-locality-options">
                       {localities.map((l) => (
-                        <option key={l} value={l}>
-                          {l}
-                        </option>
+                        <option key={l} value={l} />
                       ))}
-                    </select>
+                    </datalist>
                     <p id="goldmine-locality-help" className="mt-2 text-[13px] text-muted-paper">
-                      One London area, for example Highgate.
+                      Any London area or neighbourhood, for example Highgate or Muswell Hill.
                     </p>
                   </div>
+
                   <div>
                     <label htmlFor="goldmine-category" className="mono-label text-muted-paper">
                       Business category
