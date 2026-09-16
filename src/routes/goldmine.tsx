@@ -14,6 +14,7 @@ const localities = [
   "Crouch End",
   "Ealing",
   "Hackney",
+  "Highgate",
   "Islington",
   "Putney",
   "Shoreditch",
@@ -27,7 +28,7 @@ const categories = [
   "Independent gyms",
   "Law firms",
   "Physiotherapists",
-  "Restaurants",
+  "Restaurants and cafés",
   "Salons and barbers",
 ];
 
@@ -77,13 +78,19 @@ function Goldmine() {
             {/* Intake card: selects wired, scan action disabled until the engine is hosted */}
             <Reveal className="mx-auto mt-10 max-w-[720px]" delay={80}>
               <div className="rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-8">
-                <div className="grid gap-4 md:grid-cols-2">
+                <p className="text-[15px] text-muted-paper">
+                  Example choices are shown here so you can see how the intake works. The live
+                  version will list exactly the areas and categories the engine supports.
+                </p>
+
+                <div className="mt-5 grid gap-4 md:grid-cols-2">
                   <div>
                     <label htmlFor="goldmine-locality" className="mono-label text-muted-paper">
                       Locality
                     </label>
                     <select
                       id="goldmine-locality"
+                      aria-describedby="goldmine-locality-help"
                       className="mt-2 w-full rounded-[16px] border border-border bg-white px-4 py-3 text-[16px] font-semibold text-ink"
                       defaultValue=""
                     >
@@ -96,6 +103,9 @@ function Goldmine() {
                         </option>
                       ))}
                     </select>
+                    <p id="goldmine-locality-help" className="mt-2 text-[13px] text-muted-paper">
+                      One London area, for example Highgate.
+                    </p>
                   </div>
                   <div>
                     <label htmlFor="goldmine-category" className="mono-label text-muted-paper">
@@ -103,6 +113,7 @@ function Goldmine() {
                     </label>
                     <select
                       id="goldmine-category"
+                      aria-describedby="goldmine-category-help"
                       className="mt-2 w-full rounded-[16px] border border-border bg-white px-4 py-3 text-[16px] font-semibold text-ink"
                       defaultValue=""
                     >
@@ -115,8 +126,18 @@ function Goldmine() {
                         </option>
                       ))}
                     </select>
+                    <p id="goldmine-category-help" className="mt-2 text-[13px] text-muted-paper">
+                      One type of business, for example Restaurants and cafés.
+                    </p>
                   </div>
                 </div>
+
+                <p className="mt-4 text-[14px] text-muted-paper">
+                  There is no box for business names or websites. Finding the businesses is
+                  Goldmine&rsquo;s job, so you only choose where to look and what kind of business
+                  to look for.
+                </p>
+
 
                 <button
                   type="button"
