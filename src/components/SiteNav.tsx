@@ -42,12 +42,6 @@ export function SiteNav() {
             >
               Services
             </a>
-            <Link
-              to="/goldmine"
-              className="text-[15px] font-semibold text-violet transition-colors hover:text-ink"
-            >
-              Goldmine
-            </Link>
             {links.map((l) => (
               <a
                 key={l.href}
@@ -91,13 +85,6 @@ export function SiteNav() {
             >
               Services
             </a>
-            <Link
-              to="/goldmine"
-              onClick={() => setOpen(false)}
-              className="block border-b border-border py-4 text-[18px] font-bold text-violet"
-            >
-              Goldmine
-            </Link>
             {links.map((l) => (
               <a
                 key={l.href}
