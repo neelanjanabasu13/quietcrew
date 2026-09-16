@@ -10,9 +10,16 @@
  */
 
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { engineReadScan, engineStartScan, isEngineConfigured, previewSnapshot } from "./engine.server";
+import {
+  engineReadOutreach,
+  engineReadScan,
+  engineStartScan,
+  isEngineConfigured,
+  previewSnapshot,
+} from "./engine.server";
 import { fixturePendingSnapshot } from "./fixtures";
-import { countChecks, deriveStatus, PROVIDERS, type ProviderCheck, type ScanBusiness, type ScanSnapshot } from "./types";
+import { normaliseEngineRun, normaliseOutreach } from "./mapping";
+import type { ScanSnapshot } from "./types";
 
 export type OrderRow = {
   id: string;
