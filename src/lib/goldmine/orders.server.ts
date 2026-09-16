@@ -179,10 +179,14 @@ export async function readScanForOrder(orderId: string, userId: string): Promise
 
   try {
     const payload = await engineReadScan(order.engine_scan_id);
-    const snapshot = normaliseEngineScan(payload, order.locality, order.category);
+    const snapshot = normaliseEngineRun(payload, order.locality, order.category);
     await supabaseAdmin
       .from("goldmine_orders")
-      .update({ scan_status: snapshot.status, results: JSON.parse(JSON.stringify(snapshot)) })
+      .update({
+        scan_status: snapshot.status,
+        results: JSON.parse(JSON.stringify(snapshot)),
+        ...(snapshot.status === "failed" ? { engine_error: "The run stopped early at the research engine." } : {}),
+      })
       .eq("id", orderId);
     return snapshot;
   } catch (err) {
@@ -196,77 +200,50 @@ export async function readScanForOrder(orderId: string, userId: string): Promise
   }
 }
 
-/** Drafts for one business inside an owned scan. */
+/**
+ * Drafts for one business inside an owned scan.
+ *
+ * Ownership is checked twice: the order must belong to this user, and the place
+ * must appear in that order's own run. The engine can otherwise fall back to a
+ * stored business when the run does not match, so the check cannot be left to it.
+ */
 export async function readDraftsForBusiness(orderId: string, userId: string, businessId: string) {
+  const order = await loadOwnedOrder(orderId, userId);
+  if (!order) throw new Error("That order was not found");
+
   const snapshot = await readScanForOrder(orderId, userId);
   const business = snapshot.businesses.find((b) => b.id === businessId);
   if (!business) throw new Error("That business was not found in this scan");
-  return { isFixture: snapshot.isFixture, drafts: business.drafts };
-}
 
-/**
- * Map an engine payload onto the shape the interface reads.
- *
- * Written from the engine's documented states and never exercised against a
- * deployed engine, so it must be re-checked during integration.
- */
-export function normaliseEngineScan(payload: unknown, locality: string, category: string): ScanSnapshot {
-  const raw = (payload ?? {}) as { businesses?: unknown[]; status?: string };
-  const businesses: ScanBusiness[] = (raw.businesses ?? []).map((item, index) => {
-    const b = (item ?? {}) as Record<string, unknown>;
-    const providers = (b["providers"] ?? {}) as Record<string, unknown>;
-    const checks = {} as Record<(typeof PROVIDERS)[number], ProviderCheck>;
-    for (const provider of PROVIDERS) {
-      checks[provider] = normaliseCheck(providers[provider] ?? providers[provider.toLowerCase()]);
+  if (snapshot.isFixture || !isEngineConfigured() || !order.engine_scan_id) {
+    return { isFixture: snapshot.isFixture, drafts: business.drafts };
+  }
+
+  try {
+    const payload = await engineReadOutreach({ engineScanId: order.engine_scan_id, placeId: business.id });
+    const drafts = normaliseOutreach(payload);
+    if (drafts.length === 0) {
+      return {
+        isFixture: false,
+        drafts: [],
+        message: "The engine did not return a draft for this business.",
+      };
     }
-    return {
-      id: String(b["id"] ?? `business-${index}`),
-      name: String(b["name"] ?? "Unnamed business"),
-      area: String(b["area"] ?? locality),
-      category: String(b["category"] ?? category),
-      reputation: {
-        rating: Number((b["reputation"] as Record<string, unknown>)?.["rating"] ?? 0),
-        reviews: Number((b["reputation"] as Record<string, unknown>)?.["reviews"] ?? 0),
-      },
-      gold: Number(b["gold"] ?? 0),
-      why: String(b["why"] ?? ""),
-      providers: checks,
-      drafts: Array.isArray(b["drafts"])
-        ? (b["drafts"] as Record<string, unknown>[]).map((d, i) => ({
-            id: String(d["id"] ?? `draft-${i}`),
-            angle: String(d["angle"] ?? "Draft"),
-            body: String(d["body"] ?? ""),
-          }))
-        : [],
-    };
-  });
-
-  return {
-    status: raw.status === "error" ? "failed" : deriveStatus(businesses),
-    isFixture: false,
-    locality,
-    category,
-    businesses,
-    counts: countChecks(businesses),
-    message: "",
-  };
+    return { isFixture: false, drafts };
+  } catch (err) {
+    console.error("[goldmine] outreach read failed", err);
+    const status = (err as { status?: number }).status;
+    if (status === 422) {
+      return {
+        isFixture: false,
+        drafts: [],
+        message: "The engine could not verify the evidence for this business, so no draft was produced.",
+      };
+    }
+    throw new Error("Could not prepare a draft for that business");
+  }
 }
 
-function normaliseCheck(value: unknown): ProviderCheck {
-  const check = (value ?? {}) as Record<string, unknown>;
-  const state = String(check["status"] ?? "pending");
-  if (state === "error" || state === "unavailable" || state === "failed") {
-    return { status: "unavailable", note: "The check did not complete, so there is no result for this provider." };
-  }
-  if (state === "complete" || state === "completed" || typeof check["mentions"] === "number") {
-    return {
-      status: "complete",
-      mentions: Number(check["mentions"] ?? 0),
-      note: String(check["note"] ?? ""),
-    };
-  }
-  return { status: "pending" };
-}
 
 /**
  * Record a payment notification once. Returns false when the same provider
