@@ -125,6 +125,12 @@ function pendingMap(): ResultMap {
   return map;
 }
 
+function stateFor(map: ResultMap, id: string): Record<ProviderName, ProviderState> {
+  return (
+    map[id] ?? { Gemini: { status: "pending" }, OpenAI: { status: "pending" }, Claude: { status: "pending" } }
+  );
+}
+
 function Spinner() {
   return (
     <span
@@ -196,7 +202,7 @@ export function GoldmineResults() {
     let unavailable = 0;
     for (const b of businesses) {
       for (const p of PROVIDERS) {
-        const s = results[b.id][p];
+        const s = stateFor(results, b.id)[p];
         if (s.status === "complete") done += 1;
         if (s.status === "unavailable") unavailable += 1;
       }
@@ -257,7 +263,7 @@ export function GoldmineResults() {
         {/* List */}
         <ul className="space-y-4">
           {businesses.map((b) => {
-            const state = results[b.id];
+            const state = stateFor(results, b.id);
             const pending = PROVIDERS.filter((p) => state[p].status === "pending").length;
             const isOpen = openId === b.id;
             return (
@@ -319,7 +325,7 @@ export function GoldmineResults() {
 
               <div className="mt-5 space-y-3">
                 {PROVIDERS.map((p) => {
-                  const s = results[open.id][p];
+                  const s = stateFor(results, open.id)[p];
                   return (
                     <div key={p} className="rounded-[14px] bg-violet-tint px-4 py-3">
                       <div className="flex items-center justify-between gap-3 text-[14px] font-semibold">
