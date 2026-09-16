@@ -36,6 +36,18 @@ export function SiteNav() {
 
 
           <div className="hidden items-center gap-7 md:flex">
+            <a
+              href="/#services"
+              className="text-[15px] font-semibold text-muted-paper transition-colors hover:text-violet"
+            >
+              Services
+            </a>
+            <Link
+              to="/goldmine"
+              className="text-[15px] font-semibold text-violet transition-colors hover:text-ink"
+            >
+              Goldmine
+            </Link>
             {links.map((l) => (
               <a
                 key={l.href}
@@ -72,6 +84,20 @@ export function SiteNav() {
       {open && (
         <div id="mobile-menu" className="container-page md:hidden">
           <div className="menu-sheet mt-3 rounded-[20px] p-4 soft-shadow-lg">
+            <a
+              href="/#services"
+              onClick={() => setOpen(false)}
+              className="block border-b border-border py-4 text-[18px] font-bold text-ink"
+            >
+              Services
+            </a>
+            <Link
+              to="/goldmine"
+              onClick={() => setOpen(false)}
+              className="block border-b border-border py-4 text-[18px] font-bold text-violet"
+            >
+              Goldmine
+            </Link>
             {links.map((l) => (
               <a
                 key={l.href}
