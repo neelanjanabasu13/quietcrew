@@ -173,13 +173,14 @@ export function GoldmineResults() {
         setTimeout(() => {
           // Results are merged in, so an open business detail and any edited
           // draft stay exactly as they were while checks continue to land.
-          setResults((prev) => ({
-            ...prev,
-            [step.businessId]: {
-              ...prev[step.businessId],
-              [step.provider]: outcomes[step.businessId][step.provider],
-            },
-          }));
+          setResults((prev) => {
+            const current = prev[step.businessId] as Record<ProviderName, ProviderState>;
+            const outcome = outcomes[step.businessId] as Record<ProviderName, ProviderState>;
+            return {
+              ...prev,
+              [step.businessId]: { ...current, [step.provider]: outcome[step.provider] },
+            };
+          });
         }, step.at),
       );
     }
