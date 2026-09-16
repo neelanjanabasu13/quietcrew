@@ -47,6 +47,104 @@ export type Database = {
         }
         Relationships: []
       }
+      goldmine_orders: {
+        Row: {
+          amount_pence: number
+          category: string
+          created_at: string
+          currency: string
+          customer_email: string
+          drafts: Json | null
+          engine_error: string | null
+          engine_scan_id: string | null
+          id: string
+          is_fixture: boolean
+          locality: string
+          payment_provider: string | null
+          payment_reference: string | null
+          payment_status: string
+          results: Json | null
+          scan_status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_pence?: number
+          category: string
+          created_at?: string
+          currency?: string
+          customer_email: string
+          drafts?: Json | null
+          engine_error?: string | null
+          engine_scan_id?: string | null
+          id?: string
+          is_fixture?: boolean
+          locality: string
+          payment_provider?: string | null
+          payment_reference?: string | null
+          payment_status?: string
+          results?: Json | null
+          scan_status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_pence?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          customer_email?: string
+          drafts?: Json | null
+          engine_error?: string | null
+          engine_scan_id?: string | null
+          id?: string
+          is_fixture?: boolean
+          locality?: string
+          payment_provider?: string | null
+          payment_reference?: string | null
+          payment_status?: string
+          results?: Json | null
+          scan_status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      goldmine_payment_events: {
+        Row: {
+          event_id: string
+          id: string
+          order_id: string | null
+          payload: Json | null
+          provider: string
+          received_at: string
+        }
+        Insert: {
+          event_id: string
+          id?: string
+          order_id?: string | null
+          payload?: Json | null
+          provider: string
+          received_at?: string
+        }
+        Update: {
+          event_id?: string
+          id?: string
+          order_id?: string | null
+          payload?: Json | null
+          provider?: string
+          received_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goldmine_payment_events_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "goldmine_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
