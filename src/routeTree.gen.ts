@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompanyInformationRouteImport } from './routes/company-information'
+import { Route as GoldmineRouteImport } from './routes/goldmine'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -30,6 +31,11 @@ const IndexRoute = IndexRouteImport.update({
 const CompanyInformationRoute = CompanyInformationRouteImport.update({
   id: '/company-information',
   path: '/company-information',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GoldmineRoute = GoldmineRouteImport.update({
+  id: '/goldmine',
+  path: '/goldmine',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -90,6 +96,7 @@ const LovableEmailTransactionalPreviewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/company-information': typeof CompanyInformationRoute
+  '/goldmine': typeof GoldmineRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/company-information': typeof CompanyInformationRoute
+  '/goldmine': typeof GoldmineRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/company-information': typeof CompanyInformationRoute
+  '/goldmine': typeof GoldmineRoute
   '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/privacy': typeof PrivacyRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/company-information'
+    | '/goldmine'
     | '/login'
     | '/mcp'
     | '/privacy'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/company-information'
+    | '/goldmine'
     | '/login'
     | '/mcp'
     | '/privacy'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/company-information'
+    | '/goldmine'
     | '/login'
     | '/mcp'
     | '/privacy'
@@ -178,6 +190,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompanyInformationRoute: typeof CompanyInformationRoute
+  GoldmineRoute: typeof GoldmineRoute
   LoginRoute: typeof LoginRoute
   McpRoute: typeof McpRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       path: '/company-information'
       fullPath: '/company-information'
       preLoaderRoute: typeof CompanyInformationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/goldmine': {
+      id: '/goldmine'
+      path: '/goldmine'
+      fullPath: '/goldmine'
+      preLoaderRoute: typeof GoldmineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -282,6 +302,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompanyInformationRoute: CompanyInformationRoute,
+  GoldmineRoute: GoldmineRoute,
   LoginRoute: LoginRoute,
   McpRoute: McpRoute,
   PrivacyRoute: PrivacyRoute,
