@@ -344,7 +344,37 @@ function Index() {
               </Reveal>
             </div>
 
-            <Reveal className="mt-10" delay={120}>
+            {/* Goldmine: our off-the-shelf launching product, front and centre */}
+            <Reveal className="mt-10" delay={60}>
+              <div className="rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-7">
+                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
+                  <div className="min-w-0">
+                    <p className="eyebrow">Launching now</p>
+                    <h2 className="mt-3 text-[1.4rem] md:text-[1.7rem]">
+                      Goldmine <span className="text-violet">by Quietcrew</span>
+                    </h2>
+                    <p className="mt-2 max-w-[560px] text-[15px] text-muted-paper md:text-[16px]">
+                      Our off-the-shelf product for SEO and marketing agencies. Pick a London area
+                      and a business category, and Goldmine finds the businesses there, checks what
+                      Gemini, OpenAI and Claude say about them, and drafts your first outreach.
+                    </p>
+                  </div>
+                  <div className="flex flex-none flex-col items-start gap-3 lg:items-end">
+                    <p className="text-[15px] font-semibold text-violet">
+                      £19 per scan, introductory price
+                    </p>
+                    <Link
+                      to="/goldmine"
+                      className="pill-btn btn-primary-dark inline-block px-6 py-3.5 text-[0.95rem]"
+                    >
+                      See Goldmine
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal className="mt-6" delay={120}>
               <LiveWorkflow />
             </Reveal>
           </div>
