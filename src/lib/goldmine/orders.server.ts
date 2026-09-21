@@ -34,6 +34,9 @@ export type OrderRow = {
   is_fixture: boolean;
 };
 
+/** Purchases stay switched off until the engine has durable jobs and isolation. */
+export const PAID_SCANNING_ENABLED = false;
+
 const ORDER_COLUMNS =
   "id, user_id, locality, category, payment_status, scan_status, engine_scan_id, engine_error, results, is_fixture";
 
@@ -87,7 +90,7 @@ export async function createPreviewOrder(input: {
       category: input.category,
       payment_status: "unpaid",
       scan_status: "not_started",
-      is_fixture: true,
+      is_fixture: !isEngineConfigured(),
     })
     .select("id")
     .single();
@@ -116,7 +119,11 @@ export async function startScanForOrder(orderId: string, userId: string): Promis
     return fixturePendingSnapshot(order.locality, order.category);
   }
 
-  if (order.payment_status !== "paid") {
+  // Paid scanning stays switched off while the engine still runs jobs in
+  // process, without durable storage or run idempotency. While this flag is
+  // false a signed in agency can run a scan without paying, and no payment
+  // provider is contacted anywhere in this path.
+  if (PAID_SCANNING_ENABLED && order.payment_status !== "paid") {
     throw new Error("That scan has not been paid for");
   }
 
