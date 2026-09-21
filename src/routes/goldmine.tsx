@@ -121,89 +121,9 @@ function Goldmine() {
               </p>
             </Reveal>
 
-            {/* Intake card: selects wired, scan action disabled until the engine is hosted */}
-            <Reveal className="mx-auto mt-10 max-w-[720px]" delay={80}>
-              <div className="rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-8">
-                <p className="text-[15px] text-muted-paper">
-                  Choose a London area and a business category. Areas are grouped by part of
-                  London, the same way the engine groups them.
-                </p>
-
-                <div className="mt-5 grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="goldmine-locality" className="mono-label text-muted-paper">
-                      Locality
-                    </label>
-                    <select
-                      id="goldmine-locality"
-                      aria-describedby="goldmine-locality-help"
-                      className="mt-2 w-full rounded-[16px] border border-border bg-white px-4 py-3 text-[16px] font-semibold text-ink"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        Choose a London area
-                      </option>
-                      {localityGroups.map((group) => (
-                        <optgroup key={group.region} label={group.region}>
-                          {group.areas.map((area) => (
-                            <option key={area} value={area}>
-                              {area}
-                            </option>
-                          ))}
-                        </optgroup>
-                      ))}
-                    </select>
-                    <p id="goldmine-locality-help" className="mt-2 text-[13px] text-muted-paper">
-                      One London area, grouped by central, north, east, south and west.
-                    </p>
-                  </div>
-
-
-                  <div>
-                    <label htmlFor="goldmine-category" className="mono-label text-muted-paper">
-                      Business category
-                    </label>
-                    <select
-                      id="goldmine-category"
-                      aria-describedby="goldmine-category-help"
-                      className="mt-2 w-full rounded-[16px] border border-border bg-white px-4 py-3 text-[16px] font-semibold text-ink"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        Choose a category
-                      </option>
-                      {categories.map((c) => (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      ))}
-                    </select>
-                    <p id="goldmine-category-help" className="mt-2 text-[13px] text-muted-paper">
-                      One type of business, for example Restaurants and cafés.
-                    </p>
-                  </div>
-                </div>
-
-                <p className="mt-4 text-[14px] text-muted-paper">
-                  There is no box for business names or websites. Finding the businesses is
-                  Goldmine&rsquo;s job, so you only choose where to look and what kind of business
-                  to look for.
-                </p>
-
-
-                <button
-                  type="button"
-                  disabled
-                  aria-disabled="true"
-                  className="pill-btn btn-primary-dark mt-6 w-full cursor-not-allowed px-7 py-4 text-[1rem] opacity-60"
-                >
-                  Run the scan, £19 introductory price
-                </button>
-                <p className="mt-3 text-center text-[14px] text-muted-paper">
-                  Scans are not live yet. The research engine is being prepared, and this button
-                  will start working when it is connected.
-                </p>
-              </div>
+            {/* Intake and live results, run through the server side engine layer */}
+            <Reveal className="mx-auto mt-10 max-w-[980px]" delay={80}>
+              <GoldmineLive />
             </Reveal>
           </div>
         </section>
