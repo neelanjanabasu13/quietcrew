@@ -210,7 +210,10 @@ export function GoldmineResults() {
     return { done, unavailable, total: businesses.length * PROVIDERS.length };
   }, [results]);
 
-  const open = businesses.find((b) => b.id === openId) ?? null;
+  const visible = businesses.slice(0, FREE_PREVIEW_COUNT);
+  const lockedCount = businesses.length - visible.length;
+  const open = visible.find((b) => b.id === openId) ?? null;
+
   const draftKey = (businessId: string, draftId: string) => `${businessId}:${draftId}`;
 
   return (
