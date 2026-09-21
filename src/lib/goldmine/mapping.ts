@@ -156,6 +156,16 @@ export function normaliseEngineRun(payload: unknown, locality: string, category:
   const businesses = results.map((item, index) => businessFromResult(item, index, locality, category));
   const engineStatus = String(run["status"] ?? "running").toLowerCase();
   const status = mapRunStatus(engineStatus, businesses.length > 0);
+  const engineError = String(run["error"] ?? "").trim().slice(0, 300);
+  const stage = String(run["stage"] ?? "").trim();
+
+  const failedMessage = engineError
+    ? `The run stopped early. The research engine reported: ${engineError}`
+    : "The run stopped early. Anything that had already arrived is kept below.";
+
+  const pendingMessage = stage
+    ? `The run is under way, currently at the ${stage} stage. Results appear here as they arrive.`
+    : "The run is under way. Results appear here as they arrive.";
 
   return {
     status,
@@ -166,10 +176,12 @@ export function normaliseEngineRun(payload: unknown, locality: string, category:
     counts: countChecks(businesses),
     message:
       status === "failed"
-        ? "The run stopped early. Anything that had already arrived is kept below."
+        ? failedMessage
         : status === "partial"
           ? "Some checks are still running. What has arrived so far is shown below."
-          : "",
+          : status === "pending"
+            ? pendingMessage
+            : "",
   };
 }
 

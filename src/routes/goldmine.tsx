@@ -4,79 +4,11 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { GoldmineResults } from "@/components/GoldmineResults";
+import { GoldmineLive } from "@/components/GoldmineLive";
 
 const TITLE = "Goldmine by Quietcrew | Local prospect discovery for agencies";
 const DESCRIPTION =
   "Goldmine finds local businesses in a London area and category you choose, checks their customer reputation against what Gemini, OpenAI and Claude actually say about them, and prepares the evidence and outreach drafts.";
-
-// Areas are grouped by London region, the same way the engine groups them.
-const localityGroups: { region: string; areas: string[] }[] = [
-  {
-    region: "Central London",
-    areas: [
-      "Bayswater", "Bloomsbury", "Chelsea", "Clerkenwell", "Covent Garden", "Holborn",
-      "Kensington", "Marylebone", "Mayfair", "Notting Hill", "Pimlico", "Soho", "Westminster",
-    ],
-  },
-  {
-    region: "North London",
-    areas: [
-      "Angel", "Archway", "Barnet", "Belsize Park", "Camden Town", "Crouch End", "Finchley",
-      "Finsbury Park", "Golders Green", "Hampstead", "Harringay", "Hendon", "Highbury",
-      "Highgate", "Holloway", "Hornsey", "Islington", "Kentish Town", "Mill Hill",
-      "Muswell Hill", "Palmers Green", "Southgate", "Stoke Newington", "Tottenham",
-      "Tufnell Park", "Whetstone", "Winchmore Hill", "Wood Green",
-    ],
-  },
-  {
-    region: "East London",
-    areas: [
-      "Bethnal Green", "Bow", "Canary Wharf", "Chingford", "Clapton", "Dalston", "Hackney",
-      "Ilford", "Leyton", "Leytonstone", "Romford", "Shoreditch", "South Woodford", "Stepney",
-      "Stratford", "Walthamstow", "Wanstead", "Woodford",
-    ],
-  },
-  {
-    region: "South London",
-    areas: [
-      "Balham", "Battersea", "Beckenham", "Bermondsey", "Blackheath", "Brixton", "Bromley",
-      "Camberwell", "Catford", "Clapham", "Croydon", "Crystal Palace", "Dulwich",
-      "East Dulwich", "Eltham", "Forest Hill", "Greenwich", "Herne Hill", "Kennington",
-      "Lewisham", "New Cross", "Nunhead", "Peckham", "Sidcup", "Stockwell", "Streatham",
-      "Sydenham", "Thornton Heath", "Tooting", "Vauxhall", "West Norwood", "Woolwich",
-    ],
-  },
-  {
-    region: "West London",
-    areas: [
-      "Acton", "Barnes", "Brentford", "Chiswick", "Cricklewood", "Ealing", "Fulham",
-      "Hammersmith", "Hanwell", "Harrow", "Hounslow", "Kensal Rise", "Kilburn", "Maida Vale",
-      "Queens Park", "Richmond", "Ruislip", "Shepherd's Bush", "Stanmore", "Swiss Cottage",
-      "Teddington", "Twickenham", "Wembley", "West Hampstead", "Willesden Green",
-    ],
-  },
-  {
-    region: "South West London",
-    areas: [
-      "Colliers Wood", "Earlsfield", "Kingston upon Thames", "Mitcham", "Morden", "Mortlake",
-      "Putney", "Raynes Park", "Southfields", "Surbiton", "Sutton", "Wandsworth", "Wimbledon",
-    ],
-  },
-];
-
-
-// These match the categories the engine currently supports.
-const categories = [
-  "Restaurants and cafés",
-  "Beauty and aesthetics",
-  "Dental",
-  "Fitness",
-  "Legal",
-  "Home services",
-  "Estate agencies",
-  "Hair",
-];
-
 
 const providers = ["Gemini", "OpenAI", "Claude"];
 
@@ -121,89 +53,9 @@ function Goldmine() {
               </p>
             </Reveal>
 
-            {/* Intake card: selects wired, scan action disabled until the engine is hosted */}
-            <Reveal className="mx-auto mt-10 max-w-[720px]" delay={80}>
-              <div className="rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-8">
-                <p className="text-[15px] text-muted-paper">
-                  Choose a London area and a business category. Areas are grouped by part of
-                  London, the same way the engine groups them.
-                </p>
-
-                <div className="mt-5 grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="goldmine-locality" className="mono-label text-muted-paper">
-                      Locality
-                    </label>
-                    <select
-                      id="goldmine-locality"
-                      aria-describedby="goldmine-locality-help"
-                      className="mt-2 w-full rounded-[16px] border border-border bg-white px-4 py-3 text-[16px] font-semibold text-ink"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        Choose a London area
-                      </option>
-                      {localityGroups.map((group) => (
-                        <optgroup key={group.region} label={group.region}>
-                          {group.areas.map((area) => (
-                            <option key={area} value={area}>
-                              {area}
-                            </option>
-                          ))}
-                        </optgroup>
-                      ))}
-                    </select>
-                    <p id="goldmine-locality-help" className="mt-2 text-[13px] text-muted-paper">
-                      One London area, grouped by central, north, east, south and west.
-                    </p>
-                  </div>
-
-
-                  <div>
-                    <label htmlFor="goldmine-category" className="mono-label text-muted-paper">
-                      Business category
-                    </label>
-                    <select
-                      id="goldmine-category"
-                      aria-describedby="goldmine-category-help"
-                      className="mt-2 w-full rounded-[16px] border border-border bg-white px-4 py-3 text-[16px] font-semibold text-ink"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        Choose a category
-                      </option>
-                      {categories.map((c) => (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      ))}
-                    </select>
-                    <p id="goldmine-category-help" className="mt-2 text-[13px] text-muted-paper">
-                      One type of business, for example Restaurants and cafés.
-                    </p>
-                  </div>
-                </div>
-
-                <p className="mt-4 text-[14px] text-muted-paper">
-                  There is no box for business names or websites. Finding the businesses is
-                  Goldmine&rsquo;s job, so you only choose where to look and what kind of business
-                  to look for.
-                </p>
-
-
-                <button
-                  type="button"
-                  disabled
-                  aria-disabled="true"
-                  className="pill-btn btn-primary-dark mt-6 w-full cursor-not-allowed px-7 py-4 text-[1rem] opacity-60"
-                >
-                  Run the scan, £19 introductory price
-                </button>
-                <p className="mt-3 text-center text-[14px] text-muted-paper">
-                  Scans are not live yet. The research engine is being prepared, and this button
-                  will start working when it is connected.
-                </p>
-              </div>
+            {/* Intake and live results, run through the server side engine layer */}
+            <Reveal className="mx-auto mt-10 max-w-[980px]" delay={80}>
+              <GoldmineLive />
             </Reveal>
           </div>
         </section>
