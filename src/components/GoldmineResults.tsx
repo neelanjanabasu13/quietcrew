@@ -27,6 +27,11 @@ type Business = {
 
 const PROVIDERS: ProviderName[] = ["Gemini", "OpenAI", "Claude"];
 
+// The first results are shown in full, and the rest of the list is held back
+// until the scan is paid for.
+const FREE_PREVIEW_COUNT = 2;
+
+
 const businesses: Business[] = [
   {
     id: "hornsey-lane-dental",
