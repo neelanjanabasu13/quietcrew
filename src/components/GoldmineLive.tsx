@@ -144,6 +144,10 @@ export function GoldmineLive() {
   const [draftState, setDraftState] = useState<Record<string, DraftState>>({});
   const [edits, setEdits] = useState<Record<string, string>>({});
   const poll = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Flipped on once a scan is paid for. Payment is not connected yet, so the
+  // locked results stay locked.
+  const [unlocked] = useState(false);
+
 
   useEffect(() => {
     let active = true;
