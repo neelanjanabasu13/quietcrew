@@ -57,6 +57,7 @@ export type Database = {
           drafts: Json | null
           engine_error: string | null
           engine_scan_id: string | null
+          guest_token: string | null
           id: string
           is_fixture: boolean
           locality: string
@@ -66,7 +67,7 @@ export type Database = {
           results: Json | null
           scan_status: string
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           amount_pence?: number
@@ -77,6 +78,7 @@ export type Database = {
           drafts?: Json | null
           engine_error?: string | null
           engine_scan_id?: string | null
+          guest_token?: string | null
           id?: string
           is_fixture?: boolean
           locality: string
@@ -86,7 +88,7 @@ export type Database = {
           results?: Json | null
           scan_status?: string
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           amount_pence?: number
@@ -97,6 +99,7 @@ export type Database = {
           drafts?: Json | null
           engine_error?: string | null
           engine_scan_id?: string | null
+          guest_token?: string | null
           id?: string
           is_fixture?: boolean
           locality?: string
@@ -106,7 +109,7 @@ export type Database = {
           results?: Json | null
           scan_status?: string
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: []
       }

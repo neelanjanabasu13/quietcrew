@@ -52,7 +52,7 @@ export const startGoldmineScan = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => orderIdSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { startScanForOrder } = await import("./goldmine/orders.server");
-    return startScanForOrder(data.orderId, context.userId);
+    return startScanForOrder(data.orderId, { userId: context.userId });
   });
 
 export const getGoldmineScan = createServerFn({ method: "POST" })
@@ -60,7 +60,7 @@ export const getGoldmineScan = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => orderIdSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { readScanForOrder } = await import("./goldmine/orders.server");
-    return readScanForOrder(data.orderId, context.userId);
+    return readScanForOrder(data.orderId, { userId: context.userId });
   });
 
 export const getGoldmineDrafts = createServerFn({ method: "POST" })
@@ -70,7 +70,7 @@ export const getGoldmineDrafts = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const { readDraftsForBusiness } = await import("./goldmine/orders.server");
-    return readDraftsForBusiness(data.orderId, context.userId, data.businessId);
+    return readDraftsForBusiness(data.orderId, { userId: context.userId }, data.businessId);
   });
 
 export const listGoldmineOrders = createServerFn({ method: "POST" })
@@ -78,4 +78,71 @@ export const listGoldmineOrders = createServerFn({ method: "POST" })
   .handler(async ({ context }) => {
     const { listOwnedOrders } = await import("./goldmine/orders.server");
     return listOwnedOrders(context.userId);
+  });
+
+
+/**
+ * Free preview, no account needed.
+ *
+ * A visitor gets a random token from their own browser, the order is recorded
+ * against that token, and only the first businesses are ever sent back. The
+ * rest of the list needs an account, because that is what a purchase is
+ * recorded and billed against.
+ */
+const guestSchema = z.object({ guestToken: z.string().uuid() });
+
+export const createGuestGoldmineOrder = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) =>
+    guestSchema
+      .extend({
+        locality: z.string().trim().min(1).max(80),
+        category: z.string().trim().min(1).max(80),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data }) => {
+    const { createPreviewOrder } = await import("./goldmine/orders.server");
+    return createPreviewOrder({
+      userId: null,
+      guestToken: data.guestToken,
+      email: "",
+      locality: data.locality,
+      category: data.category,
+    });
+  });
+
+export const startGuestGoldmineScan = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => guestSchema.merge(orderIdSchema).parse(data))
+  .handler(async ({ data }) => {
+    const { startScanForOrder, limitSnapshotForPreview } = await import("./goldmine/orders.server");
+    return limitSnapshotForPreview(
+      await startScanForOrder(data.orderId, { guestToken: data.guestToken }),
+    );
+  });
+
+export const getGuestGoldmineScan = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => guestSchema.merge(orderIdSchema).parse(data))
+  .handler(async ({ data }) => {
+    const { readScanForOrder, limitSnapshotForPreview } = await import("./goldmine/orders.server");
+    return limitSnapshotForPreview(
+      await readScanForOrder(data.orderId, { guestToken: data.guestToken }),
+    );
+  });
+
+export const getGuestGoldmineDrafts = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) =>
+    guestSchema.merge(orderIdSchema).extend({ businessId: z.string().trim().min(1).max(120) }).parse(data),
+  )
+  .handler(async ({ data }) => {
+    const { readScanForOrder, readDraftsForBusiness, limitSnapshotForPreview } = await import(
+      "./goldmine/orders.server"
+    );
+    const owner = { guestToken: data.guestToken } as const;
+    // The business must be one of the businesses the preview actually shows,
+    // so a held back business cannot be reached by asking for it directly.
+    const preview = limitSnapshotForPreview(await readScanForOrder(data.orderId, owner));
+    if (!preview.businesses.some((b) => b.id === data.businessId)) {
+      throw new Error("That business is part of the full scan");
+    }
+    return readDraftsForBusiness(data.orderId, owner, data.businessId);
   });

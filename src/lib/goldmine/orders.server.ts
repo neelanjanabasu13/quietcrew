@@ -21,9 +21,17 @@ import { fixturePendingSnapshot } from "./fixtures";
 import { normaliseEngineRun, normaliseOutreach } from "./mapping";
 import type { ScanSnapshot } from "./types";
 
+/**
+ * Who an order belongs to. A signed in agency owns it by user id; a visitor
+ * running the free two result preview owns it by a random guest token held in
+ * their own browser. Either way the owner is matched on the row itself.
+ */
+export type OrderOwner = { userId: string } | { guestToken: string };
+
 export type OrderRow = {
   id: string;
-  user_id: string;
+  user_id: string | null;
+  guest_token: string | null;
   locality: string;
   category: string;
   payment_status: string;
@@ -38,16 +46,22 @@ export type OrderRow = {
 export const PAID_SCANNING_ENABLED = false;
 
 const ORDER_COLUMNS =
-  "id, user_id, locality, category, payment_status, scan_status, engine_scan_id, engine_error, results, is_fixture";
+  "id, user_id, guest_token, locality, category, payment_status, scan_status, engine_scan_id, engine_error, results, is_fixture";
 
-/** Returns the order only when it belongs to this user. */
-export async function loadOwnedOrder(orderId: string, userId: string): Promise<OrderRow | null> {
-  const { data, error } = await supabaseAdmin
-    .from("goldmine_orders")
-    .select(ORDER_COLUMNS)
-    .eq("id", orderId)
-    .eq("user_id", userId)
-    .maybeSingle();
+/** How many businesses a visitor sees before the rest need an account. */
+export const FREE_PREVIEW_COUNT = 2;
+
+/** Returns the order only when it belongs to this owner. */
+export async function loadOwnedOrder(
+  orderId: string,
+  owner: OrderOwner,
+): Promise<OrderRow | null> {
+  const query = supabaseAdmin.from("goldmine_orders").select(ORDER_COLUMNS).eq("id", orderId);
+  const scoped =
+    "userId" in owner
+      ? query.eq("user_id", owner.userId)
+      : query.eq("guest_token", owner.guestToken);
+  const { data, error } = await scoped.maybeSingle();
 
   if (error) {
     console.error("[goldmine] order lookup failed", error);
@@ -76,7 +90,8 @@ export async function listOwnedOrders(userId: string) {
  * unpaid and in fixture mode until the engine and a payment provider are live.
  */
 export async function createPreviewOrder(input: {
-  userId: string;
+  userId?: string | null;
+  guestToken?: string | null;
   email: string;
   locality: string;
   category: string;
@@ -84,7 +99,8 @@ export async function createPreviewOrder(input: {
   const { data, error } = await supabaseAdmin
     .from("goldmine_orders")
     .insert({
-      user_id: input.userId,
+      user_id: input.userId ?? null,
+      guest_token: input.guestToken ?? null,
       customer_email: input.email,
       locality: input.locality,
       category: input.category,
@@ -110,8 +126,8 @@ export async function createPreviewOrder(input: {
  * request, including one caused by a repeated payment notification, returns the
  * run that already exists.
  */
-export async function startScanForOrder(orderId: string, userId: string): Promise<ScanSnapshot> {
-  const order = await loadOwnedOrder(orderId, userId);
+export async function startScanForOrder(orderId: string, owner: OrderOwner): Promise<ScanSnapshot> {
+  const order = await loadOwnedOrder(orderId, owner);
   if (!order) throw new Error("That order was not found");
 
   if (!isEngineConfigured()) {
@@ -128,13 +144,13 @@ export async function startScanForOrder(orderId: string, userId: string): Promis
   }
 
   if (order.engine_scan_id) {
-    return readScanForOrder(orderId, userId);
+    return readScanForOrder(orderId, owner);
   }
 
   const claimed = await claimOrderForScan(orderId);
   if (!claimed) {
     // Another request won the race and is already starting the same scan.
-    return readScanForOrder(orderId, userId);
+    return readScanForOrder(orderId, owner);
   }
 
   try {
@@ -156,7 +172,7 @@ export async function startScanForOrder(orderId: string, userId: string): Promis
     throw new Error("The research engine could not start this scan");
   }
 
-  return readScanForOrder(orderId, userId);
+  return readScanForOrder(orderId, owner);
 }
 
 /** Moves not_started to starting exactly once; false means someone else did it. */
@@ -176,8 +192,8 @@ async function claimOrderForScan(orderId: string): Promise<boolean> {
 }
 
 /** Read the current state of an owned scan. */
-export async function readScanForOrder(orderId: string, userId: string): Promise<ScanSnapshot> {
-  const order = await loadOwnedOrder(orderId, userId);
+export async function readScanForOrder(orderId: string, owner: OrderOwner): Promise<ScanSnapshot> {
+  const order = await loadOwnedOrder(orderId, owner);
   if (!order) throw new Error("That order was not found");
 
   if (!isEngineConfigured() || !order.engine_scan_id) {
@@ -214,11 +230,11 @@ export async function readScanForOrder(orderId: string, userId: string): Promise
  * must appear in that order's own run. The engine can otherwise fall back to a
  * stored business when the run does not match, so the check cannot be left to it.
  */
-export async function readDraftsForBusiness(orderId: string, userId: string, businessId: string) {
-  const order = await loadOwnedOrder(orderId, userId);
+export async function readDraftsForBusiness(orderId: string, owner: OrderOwner, businessId: string) {
+  const order = await loadOwnedOrder(orderId, owner);
   if (!order) throw new Error("That order was not found");
 
-  const snapshot = await readScanForOrder(orderId, userId);
+  const snapshot = await readScanForOrder(orderId, owner);
   const business = snapshot.businesses.find((b) => b.id === businessId);
   if (!business) throw new Error("That business was not found in this scan");
 
@@ -298,4 +314,20 @@ export async function markOrderPaid(orderId: string, reference: string, provider
     throw new Error("Could not record that payment");
   }
   return (data?.[0] as { id: string; user_id: string } | undefined) ?? null;
+}
+
+
+/**
+ * The free preview. A visitor sees the first businesses in full, and the rest
+ * of the list is never sent to the browser, so the held back work cannot be
+ * read from the page source either.
+ */
+export function limitSnapshotForPreview(snapshot: ScanSnapshot): ScanSnapshot {
+  const total = snapshot.businesses.length;
+  if (total <= FREE_PREVIEW_COUNT) return { ...snapshot, lockedCount: 0 };
+  return {
+    ...snapshot,
+    businesses: snapshot.businesses.slice(0, FREE_PREVIEW_COUNT),
+    lockedCount: total - FREE_PREVIEW_COUNT,
+  };
 }
