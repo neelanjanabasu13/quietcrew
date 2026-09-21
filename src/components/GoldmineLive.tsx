@@ -249,8 +249,13 @@ export function GoldmineLive() {
     }
   }
 
-  const open = snapshot?.businesses.find((b) => b.id === openId) ?? null;
+  const visibleBusinesses = unlocked
+    ? (snapshot?.businesses ?? [])
+    : (snapshot?.businesses ?? []).slice(0, FREE_PREVIEW_COUNT);
+  const lockedCount = (snapshot?.businesses.length ?? 0) - visibleBusinesses.length;
+  const open = visibleBusinesses.find((b) => b.id === openId) ?? null;
   const openDrafts = openId ? draftState[openId] : undefined;
+
 
   return (
     <div className="rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-8">
