@@ -3,9 +3,13 @@ import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import {
   createGoldmineOrder,
+  createGuestGoldmineOrder,
   getGoldmineDrafts,
   getGoldmineScan,
+  getGuestGoldmineDrafts,
+  getGuestGoldmineScan,
   startGoldmineScan,
+  startGuestGoldmineScan,
 } from "@/lib/goldmine.functions";
 import { PROVIDERS, type ProviderCheck, type ProviderName, type ScanSnapshot } from "@/lib/goldmine/types";
 
@@ -88,6 +92,21 @@ const categories = [
 // work. The remainder of the list is held back until the scan is paid for.
 const FREE_PREVIEW_COUNT = 2;
 
+/**
+ * A visitor who is not signed in still runs a real scan and reads the first
+ * results. The run is recorded against a random token kept in their own
+ * browser, so their results stay theirs while no account exists yet.
+ */
+const GUEST_TOKEN_KEY = "goldmine.guest";
+
+function guestToken(): string {
+  const existing = window.localStorage.getItem(GUEST_TOKEN_KEY);
+  if (existing) return existing;
+  const fresh = crypto.randomUUID();
+  window.localStorage.setItem(GUEST_TOKEN_KEY, fresh);
+  return fresh;
+}
+
 function Spinner() {
   return (
     <span
@@ -132,6 +151,10 @@ export function GoldmineLive() {
   const startScan = useServerFn(startGoldmineScan);
   const readScan = useServerFn(getGoldmineScan);
   const readDrafts = useServerFn(getGoldmineDrafts);
+  const createGuestOrder = useServerFn(createGuestGoldmineOrder);
+  const startGuestScan = useServerFn(startGuestGoldmineScan);
+  const readGuestScan = useServerFn(getGuestGoldmineScan);
+  const readGuestDrafts = useServerFn(getGuestGoldmineDrafts);
 
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [locality, setLocality] = useState("");
@@ -176,7 +199,10 @@ export function GoldmineLive() {
     (id: string) => {
       stopPolling();
       poll.current = setInterval(() => {
-        readScan({ data: { orderId: id } })
+        (signedIn
+          ? readScan({ data: { orderId: id } })
+          : readGuestScan({ data: { orderId: id, guestToken: guestToken() } })
+        )
           .then((next) => {
             // Results are merged in as they arrive, so an open business detail
             // and anything typed into a draft are left exactly as they were.
@@ -190,7 +216,7 @@ export function GoldmineLive() {
           });
       }, 6000);
     },
-    [readScan, stopPolling],
+    [readScan, readGuestScan, signedIn, stopPolling],
   );
 
   async function onRun() {
@@ -204,9 +230,14 @@ export function GoldmineLive() {
     setOpenId(null);
     setDraftState({});
     try {
-      const order = (await createOrder({ data: { locality, category } })) as { id: string };
+      const token = signedIn ? null : guestToken();
+      const order = (token
+        ? await createGuestOrder({ data: { locality, category, guestToken: token } })
+        : await createOrder({ data: { locality, category } })) as { id: string };
       setOrderId(order.id);
-      const first = (await startScan({ data: { orderId: order.id } })) as ScanSnapshot;
+      const first = (token
+        ? await startGuestScan({ data: { orderId: order.id, guestToken: token } })
+        : await startScan({ data: { orderId: order.id } })) as ScanSnapshot;
       setSnapshot(first);
       if (first.status === "pending" || first.status === "partial") beginPolling(order.id);
     } catch {
@@ -225,7 +256,9 @@ export function GoldmineLive() {
     if (!orderId || draftState[businessId]) return;
     setDraftState((prev) => ({ ...prev, [businessId]: { loading: true, drafts: [] } }));
     try {
-      const result = (await readDrafts({ data: { orderId, businessId } })) as {
+      const result = (await (signedIn
+        ? readDrafts({ data: { orderId, businessId } })
+        : readGuestDrafts({ data: { orderId, businessId, guestToken: guestToken() } }))) as {
         drafts: { id: string; angle: string; body: string }[];
         message?: string;
       };
@@ -252,7 +285,10 @@ export function GoldmineLive() {
   const visibleBusinesses = unlocked
     ? (snapshot?.businesses ?? [])
     : (snapshot?.businesses ?? []).slice(0, FREE_PREVIEW_COUNT);
-  const lockedCount = (snapshot?.businesses.length ?? 0) - visibleBusinesses.length;
+  // Held back businesses are counted by the server for a visitor, because
+  // their details are never sent to the browser in the first place.
+  const lockedCount =
+    (snapshot?.lockedCount ?? 0) + (snapshot?.businesses.length ?? 0) - visibleBusinesses.length;
   const open = visibleBusinesses.find((b) => b.id === openId) ?? null;
   const openDrafts = openId ? draftState[openId] : undefined;
 
@@ -325,35 +361,20 @@ export function GoldmineLive() {
         job, so you only choose where to look and what kind of business to look for.
       </p>
 
-      {signedIn === false ? (
-        <a
-          href="/login?next=/goldmine"
-          className="pill-btn btn-primary-dark mt-6 flex w-full items-center justify-center px-7 py-4 text-[1rem]"
-        >
-          Run the scan
-        </a>
-      ) : (
-        <button
-          type="button"
-          onClick={onRun}
-          disabled={busy || signedIn === null}
-          className="pill-btn btn-primary-dark mt-6 w-full px-7 py-4 text-[1rem] disabled:opacity-60"
-        >
-          {busy ? "Starting the scan" : "Run the scan"}
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={onRun}
+        disabled={busy || signedIn === null}
+        className="pill-btn btn-primary-dark mt-6 w-full px-7 py-4 text-[1rem] disabled:opacity-60"
+      >
+        {busy ? "Starting the scan" : "Run the scan"}
+      </button>
 
       <p className="mt-3 text-center text-[14px] text-muted-paper">
         {signedIn === false
-          ? "You can read a full example scan further down this page without signing in. Running your own scan asks you to sign in first, so your results and drafts stay private to you."
+          ? "No account is needed to run this scan, and nothing is charged. You read the first two businesses in full, and the rest of the list opens once you sign in and buy the full scan."
           : "Payment is switched off during this pilot, so nothing is charged. The engine still keeps its work in memory rather than in durable storage, so treat a run as a test rather than a record you can rely on."}
       </p>
-
-      {signedIn === false ? (
-        <p className="mt-2 text-center text-[14px] text-muted-paper">
-          Nothing is charged today.
-        </p>
-      ) : null}
 
       {error ? (
         <p role="alert" className="mt-4 rounded-[14px] bg-cream p-4 text-[15px] text-ink">
