@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -38,6 +38,7 @@ const fieldClass =
 
 function Login() {
   const { next } = Route.useSearch();
+  const isGoldmine = next === "/goldmine";
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,9 +66,15 @@ function Login() {
     <main className="mx-auto flex min-h-[70vh] w-full max-w-[460px] flex-col justify-center px-6 py-16">
       <h1 className="text-[2rem] font-extrabold tracking-[-0.02em] text-ink">Sign in</h1>
       <p className="mt-3 text-[17px] leading-[1.6] text-muted-paper">
-        This area is for the Quietcrew team. Accounts are created by the owner, so there is no public
-        sign up.
+        {isGoldmine
+          ? "You do not need an account to run the free Goldmine preview. Sign-in is only needed when paid scans open."
+          : "This area is for the Quietcrew team. Accounts are created by the owner, so there is no public sign up."}
       </p>
+      {isGoldmine ? (
+        <Link to="/goldmine" className="pill-btn btn-primary-dark mt-6 w-full px-7 py-4 text-center">
+          Run the free Goldmine preview
+        </Link>
+      ) : null}
       <form onSubmit={onSubmit} className="mt-8 space-y-4" noValidate>
         <div>
           <label htmlFor="email" className="mb-2 block text-[14px] font-semibold text-ink">
