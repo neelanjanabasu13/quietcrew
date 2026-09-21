@@ -111,6 +111,29 @@ function businessFromResult(raw: unknown, index: number, locality: string, categ
   const scoreStatus = String(result["score_status"] ?? "").toLowerCase();
   const gold = asNumber(result["gold_score"]);
 
+  // The engine reports quality as a breakdown rather than a sentence, so the
+  // explanation is written here from the parts that are actually present.
+  const quality = asDict(result["quality"]);
+  const ratingPct = asNumber(quality["rating_pct"]);
+  const volumePct = asNumber(quality["volume_pct"]);
+  const cohort = asNumber(quality["cohort_size"]);
+  const visibility = asNumber(ai["visibility"]);
+
+  const parts: string[] = [];
+  if (ratingPct !== null && volumePct !== null) {
+    parts.push(
+      `Its customer rating sits in the top ${Math.round(100 - ratingPct)} per cent and its review volume in the top ${Math.round(100 - volumePct)} per cent of the ${cohort ?? 0} businesses compared.`,
+    );
+  }
+  if (visibility !== null) {
+    parts.push(
+      `Across the assistant questions that completed, it was named in ${Math.round(visibility)} per cent of answers.`,
+    );
+  }
+  parts.push(
+    "The score measures how much room there is for you to help, not how well the business is run.",
+  );
+
   return {
     id: String(result["place_id"] ?? `business-${index}`),
     name: String(result["name"] ?? "Unnamed business"),
@@ -124,11 +147,12 @@ function businessFromResult(raw: unknown, index: number, locality: string, categ
     why:
       gold === null || scoreStatus === "pending" || scoreStatus === "failed"
         ? "The opportunity score is not available for this business yet."
-        : String(result["quality"] ?? ""),
+        : parts.join(" "),
     providers,
     drafts: [],
   };
 }
+
 
 /**
  * Map the engine's own statuses onto the four the interface handles.
