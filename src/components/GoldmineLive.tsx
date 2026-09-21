@@ -84,6 +84,10 @@ const categories = [
   "Hair",
 ];
 
+// The first results are shown in full so an agency can judge the quality of the
+// work. The remainder of the list is held back until the scan is paid for.
+const FREE_PREVIEW_COUNT = 2;
+
 function Spinner() {
   return (
     <span
@@ -140,6 +144,10 @@ export function GoldmineLive() {
   const [draftState, setDraftState] = useState<Record<string, DraftState>>({});
   const [edits, setEdits] = useState<Record<string, string>>({});
   const poll = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Flipped on once a scan is paid for. Payment is not connected yet, so the
+  // locked results stay locked.
+  const [unlocked] = useState(false);
+
 
   useEffect(() => {
     let active = true;
@@ -241,8 +249,13 @@ export function GoldmineLive() {
     }
   }
 
-  const open = snapshot?.businesses.find((b) => b.id === openId) ?? null;
+  const visibleBusinesses = unlocked
+    ? (snapshot?.businesses ?? [])
+    : (snapshot?.businesses ?? []).slice(0, FREE_PREVIEW_COUNT);
+  const lockedCount = (snapshot?.businesses.length ?? 0) - visibleBusinesses.length;
+  const open = visibleBusinesses.find((b) => b.id === openId) ?? null;
   const openDrafts = openId ? draftState[openId] : undefined;
+
 
   return (
     <div className="rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-8">
@@ -399,9 +412,31 @@ export function GoldmineLive() {
           ) : (
             <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
               <ul className="space-y-4">
-                {snapshot.businesses.map((b) => {
+                {snapshot.businesses.map((b, index) => {
+                  const locked = !unlocked && index >= FREE_PREVIEW_COUNT;
                   const pending = PROVIDERS.filter((p) => b.providers[p].status === "pending").length;
                   const isOpen = openId === b.id;
+
+                  if (locked) {
+                    return (
+                      <li key={b.id} className="rounded-[20px] bg-white p-5 soft-shadow">
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div aria-hidden="true" className="select-none blur-[6px]">
+                            <h3 className="text-[1.1rem]">{b.name}</h3>
+                            <p className="mt-1 text-[14px] text-muted-paper">{b.area}</p>
+                          </div>
+                          <span className="rounded-full bg-violet-tint px-3 py-1 text-[12px] font-semibold text-violet">
+                            Locked
+                          </span>
+                        </div>
+                        <p className="mt-3 text-[14px] text-muted-paper">
+                          This business, its reputation figures, its assistant checks and its outreach
+                          draft are part of the full scan.
+                        </p>
+                      </li>
+                    );
+                  }
+
                   return (
                     <li key={b.id} className="rounded-[20px] bg-white p-5 soft-shadow">
                       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -444,7 +479,37 @@ export function GoldmineLive() {
                     </li>
                   );
                 })}
+
+                {lockedCount > 0 ? (
+                  <li className="rounded-[20px] bg-violet-deep p-6 text-white soft-shadow-lg">
+                    <p className="eyebrow-on-violet self-start text-[12px] font-semibold uppercase tracking-[0.12em] text-peach">
+                      Full scan
+                    </p>
+                    <h3 className="mt-3 text-[1.35rem] text-white">
+                      {lockedCount === 1
+                        ? "One more business in this area"
+                        : `${lockedCount} more businesses in this area`}
+                    </h3>
+                    <p className="mt-3 text-[15px] text-muted-on-violet">
+                      The first two results are open so you can judge the quality. The rest of the
+                      list, with every reputation figure, each assistant check and the outreach draft
+                      for each business, comes with the full scan at £19.
+                    </p>
+                    <button
+                      type="button"
+                      disabled
+                      className="pill-btn mt-5 bg-white px-6 py-3 text-[15px] font-semibold text-ink disabled:opacity-70"
+                    >
+                      Unlock the full scan, £19
+                    </button>
+                    <p className="mt-3 text-[14px] text-muted-on-violet">
+                      Payment opens in the next few days, once the business account is live. Nothing
+                      is charged today.
+                    </p>
+                  </li>
+                ) : null}
               </ul>
+
 
               <div className="lg:sticky lg:top-24 lg:self-start">
                 {open ? (
