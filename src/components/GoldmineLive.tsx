@@ -469,9 +469,15 @@ export function GoldmineLive() {
                                 <span className="text-muted-paper">Unavailable</span>
                               ) : (
                                 <span className="text-violet">
-                                  {s.mentions === 0 ? "No mentions found" : `${s.mentions} mentions`}
+                                  {s.mentions === 0
+                                    ? "No mentions found"
+                                    : s.mentions === 1
+                                      ? "1 mention"
+                                      : `${s.mentions} mentions`}
                                 </span>
                               )}
+
+
                             </div>
                             <p className="mt-2 text-[13px] text-muted-paper">
                               {s.status === "pending"
