@@ -326,13 +326,12 @@ export function GoldmineLive() {
       </p>
 
       {signedIn === false ? (
-        <div className="mt-6 rounded-[16px] bg-cream p-4 text-[15px] text-muted-paper">
-          Scans run against your own account, so results and drafts stay private to you. Sign in at{" "}
-          <a href="/login?next=/goldmine" className="font-semibold text-violet underline underline-offset-4">
-            the sign in page
-          </a>{" "}
-          to run one.
-        </div>
+        <a
+          href="/login?next=/goldmine"
+          className="pill-btn btn-primary-dark mt-6 flex w-full items-center justify-center px-7 py-4 text-[1rem]"
+        >
+          Run the scan
+        </a>
       ) : (
         <button
           type="button"
@@ -345,10 +344,16 @@ export function GoldmineLive() {
       )}
 
       <p className="mt-3 text-center text-[14px] text-muted-paper">
-        Payment is switched off during this pilot, so nothing is charged. The engine still keeps
-        its work in memory rather than in durable storage, so treat a run as a test rather than a
-        record you can rely on.
+        {signedIn === false
+          ? "You can read a full example scan further down this page without signing in. Running your own scan asks you to sign in first, so your results and drafts stay private to you."
+          : "Payment is switched off during this pilot, so nothing is charged. The engine still keeps its work in memory rather than in durable storage, so treat a run as a test rather than a record you can rely on."}
       </p>
+
+      {signedIn === false ? (
+        <p className="mt-2 text-center text-[14px] text-muted-paper">
+          Nothing is charged today.
+        </p>
+      ) : null}
 
       {error ? (
         <p role="alert" className="mt-4 rounded-[14px] bg-cream p-4 text-[15px] text-ink">
