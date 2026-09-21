@@ -84,6 +84,10 @@ const categories = [
   "Hair",
 ];
 
+// The first results are shown in full so an agency can judge the quality of the
+// work. The remainder of the list is held back until the scan is paid for.
+const FREE_PREVIEW_COUNT = 2;
+
 function Spinner() {
   return (
     <span
