@@ -234,8 +234,13 @@ export function GoldmineLive() {
         : await startScan({ data: { orderId: order.id } })) as ScanSnapshot;
       setSnapshot(first);
       if (first.status === "pending" || first.status === "partial") beginPolling(order.id);
-    } catch {
-      setError("The scan could not be started. Nothing has been charged, and you can try again.");
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : "";
+      setError(
+        detail && detail.length < 200 && !/fetch|network|json/i.test(detail)
+          ? `${detail} Nothing has been charged, and you can try again.`
+          : "The scan could not be started. Nothing has been charged, and you can try again.",
+      );
     } finally {
       setBusy(false);
     }
