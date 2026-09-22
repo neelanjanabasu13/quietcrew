@@ -167,9 +167,11 @@ export async function startScanForOrder(orderId: string, owner: OrderOwner): Pro
     console.error("[goldmine] engine start failed", err);
     const detail = (err as { detail?: string }).detail;
     const message = detail ?? "The research engine could not start this scan";
+    // The claim is released so the same order can simply be tried again: a
+    // refusal at the engine is usually momentary, not a permanent state.
     await supabaseAdmin
       .from("goldmine_orders")
-      .update({ scan_status: "failed", engine_error: message })
+      .update({ scan_status: "not_started", engine_error: message })
       .eq("id", orderId);
     throw new Error(message);
   }
