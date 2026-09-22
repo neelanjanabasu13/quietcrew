@@ -165,11 +165,13 @@ export async function startScanForOrder(orderId: string, owner: OrderOwner): Pro
       .eq("id", orderId);
   } catch (err) {
     console.error("[goldmine] engine start failed", err);
+    const detail = (err as { detail?: string }).detail;
+    const message = detail ?? "The research engine could not start this scan";
     await supabaseAdmin
       .from("goldmine_orders")
-      .update({ scan_status: "failed", engine_error: "The research engine could not start this scan." })
+      .update({ scan_status: "failed", engine_error: message })
       .eq("id", orderId);
-    throw new Error("The research engine could not start this scan");
+    throw new Error(message);
   }
 
   return readScanForOrder(orderId, owner);

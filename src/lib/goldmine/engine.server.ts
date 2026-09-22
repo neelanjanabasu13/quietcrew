@@ -65,8 +65,19 @@ async function engineFetch(
   if (!response.ok) {
     // The engine's own message is logged server side and never returned to the page.
     console.error(`[goldmine] engine ${init.method} ${path} failed`, response.status, text.slice(0, 500));
-    const error = new Error(`Engine request failed with status ${response.status}`) as Error & { status?: number };
+    const error = new Error(`Engine request failed with status ${response.status}`) as Error & {
+      status?: number;
+      detail?: string;
+    };
     error.status = response.status;
+    // A plain message from the engine, such as an unsupported area, is safe to
+    // show to the person running the scan.
+    try {
+      const parsed = JSON.parse(text) as { error?: unknown };
+      if (typeof parsed.error === "string" && parsed.error.length < 200) error.detail = parsed.error;
+    } catch {
+      // The engine did not send a JSON message, so nothing extra is shown.
+    }
     throw error;
   }
   try {
