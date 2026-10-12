@@ -40,6 +40,8 @@ export type ScanSnapshot = {
   message: string;
   /** Businesses held back from a free preview, waiting behind the paid scan. */
   lockedCount?: number;
+  /** True once the full scan has been paid for. */
+  paid?: boolean;
 };
 
 export function countChecks(businesses: ScanBusiness[]) {
