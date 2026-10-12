@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { CopyDraftButton } from "@/components/CopyDraftButton";
 
 /**
  * Goldmine results preview.
@@ -435,12 +436,19 @@ export function GoldmineResults() {
                     const key = draftKey(open.id, d.id);
                     return (
                       <div key={d.id}>
-                        <label
-                          htmlFor={`draft-${key}`}
-                          className="mono-label text-muted-paper"
-                        >
-                          {d.angle}
-                        </label>
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <label
+                            htmlFor={`draft-${key}`}
+                            className="mono-label text-muted-paper"
+                          >
+                            {d.angle}
+                          </label>
+                          <CopyDraftButton
+                            text={drafts[key] ?? d.body}
+                            describes={d.angle}
+                            targetId={`draft-${key}`}
+                          />
+                        </div>
                         <textarea
                           id={`draft-${key}`}
                           rows={5}
