@@ -326,7 +326,12 @@ export function GoldmineResults() {
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <button
                     type="button"
-                    onClick={() => setOpenId(isOpen ? null : b.id)}
+                    onClick={() => {
+                      setOpenId(isOpen ? null : b.id);
+                      if (!isOpen && window.innerWidth < 1024) {
+                        setTimeout(() => document.getElementById("goldmine-example-detail")?.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
+                      }
+                    }}
                     aria-expanded={isOpen}
                     className="pill-btn btn-primary-dark px-5 py-3 text-[14px]"
                   >
@@ -375,7 +380,7 @@ export function GoldmineResults() {
 
 
         {/* Detail */}
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        <div id="goldmine-example-detail" className="scroll-mt-24 lg:sticky lg:top-24 lg:self-start">
           {open ? (
             <div className="rounded-[20px] bg-white p-6 soft-shadow">
               <p className="eyebrow self-start">Business detail</p>
