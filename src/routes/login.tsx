@@ -13,7 +13,7 @@ function safeNext(value: unknown): string {
 
 export const Route = createFileRoute("/login")({
   ssr: false,
-  validateSearch: (search: Record<string, unknown>): { next: string; mode?: "signin" | "signup" } => ({
+  validateSearch: (search: Record<string, unknown>): { next: string; mode?: "signin" | "signup" | undefined } => ({
     next: safeNext(search["next"]),
     mode: search["mode"] === "signin" ? "signin" : search["mode"] === "signup" ? "signup" : undefined,
   }),
