@@ -129,12 +129,14 @@ export const createGoldmineCheckout = createServerFn({ method: "POST" })
       const userId = context.userId;
       let customerId: string;
       const found = await stripe.customers.search({ query: `metadata['userId']:'${userId}'`, limit: 1 });
-      if (found.data.length) customerId = found.data[0].id;
+      const hit = found.data[0];
+      if (hit) customerId = hit.id;
       else {
         const byEmail = email ? await stripe.customers.list({ email, limit: 1 }) : { data: [] };
-        if (byEmail.data.length) {
-          customerId = byEmail.data[0].id;
-          await stripe.customers.update(customerId, { metadata: { ...byEmail.data[0].metadata, userId } });
+        const match = byEmail.data[0];
+        if (match) {
+          customerId = match.id;
+          await stripe.customers.update(customerId, { metadata: { ...match.metadata, userId } });
         } else {
           customerId = (await stripe.customers.create({ ...(email && { email }), metadata: { userId } })).id;
         }
