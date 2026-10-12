@@ -195,7 +195,7 @@ function Goldmine() {
 
             <Reveal className="mx-auto mt-12 max-w-[620px] text-center">
               <p className="text-[16px] text-muted-paper">
-                The pilot scan costs £19 and tests each business through Gemini, OpenAI and
+                The pilot scan costs £49 and tests each business through Gemini, OpenAI and
                 Claude. Questions about the product are welcome at{" "}
                 <a
                   href="mailto:hello@quietcrew.ai"
