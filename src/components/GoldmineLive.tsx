@@ -15,6 +15,7 @@ import {
 } from "@/lib/goldmine.functions";
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
 import { getStripe, getStripeEnvironment } from "@/lib/stripe";
+import { CopyDraftButton } from "@/components/CopyDraftButton";
 
 const LAST_ORDER_KEY = "goldmine.lastOrder";
 import { PROVIDERS, type ProviderCheck, type ProviderName, type ScanSnapshot } from "@/lib/goldmine/types";
@@ -724,9 +725,19 @@ export function GoldmineLive() {
                           const key = `${open.id}:${d.id}`;
                           return (
                             <div key={d.id}>
-                              <label htmlFor={`draft-${key}`} className="mono-label text-muted-paper">
-                                {d.angle}
-                              </label>
+                              <div className="flex flex-wrap items-center justify-between gap-2">
+                                <label
+                                  htmlFor={`draft-${key}`}
+                                  className="mono-label text-muted-paper"
+                                >
+                                  {d.angle}
+                                </label>
+                                <CopyDraftButton
+                                  text={edits[key] ?? d.body}
+                                  describes={d.angle}
+                                  targetId={`draft-${key}`}
+                                />
+                              </div>
                               <textarea
                                 id={`draft-${key}`}
                                 rows={6}
