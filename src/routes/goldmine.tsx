@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { GoldmineResults } from "@/components/GoldmineResults";
 import { GoldmineLive } from "@/components/GoldmineLive";
+import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 
 const TITLE = "Goldmine by Quietcrew | Local prospect discovery for agencies";
 const DESCRIPTION =
@@ -32,6 +33,7 @@ export const Route = createFileRoute("/goldmine")({
 function Goldmine() {
   return (
     <div className="min-h-screen bg-white">
+      <PaymentTestModeBanner />
       <SiteNav />
 
       <main>
