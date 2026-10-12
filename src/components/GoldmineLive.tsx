@@ -10,7 +10,13 @@ import {
   getGuestGoldmineScan,
   startGoldmineScan,
   startGuestGoldmineScan,
+  claimGuestGoldmineOrder,
+  createGoldmineCheckout,
 } from "@/lib/goldmine.functions";
+import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
+import { getStripe, getStripeEnvironment } from "@/lib/stripe";
+
+const LAST_ORDER_KEY = "goldmine.lastOrder";
 import { PROVIDERS, type ProviderCheck, type ProviderName, type ScanSnapshot } from "@/lib/goldmine/types";
 
 /**
@@ -163,7 +169,12 @@ export function GoldmineLive() {
   const poll = useRef<ReturnType<typeof setInterval> | null>(null);
   // Flipped on once a scan is paid for. Payment is not connected yet, so the
   // locked results stay locked.
-  const [unlocked] = useState(false);
+  const claimOrder = useServerFn(claimGuestGoldmineOrder);
+  const createCheckout = useServerFn(createGoldmineCheckout);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const unlocked = Boolean(snapshot?.paid);
+  const restored = useRef(false);
 
 
   useEffect(() => {
@@ -188,6 +199,55 @@ export function GoldmineLive() {
   }, []);
 
   useEffect(() => stopPolling, [stopPolling]);
+
+  // Bring back the last scan after signing in or returning from checkout, so
+  // the agency lands on the same results it was looking at.
+  useEffect(() => {
+    if (signedIn === null || restored.current) return;
+    restored.current = true;
+    const id = window.localStorage.getItem(LAST_ORDER_KEY);
+    if (!id) return;
+    const returning = new URLSearchParams(window.location.search).has("session_id");
+    (async () => {
+      try {
+        if (signedIn) {
+          const token = window.localStorage.getItem(GUEST_TOKEN_KEY);
+          if (token) await claimOrder({ data: { orderId: id, guestToken: token } });
+        }
+        const read = () =>
+          (signedIn
+            ? readScan({ data: { orderId: id } })
+            : readGuestScan({ data: { orderId: id, guestToken: guestToken() } })) as Promise<ScanSnapshot>;
+        let snap = await read();
+        // The payment confirmation can land a few seconds after the return.
+        for (let i = 0; returning && !snap.paid && i < 10; i++) {
+          await new Promise((r) => setTimeout(r, 3000));
+          snap = await read();
+        }
+        setOrderId(id);
+        setSnapshot(snap);
+        if (snap.status === "pending" || snap.status === "partial") beginPolling(id);
+      } catch {
+        window.localStorage.removeItem(LAST_ORDER_KEY);
+      }
+    })();
+  }, [signedIn, claimOrder, readScan, readGuestScan, beginPolling]);
+
+  const fetchClientSecret = useCallback(async () => {
+    if (!orderId) throw new Error("No scan to unlock");
+    const result = await createCheckout({
+      data: {
+        orderId,
+        environment: getStripeEnvironment(),
+        returnUrl: `${window.location.origin}/goldmine?session_id={CHECKOUT_SESSION_ID}`,
+      },
+    });
+    if ("error" in result) {
+      setCheckoutError(result.error);
+      throw new Error(result.error);
+    }
+    return result.clientSecret;
+  }, [createCheckout, orderId]);
 
   const beginPolling = useCallback(
     (id: string) => {
@@ -229,6 +289,7 @@ export function GoldmineLive() {
         ? await createGuestOrder({ data: { locality, category, guestToken: token } })
         : await createOrder({ data: { locality, category } })) as { id: string };
       setOrderId(order.id);
+      window.localStorage.setItem(LAST_ORDER_KEY, order.id);
       const first = (token
         ? await startGuestScan({ data: { orderId: order.id, guestToken: token } })
         : await startScan({ data: { orderId: order.id } })) as ScanSnapshot;
@@ -530,22 +591,36 @@ export function GoldmineLive() {
                         </a>
                         <p className="mt-3 text-[14px] text-muted-on-violet">
                           An account is needed for the full scan, so the purchase is recorded and
-                          billed to you and the results stay yours. Payment opens in the next few
-                          days, and nothing is charged today.
+                          billed to you and the results stay yours. Your preview comes with you
+                          when you sign in.
                         </p>
                       </>
                     ) : (
                       <>
-                        <button
-                          type="button"
-                          disabled
-                          className="pill-btn mt-5 bg-white px-6 py-3 text-[15px] font-semibold text-ink disabled:opacity-70"
-                        >
-                          Unlock the full scan, £49
-                        </button>
+                        {checkoutOpen ? (
+                          <div className="mt-5 overflow-hidden rounded-[20px] bg-white">
+                            <EmbeddedCheckoutProvider stripe={getStripe()} options={{ fetchClientSecret }}>
+                              <EmbeddedCheckout />
+                            </EmbeddedCheckoutProvider>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCheckoutError(null);
+                              setCheckoutOpen(true);
+                            }}
+                            className="pill-btn mt-5 bg-white px-6 py-3 text-[15px] font-semibold text-ink"
+                          >
+                            Unlock the full scan, £49
+                          </button>
+                        )}
+                        {checkoutError ? (
+                          <p role="alert" className="mt-3 text-[14px] text-peach">{checkoutError}</p>
+                        ) : null}
                         <p className="mt-3 text-[14px] text-muted-on-violet">
-                          Payment opens in the next few days, once the business account is live.
-                          Nothing is charged today.
+                          One payment of £49 unlocks every business in this scan, and the results
+                          stay in your account.
                         </p>
                       </>
                     )}
