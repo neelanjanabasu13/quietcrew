@@ -421,19 +421,35 @@ export function GoldmineLive() {
         job, so you only choose where to look and what kind of business to look for.
       </p>
 
+      <div className="mt-6 grid gap-3 rounded-[20px] bg-violet-tint p-4 sm:grid-cols-2">
+        <div className="rounded-[16px] bg-white p-4">
+          <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-violet">Free preview</p>
+          <p className="mt-1 text-[1.4rem] font-extrabold text-ink">£0</p>
+          <p className="mt-1 text-[14px] text-muted-paper">
+            The top two prospects in full, with no account and no card needed.
+          </p>
+        </div>
+        <div className="rounded-[16px] bg-white p-4">
+          <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-violet">Full scan</p>
+          <p className="mt-1 text-[1.4rem] font-extrabold text-ink">£49, one payment</p>
+          <p className="mt-1 text-[14px] text-muted-paper">
+            Every qualified business found, each assistant check and an outreach draft for each one.
+          </p>
+        </div>
+      </div>
+
       <button
         type="button"
         onClick={onRun}
         disabled={busy || signedIn === null}
         className="pill-btn btn-primary-dark mt-6 w-full px-7 py-4 text-[1rem] disabled:opacity-60"
       >
-        {busy ? "Starting the scan" : "Run the scan"}
+        {busy ? "Starting the scan" : "Run the free preview"}
       </button>
 
       <p className="mt-3 text-center text-[14px] text-muted-paper">
-        {signedIn === false
-          ? "No account is needed to run this scan, and nothing is charged. You read the first two businesses in full, and the rest of the list opens once you sign in and buy the full scan."
-          : "Payment is switched off during this pilot, so nothing is charged. The engine still keeps its work in memory rather than in durable storage, so treat a run as a test rather than a record you can rely on."}
+        Nothing is charged to run the preview. You only pay £49 if you decide to open the rest of
+        the list, and you will need a free account at that point so the purchase is yours.
       </p>
 
       {error ? (
@@ -583,12 +599,20 @@ export function GoldmineLive() {
                     </p>
                     {signedIn === false ? (
                       <>
-                        <a
-                          href="/login?next=/goldmine"
-                          className="pill-btn mt-5 inline-flex bg-white px-6 py-3 text-[15px] font-semibold text-ink"
-                        >
-                          Sign in to unlock the full scan, £49
-                        </a>
+                        <div className="mt-5 flex flex-wrap gap-3">
+                          <a
+                            href="/login?next=/goldmine&mode=signup"
+                            className="pill-btn inline-flex bg-white px-6 py-3 text-[15px] font-semibold text-ink"
+                          >
+                            Create a free account to buy, £49
+                          </a>
+                          <a
+                            href="/login?next=/goldmine&mode=signin"
+                            className="pill-btn inline-flex px-6 py-3 text-[15px] font-semibold text-white ring-1 ring-white/40"
+                          >
+                            I already have an account
+                          </a>
+                        </div>
                         <p className="mt-3 text-[14px] text-muted-on-violet">
                           An account is needed for the full scan, so the purchase is recorded and
                           billed to you and the results stay yours. Your preview comes with you
