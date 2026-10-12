@@ -200,6 +200,30 @@ export function GoldmineLive() {
 
   useEffect(() => stopPolling, [stopPolling]);
 
+  const beginPolling = useCallback(
+    (id: string) => {
+      stopPolling();
+      poll.current = setInterval(() => {
+        (signedIn
+          ? readScan({ data: { orderId: id } })
+          : readGuestScan({ data: { orderId: id, guestToken: guestToken() } })
+        )
+          .then((next) => {
+            // Results are merged in as they arrive, so an open business detail
+            // and anything typed into a draft are left exactly as they were.
+            setSnapshot(next as ScanSnapshot);
+            if ((next as ScanSnapshot).status === "completed" || (next as ScanSnapshot).status === "failed") {
+              stopPolling();
+            }
+          })
+          .catch(() => {
+            setError("The last update could not be read. Anything already on screen is kept.");
+          });
+      }, 6000);
+    },
+    [readScan, readGuestScan, signedIn, stopPolling],
+  );
+
   // Bring back the last scan after signing in or returning from checkout, so
   // the agency lands on the same results it was looking at.
   useEffect(() => {
@@ -248,30 +272,6 @@ export function GoldmineLive() {
     }
     return result.clientSecret;
   }, [createCheckout, orderId]);
-
-  const beginPolling = useCallback(
-    (id: string) => {
-      stopPolling();
-      poll.current = setInterval(() => {
-        (signedIn
-          ? readScan({ data: { orderId: id } })
-          : readGuestScan({ data: { orderId: id, guestToken: guestToken() } })
-        )
-          .then((next) => {
-            // Results are merged in as they arrive, so an open business detail
-            // and anything typed into a draft are left exactly as they were.
-            setSnapshot(next as ScanSnapshot);
-            if ((next as ScanSnapshot).status === "completed" || (next as ScanSnapshot).status === "failed") {
-              stopPolling();
-            }
-          })
-          .catch(() => {
-            setError("The last update could not be read. Anything already on screen is kept.");
-          });
-      }, 6000);
-    },
-    [readScan, readGuestScan, signedIn, stopPolling],
-  );
 
   async function onRun() {
     setError(null);
