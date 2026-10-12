@@ -313,6 +313,9 @@ export function GoldmineLive() {
       return;
     }
     setOpenId(businessId);
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      setTimeout(() => document.getElementById("goldmine-live-detail")?.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
+    }
     if (!orderId || draftState[businessId]) return;
     setDraftState((prev) => ({ ...prev, [businessId]: { loading: true, drafts: [] } }));
     try {
@@ -653,7 +656,7 @@ export function GoldmineLive() {
               </ul>
 
 
-              <div className="lg:sticky lg:top-24 lg:self-start">
+              <div id="goldmine-live-detail" className="scroll-mt-24 lg:sticky lg:top-24 lg:self-start">
                 {open ? (
                   <div className="rounded-[20px] bg-white p-6 soft-shadow">
                     <p className="eyebrow self-start">Business detail</p>
