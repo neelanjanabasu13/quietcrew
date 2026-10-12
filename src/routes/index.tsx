@@ -361,7 +361,7 @@ function Index() {
                   </div>
                   <div className="flex flex-none flex-col items-start gap-3 lg:items-end">
                     <p className="text-[15px] font-semibold text-violet">
-                      £19 per scan, introductory price
+                      £49 per scan, introductory price
                     </p>
                     <Link
                       to="/goldmine"
@@ -489,7 +489,7 @@ function Index() {
                       approach.
                     </p>
                     <p className="mt-5 text-[15px] font-semibold text-peach">
-                      £19 per area and category scan, introductory price
+                      £49 per area and category scan, introductory price
                     </p>
                   </div>
                   <div className="lg:justify-self-end">
