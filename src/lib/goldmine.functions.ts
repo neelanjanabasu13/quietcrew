@@ -148,8 +148,7 @@ export const createGoldmineCheckout = createServerFn({ method: "POST" })
         return_url: data.returnUrl,
         customer: customerId,
         payment_intent_data: { description: "Goldmine by Quietcrew Scan" },
-        metadata: { userId, goldmineOrderId: order.id, managed_payments: "true" },
-        managed_payments: { enabled: true },
+        metadata: { userId, goldmineOrderId: order.id },
       } as import("stripe").Stripe.Checkout.SessionCreateParams);
       return { clientSecret: session.client_secret ?? "" };
     } catch (error) {
