@@ -93,3 +93,23 @@ describe("Engine run mapping", () => {
     expect(normaliseOutreach({ subject: "x", body: "" })).toEqual([]);
   });
 });
+
+import { normaliseEngineRun as _norm } from "./mapping";
+import { readFileSync as _read, existsSync as _ex } from "node:fs";
+import { describe as _d, it as _it, expect as _e } from "vitest";
+_d("live engine run mapping", () => {
+  _it("keeps discovery counts, questions and named competitors, and flags missing review text", () => {
+    const run = {
+      status: "complete",
+      discovery: { candidates_found: 52, candidates_qualified: 51, excluded_multi_location_candidates: 6 },
+      results: [{ place_id: "p1", name: "A", rating: 4.9, review_count: 10, top_review: null, website: "https://a.co.uk/",
+        ai_market_winners: [{ name: "The Flask", appearances: 9 }],
+        ai: { providers: {}, queries: [{ query: "best restaurants", status: "tested", mentioned: false, providers: { openai: { status: "tested", mentioned: true } } }] } }],
+    };
+    const s = _norm(run, "Highgate", "Restaurants");
+    _e(s.discovery).toEqual({ found: 52, qualified: 51, analysed: 1, chainsExcluded: 6 });
+    _e(s.businesses[0].questions).toEqual([{ query: "best restaurants", named: true }]);
+    _e(s.businesses[0].namedInstead).toEqual([{ name: "The Flask", appearances: 9 }]);
+    _e(s.businesses[0].reviewTextAvailable).toBe(false);
+  });
+});
