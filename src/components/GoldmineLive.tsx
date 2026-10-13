@@ -517,6 +517,16 @@ export function GoldmineLive() {
             </div>
           </div>
 
+          {snapshot.discovery && snapshot.discovery.found !== null ? (
+            <p className="mt-4 rounded-[14px] bg-cream px-4 py-3 text-[15px] font-semibold text-ink">
+              {snapshot.discovery.found} found, {snapshot.discovery.qualified ?? "?"} qualified,{" "}
+              {snapshot.discovery.analysed} analysed
+              {snapshot.discovery.chainsExcluded
+                ? `, after ${snapshot.discovery.chainsExcluded} chain ${snapshot.discovery.chainsExcluded === 1 ? "exclusion" : "exclusions"}`
+                : ""}
+            </p>
+          ) : null}
+
           <p className="mt-4 text-[14px] text-muted-paper">
             A provider check that fails is recorded as unavailable rather than as no mentions,
             because a failed check tells you nothing about the business. The OpenAI and Claude
@@ -751,6 +761,71 @@ export function GoldmineLive() {
                         <p className="text-[13px] font-semibold text-ink">Why the score reads this way</p>
                         <p className="mt-2 text-[14px] text-muted-paper">{open.why}</p>
                       </div>
+                    ) : null}
+
+                    {open.website ? (
+                      <p className="mt-5 text-[14px] text-muted-paper">
+                        Website:{" "}
+                        <a
+                          href={open.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-semibold text-violet underline underline-offset-2"
+                        >
+                          {open.website.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
+                        </a>
+                      </p>
+                    ) : null}
+
+                    {open.questions && open.questions.length > 0 ? (
+                      <div className="mt-6">
+                        <p className="text-[15px] font-semibold text-ink">
+                          The questions a customer would ask
+                        </p>
+                        <p className="mt-1 text-[13px] text-muted-paper">
+                          Named in {open.questions.filter((q) => q.named).length} of{" "}
+                          {open.questions.length} questions by at least one assistant.
+                        </p>
+                        <ul className="mt-3 space-y-2">
+                          {open.questions.map((q) => (
+                            <li
+                              key={q.query}
+                              className="flex items-start justify-between gap-3 rounded-[12px] bg-cream px-4 py-2 text-[14px]"
+                            >
+                              <span className="text-ink">{q.query}</span>
+                              <span
+                                className={`shrink-0 font-semibold ${q.named ? "text-violet" : "text-muted-paper"}`}
+                              >
+                                {q.named ? "Named" : "Not named"}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
+
+                    {open.namedInstead && open.namedInstead.length > 0 ? (
+                      <div className="mt-6">
+                        <p className="text-[15px] font-semibold text-ink">Named instead</p>
+                        <ul className="mt-3 flex flex-wrap gap-2">
+                          {open.namedInstead.map((w) => (
+                            <li
+                              key={w.name}
+                              className="rounded-full bg-violet-tint px-3 py-1 text-[13px] font-semibold text-ink"
+                            >
+                              {w.name} · {w.appearances}{" "}
+                              {w.appearances === 1 ? "answer" : "answers"}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
+
+                    {open.reviewTextAvailable === false ? (
+                      <p className="mt-5 text-[13px] text-muted-paper">
+                        Google returned the rating and review count but not the text of any review,
+                        so no customer quote is shown here.
+                      </p>
                     ) : null}
 
                     <div className="mt-6">
