@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CopyDraftButton } from "@/components/CopyDraftButton";
+import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
 
 /**
  * Goldmine results preview.
@@ -87,6 +88,54 @@ const businesses: Business[] = [
       },
     ],
   },
+  {
+    id: "ash-grove-vets",
+    name: "Ash Grove Veterinary Surgery",
+    area: "Crouch End",
+    category: "Veterinary practices",
+    reputation: { rating: 4.9, reviews: 356 },
+    gold: 81,
+    why: "Loved by the neighbourhood, and absent from the assistants when someone asks who to ring about a poorly pet in the evening.",
+    drafts: [
+      {
+        id: "d1",
+        angle: "The urgent search",
+        body: "Hello, when someone asks an assistant who to ring about a poorly dog in Crouch End, your surgery is not among the names it gives, despite the reviews you hold. I have written down what each assistant said and can send it over.",
+      },
+    ],
+  },
+  {
+    id: "bell-and-rook",
+    name: "Bell and Rook Estate Agents",
+    area: "Highgate",
+    category: "Estate agencies",
+    reputation: { rating: 4.6, reviews: 129 },
+    gold: 77,
+    why: "Named by one assistant for valuation questions and by none of the others, so the gap here is narrow but worth closing.",
+    drafts: [
+      {
+        id: "d1",
+        angle: "Valuation enquiries",
+        body: "Hello, one assistant names you when asked who to call for a valuation in Highgate, and the other two name competitors instead. The write up is short, and I am happy to send it.",
+      },
+    ],
+  },
+  {
+    id: "whitfield-and-sons",
+    name: "Whitfield and Sons Accountants",
+    area: "Hampstead",
+    category: "Accountancy",
+    reputation: { rating: 4.8, reviews: 87 },
+    gold: 69,
+    why: "A long standing practice with strong word of mouth, and no trail at all in the answers the assistants give to small business owners.",
+    drafts: [
+      {
+        id: "d1",
+        angle: "Small business questions",
+        body: "Hello, I asked three assistants which accountants to use in Hampstead and none of them named you, although your reviews are the strongest in the group I looked at. I can send the detail with no obligation.",
+      },
+    ],
+  },
 ];
 
 /** Fixture outcomes, including one provider that fails rather than returning a count. */
@@ -106,6 +155,21 @@ const outcomes: Record<string, Record<ProviderName, ProviderState>> = {
     OpenAI: { status: "complete", mentions: 3, note: "Named the restaurant in three of the ten questions." },
     Claude: { status: "unavailable", note: "The check did not complete, so there is no result for this provider." },
   },
+  "ash-grove-vets": {
+    Gemini: { status: "complete", mentions: 0, note: "Named two other surgeries and did not name this one." },
+    OpenAI: { status: "complete", mentions: 1, note: "Named the surgery once, in a list of four." },
+    Claude: { status: "complete", mentions: 0, note: "Named a clinic two miles away instead." },
+  },
+  "bell-and-rook": {
+    Gemini: { status: "complete", mentions: 1, note: "Named the agency in one of the ten questions." },
+    OpenAI: { status: "unavailable", note: "The check did not complete, so there is no result for this provider." },
+    Claude: { status: "complete", mentions: 0, note: "Named three other agencies in the area." },
+  },
+  "whitfield-and-sons": {
+    Gemini: { status: "complete", mentions: 0, note: "Named three larger firms in the borough." },
+    OpenAI: { status: "complete", mentions: 0, note: "Did not name any practice in Hampstead." },
+    Claude: { status: "complete", mentions: 1, note: "Named the practice once, alongside two others." },
+  },
 };
 
 /** Arrival order for the preview, in milliseconds after the run starts. */
@@ -119,6 +183,15 @@ const schedule: { businessId: string; provider: ProviderName; at: number }[] = [
   { businessId: "marlow-grey-physio", provider: "Claude", at: 5900 },
   { businessId: "hornsey-lane-dental", provider: "Claude", at: 6700 },
   { businessId: "fallow-kitchen", provider: "Claude", at: 7400 },
+  { businessId: "ash-grove-vets", provider: "Gemini", at: 8200 },
+  { businessId: "bell-and-rook", provider: "Gemini", at: 8800 },
+  { businessId: "whitfield-and-sons", provider: "Gemini", at: 9400 },
+  { businessId: "ash-grove-vets", provider: "OpenAI", at: 10000 },
+  { businessId: "bell-and-rook", provider: "OpenAI", at: 10600 },
+  { businessId: "whitfield-and-sons", provider: "OpenAI", at: 11200 },
+  { businessId: "ash-grove-vets", provider: "Claude", at: 11800 },
+  { businessId: "bell-and-rook", provider: "Claude", at: 12400 },
+  { businessId: "whitfield-and-sons", provider: "Claude", at: 13000 },
 ];
 
 type ResultMap = Record<string, Record<ProviderName, ProviderState>>;
@@ -279,23 +352,12 @@ export function GoldmineResults() {
 
             if (locked) {
               return (
-                <li key={b.id} className="rounded-[20px] bg-white p-5 soft-shadow">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div aria-hidden="true" className="select-none blur-[6px]">
-                      <h3 className="text-[1.1rem]">{b.name}</h3>
-                      <p className="mt-1 text-[14px] text-muted-paper">
-                        {b.area}, {b.category}
-                      </p>
-                    </div>
-                    <span className="rounded-full bg-violet-tint px-3 py-1 text-[12px] font-semibold text-violet">
-                      Locked
-                    </span>
-                  </div>
-                  <p className="mt-3 text-[14px] text-muted-paper">
-                    This business, its reputation figures, its assistant checks and its outreach
-                    drafts are part of the full scan.
-                  </p>
-                </li>
+                <GoldmineLockedCard
+                  key={b.id}
+                  rank={index + 1}
+                  total={businesses.length}
+                  blur={{ name: b.name, meta: `${b.area}, ${b.category}` }}
+                />
               );
             }
 

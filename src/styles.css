@@ -384,6 +384,53 @@
   .marquee-track {
     animation: none;
   }
+  .goldmine-locked::before {
+    animation: none;
+  }
+}
+
+/* Held-back Goldmine results: a full-strength violet panel with a slow sheen,
+   so the rows belonging to the paid scan read as part of the list but shut. */
+.goldmine-locked {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--violet-deep);
+  background-image:
+    radial-gradient(
+      120% 150% at 100% 0%,
+      color-mix(in oklab, var(--peach) 26%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(
+      135deg,
+      var(--violet-deep) 0%,
+      var(--violet-deeper) 58%,
+      color-mix(in oklab, var(--violet-deeper) 78%, black) 100%
+    );
+}
+.goldmine-locked::before {
+  content: "";
+  position: absolute;
+  inset: -30% -25%;
+  z-index: -1;
+  background-image: linear-gradient(
+    100deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.14) 50%,
+    transparent 60%
+  );
+  animation: locked-sheen 5.5s ease-in-out infinite;
+}
+@keyframes locked-sheen {
+  0%,
+  38% {
+    transform: translateX(-70%);
+  }
+  82%,
+  100% {
+    transform: translateX(70%);
+  }
 }
 
 @utility menu-sheet {

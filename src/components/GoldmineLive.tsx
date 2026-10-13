@@ -16,6 +16,7 @@ import {
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
 import { getStripe, getStripeEnvironment } from "@/lib/stripe";
 import { CopyDraftButton } from "@/components/CopyDraftButton";
+import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
 
 const LAST_ORDER_KEY = "goldmine.lastOrder";
 import { PROVIDERS, type ProviderCheck, type ProviderName, type ScanSnapshot } from "@/lib/goldmine/types";
@@ -92,6 +93,10 @@ const categories = [
 // The first results are shown in full so an agency can judge the quality of the
 // work. The remainder of the list is held back until the scan is paid for.
 const FREE_PREVIEW_COUNT = 2;
+
+// Held-back businesses are drawn as numbered rows, so the size of the paid scan
+// is visible before anyone pays. A handful of them is enough to show that.
+const LOCKED_PLACEHOLDER_ROWS = 5;
 
 /**
  * A visitor who is not signed in still runs a real scan and reads the first
@@ -353,6 +358,14 @@ export function GoldmineLive() {
   // their details are never sent to the browser in the first place.
   const lockedCount =
     (snapshot?.lockedCount ?? 0) + (snapshot?.businesses.length ?? 0) - visibleBusinesses.length;
+  // Rows already drawn from businesses the browser holds, and how many
+  // placeholder rows the rest needs, so the paid scan reads at full size.
+  const lockedRows = (snapshot?.businesses.length ?? 0) - visibleBusinesses.length;
+  const placeholderCount = Math.max(
+    0,
+    Math.min(lockedCount - lockedRows, LOCKED_PLACEHOLDER_ROWS),
+  );
+  const scanTotal = visibleBusinesses.length + lockedCount;
   const open = visibleBusinesses.find((b) => b.id === openId) ?? null;
   const openDrafts = openId ? draftState[openId] : undefined;
 
@@ -525,21 +538,12 @@ export function GoldmineLive() {
 
                   if (locked) {
                     return (
-                      <li key={b.id} className="rounded-[20px] bg-white p-5 soft-shadow">
-                        <div className="flex flex-wrap items-start justify-between gap-3">
-                          <div aria-hidden="true" className="select-none blur-[6px]">
-                            <h3 className="text-[1.1rem]">{b.name}</h3>
-                            <p className="mt-1 text-[14px] text-muted-paper">{b.area}</p>
-                          </div>
-                          <span className="rounded-full bg-violet-tint px-3 py-1 text-[12px] font-semibold text-violet">
-                            Locked
-                          </span>
-                        </div>
-                        <p className="mt-3 text-[14px] text-muted-paper">
-                          This business, its reputation figures, its assistant checks and its outreach
-                          draft are part of the full scan.
-                        </p>
-                      </li>
+                      <GoldmineLockedCard
+                        key={b.id}
+                        rank={index + 1}
+                        total={scanTotal}
+                        blur={{ name: b.name, meta: b.area }}
+                      />
                     );
                   }
 
@@ -585,6 +589,16 @@ export function GoldmineLive() {
                     </li>
                   );
                 })}
+
+                {!unlocked
+                  ? Array.from({ length: placeholderCount }, (_, i) => (
+                      <GoldmineLockedCard
+                        key={`held-back-${i}`}
+                        rank={FREE_PREVIEW_COUNT + i + 1}
+                        total={scanTotal}
+                      />
+                    ))
+                  : null}
 
                 {lockedCount > 0 ? (
                   <li className="rounded-[20px] bg-violet-deep p-6 text-white soft-shadow-lg">
