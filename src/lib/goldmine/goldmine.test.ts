@@ -95,7 +95,6 @@ describe("Engine run mapping", () => {
 });
 
 import { normaliseEngineRun as _norm } from "./mapping";
-import { readFileSync as _read, existsSync as _ex } from "node:fs";
 import { describe as _d, it as _it, expect as _e } from "vitest";
 _d("live engine run mapping", () => {
   _it("keeps discovery counts, questions and named competitors, and flags missing review text", () => {
@@ -108,8 +107,8 @@ _d("live engine run mapping", () => {
     };
     const s = _norm(run, "Highgate", "Restaurants");
     _e(s.discovery).toEqual({ found: 52, qualified: 51, analysed: 1, chainsExcluded: 6 });
-    _e(s.businesses[0].questions).toEqual([{ query: "best restaurants", named: true }]);
-    _e(s.businesses[0].namedInstead).toEqual([{ name: "The Flask", appearances: 9 }]);
-    _e(s.businesses[0].reviewTextAvailable).toBe(false);
+    _e(s.businesses[0]!.questions).toEqual([{ query: "best restaurants", named: true }]);
+    _e(s.businesses[0]!.namedInstead).toEqual([{ name: "The Flask", appearances: 9 }]);
+    _e(s.businesses[0]!.reviewTextAvailable).toBe(false);
   });
 });
