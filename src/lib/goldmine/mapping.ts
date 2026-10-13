@@ -150,6 +150,29 @@ function businessFromResult(raw: unknown, index: number, locality: string, categ
         : parts.join(" "),
     providers,
     drafts: [],
+    website: typeof result["website"] === "string" && result["website"] ? (result["website"] as string) : null,
+    questions: queries
+      .map((raw) => {
+        const q = asDict(raw);
+        const text = String(q["query"] ?? "").trim();
+        if (!text) return null;
+        const subs = asDict(q["providers"]);
+        const named =
+          q["mentioned"] === true ||
+          Object.values(subs).some((s) => asDict(s)["mentioned"] === true);
+        return { query: text, named };
+      })
+      .filter((q): q is { query: string; named: boolean } => q !== null),
+    namedInstead: asArray(result["ai_market_winners"])
+      .map((raw) => {
+        const w = asDict(raw);
+        const name = String(w["name"] ?? "").trim();
+        const appearances = asNumber(w["appearances"]) ?? 0;
+        return name ? { name, appearances } : null;
+      })
+      .filter((w): w is { name: string; appearances: number } => w !== null)
+      .slice(0, 5),
+    reviewTextAvailable: result["top_review"] != null,
   };
 }
 
@@ -191,6 +214,7 @@ export function normaliseEngineRun(payload: unknown, locality: string, category:
     ? `The run is under way, currently at the ${stage} stage. Results appear here as they arrive.`
     : "The run is under way. Results appear here as they arrive.";
 
+  const disc = asDict(run["discovery"]);
   return {
     status,
     isFixture: false,
@@ -198,6 +222,12 @@ export function normaliseEngineRun(payload: unknown, locality: string, category:
     category: String(run["category"] ?? category),
     businesses,
     counts: countChecks(businesses),
+    discovery: {
+      found: asNumber(disc["candidates_found"]),
+      qualified: asNumber(disc["candidates_qualified"]),
+      analysed: businesses.length,
+      chainsExcluded: asNumber(disc["excluded_multi_location_candidates"]),
+    },
     message:
       status === "failed"
         ? failedMessage

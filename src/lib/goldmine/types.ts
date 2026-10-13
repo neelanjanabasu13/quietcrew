@@ -24,6 +24,20 @@ export type ScanBusiness = {
   why: string;
   providers: Record<ProviderName, ProviderCheck>;
   drafts: { id: string; angle: string; body: string }[];
+  website?: string | null;
+  /** The customer questions asked, and whether any assistant named the business. */
+  questions?: { query: string; named: boolean }[];
+  /** Businesses the assistants named instead, with how often. */
+  namedInstead?: { name: string; appearances: number }[];
+  /** False when Google did not return review text for this business. */
+  reviewTextAvailable?: boolean;
+};
+
+export type DiscoveryCounts = {
+  found: number | null;
+  qualified: number | null;
+  analysed: number;
+  chainsExcluded: number | null;
 };
 
 /** Overall run state. Partial means some checks landed and others have not. */
@@ -42,6 +56,7 @@ export type ScanSnapshot = {
   lockedCount?: number;
   /** True once the full scan has been paid for. */
   paid?: boolean;
+  discovery?: DiscoveryCounts;
 };
 
 export function countChecks(businesses: ScanBusiness[]) {
