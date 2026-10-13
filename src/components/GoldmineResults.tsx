@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CopyDraftButton } from "@/components/CopyDraftButton";
+import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
 
 /**
  * Goldmine results preview.
@@ -279,23 +280,12 @@ export function GoldmineResults() {
 
             if (locked) {
               return (
-                <li key={b.id} className="rounded-[20px] bg-white p-5 soft-shadow">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div aria-hidden="true" className="select-none blur-[6px]">
-                      <h3 className="text-[1.1rem]">{b.name}</h3>
-                      <p className="mt-1 text-[14px] text-muted-paper">
-                        {b.area}, {b.category}
-                      </p>
-                    </div>
-                    <span className="rounded-full bg-violet-tint px-3 py-1 text-[12px] font-semibold text-violet">
-                      Locked
-                    </span>
-                  </div>
-                  <p className="mt-3 text-[14px] text-muted-paper">
-                    This business, its reputation figures, its assistant checks and its outreach
-                    drafts are part of the full scan.
-                  </p>
-                </li>
+                <GoldmineLockedCard
+                  key={b.id}
+                  rank={index + 1}
+                  total={businesses.length}
+                  blur={{ name: b.name, meta: `${b.area}, ${b.category}` }}
+                />
               );
             }
 
