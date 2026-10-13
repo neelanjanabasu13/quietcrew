@@ -602,7 +602,7 @@ export function GoldmineLive() {
                   : null}
 
                 {lockedCount > 0 ? (
-                  <li className="rounded-[20px] bg-violet-deep p-6 text-white soft-shadow-lg">
+                  <li className="rounded-[20px] bg-violet-deep p-6 text-white soft-shadow-lg md:col-span-2">
                     <p className="eyebrow-on-violet self-start text-[12px] font-semibold uppercase tracking-[0.12em] text-peach">
                       Full scan
                     </p>
