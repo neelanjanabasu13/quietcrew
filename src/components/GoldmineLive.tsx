@@ -17,6 +17,7 @@ import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe
 import { getStripe, getStripeEnvironment } from "@/lib/stripe";
 import { CopyDraftButton } from "@/components/CopyDraftButton";
 import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
+import { GoldmineContrast } from "@/components/GoldmineContrast";
 
 const LAST_ORDER_KEY = "goldmine.lastOrder";
 import { PROVIDERS, type ProviderCheck, type ProviderName, type ScanSnapshot } from "@/lib/goldmine/types";
@@ -319,7 +320,7 @@ export function GoldmineLive() {
       return;
     }
     setOpenId(businessId);
-    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+    if (typeof window !== "undefined") {
       setTimeout(() => document.getElementById("goldmine-live-detail")?.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
     }
     if (!orderId || draftState[businessId]) return;
@@ -529,8 +530,8 @@ export function GoldmineLive() {
               message above says what the engine reported.
             </p>
           ) : (
-            <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-              <ul className="space-y-4">
+            <div className="mt-6">
+              <ul className={open ? "hidden" : "grid gap-4 md:grid-cols-2"}>
                 {snapshot.businesses.map((b, index) => {
                   const locked = !unlocked && index >= FREE_PREVIEW_COUNT;
                   const pending = PROVIDERS.filter((p) => b.providers[p].status === "pending").length;
@@ -560,9 +561,9 @@ export function GoldmineLive() {
                         </div>
                       </div>
 
-                      <p className="mt-3 text-[14px] font-semibold text-ink">
-                        Customer reputation: {b.reputation.rating} from {b.reputation.reviews} reviews
-                      </p>
+                      <div className="mt-4">
+                        <GoldmineContrast business={b} />
+                      </div>
 
                       <div className="mt-3 space-y-2">
                         {PROVIDERS.map((p) => (
@@ -671,12 +672,41 @@ export function GoldmineLive() {
               </ul>
 
 
-              <div id="goldmine-live-detail" className="scroll-mt-24 lg:sticky lg:top-24 lg:self-start">
+              <div id="goldmine-live-detail" className={open ? "scroll-mt-24" : "hidden"}>
                 {open ? (
-                  <div className="rounded-[20px] bg-white p-6 soft-shadow">
-                    <p className="eyebrow self-start">Business detail</p>
-                    <h3 className="mt-4 text-[1.35rem]">{open.name}</h3>
-                    <p className="mt-2 text-[14px] text-muted-paper">{open.area}</p>
+                  <div className="rounded-[20px] bg-white p-6 soft-shadow md:p-8">
+                    <button
+                      type="button"
+                      onClick={() => setOpenId(null)}
+                      className="pill-btn btn-primary-dark px-5 py-3 text-[14px]"
+                    >
+                      <span aria-hidden="true">←</span> Back to the scan results
+                    </button>
+                    <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
+                      <div>
+                        <p className="eyebrow self-start">Prospect audit</p>
+                        <h3 className="mt-4 text-[1.6rem] md:text-[2rem]">{open.name}</h3>
+                        <p className="mt-2 text-[14px] text-muted-paper">
+                          {open.category} · {open.area}
+                        </p>
+                      </div>
+                      <div className="grid h-24 w-24 shrink-0 place-items-center rounded-full bg-violet-tint text-center">
+                        <div>
+                          <p className="text-[2rem] font-extrabold leading-none text-violet">{open.gold}</p>
+                          <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-paper">
+                            Gold
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-6">
+                      <GoldmineContrast business={open} size="lg" />
+                    </div>
+                    <p className="mt-3 text-[13px] text-muted-paper">
+                      Gold is an opportunity score: high when customers rate a business well and the
+                      assistants rarely name it. It is not a rating of how good the business is.
+                    </p>
+                    <p className="mt-8 text-[15px] font-semibold text-ink">What each assistant said</p>
 
                     <div className="mt-5 space-y-3">
                       {PROVIDERS.map((p) => {
