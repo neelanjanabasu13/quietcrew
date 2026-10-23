@@ -33,6 +33,14 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
+              <a
+                href="https://outshine.lovable.app/?utm_source=quietcrew&utm_medium=website&utm_campaign=outshine_launch"
+                className="text-[15px] font-semibold text-white hover:text-peach"
+              >
+                Outshine
+              </a>
+            </li>
+            <li>
               <a href="/#book" className="text-[15px] font-semibold text-white hover:text-peach">
                 Book a Workflow Review
               </a>
