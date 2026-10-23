@@ -6,6 +6,7 @@ const links = [
   { href: "/#who-we-help", label: "Who We Help" },
   { href: "/#how-it-works", label: "How It Works" },
   { href: "/#faq", label: "FAQ" },
+  { href: "https://outshine.lovable.app/?utm_source=quietcrew&utm_medium=website&utm_campaign=outshine_launch", label: "Outshine" },
 ];
 
 export function SiteNav() {
@@ -23,7 +24,7 @@ export function SiteNav() {
       <div className="container-page">
         <nav
           aria-label="Primary"
-          className="flex items-center justify-between gap-6 rounded-[999px] bg-white px-5 py-3 soft-shadow"
+          className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 rounded-[999px] bg-white px-5 py-3 soft-shadow"
         >
           <Link
             to="/"
@@ -35,7 +36,7 @@ export function SiteNav() {
           </Link>
 
 
-          <div className="hidden items-center gap-7 md:flex">
+          <div className="hidden items-center gap-4 md:flex">
             <a
               href="/#services"
               className="text-[15px] font-semibold text-muted-paper transition-colors hover:text-violet"

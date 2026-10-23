@@ -375,6 +375,34 @@ function Index() {
             </Reveal>
 
             <Reveal className="mt-6" delay={120}>
+              <article className="rounded-[20px] bg-paper p-6 text-ink soft-shadow-lg md:p-7">
+                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
+                  <div className="min-w-0">
+                    <p className="eyebrow">For UK trades</p>
+                    <h2 className="mt-3 text-[1.4rem] md:text-[1.7rem]">
+                      Outshine <span className="text-violet">by Quietcrew</span>
+                    </h2>
+                    <p className="mt-2 max-w-[560px] text-[15px] text-muted-paper md:text-[16px]">
+                      A free online presence audit for UK trades. Compare your public business
+                      profile with nearby businesses and download a practical report.
+                    </p>
+                  </div>
+                  <div className="flex flex-none flex-col items-start gap-3 lg:items-end">
+                    <p className="text-[15px] font-semibold text-violet">
+                      Optional DIY pack: £7.99 one-off.
+                    </p>
+                    <a
+                      href="https://outshine.lovable.app/?utm_source=quietcrew&utm_medium=website&utm_campaign=outshine_launch"
+                      className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]"
+                    >
+                      Scan your business free
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </Reveal>
+
+            <Reveal className="mt-6" delay={120}>
               <LiveWorkflow />
             </Reveal>
           </div>
