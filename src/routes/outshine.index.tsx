@@ -10,8 +10,6 @@ import { Button } from "@/components/ui/button";
 import { ReportStack } from "@/components/outshine/ReportStack";
 import { TradeDeck } from "@/components/outshine/TradeDeck";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import walkthrough from "@/assets/outshine/walkthrough.mp4.asset.json";
-import poster from "@/assets/outshine/walkthrough-poster.jpg.asset.json";
 
 export const Route = createFileRoute("/outshine/")({
   head: () => ({
@@ -122,6 +120,67 @@ function Home() {
         <div className="overflow-x-clip pb-10 pt-8 lg:overflow-visible"><ReportStack /></div>
         </section>
 
+        <section aria-labelledby="familiar-title" className="bg-card py-16 md:py-24">
+          <div className="mx-auto max-w-4xl px-5 text-center">
+            <p className="inline-block rounded-full bg-violet-tint px-4 py-1.5 text-sm font-semibold text-ink">Sound familiar?</p>
+            <h2 id="familiar-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">You do good work, and the phone <span className="text-violet">still goes quiet</span>.</h2>
+            <ul className="mt-10 grid gap-4 text-left sm:grid-cols-2">
+              {[
+                { t: "Plumbing", q: "My reviews are better than theirs, so why do they get the calls?" },
+                { t: "Roofing", q: "I set up my Google profile years ago and have not looked at it since." },
+                { t: "Cleaning", q: "I never know what to say when someone leaves a bad review." },
+                { t: "Electrical", q: "I keep meaning to add photos of our work but never get round to it." },
+              ].map((c, i) => (
+                <li key={c.q} className={`animate-rise rounded-[20px] p-6 soft-shadow transition hover:-translate-y-1 ${i % 3 === 0 ? "bg-violet-deep text-card" : "bg-cream text-ink"}`} style={{ animationDelay: `${i * 80}ms` }}>
+                  <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${i % 3 === 0 ? "bg-card/15 text-peach" : "bg-violet-tint text-violet"}`}>{c.t}</span>
+                  <p className="mt-4 font-display text-lg font-bold leading-snug">“{c.q}”</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section aria-labelledby="how-title" className="bg-violet-deep py-16 text-card md:py-24">
+          <div className="mx-auto max-w-3xl px-5">
+            <p className="inline-block rounded-full bg-card/10 px-4 py-1.5 text-sm font-semibold text-muted-on-violet">What the audit does</p>
+            <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">Three steps, <span className="text-peach">one free report</span>.</h2>
+            <ol className="mt-12">
+              {[
+                { n: "01", k: "Find the leaks", d: "Missing website, thin photos, unanswered reviews and gaps your rivals have already filled, found in under a minute.", bg: "bg-cream",
+                  art: <ul className="space-y-2 text-sm">
+                    {[["Photos", "2 uploaded", "bg-grade-f"], ["Website link", "Missing", "bg-grade-f"], ["Review replies", "4 unanswered", "bg-grade-d"], ["Opening hours", "Listed", "bg-grade-a"]].map(([a, b, c]) => (
+                      <li key={a} className="flex items-center justify-between gap-3 rounded-xl bg-card px-4 py-2.5"><span className="font-semibold">{a}</span><span className="flex items-center gap-2 text-muted-foreground"><span className={`h-2.5 w-2.5 rounded-full ${c}`} />{b}</span></li>
+                    ))}
+                  </ul> },
+                { n: "02", k: "See who is winning nearby", d: "Your grade next to the three closest businesses in your trade, so you know exactly who is taking your calls.", bg: "bg-card",
+                  art: <ul className="space-y-2 text-sm">
+                    {[["You", "C", "bg-grade-c", "55%"], ["Rival 1", "A", "bg-grade-a", "92%"], ["Rival 2", "B", "bg-grade-b", "78%"], ["Rival 3", "B", "bg-grade-b", "71%"]].map(([a, g, c, w]) => (
+                      <li key={a} className="flex items-center gap-3"><span className="w-16 shrink-0 font-semibold">{a}</span><span className="h-3 flex-1 overflow-hidden rounded-full bg-secondary"><span className={`block h-full rounded-full ${c}`} style={{ width: w }} /></span><span className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold text-card ${c}`}>{g}</span></li>
+                    ))}
+                  </ul> },
+                { n: "03", k: "Fix it yourself", d: "The optional DIY pack walks you through every fix, with the wording for your review replies and business description written out, ready for you to paste.", bg: "bg-violet-tint",
+                  art: <div className="rounded-xl bg-card p-4 text-sm">
+                    <p className="text-xs font-semibold text-violet">Review reply, ready to paste</p>
+                    <p className="mt-2 text-muted-foreground">“Thank you for taking the time to write this. We are sorry the visit ran late, and we would like to put it right…”</p>
+                    <p className="mt-3 inline-block rounded-full bg-violet-tint px-3 py-1 text-xs font-semibold text-violet">About 2 minutes</p>
+                  </div> },
+              ].map((c, i) => (
+                <li key={c.k} className={`sticky mb-8 grid gap-6 rounded-[20px] p-8 text-ink shadow-[0_-20px_50px_-30px_var(--ink)] md:grid-cols-[1.1fr_1fr] md:items-center md:p-10 ${c.bg}`} style={{ top: `${96 + i * 24}px` }}>
+                  <div>
+                    <p className="font-display text-sm font-bold text-violet">{c.n}</p>
+                    <p className="mt-2 font-display text-3xl font-extrabold md:text-4xl">{c.k}</p>
+                    <p className="mt-4 text-lg text-muted-foreground">{c.d}</p>
+                  </div>
+                  <div className="relative">
+                    <span className="absolute -top-3 right-2 z-10 rounded-full bg-ink px-2.5 py-0.5 text-[10px] font-semibold text-card">EXAMPLE OUTPUT</span>
+                    {c.art}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
         <section id="browse" aria-labelledby="browse-title" className="bg-card py-16 md:py-20">
           <div className="mx-auto max-w-3xl px-5">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-fix">Try it on a neighbour</p>
@@ -160,52 +219,8 @@ function Home() {
           </div>
         </section>
 
-        <section aria-labelledby="familiar-title" className="py-16 md:py-24">
-          <div className="mx-auto max-w-4xl px-5 text-center">
-            <p className="inline-block rounded-full bg-violet-tint px-4 py-1.5 text-sm font-semibold text-ink">Sound familiar?</p>
-            <h2 id="familiar-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">You do good work, and the phone still goes quiet.</h2>
-            <ul className="mt-10 grid gap-4 text-left sm:grid-cols-2">
-              {[
-                "My reviews are better than theirs, so why do they get the calls?",
-                "I set up my Google profile years ago and have not looked at it since.",
-                "I never know what to say when someone leaves a bad review.",
-                "I keep meaning to add photos of our work but never get round to it.",
-              ].map((t) => <li key={t} className="rounded-[20px] bg-card p-6 font-display text-lg font-semibold soft-shadow">“{t}”</li>)}
-            </ul>
-          </div>
-        </section>
-
-        <section aria-labelledby="how-title" className="bg-violet-deep py-16 text-card md:py-24">
-          <div className="mx-auto max-w-3xl px-5">
-            <p className="inline-block rounded-full bg-card/10 px-4 py-1.5 text-sm font-semibold text-muted-on-violet">What the audit does</p>
-            <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">Three steps, <span className="text-peach">one free report</span>.</h2>
-            <ol className="mt-12">
-              {[
-                { n: "01", k: "Find the leaks", d: "Missing website, thin photos, unanswered reviews and gaps your rivals have already filled, found in under a minute.", bg: "bg-cream" },
-                { n: "02", k: "See who is winning nearby", d: "Your grade next to the three closest businesses in your trade, so you know exactly who is taking your calls.", bg: "bg-card" },
-                { n: "03", k: "Fix it yourself", d: "The optional DIY pack walks you through every fix, with the wording for your review replies and business description written out, ready for you to paste.", bg: "bg-violet-tint" },
-              ].map((c, i) => (
-                <li key={c.k} className={`sticky mb-8 rounded-[20px] p-8 text-ink shadow-[0_-20px_50px_-30px_var(--ink)] md:p-12 ${c.bg}`} style={{ top: `${96 + i * 24}px` }}>
-                  <p className="font-display text-sm font-bold text-violet">{c.n}</p>
-                  <p className="mt-2 font-display text-3xl font-extrabold md:text-4xl">{c.k}</p>
-                  <p className="mt-4 max-w-xl text-lg text-muted-foreground">{c.d}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
 
         <div className="mx-auto max-w-6xl px-5 pb-24">
-        <section aria-labelledby="watch-title" className="mt-20">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-fix">See it in action</p>
-          <h2 id="watch-title" className="mt-3 max-w-3xl font-display text-3xl font-extrabold md:text-4xl">
-            Watch a cleaning business go from Grade F to ready to <Shine>outshine its rivals</Shine>.
-          </h2>
-          <div className="mt-6 overflow-hidden rounded-[20px] soft-shadow bg-card shadow-[0_30px_70px_-40px_var(--ink)]">
-            <video src={walkthrough.url} poster={poster.url} controls playsInline preload="metadata" className="aspect-video w-full bg-secondary" aria-label="Outshine walkthrough video" />
-          </div>
-          <p className="mt-3 text-xs text-muted-foreground">A 90 second walkthrough using our showcase business, Mops Stars Cleaning. Some steps in the video show a done-for-you option that we are still building and do not sell yet.</p>
-        </section>
 
         <section className="mt-14 grid gap-8 rounded-[20px] soft-shadow bg-card p-8 md:grid-cols-[1.3fr_1fr] md:p-12">
           <div>
