@@ -74,7 +74,7 @@ export const createDiyCheckout = createServerFn({ method: "POST" })
       if (error || !purchase) throw error ?? new Error("Could not save your purchase.");
       const origin = new URL(getRequestUrl()).origin;
       const session = await stripe.checkout.sessions.create({
-        mode: "payment", ui_mode: "embedded_page", customer,
+        mode: "payment", ui_mode: "embedded_page", customer, adaptive_pricing: { enabled: false },
         line_items: [{ price: price.id, quantity: 1 }],
         return_url: `${origin}/outshine/report/${encodeURIComponent(business.id)}?session_id={CHECKOUT_SESSION_ID}`,
         payment_intent_data: { description: product.name },
