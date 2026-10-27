@@ -175,9 +175,9 @@ function Home() {
           </div>
         </section>
 
-        <section aria-labelledby="how-title" className="bg-violet-deep py-16 text-white md:py-24">
+        <section aria-labelledby="how-title" className="bg-violet-deep py-16 text-card md:py-24">
           <div className="mx-auto max-w-3xl px-5">
-            <p className="inline-block rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-muted-on-violet">What the audit does</p>
+            <p className="inline-block rounded-full bg-card/10 px-4 py-1.5 text-sm font-semibold text-muted-on-violet">What the audit does</p>
             <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">Three steps, <span className="text-peach">one free report</span>.</h2>
             <ol className="mt-12">
               {[
