@@ -392,7 +392,7 @@ function Index() {
                       Optional DIY pack: £7.99 one-off.
                     </p>
                     <a
-                      href="https://outshine.lovable.app/?utm_source=quietcrew&utm_medium=website&utm_campaign=outshine_launch"
+                      href="/outshine"
                       className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]"
                     >
                       Scan your business free
