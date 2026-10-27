@@ -148,6 +148,48 @@ export type Database = {
           },
         ]
       }
+      outshine_purchases: {
+        Row: {
+          amount: number
+          business_id: string
+          business_snapshot: Json
+          created_at: string
+          currency: string
+          environment: string
+          id: string
+          paid_at: string | null
+          payment_status: string
+          stripe_session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          business_id: string
+          business_snapshot: Json
+          created_at?: string
+          currency?: string
+          environment: string
+          id?: string
+          paid_at?: string | null
+          payment_status?: string
+          stripe_session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          business_id?: string
+          business_snapshot?: Json
+          created_at?: string
+          currency?: string
+          environment?: string
+          id?: string
+          paid_at?: string | null
+          payment_status?: string
+          stripe_session_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

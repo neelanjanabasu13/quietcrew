@@ -8,6 +8,13 @@
       "when": 1790032710609,
       "tag": "0000_goldmine_guest_orders",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793134919218,
+      "tag": "0001_outshine_diy_purchases",
+      "breakpoints": true
     }
   ]
 }

@@ -389,7 +389,7 @@ function Index() {
                   </div>
                   <div className="flex flex-none flex-col items-start gap-3 lg:items-end">
                     <p className="text-[15px] font-semibold text-violet">
-                      Optional DIY pack: £7.99 one-off.
+                      Detailed DIY pack: £7.99 one-off.
                     </p>
                     <a
                       href="/outshine"

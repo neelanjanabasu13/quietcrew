@@ -15,7 +15,7 @@ export const Route = createFileRoute("/outshine/")({
   head: () => ({
     meta: [
       { title: "Outshine by Quietcrew · Free online presence audit for UK trades" },
-      { name: "description", content: "A free A to F grade for your plumbing, electrical, cleaning, landscaping or salon business, compared with nearby rivals, with an optional £7.99 DIY pack." },
+      { name: "description", content: "Compare your UK trade business with nearby rivals in a free online presence audit, then get a detailed DIY pack with step-by-step guides and ready-to-paste wording for £7.99." },
       { property: "og:title", content: "Outshine by Quietcrew · Free online presence audit for UK trades" },
       { property: "og:description", content: "Compare your public business profile with nearby businesses and download a practical report." },
       { property: "og:type", content: "website" },
@@ -143,22 +143,23 @@ function Home() {
         <section aria-labelledby="how-title" className="bg-violet-deep py-16 text-card md:py-24">
           <div className="mx-auto max-w-3xl px-5">
             <p className="inline-block rounded-full bg-card/10 px-4 py-1.5 text-sm font-semibold text-muted-on-violet">What the audit does</p>
-            <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">Three steps, <span className="text-peach">one free report</span>.</h2>
+            <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">Your free audit, <span className="text-peach">then a clear plan to fix the gaps</span>.</h2>
+            <p className="mt-5 text-lg text-muted-on-violet">See what needs attention for free, then get the detailed DIY pack for £7.99, with the instructions and wording to make the changes yourself.</p>
             <ol className="mt-12">
               {[
-                { n: "01", k: "Find the leaks", d: "Missing website, thin photos, unanswered reviews and gaps your rivals have already filled, found in under a minute.", bg: "bg-cream",
+                { n: "01", k: "Find the gaps for free", d: "See the website link, photo coverage, review activity and opening-hour details we can assess from your public profile.", bg: "bg-cream",
                   art: <ul className="space-y-2 text-sm">
-                    {[["Photos", "2 uploaded", "bg-grade-f"], ["Website link", "Missing", "bg-grade-f"], ["Review replies", "4 unanswered", "bg-grade-d"], ["Opening hours", "Listed", "bg-grade-a"]].map(([a, b, c]) => (
+                    {[["Photos", "2 uploaded", "bg-grade-f"], ["Website link", "Missing", "bg-grade-f"], ["Review activity", "Needs attention", "bg-grade-d"], ["Opening hours", "Listed", "bg-grade-a"]].map(([a, b, c]) => (
                       <li key={a} className="flex items-center justify-between gap-3 rounded-xl bg-card px-4 py-2.5"><span className="font-semibold">{a}</span><span className="flex items-center gap-2 text-muted-foreground"><span className={`h-2.5 w-2.5 rounded-full ${c}`} />{b}</span></li>
                     ))}
                   </ul> },
-                { n: "02", k: "See who is winning nearby", d: "Your grade next to the three closest businesses in your trade, so you know exactly who is taking your calls.", bg: "bg-card",
+                { n: "02", k: "Compare nearby profiles", d: "Your free report puts your public-profile grade beside nearby businesses in your trade, with the evidence behind the differences.", bg: "bg-card",
                   art: <ul className="space-y-2 text-sm">
                     {[["You", "C", "bg-grade-c", "55%"], ["Rival 1", "A", "bg-grade-a", "92%"], ["Rival 2", "B", "bg-grade-b", "78%"], ["Rival 3", "B", "bg-grade-b", "71%"]].map(([a, g, c, w]) => (
                       <li key={a} className="flex items-center gap-3"><span className="w-16 shrink-0 font-semibold">{a}</span><span className="h-3 flex-1 overflow-hidden rounded-full bg-secondary"><span className={`block h-full rounded-full ${c}`} style={{ width: w }} /></span><span className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold text-card ${c}`}>{g}</span></li>
                     ))}
                   </ul> },
-                { n: "03", k: "Fix it yourself", d: "The optional DIY pack walks you through every fix, with the wording for your review replies and business description written out, ready for you to paste.", bg: "bg-violet-tint",
+                { n: "03", k: "Get your detailed DIY pack · £7.99", d: "Turn your findings into a practical plan, with step-by-step guides, ready-to-paste wording and a PDF you can keep. You review and apply each change yourself.", bg: "bg-violet-tint",
                   art: <div className="rounded-xl bg-card p-4 text-sm">
                     <p className="text-xs font-semibold text-violet">Review reply, ready to paste</p>
                     <p className="mt-2 text-muted-foreground">“Thank you for taking the time to write this. We are sorry the visit ran late, and we would like to put it right…”</p>
@@ -224,16 +225,18 @@ function Home() {
 
         <section className="mt-14 grid gap-8 rounded-[20px] soft-shadow bg-card p-8 md:grid-cols-[1.3fr_1fr] md:p-12">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-fix">No strings attached</p>
-            <h2 className="mt-3 font-display text-3xl font-extrabold md:text-4xl">No subscription, and no free trial that quietly bills you.</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-fix">From findings to fixes</p>
+            <h2 className="mt-3 font-display text-3xl font-extrabold md:text-4xl">A detailed DIY pack for <span className="text-violet">£7.99</span>.</h2>
             <p className="mt-4 max-w-md text-muted-foreground">
-              Your scan is free. If you want the step-by-step guide for every fix, the DIY pack is a single £7.99 payment that covers your whole report.
+              Your free audit shows the gaps. The £7.99 detailed DIY pack gives you the exact steps for your findings, ready-to-paste wording and a PDF to work through at your own pace, with no subscription.
             </p>
           </div>
           <ul className="flex flex-col justify-center gap-3">
             {[
               <>Your scan is always free</>,
-              <>DIY pack £7.99 <s className="opacity-60">£14.99</s></>,
+              <>Detailed DIY pack · £7.99 one-off</>,
+              <>Step-by-step guides and copyable wording</>,
+              <>Downloadable PDF to keep</>,
             ].map((t, i) => (
               <li key={i} className={`rounded-2xl bg-violet-tint px-5 py-4 font-semibold text-ink`}>{t}</li>
             ))}

@@ -6,7 +6,12 @@ import { type StripeEnv, verifyWebhook } from "@/lib/stripe.server";
  * event is recorded once by its id and an order moves to paid only once, so a
  * repeated notification changes nothing.
  */
-async function fulfil(session: any, eventId: string) {
+async function fulfil(session: any, eventId: string, environment: StripeEnv) {
+  if (session?.metadata?.outshinePurchaseId) {
+    const { confirmDiyPayment } = await import("@/lib/outshine/payments.server");
+    await confirmDiyPayment(session.id, environment);
+    return;
+  }
   const orderId: string | undefined = session?.metadata?.goldmineOrderId;
   if (!orderId) return;
   const { recordPaymentEvent, markOrderPaid } = await import("@/lib/goldmine/orders.server");
@@ -28,9 +33,9 @@ export const Route = createFileRoute("/api/public/payments/webhook")({
           const event = await verifyWebhook(request, env);
           const obj = event.data.object;
           if (event.type === "checkout.session.completed" && obj.payment_status !== "unpaid") {
-            await fulfil(obj, event.id);
+            await fulfil(obj, event.id, env);
           } else if (event.type === "checkout.session.async_payment_succeeded") {
-            await fulfil(obj, event.id);
+            await fulfil(obj, event.id, env);
           }
           return Response.json({ received: true });
         } catch (e) {
