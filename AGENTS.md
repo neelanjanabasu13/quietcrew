@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Rules
+- Outshine lives in-app under `src/routes/outshine.*`, `src/lib/outshine/`, `src/components/outshine/`; it calls Google Places directly from server functions (GOOGLE_PLACES_API_KEY) and scores locally. Why: it is fast enough to need no external engine, unlike Goldmine which uses the Railway engine.

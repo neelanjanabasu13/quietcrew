@@ -1,7 +1,8 @@
-# Outshine integration
+# Outshine inside Quietcrew
 
-- [x] Add the tracked Outshine link to desktop navigation, mobile navigation and footer.
-- [x] Add a compact homepage product card next to the existing Goldmine product area without removing or moving existing content.
-- [x] Verify desktop and mobile navigation, product card and preserved Goldmine links at 1280px, 768px and 390px; no overflow or browser errors.
-- [x] Review automatic validation: build OK. Separate type-check output was not available; manual builds and type checks are prohibited by the project environment.
-- [x] Do not publish or change account, payment or domain settings.
+- [x] Bring Outshine into Quietcrew at /outshine (search, trade cards, city slider, walkthrough video, scan, report), no external links.
+- [x] Remove "AI agent / Done for you" promises; keep free audit and £7.99 DIY pack.
+- [x] Back to Quietcrew buttons on Goldmine and every Outshine page.
+- [x] Google Places key stored server-side; live UK search verified.
+- [ ] DIY pack £7.99 checkout (button shown but disabled). Waiting on owner go-ahead to add a £7.99 Stripe product.
+- [ ] Homepage hero product slider (Goldmine / Outshine). Waiting on owner go-ahead.
