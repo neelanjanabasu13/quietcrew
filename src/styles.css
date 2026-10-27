@@ -437,3 +437,57 @@
   background-color: var(--paper);
   isolation: isolate;
 }
+
+/* Outshine by Quietcrew: product tokens mapped onto the Quietcrew palette */
+:root {
+  --fix: var(--violet);
+  --fix-foreground: var(--paper);
+  --grade-a: oklch(0.58 0.15 155);
+  --grade-b: oklch(0.66 0.14 125);
+  --grade-c: oklch(0.72 0.15 80);
+  --grade-d: oklch(0.65 0.17 50);
+  --grade-f: oklch(0.58 0.2 28);
+}
+@theme inline {
+  --color-fix: var(--fix);
+  --color-fix-foreground: var(--fix-foreground);
+  --color-grade-a: var(--grade-a);
+  --color-grade-b: var(--grade-b);
+  --color-grade-c: var(--grade-c);
+  --color-grade-d: var(--grade-d);
+  --color-grade-f: var(--grade-f);
+  --color-quietcrew: var(--violet);
+  --font-quietcrew: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+@keyframes laser { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
+@utility animate-laser { animation: laser 2.4s ease-in-out infinite; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@utility animate-rise { animation: rise 0.6s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes kenburns { from { transform: scale(1.04); } to { transform: scale(1.14) translate(-1.5%, -1%); } }
+@utility animate-kenburns { animation: kenburns 3.2s ease-out both; }
+@keyframes pop { 0% { opacity: 0; transform: scale(.8) translateY(6px); } 70% { transform: scale(1.04); } 100% { opacity: 1; transform: none; } }
+@utility animate-pop { animation: pop .5s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes deal {
+  0% { opacity: 0; transform: translate(var(--dx), 40px) rotate(0deg) scale(.9); }
+  25% { opacity: 1; transform: translate(var(--dx), 0) rotate(var(--r1)) scale(.95); }
+  50% { transform: translate(calc(var(--dx) + var(--wob)), -14px) rotate(var(--r2)) scale(.95); }
+  80% { transform: translate(0, -10px) rotate(calc(var(--r1) / -3)); }
+  100% { opacity: 1; transform: none; }
+}
+@utility animate-deal { animation: deal 1.5s cubic-bezier(.3,.8,.25,1) both; }
+@keyframes shine-sweep { 0%, 55% { background-position: 150% 0; } 100% { background-position: -50% 0; } }
+@keyframes twinkle { 0%, 70%, 100% { transform: scale(.6) rotate(0deg); opacity: .5; } 82% { transform: scale(1.15) rotate(45deg); opacity: 1; } }
+@keyframes halo { 0%, 100% { opacity: .55; } 50% { opacity: .9; } }
+@utility text-shine {
+  color: var(--violet);
+  background:
+    linear-gradient(110deg, transparent 42%, rgb(255 255 255 / .85) 50%, transparent 58%) 150% 0 / 250% 100% no-repeat,
+    linear-gradient(90deg, var(--violet) 0%, var(--violet-deep) 100%) 0 0 / 100% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: shine-sweep 4.5s ease-in-out infinite;
+}
+@utility animate-twinkle { animation: twinkle 4.5s ease-in-out infinite; }
+@utility animate-halo { animation: halo 4.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-deal, .animate-rise, .text-shine, .animate-twinkle, .animate-halo, .animate-kenburns, .animate-laser { animation: none !important; }
+}
