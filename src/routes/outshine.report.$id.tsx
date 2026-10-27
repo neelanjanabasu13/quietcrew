@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowUpRight, Check, Copy, Download, Lock, RotateCcw } from 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { gradeColor, Header } from "@/components/outshine/Brand";
-import { assessedAreaScores, cappedGrade, evaluate, gradeOf, PRICE_BUNDLE, PRICE_DIY, WAS_BUNDLE, WAS_DIY, projectFindings, scoreOf, topProblems, TRADES, type Area, type Finding } from "@/lib/outshine/audit";
+import { assessedAreaScores, cappedGrade, evaluate, gradeOf, PRICE_DIY, projectFindings, scoreOf, topProblems, TRADES, type Area, type Finding } from "@/lib/outshine/audit";
 import { GOOGLE_PROFILE_URL, reviewLink } from "@/lib/outshine/agent";
 import { downloadReviewFlyer } from "@/lib/outshine/review-flyer";
 import type { Sop } from "@/lib/outshine/diy";
