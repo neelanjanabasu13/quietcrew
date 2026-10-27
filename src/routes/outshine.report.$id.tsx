@@ -4,15 +4,12 @@ import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, ArrowUpRight, Check, Copy, Download, Lock, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { createCheckout, verifyCheckout } from "@/lib/checkout.functions";
 import { gradeColor, Header } from "@/components/outshine/Brand";
 import { assessedAreaScores, cappedGrade, evaluate, gradeOf, PRICE_BUNDLE, PRICE_DIY, WAS_BUNDLE, WAS_DIY, projectFindings, scoreOf, topProblems, TRADES, type Area, type Finding } from "@/lib/outshine/audit";
-import { AGENT_ACTION, AGENT_HANDOFF, GOOGLE_PROFILE_URL, HANDOFF_NOTE, reviewLink, runAgent } from "@/lib/outshine/agent";
+import { GOOGLE_PROFILE_URL, reviewLink, runAgent } from "@/lib/outshine/agent";
 import { downloadReviewFlyer } from "@/lib/outshine/review-flyer";
 import { sopFor } from "@/lib/outshine/diy";
 import { SCREEN_NOTE, TOOLS_DISCLAIMER, type UiScreen } from "@/lib/outshine/sop-visuals";
-import { SHOWCASE_LOG, ShowcaseResult } from "@/components/AgentShowcase";
-import { ConnectGate } from "@/components/ConnectGate";
 
 function ScreenDiagram({ s }: { s: UiScreen }) {
   return <figure className="overflow-hidden rounded-lg border border-border bg-background">
@@ -41,7 +38,7 @@ export const Route = createFileRoute("/outshine/report/$id")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: loaderData ? `${loaderData.b.name} report · Outshine` : "Report · Outshine" },
+      { title: loaderData ? `${loaderData.b.name} report · Outshine by Quietcrew` : "Report · Outshine by Quietcrew" },
       { name: "description", content: loaderData ? `Online presence report for ${loaderData.b.name}, a ${TRADES[loaderData.b.trade].label.toLowerCase()} business in ${loaderData.b.area}, with an evidence-based letter grade and a comparison against nearby rivals.` : "An evidence-based online presence report with a letter grade and nearby rivals." },
       { property: "og:title", content: loaderData ? `${loaderData.b.name} online presence report · Outshine` : "Outshine report" },
       { property: "og:description", content: loaderData ? `See how ${loaderData.b.name} in ${loaderData.b.area} grades against local ${TRADES[loaderData.b.trade].label.toLowerCase()} rivals, and where it can stand out online.` : "See how this business grades against local rivals." },
@@ -78,14 +75,13 @@ function Report() {
   const [paidItems, setPaidItems] = useState<string[]>([]);
   const [pendingSession, setPendingSession] = useState<string | null>(null);
   const [paymentMessage, setPaymentMessage] = useState<string | null>(null);
-  const verify = useServerFn(verifyCheckout);
-  const all = paidItems.includes("all");
+    const all = paidItems.includes("all");
   // The agent tier is the top tier, so it always includes the DIY playbook.
   const diy = all || paidItems.includes("diy");
 
   const [demo, setDemo] = useState<string | null>(null);
   // The seeded judges' business runs the full agent showcase once done-for-you is bought (100% code).
-  const showcase = demo === "agent" || (!!b.seeded && all);
+  const showcase = false;
   const [connected, setConnected] = useState(false);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -110,33 +106,6 @@ function Report() {
     try { window.localStorage.setItem(`fixfirst-paid-${b.id}`, JSON.stringify(paidItems)); } catch { /* ignore */ }
   }, [paidItems, b.id, demo]);
 
-  useEffect(() => {
-    if (!pendingSession) return;
-    let active = true;
-    let attempts = 0;
-    const check = async () => {
-      attempts += 1;
-      try {
-        const r = await verify({ data: { sessionId: pendingSession } });
-        if (active && r.paid && r.businessId === b.id && r.item) {
-          const item = r.item;
-          setPaidItems((items) => items.includes(item) ? items : [...items, item]);
-          setPendingSession(null);
-          setPaymentMessage("Payment confirmed. Your purchase is ready below.");
-          window.history.replaceState(null, "", window.location.pathname);
-        }
-      } catch {
-        if (active) setPaymentMessage("Payment confirmation is taking a little longer. Please keep this page open.");
-      }
-      if (active && attempts >= 100) {
-        setPendingSession(null);
-        setPaymentMessage("Payment has not been confirmed. If you completed checkout, return using the link on the payment page.");
-      }
-    };
-    void check();
-    const interval = setInterval(check, 3000);
-    return () => { active = false; clearInterval(interval); };
-  }, [pendingSession, b.id, verify]);
 
   const [pdfBusy, setPdfBusy] = useState(false);
   const downloadDIY = async () => {
@@ -172,12 +141,10 @@ function Report() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-cream">
       <Header />
       <main className="mx-auto max-w-6xl px-6 pb-40">
-        <Button asChild variant="link" className="h-auto px-0 py-2"><Link to="/"><ArrowLeft />Try another business</Link></Button>
-        {demo && <p role="status" className="mt-2 rounded-lg border border-fix bg-card px-4 py-2 text-sm"><span className="font-semibold">Demo showcase:</span> {demo === "free" ? "the free scan, with the report ready to download." : demo === "diy" ? "the DIY pack shown as if purchased, with every guide and the PDF unlocked." : "the full vision of Done for you, with our AI agent connected to the owner's Google profile and making every change itself. The Google updates are simulated for this demo."} This is a made-up business and no payment is taken.</p>}
-        {b.seeded && !demo && <p role="status" className="mt-2 rounded-lg border border-fix bg-card px-4 py-2 text-sm"><span className="font-semibold">Showcase business:</span> Mops Stars Cleaning is made up for judging. {all ? "Done for you is unlocked, and the Google and Gmail connections are simulated as if our partnerships were in place." : "Both paid options work here with a 100% off code at checkout."}</p>}
+        <Button asChild variant="link" className="h-auto px-0 py-2"><Link to="/outshine"><ArrowLeft />Try another business</Link></Button>
         <section className="animate-rise pt-6">
           <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">{TRADES[b.trade].label} · {b.area}</p>
           {b.address && <p className="mt-1 text-sm text-muted-foreground">{b.address}{b.phone ? ` · ${b.phone}` : ""}</p>}
@@ -201,7 +168,7 @@ function Report() {
           {reference?.entry && <div className="mt-6 rounded-lg border border-border bg-card p-5"><p className="text-xs text-muted-foreground">A strong {reference.entry.city} profile we keep for comparison</p><p className="mt-1 text-lg font-semibold">{reference.entry.name}</p><p className="mt-1 text-sm text-muted-foreground">A real local business we picked as a reference. It is worth looking at how they present their services, photos and replies to reviews.</p><Button asChild variant="link" className="h-auto px-0"><a href={reference.entry.website} target="_blank" rel="noopener noreferrer">See their profile<ArrowUpRight /></a></Button></div>}</section> : <section className="mt-12 border-y border-border py-8" id="pricing">
           <h2 className="text-2xl font-semibold">Choose how you want to fix it</h2>
           <p className="mt-2 text-muted-foreground">Your scan stays free. Each paid option covers your whole report at a fixed price, however many fixes you need, with no subscription.</p>
-          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <div className="flex flex-col gap-3">
               <p className="font-medium">Free scan</p><p className="font-display text-3xl font-semibold">Free</p>
               <p className="flex-1 text-sm text-muted-foreground">Your grade, nearby rivals and where you can stand out.</p>
@@ -212,11 +179,6 @@ function Report() {
               <p className="font-medium">DIY pack</p><p className="font-display text-3xl font-semibold"><span className="mr-2 text-lg text-muted-foreground line-through">£{WAS_DIY.toFixed(2)}</span>£{PRICE_DIY.toFixed(2)}</p>
               <p className="flex-1 text-sm text-muted-foreground">Ready-to-use fixes for every finding: the finished wording with one-click copy and open, your QR review card and website, plus a step-by-step guide and PDF. You paste and save.</p>
               {diy ? <Button onClick={downloadDIY} disabled={pdfBusy} className="h-auto min-h-10 w-full whitespace-normal py-3"><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button> : <PayButton b={b} item="diy" label="DIY pack" onSession={setPendingSession}>Get my DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton>}
-            </div>
-            <div className="flex flex-col gap-3">
-              <p className="font-medium">Done for you</p><p className="font-display text-3xl font-semibold">{showcase || b.seeded ? <><span className="mr-2 text-lg text-muted-foreground line-through">£{WAS_BUNDLE.toFixed(2)}</span>£{PRICE_BUNDLE.toFixed(2)}</> : "Coming soon"}</p>
-              <p className="flex-1 text-sm text-muted-foreground">Our fully automated AI agent makes every change on your Google listing and website for you. Nothing to copy, nothing to paste.</p>
-              {showcase ? <p className="text-grade-a">{connected ? "Our AI agent is working through everything below." : "Connect Google below and our AI agent starts."}</p> : b.seeded ? <PayButton b={b} item="all" label="Done for you" onSession={setPendingSession}>Let our AI agent do it · £{PRICE_BUNDLE.toFixed(2)}</PayButton> : <Button disabled variant="outline" className="h-auto min-h-10 w-full whitespace-normal py-3">Coming soon</Button>}
             </div>
           </div>
           <p className="mt-5 text-xs text-muted-foreground">Secure one-off payment through Stripe. No subscription.</p>
@@ -271,23 +233,22 @@ function Report() {
           </div>
         </section>}
 
-        {showcase && !connected && !allClear && <ConnectGate b={b} onDone={() => setConnected(true)} />}
-        {!allClear && <section className="mt-16">
-          <h2 className="text-3xl font-semibold md:text-4xl">{showcase ? `Our AI agent is helping you outshine on ${problems.length} fronts` : `The ${problems.length} things costing you the most`}</h2>
-          <div className="mt-8 space-y-6">{problems.map((f, i) => <ProblemCard key={f.id} f={f} n={i + 1} b={b} autoRun={all && (!showcase || connected)} showcase={showcase} />)}</div>
+                {!allClear && <section className="mt-16">
+          <h2 className="text-3xl font-semibold md:text-4xl">{`The ${problems.length} things costing you the most`}</h2>
+          <div className="mt-8 space-y-6">{problems.map((f, i) => <ProblemCard key={f.id} f={f} n={i + 1} b={b} autoRun={false} />)}</div>
         </section>}
 
         {!allClear && <section className="mt-16 border-t border-border pt-12" id="diy">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h2 className="text-3xl font-semibold md:text-4xl">{all ? "Included: how every fix was done" : "How to fix it yourself, step by step"}</h2>
-              <p className="mt-3 max-w-2xl text-muted-foreground">{all ? "Done for you includes the full DIY playbook at no extra cost, so you can see exactly what our AI agent changed and repeat it any time." : "A standard operating procedure for every finding above: exactly where to click, what to type, word-for-word scripts, and the links you need. Written for someone who has never done this before."}</p>
+              <h2 className="text-3xl font-semibold md:text-4xl">How to fix it yourself, step by step</h2>
+              <p className="mt-3 max-w-2xl text-muted-foreground">{"A standard operating procedure for every finding above: exactly where to click, what to type, word-for-word scripts, and the links you need. Written for someone who has never done this before."}</p>
             </div>
           </div>
           {diy ? (
             <>
             <div className="sticky top-2 z-30 mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-fix bg-card p-4 shadow-lg">
-              <p className="text-sm"><span className="font-semibold">{all ? "Your playbook is included." : "Your DIY pack is unlocked."}</span> <span className="text-muted-foreground">Download the full report and every guide as one searchable PDF with clickable contents.</span></p>
+              <p className="text-sm"><span className="font-semibold">Your DIY pack is unlocked.</span> <span className="text-muted-foreground">Download the full report and every guide as one searchable PDF with clickable contents.</span></p>
               <Button onClick={downloadDIY} disabled={pdfBusy}><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button>
             </div>
             <div className="mt-8 space-y-10">{problems.map((f, i) => <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} />}<SopCard f={f} n={i + 1} b={b} /></div>)}</div>
@@ -303,55 +264,22 @@ function Report() {
                   <p className="mt-4 text-xl font-semibold">Unlock the full DIY pack</p>
                   <p className="mt-2 text-sm text-muted-foreground">{problems.length} detailed SOP{problems.length === 1 ? "" : "s"} for your report, with exact clicks, scripts and links. One-off payment, no subscription.</p>
                   <div className="mt-5"><PayButton b={b} item="diy" label="DIY pack" onSession={setPendingSession}>Unlock DIY pack · £{PRICE_DIY.toFixed(2)} <s className="ml-1 text-xs opacity-70">£{WAS_DIY.toFixed(2)}</s></PayButton></div>
-                  <p className="mt-3 text-xs text-muted-foreground">Prefer not to do it yourself? Choose Done for you above and our AI agent does the work.</p>
                 </div>
               </div>
             </div>
           )}
         </section>}
       </main>
-      {!diy && !allClear && <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur"><div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3"><p className="text-sm text-muted-foreground">Free scan · DIY pack <s>£{WAS_DIY.toFixed(2)}</s> £{PRICE_DIY.toFixed(2)} launch price · Fully automated agent coming soon</p><PayButton b={b} item="diy" label="DIY pack" onSession={setPendingSession}>Get my DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton></div></div>}
+      {!diy && !allClear && <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur"><div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3"><p className="text-sm text-muted-foreground">Free scan · DIY pack <s>£{WAS_DIY.toFixed(2)}</s> £{PRICE_DIY.toFixed(2)} launch price</p><PayButton b={b} item="diy" label="DIY pack" onSession={setPendingSession}>Get my DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton></div></div>}
     </div>
   );
 }
 
-function PayButton({ b, item, label, children, onSession, variant = "default" }: { b: Business; item: "diy" | "all"; label: string; children: React.ReactNode; onSession: (id: string) => void; variant?: "default" | "outline" }) {
-  const go = useServerFn(createCheckout);
-  const [err, setErr] = useState<string | null>(null);
-  const [session, setSession] = useState<{ url: string; id: string | undefined } | null>(null);
-  // Prepare the Stripe session up front so the button is a real link: a direct
-  // click on a link opens Stripe in a new tab reliably, including inside the preview.
-  useEffect(() => {
-    let cancelled = false;
-    let tries = 0;
-    const attempt = () => {
-      tries += 1;
-      // If a call stalls (for example during an app update), retry instead of spinning forever.
-      const stall = setTimeout(() => { if (!cancelled && tries < 3) attempt(); else if (!cancelled) setErr("We could not prepare the payment page. Please refresh and try again."); }, 10000);
-      go({ data: { businessId: b.id, businessName: b.name, item, label, origin: window.location.origin } })
-        .then((r) => {
-          clearTimeout(stall);
-          if (cancelled) return;
-          if (r.url) { setErr(null); setSession({ url: r.url, id: r.sessionId ?? undefined }); }
-          else setErr(r.error ?? "We could not prepare the payment page. Please refresh and try again.");
-        })
-        .catch(() => { clearTimeout(stall); if (!cancelled) { if (tries < 3) setTimeout(attempt, 1500); else setErr("We could not prepare the payment page. Please refresh and try again."); } });
-    };
-    attempt();
-    return () => { cancelled = true; };
-  }, [b.id, item]); // eslint-disable-line react-hooks/exhaustive-deps
-  const cls = "h-auto min-h-10 w-full whitespace-normal py-3";
+function PayButton({ children, variant = "default" }: { b: Business; item: "diy" | "all"; label: string; children: React.ReactNode; onSession: (id: string) => void; variant?: "default" | "outline" }) {
+  // Card payments for the DIY pack are not switched on inside Quietcrew yet, so the button says so plainly.
   return <div>
-    {session ? (
-      <Button asChild variant={variant} className={cls}>
-        <a href={session.url} target="_blank" rel="noopener noreferrer" onClick={() => { if (session.id) onSession(session.id); }}>
-          {children}<ArrowUpRight />
-        </a>
-      </Button>
-    ) : (
-      <Button disabled variant={variant} className={cls}>{err ? children : "Preparing secure payment…"}<ArrowUpRight /></Button>
-    )}
-    {err && <p role="alert" className="mt-2 text-sm text-destructive">{err}</p>}
+    <Button disabled variant={variant} className="h-auto min-h-10 w-full whitespace-normal py-3">{children}</Button>
+    <p className="mt-2 text-xs text-muted-foreground">Payment for the DIY pack opens shortly. Your free report is ready to download now.</p>
   </div>;
 }
 
@@ -361,14 +289,13 @@ function ProblemCard({ f, n, b, autoRun, showcase = false }: { f: Finding; n: nu
   const [showAfter, setShowAfter] = useState(false);
   const [copied, setCopied] = useState(false);
   const run = runAgent(f.fix, b);
-  const handoff = AGENT_HANDOFF[f.fix];
-  const link = reviewLink(b);
+    const link = reviewLink(b);
   const copyAndOpen = async (text: string) => {
     const tab = window.open(GOOGLE_PROFILE_URL, "_blank"); if (tab) tab.opener = null;
     try { await navigator.clipboard.writeText(text); setCopied(true); } catch { setCopied(false); }
     if (!tab) window.location.assign(GOOGLE_PROFILE_URL);
   };
-  const steps = showcase ? SHOWCASE_LOG[f.fix] : run.steps;
+  const steps = run.steps;
   useEffect(() => { if (autoRun && state === "idle") setState("running"); }, [autoRun, state]);
   useEffect(() => {
     if (state !== "running") return;
@@ -376,24 +303,6 @@ function ProblemCard({ f, n, b, autoRun, showcase = false }: { f: Finding; n: nu
     const to = setTimeout(() => setStep((s) => s + 1), showcase ? 1100 : 900);
     return () => clearTimeout(to);
   }, [state, step, steps.length, showcase]);
-  if (showcase) return <article className="animate-rise grid gap-8 rounded-lg border border-border bg-card p-6 md:grid-cols-[1.1fr_1fr] md:p-8">
-    <div>
-      <p className="text-xs text-muted-foreground">0{n} · {f.area}</p>
-      <h3 className="mt-3 text-2xl font-semibold">{f.title}</h3>
-      <p className="mt-3"><span className="text-muted-foreground">Evidence: </span>{f.evidence}</p>
-      <div className="mt-5 rounded-lg border-l-4 border-fix bg-accent/60 px-4 py-3">
-        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-fix">{state === "done" ? "Done by our AI agent" : "Our AI agent is on it"}</p>
-        <p className="mt-1 text-base font-bold leading-snug">{AGENT_ACTION[f.fix]}</p>
-      </div>
-      <ul className="mt-5 space-y-2 rounded-lg bg-secondary p-4 font-mono text-xs">{steps.map((s, i) => <li key={s} className={i < step ? "text-fix" : i === step && state === "running" ? "animate-pulse text-foreground" : "text-muted-foreground"}>{i < step ? "✓" : i === step && state === "running" ? "›" : "○"} {s}</li>)}</ul>
-    </div>
-    <div className="flex flex-col">
-      <div className="inline-flex self-start gap-1 text-xs">{(["Before", "After"] as const).map((l) => <Button key={l} size="sm" variant={showAfter === (l === "After") ? "secondary" : "ghost"} onClick={() => setShowAfter(l === "After")}>{l}</Button>)}</div>
-      <div className={`mt-3 flex-1 rounded-lg p-5 text-sm ${showAfter ? "bg-accent text-accent-foreground" : "bg-secondary"}`}>
-        {!showAfter ? <p>{f.before}</p> : state === "done" ? <ShowcaseResult fix={f.fix} b={b} /> : <p className="text-muted-foreground">Working on it…</p>}
-      </div>
-    </div>
-  </article>;
   return <article className="animate-rise grid gap-8 rounded-lg border border-border bg-card p-6 md:grid-cols-[1.1fr_1fr] md:p-8">
     <div>
       <p className="text-xs text-muted-foreground">0{n} · {f.area}</p>
@@ -423,10 +332,10 @@ function DiyActions({ f, b }: { f: Finding; b: Business }) {
   };
   return <div className="rounded-lg border border-fix bg-accent/50 p-6 text-accent-foreground md:p-8">
     <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-fix">Ready to use · {f.title}</p>
-    {f.fix === "website"
+    {false
       ? <div className="mt-3"><p className="font-medium">Your one-page website is ready, built from your business details.</p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button asChild><Link to="/site/$id" params={{ id: b.id }} target="_blank">Open your website<ArrowUpRight /></Link></Button>
+            
             <Button variant="outline" onClick={() => copyAndOpen(`${window.location.origin}/site/${b.id}`)}>{copied ? "Link copied ✓ Paste it on Google" : "Copy link and open Google"}<ArrowUpRight /></Button>
           </div></div>
       : <div className="mt-3"><pre className="max-h-72 overflow-auto whitespace-pre-wrap rounded-md bg-card p-4 font-sans text-sm text-card-foreground">{run.output}</pre>
@@ -482,7 +391,6 @@ function SopCard({ f, n, b }: { f: Finding; n: number; b: Business }) {
       <pre className="mt-2 whitespace-pre-wrap font-sans text-sm text-muted-foreground">{pr.text}</pre>
       <p className="mt-3 text-xs text-muted-foreground">Fill in the [square brackets], then paste it into: {pr.openIn.map((t, i) => <span key={t.name}>{i > 0 && ", "}<a href={t.url} target="_blank" rel="noopener noreferrer" className="font-medium text-fix underline">{t.name}</a></span>)}. {sop.tools ? "" : TOOLS_DISCLAIMER}</p>
     </div>)}
-    {f.fix === "website" && <p className="mt-6 rounded-lg bg-fix p-4 text-sm font-semibold text-fix-foreground">Rather not do it yourself? Choose Done for you and our AI agent builds your one-page website in under a minute.</p>}
     {sop.shotList && <div className="mt-6">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Your five-shot photo set</p>
       <ul className="mt-2 space-y-2 text-sm">{sop.shotList.map((c) => <li key={c.shot}><span className="font-medium">{c.shot}:</span> <span className="text-muted-foreground">{c.how}</span></li>)}</ul>
