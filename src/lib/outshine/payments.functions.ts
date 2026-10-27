@@ -23,13 +23,14 @@ async function resolveOrCreateCustomer(
       query: `metadata['userId']:'${options.userId}'`,
       limit: 1,
     });
-    if (found.data.length) return found.data[0].id;
+    const first = found.data[0];
+    if (first) return first.id;
   }
   if (options.email) {
     const existing = await stripe.customers.list({ email: options.email, limit: 1 });
-    if (existing.data.length) {
-      const customer = existing.data[0];
-      if (options.userId && customer.metadata?.userId !== options.userId) {
+    const customer = existing.data[0];
+    if (customer) {
+      if (options.userId && customer.metadata?.['userId'] !== options.userId) {
         await stripe.customers.update(customer.id, {
           metadata: { ...customer.metadata, userId: options.userId },
         });
@@ -58,7 +59,8 @@ export const createDiyCheckout = createServerFn({ method: "POST" })
       const price = prices.data[0];
       if (!price || price.unit_amount !== DIY_AMOUNT || price.currency !== "gbp" || price.type !== "one_time") return { error: "The £7.99 DIY pack price is not configured correctly." };
       const product = await stripe.products.retrieve(typeof price.product === "string" ? price.product : price.product.id);
-      const customer = await resolveOrCreateCustomer(stripe, { userId: context.userId, email: (context.claims as { email?: string }).email });
+      const email = (context.claims as { email?: string }).email;
+      const customer = await resolveOrCreateCustomer(stripe, { userId: context.userId, ...(email && { email }) });
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { data: existing, error: readError } = await context.supabase.from("outshine_purchases").select("*").eq("business_id", business.id).eq("environment", data.environment).maybeSingle();
       if (readError) throw readError;

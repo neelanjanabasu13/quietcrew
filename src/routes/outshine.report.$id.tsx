@@ -68,7 +68,7 @@ function Report() {
   const grade = cappedGrade(findings);
   const areas = assessedAreaScores(findings);
   const areaList: Area[] = b.live ? ["Reputation", "Visuals", "Profile", "Credentials"] : ["Reputation", "Response", "Visuals", "Profile", "Credentials"];
-  const reference = b.reference;
+  const reference = loadedBusiness.reference;
   const referenceBusiness = reference?.business;
   const referenceFindings = referenceBusiness ? evaluate(b.trade, referenceBusiness.signals, referenceBusiness.name, true) : [];
   const benchmark = referenceBusiness ? assessedAreaScores(referenceFindings) : null;
@@ -116,7 +116,7 @@ function Report() {
         name: b.name, address: b.address, tradeLabel: TRADES[b.trade].label, trade: b.trade, grade,
         areas: areaList.filter((a) => areas[a] !== undefined).map((a) => ({ area: a, grade: gradeOf(areas[a] ?? 0) })),
         rivals: comps.map((c) => ({ name: c.name, grade: c.grade })),
-        findings: problems, sops: problems.flatMap((f) => pack.sops[f.id] ? [pack.sops[f.id]] : []),
+        findings: problems, sops: problems.flatMap((f) => { const sop = pack.sops[f.id]; return sop ? [sop] : []; }),
       });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -252,7 +252,7 @@ function Report() {
               <p className="text-sm"><span className="font-semibold">Your DIY pack is unlocked.</span> <span className="text-muted-foreground">Download the full report and every guide as one searchable PDF with clickable contents.</span></p>
               <Button onClick={downloadDIY} disabled={pdfBusy}><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button>
             </div>
-            <div className="mt-8 space-y-10">{problems.map((f, i) => <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{pack.sops[f.id] && <SopCard f={f} n={i + 1} sop={pack.sops[f.id]} />}</div>)}</div>
+            <div className="mt-8 space-y-10">{problems.map((f, i) => { const sop = pack.sops[f.id]; return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f} n={i + 1} sop={sop} />}</div>; })}</div>
             </>
           ) : (
             <div className="relative mt-8">

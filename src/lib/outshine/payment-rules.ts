@@ -10,8 +10,8 @@ export function isPaidDiySession(session: {
 }, purchase: { id: string; user_id: string; business_id: string; environment: string }) {
   return session.status === "complete" && session.payment_status === "paid"
     && session.amount_total === DIY_AMOUNT && session.currency === "gbp"
-    && session.metadata?.outshinePurchaseId === purchase.id
-    && session.metadata?.userId === purchase.user_id
-    && session.metadata?.businessId === purchase.business_id
-    && session.metadata?.environment === purchase.environment;
+    && session.metadata?.['outshinePurchaseId'] === purchase.id
+    && session.metadata?.['userId'] === purchase.user_id
+    && session.metadata?.['businessId'] === purchase.business_id
+    && session.metadata?.['environment'] === purchase.environment;
 }

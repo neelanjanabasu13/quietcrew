@@ -4,7 +4,7 @@ import { isPaidDiySession } from "./payment-rules";
 export async function confirmDiyPayment(sessionId: string, environment: StripeEnv) {
   const stripe = createStripeClient(environment);
   const session = await stripe.checkout.sessions.retrieve(sessionId);
-  const purchaseId = session.metadata?.outshinePurchaseId;
+  const purchaseId = session.metadata?.['outshinePurchaseId'];
   if (!purchaseId) return false;
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data: purchase, error } = await supabaseAdmin.from("outshine_purchases").select("*").eq("id", purchaseId).eq("stripe_session_id", sessionId).eq("environment", environment).maybeSingle();
