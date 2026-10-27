@@ -5,6 +5,9 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
 import { DIY_AMOUNT, DIY_PRICE_ID } from "./payment-rules";
 import type { Business } from "./sample";
+import type { Sop } from "./diy";
+
+export type PaidPack = { business: Business; sops: Record<string, Sop>; actions: Record<string, string> };
 
 const input = z.object({ businessId: z.string().min(1).max(400), environment: z.enum(["sandbox", "live"]) });
 
@@ -84,16 +87,21 @@ export const createDiyCheckout = createServerFn({ method: "POST" })
 
 export const readDiyPurchase = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth]).inputValidator((data: unknown) => input.parse(data))
-  .handler(async ({ data, context }): Promise<{ business: Business | null } | { error: string }> => {
+  .handler(async ({ data, context }): Promise<{ pack: PaidPack | null } | { error: string }> => {
     try {
       const { data: purchase, error } = await context.supabase.from("outshine_purchases").select("*").eq("business_id", data.businessId).eq("environment", data.environment).maybeSingle();
       if (error) throw error;
-      if (!purchase) return { business: null };
+      if (!purchase) return { pack: null };
       if (purchase.stripe_session_id) {
         const { confirmDiyPayment } = await import("./payments.server");
         const paid = await confirmDiyPayment(purchase.stripe_session_id, data.environment);
-        if (!paid) return { business: null };
-      } else return { business: null };
-      return { business: purchase.business_snapshot as unknown as Business };
+        if (!paid) return { pack: null };
+      } else return { pack: null };
+      const business = purchase.business_snapshot as unknown as Business;
+      const { evaluate, topProblems } = await import("./audit");
+      const { sopFor } = await import("./diy");
+      const { runAgent } = await import("./agent");
+      const findings = topProblems(evaluate(business.trade, business.signals, business.name, true).filter(f => f.id !== "replies"), 5);
+      return { pack: { business, sops: Object.fromEntries(findings.map(f => [f.id, sopFor(f, business.trade, business.name)])), actions: Object.fromEntries(findings.map(f => [f.id, runAgent(f.fix, business).output])) } };
     } catch (error) { return { error: getStripeErrorMessage(error) }; }
   });
