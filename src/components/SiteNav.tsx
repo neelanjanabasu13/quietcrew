@@ -6,7 +6,7 @@ const links = [
   { href: "/#who-we-help", label: "Who We Help" },
   { href: "/#how-it-works", label: "How It Works" },
   { href: "/#faq", label: "FAQ" },
-  { href: "https://outshine.lovable.app/?utm_source=quietcrew&utm_medium=website&utm_campaign=outshine_launch", label: "Outshine" },
+  { href: "/outshine", label: "Outshine" },
 ];
 
 export function SiteNav() {

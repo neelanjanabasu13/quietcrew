@@ -34,7 +34,7 @@ export function SiteFooter() {
             </li>
             <li>
               <a
-                href="https://outshine.lovable.app/?utm_source=quietcrew&utm_medium=website&utm_campaign=outshine_launch"
+                href="/outshine"
                 className="text-[15px] font-semibold text-white hover:text-peach"
               >
                 Outshine

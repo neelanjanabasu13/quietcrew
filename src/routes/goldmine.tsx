@@ -40,6 +40,15 @@ function Goldmine() {
         {/* Hero with intake */}
         <section className="on-violet violet-glow relative text-white">
           <div className="container-page pb-16 pt-[120px] md:pb-20 md:pt-[150px]">
+            <div className="mx-auto mb-6 max-w-[1120px]">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/20"
+              >
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                Back to Quietcrew
+              </Link>
+            </div>
             <Reveal className="mx-auto max-w-[780px] text-center">
               <Eyebrow tone="violet">Goldmine by Quietcrew</Eyebrow>
               <h1 className="mt-5 text-[2.6rem] md:text-[4rem]">
