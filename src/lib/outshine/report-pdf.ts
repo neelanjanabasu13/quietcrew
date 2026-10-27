@@ -173,7 +173,6 @@ export async function buildReportPdf(r: PdfReportInput): Promise<Blob> {
     }
     if (s.prompts?.length) { label("Ready-made AI prompts"); s.prompts.forEach((p) => box(p.label, p.text, { links: p.openIn, footnote: `Fill in the [square brackets] first.${s.tools ? "" : " " + TOOLS_DISCLAIMER}` })); }
     if (s.scripts.length) { label("Word-for-word scripts"); s.scripts.forEach((sc) => box(sc.label, sc.text)); }
-    if (f.fix === "website") box("Rather not do it yourself?", "Choose Done for you on your report and our AI agent builds your one-page website in under a minute, using your real business details and reviews.");
     if (s.proTips.length) { label("Pro tips"); s.proTips.forEach((p) => bullet(p, muted)); }
     if (s.guardrails?.length) { label("Do not", [190, 40, 50]); s.guardrails.forEach((g) => bullet(g)); }
   });
@@ -268,8 +267,8 @@ export async function buildFreeReportPdf(r: FreeReportInput): Promise<Blob> {
   ensure(26); y += 2;
   doc.setFillColor(...ink); doc.roundedRect(M, y, CW, 22, 3, 3, "F");
   doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.text("Ready to outshine them?", M + 6, y + 8);
-  doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.text("Get the DIY pack with ready-to-use wording and step-by-step guides, or let our AI agent do it for you.", M + 6, y + 14);
-  doc.setTextColor(...gold); doc.textWithLink("outshine.lovable.app", M + 6, y + 19, { url: "https://outshine.lovable.app" });
+  doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.text("Get the DIY pack with ready-to-use wording and step-by-step guides.", M + 6, y + 14);
+  doc.setTextColor(...gold); doc.textWithLink("quietcrew.ai/outshine", M + 6, y + 19, { url: "https://quietcrew.ai/outshine" });
 
   doc.setProperties({ title: `${r.name} free Outshine report`, author: "Outshine by Quietcrew" });
   return doc.output("blob");

@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 // Fictitious example reports used only to illustrate the product on the homepage.
 const CARDS = [
   { name: "Pipe Dreams Plumbing", town: "Leeds", grade: "C", tone: "bg-grade-c", line: "Solid reviews, but no website to send callers to.",
-    rows: [["Reputation", "B"], ["Photos", "D"], ["Website", "F"]], fix: "Our AI agent builds your site in a minute*" },
+    rows: [["Reputation", "B"], ["Photos", "D"], ["Website", "F"]], fix: "DIY guide: a one-page website" },
   { name: "Shear Genius", town: "Brighton", grade: "D", tone: "bg-grade-d", line: "Great stylists, hidden behind six photos.",
-    rows: [["Reputation", "B"], ["Photos", "F"], ["Profile", "D"]], fix: "Our AI agent writes your description*" },
+    rows: [["Reputation", "B"], ["Photos", "F"], ["Profile", "D"]], fix: "DIY guide: your business description" },
   { name: "Bright Sparks Electrical", town: "Bristol", grade: "B", tone: "bg-grade-b", line: "Nearly there. Two rivals still outshine you.",
-    rows: [["Reputation", "A"], ["Photos", "C"], ["Credentials", "B"]], fix: "Our AI agent drafts your review replies*" },
+    rows: [["Reputation", "A"], ["Photos", "C"], ["Credentials", "B"]], fix: "DIY guide: replies to your reviews" },
 ];
 
 // Resting positions, front to back.
@@ -46,7 +46,7 @@ export function ReportStack() {
               <ul className="mt-6 divide-y divide-border border-y border-border">
                 {c.rows.map(([k, g]) => <li key={k} className="flex items-center justify-between py-2.5 text-sm"><span>{k}</span><span className="font-display font-bold">{g}</span></li>)}
               </ul>
-              <p className="mt-5 inline-block rounded-full bg-accent px-3 py-1.5 text-sm font-semibold text-accent-foreground">{c.fix}</p>
+              <p className="mt-5 inline-block rounded-full bg-violet-tint px-3 py-1.5 text-sm font-semibold text-ink">{c.fix}</p>
             </div>
           </button>
         );
