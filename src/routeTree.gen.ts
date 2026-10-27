@@ -26,7 +26,6 @@ import { Route as ApiPublicGoldminePaymentRouteImport } from './routes/api/publi
 import { Route as ApiPublicOutshinePhotoRouteImport } from './routes/api/public/outshine-photo'
 import { Route as OutshineReportIdRouteImport } from './routes/outshine.report.$id'
 import { Route as OutshineScanIdRouteImport } from './routes/outshine.scan.$id'
-import { Route as OutshineSiteIdRouteImport } from './routes/outshine.site.$id'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
@@ -119,11 +118,6 @@ const OutshineScanIdRoute = OutshineScanIdRouteImport.update({
   path: '/outshine/scan/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const OutshineSiteIdRoute = OutshineSiteIdRouteImport.update({
-  id: '/outshine/site/$id',
-  path: '/outshine/site/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -155,7 +149,6 @@ export interface FileRoutesByFullPath {
   '/api/public/outshine-photo': typeof ApiPublicOutshinePhotoRoute
   '/outshine/report/$id': typeof OutshineReportIdRoute
   '/outshine/scan/$id': typeof OutshineScanIdRoute
-  '/outshine/site/$id': typeof OutshineSiteIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -177,7 +170,6 @@ export interface FileRoutesByTo {
   '/api/public/outshine-photo': typeof ApiPublicOutshinePhotoRoute
   '/outshine/report/$id': typeof OutshineReportIdRoute
   '/outshine/scan/$id': typeof OutshineScanIdRoute
-  '/outshine/site/$id': typeof OutshineSiteIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -200,7 +192,6 @@ export interface FileRoutesById {
   '/api/public/outshine-photo': typeof ApiPublicOutshinePhotoRoute
   '/outshine/report/$id': typeof OutshineReportIdRoute
   '/outshine/scan/$id': typeof OutshineScanIdRoute
-  '/outshine/site/$id': typeof OutshineSiteIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -224,7 +215,6 @@ export interface FileRouteTypes {
     | '/api/public/outshine-photo'
     | '/outshine/report/$id'
     | '/outshine/scan/$id'
-    | '/outshine/site/$id'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
@@ -246,7 +236,6 @@ export interface FileRouteTypes {
     | '/api/public/outshine-photo'
     | '/outshine/report/$id'
     | '/outshine/scan/$id'
-    | '/outshine/site/$id'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   id:
@@ -268,7 +257,6 @@ export interface FileRouteTypes {
     | '/api/public/outshine-photo'
     | '/outshine/report/$id'
     | '/outshine/scan/$id'
-    | '/outshine/site/$id'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
@@ -291,7 +279,6 @@ export interface RootRouteChildren {
   ApiPublicOutshinePhotoRoute: typeof ApiPublicOutshinePhotoRoute
   OutshineReportIdRoute: typeof OutshineReportIdRoute
   OutshineScanIdRoute: typeof OutshineScanIdRoute
-  OutshineSiteIdRoute: typeof OutshineSiteIdRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
@@ -417,13 +404,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OutshineScanIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/outshine/site/$id': {
-      id: '/outshine/site/$id'
-      path: '/outshine/site/$id'
-      fullPath: '/outshine/site/$id'
-      preLoaderRoute: typeof OutshineSiteIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -460,7 +440,6 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicOutshinePhotoRoute: ApiPublicOutshinePhotoRoute,
   OutshineReportIdRoute: OutshineReportIdRoute,
   OutshineScanIdRoute: OutshineScanIdRoute,
-  OutshineSiteIdRoute: OutshineSiteIdRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
