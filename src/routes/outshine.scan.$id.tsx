@@ -7,7 +7,7 @@ import { TRADES, type Trade } from "@/lib/outshine/audit";
 import { getBusiness } from "@/lib/outshine/places.functions";
 import { photoOf, TRADE_PHOTOS } from "@/lib/outshine/sample";
 
-export const Route = createFileRoute("/scan/$id")({
+export const Route = createFileRoute("/outshine/scan/$id")({
   loader: async ({ params }) => {
     const b = await getBusiness({ data: { id: params.id } });
     if (!b) throw notFound();

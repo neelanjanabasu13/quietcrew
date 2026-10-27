@@ -33,7 +33,7 @@ function ScreenDiagram({ s }: { s: UiScreen }) {
 import { getBusiness } from "@/lib/outshine/places.functions";
 import { photoOf, TRADE_PHOTOS, type Business } from "@/lib/outshine/sample";
 
-export const Route = createFileRoute("/report/$id")({
+export const Route = createFileRoute("/outshine/report/$id")({
   loader: async ({ params }) => {
     const b = await getBusiness({ data: { id: params.id } });
     if (!b) throw notFound();

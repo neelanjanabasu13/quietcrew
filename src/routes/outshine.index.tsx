@@ -13,7 +13,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import walkthrough from "@/assets/walkthrough.mp4.asset.json";
 import poster from "@/assets/outshine/walkthrough-poster.jpg.asset.json";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/outshine/")({
   head: () => ({
     meta: [
       { title: "Outshine · Free online presence audit for UK trades" },

@@ -19,9 +19,14 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as OutshineIndexRouteImport } from './routes/outshine.index'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as ApiPublicGoldminePaymentRouteImport } from './routes/api/public/goldmine-payment'
+import { Route as ApiPublicOutshinePhotoRouteImport } from './routes/api/public/outshine-photo'
+import { Route as OutshineReportIdRouteImport } from './routes/outshine.report.$id'
+import { Route as OutshineScanIdRouteImport } from './routes/outshine.scan.$id'
+import { Route as OutshineSiteIdRouteImport } from './routes/outshine.site.$id'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
@@ -77,6 +82,11 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
+const OutshineIndexRoute = OutshineIndexRouteImport.update({
+  id: '/outshine/',
+  path: '/outshine/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
   path: '/.lovable/oauth/consent',
@@ -94,6 +104,26 @@ const ApiPublicGoldminePaymentRoute =
     path: '/api/public/goldmine-payment',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicOutshinePhotoRoute = ApiPublicOutshinePhotoRouteImport.update({
+  id: '/api/public/outshine-photo',
+  path: '/api/public/outshine-photo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutshineReportIdRoute = OutshineReportIdRouteImport.update({
+  id: '/outshine/report/$id',
+  path: '/outshine/report/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutshineScanIdRoute = OutshineScanIdRouteImport.update({
+  id: '/outshine/scan/$id',
+  path: '/outshine/scan/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutshineSiteIdRoute = OutshineSiteIdRouteImport.update({
+  id: '/outshine/site/$id',
+  path: '/outshine/site/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -118,9 +148,14 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/outshine/': typeof OutshineIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/goldmine-payment': typeof ApiPublicGoldminePaymentRoute
+  '/api/public/outshine-photo': typeof ApiPublicOutshinePhotoRoute
+  '/outshine/report/$id': typeof OutshineReportIdRoute
+  '/outshine/scan/$id': typeof OutshineScanIdRoute
+  '/outshine/site/$id': typeof OutshineSiteIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -135,9 +170,14 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/outshine': typeof OutshineIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/goldmine-payment': typeof ApiPublicGoldminePaymentRoute
+  '/api/public/outshine-photo': typeof ApiPublicOutshinePhotoRoute
+  '/outshine/report/$id': typeof OutshineReportIdRoute
+  '/outshine/scan/$id': typeof OutshineScanIdRoute
+  '/outshine/site/$id': typeof OutshineSiteIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -153,9 +193,14 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/outshine/': typeof OutshineIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/goldmine-payment': typeof ApiPublicGoldminePaymentRoute
+  '/api/public/outshine-photo': typeof ApiPublicOutshinePhotoRoute
+  '/outshine/report/$id': typeof OutshineReportIdRoute
+  '/outshine/scan/$id': typeof OutshineScanIdRoute
+  '/outshine/site/$id': typeof OutshineSiteIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -172,9 +217,14 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/outshine/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/goldmine-payment'
+    | '/api/public/outshine-photo'
+    | '/outshine/report/$id'
+    | '/outshine/scan/$id'
+    | '/outshine/site/$id'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
@@ -189,9 +239,14 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/outshine'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/goldmine-payment'
+    | '/api/public/outshine-photo'
+    | '/outshine/report/$id'
+    | '/outshine/scan/$id'
+    | '/outshine/site/$id'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   id:
@@ -206,9 +261,14 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/outshine/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/goldmine-payment'
+    | '/api/public/outshine-photo'
+    | '/outshine/report/$id'
+    | '/outshine/scan/$id'
+    | '/outshine/site/$id'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
@@ -224,9 +284,14 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  OutshineIndexRoute: typeof OutshineIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicGoldminePaymentRoute: typeof ApiPublicGoldminePaymentRoute
+  ApiPublicOutshinePhotoRoute: typeof ApiPublicOutshinePhotoRoute
+  OutshineReportIdRoute: typeof OutshineReportIdRoute
+  OutshineScanIdRoute: typeof OutshineScanIdRoute
+  OutshineSiteIdRoute: typeof OutshineSiteIdRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
@@ -303,6 +368,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/outshine/': {
+      id: '/outshine/'
+      path: '/outshine'
+      fullPath: '/outshine/'
+      preLoaderRoute: typeof OutshineIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
       path: '/.lovable/oauth/consent'
@@ -322,6 +394,34 @@ declare module '@tanstack/react-router' {
       path: '/api/public/goldmine-payment'
       fullPath: '/api/public/goldmine-payment'
       preLoaderRoute: typeof ApiPublicGoldminePaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/outshine-photo': {
+      id: '/api/public/outshine-photo'
+      path: '/api/public/outshine-photo'
+      fullPath: '/api/public/outshine-photo'
+      preLoaderRoute: typeof ApiPublicOutshinePhotoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outshine/report/$id': {
+      id: '/outshine/report/$id'
+      path: '/outshine/report/$id'
+      fullPath: '/outshine/report/$id'
+      preLoaderRoute: typeof OutshineReportIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outshine/scan/$id': {
+      id: '/outshine/scan/$id'
+      path: '/outshine/scan/$id'
+      fullPath: '/outshine/scan/$id'
+      preLoaderRoute: typeof OutshineScanIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outshine/site/$id': {
+      id: '/outshine/site/$id'
+      path: '/outshine/site/$id'
+      fullPath: '/outshine/site/$id'
+      preLoaderRoute: typeof OutshineSiteIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/payments/webhook': {
@@ -353,9 +453,14 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  OutshineIndexRoute: OutshineIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicGoldminePaymentRoute: ApiPublicGoldminePaymentRoute,
+  ApiPublicOutshinePhotoRoute: ApiPublicOutshinePhotoRoute,
+  OutshineReportIdRoute: OutshineReportIdRoute,
+  OutshineScanIdRoute: OutshineScanIdRoute,
+  OutshineSiteIdRoute: OutshineSiteIdRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
