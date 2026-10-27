@@ -10,21 +10,18 @@ import { Button } from "@/components/ui/button";
 import { ReportStack } from "@/components/outshine/ReportStack";
 import { TradeDeck } from "@/components/outshine/TradeDeck";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import walkthrough from "@/assets/walkthrough.mp4.asset.json";
+import walkthrough from "@/assets/outshine/walkthrough.mp4.asset.json";
 import poster from "@/assets/outshine/walkthrough-poster.jpg.asset.json";
 
 export const Route = createFileRoute("/outshine/")({
   head: () => ({
     meta: [
-      { title: "Outshine · Free online presence audit for UK trades" },
-      { name: "description", content: "Get a free A to F grade for your plumbing, electrical, cleaning, landscaping or salon business in under a minute, then stand out with a DIY pack or our AI agent." },
-      { property: "og:title", content: "Outshine · Free online presence audit for UK trades" },
-      { property: "og:description", content: "See your grade against local rivals, then outshine them yourself or let our AI agent do it for you." },
+      { title: "Outshine by Quietcrew · Free online presence audit for UK trades" },
+      { name: "description", content: "A free A to F grade for your plumbing, electrical, cleaning, landscaping or salon business, compared with nearby rivals, with an optional £7.99 DIY pack." },
+      { property: "og:title", content: "Outshine by Quietcrew · Free online presence audit for UK trades" },
+      { property: "og:description", content: "Compare your public business profile with nearby businesses and download a practical report." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://outshine.lovable.app/" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:image", content: "https://outshine.lovable.app/og.jpg" },
-      { name: "twitter:image", content: "https://outshine.lovable.app/og.jpg" },
     ],
   }),
   component: Home,
@@ -66,7 +63,7 @@ function Home() {
   const browsing = trade !== null && q.trim().length < 3;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-cream">
       <Header />
       <main className="mx-auto max-w-6xl px-5 pb-24 pt-8 md:pt-14">
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_1fr] [&>*]:min-w-0">
@@ -78,7 +75,7 @@ function Home() {
             every rival down the road.
           </h1>
           <p className="animate-rise mt-6 max-w-xl text-lg text-muted-foreground">
-            Free scan of your online presence against local rivals. Stand out yourself, or <span className="font-semibold text-brand-gradient">let our AI agent do it for you.</span>
+            A free check of your public business profile against nearby rivals, with a practical report you can download and work through yourself.
           </p>
 
           {!picked ? (
@@ -142,7 +139,7 @@ function Home() {
                 <p className="mt-1 text-sm">{picked.rating.toFixed(1)} ★ · {picked.reviewCount} reviews</p>
                 {!pickedTrade && <p className="mt-2 text-sm font-semibold text-fix">Pick your trade below so we compare you with the right rivals.</p>}
                 <div className="mt-4 flex items-center gap-4">
-                  <button disabled={!pickedTrade} onClick={() => pickedTrade && navigate({ to: "/scan/$id", params: { id: picked.placeId.startsWith("seed:") ? picked.placeId.slice(5) : liveId(pickedTrade, picked.placeId) } })}
+                  <button disabled={!pickedTrade} onClick={() => pickedTrade && navigate({ to: "/outshine/scan/$id", params: { id: picked.placeId.startsWith("seed:") ? picked.placeId.slice(5) : liveId(pickedTrade, picked.placeId) } })}
                     className="rounded-full bg-fix px-6 py-3 font-semibold text-fix-foreground transition hover:-translate-y-0.5 disabled:opacity-40">Grade my business →</button>
                   <button onClick={() => setPicked(null)} className="text-sm text-muted-foreground underline-offset-4 hover:underline">Not this one</button>
                 </div>
@@ -157,12 +154,12 @@ function Home() {
         <section aria-labelledby="watch-title" className="mt-20">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-fix">See it in action</p>
           <h2 id="watch-title" className="mt-3 max-w-3xl font-display text-3xl font-extrabold md:text-4xl">
-            Watch our AI agent take a cleaning business from Grade F to ready to <Shine>outshine its rivals</Shine>.
+            Watch a cleaning business go from Grade F to ready to <Shine>outshine its rivals</Shine>.
           </h2>
-          <div className="mt-6 overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_30px_70px_-40px_var(--ink)]">
+          <div className="mt-6 overflow-hidden rounded-[20px] soft-shadow bg-card shadow-[0_30px_70px_-40px_var(--ink)]">
             <video src={walkthrough.url} poster={poster.url} controls playsInline preload="metadata" className="aspect-video w-full bg-secondary" aria-label="Outshine walkthrough video" />
           </div>
-          <p className="mt-3 text-xs text-muted-foreground">A 90 second walkthrough using our showcase business, Mops Stars Cleaning. The agent's online profile updates are simulated for the demo.</p>
+          <p className="mt-3 text-xs text-muted-foreground">A 90 second walkthrough using our showcase business, Mops Stars Cleaning. Some steps in the video show a done-for-you option that we are still building and do not sell yet.</p>
         </section>
 
 
@@ -171,35 +168,33 @@ function Home() {
         <ul className="mt-20 grid gap-4 md:grid-cols-3">
           {[
             { k: "Spot the leaks", d: "Missing website, thin photos, unanswered reviews and gaps your rivals have already filled, found in under a minute.", bg: "bg-pop-yellow" },
-            { k: "See who's winning nearby", d: "Your grade next to the three closest businesses in your trade, so you know exactly who is taking your calls.", bg: "bg-pop-mint" },
-            { k: "Get it fixed, your way", d: "Follow our step-by-step DIY pack, or let our AI agent draft your review replies, your description and a one-page website for you.*", bg: "bg-pop-lilac" },
+            { k: "See who is winning nearby", d: "Your grade next to the three closest businesses in your trade, so you know exactly who is taking your calls.", bg: "bg-pop-mint" },
+            { k: "Get it fixed, your way", d: "Follow our step-by-step DIY pack, with the wording for your review replies and business description written out, ready for you to paste.", bg: "bg-pop-lilac" },
           ].map((c) => (
-            <li key={c.k} className={`rounded-2xl border border-border bg-card p-6`}>
+            <li key={c.k} className={`rounded-[20px] bg-card p-6 soft-shadow`}>
               <p className="font-display text-2xl font-extrabold">{c.k}</p>
               <p className="mt-2 text-muted-foreground">{c.d}</p>
             </li>
           ))}
         </ul>
 
-        <section className="mt-14 grid gap-8 rounded-[2rem] border border-border bg-card p-8 md:grid-cols-[1.3fr_1fr] md:p-12">
+        <section className="mt-14 grid gap-8 rounded-[20px] soft-shadow bg-card p-8 md:grid-cols-[1.3fr_1fr] md:p-12">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-fix">No strings attached</p>
             <h2 className="mt-3 font-display text-3xl font-extrabold md:text-4xl">No subscription, and no free trial that quietly bills you.</h2>
             <p className="mt-4 max-w-md text-muted-foreground">
-              Your scan is free. Choose a DIY guide for £7.99 (launch price, usually £14.99), or let our AI agent prepare every fix for £29.99 (usually £49.99). Both cover your whole report with one payment.
+              Your scan is free. If you want the step-by-step guide for every fix, the DIY pack is a single £7.99 payment that covers your whole report.
             </p>
           </div>
           <ul className="flex flex-col justify-center gap-3">
             {[
               <>Your scan is always free</>,
               <>DIY pack £7.99 <s className="opacity-60">£14.99</s></>,
-              <>Done for you £29.99 <s className="opacity-60">£49.99</s></>,
             ].map((t, i) => (
-              <li key={i} className={`rounded-2xl bg-accent px-5 py-4 font-medium text-accent-foreground`}>{t}</li>
+              <li key={i} className={`rounded-2xl bg-violet-tint px-5 py-4 font-semibold text-ink`}>{t}</li>
             ))}
           </ul>
         </section>
-        <p className="mt-4 text-xs text-muted-foreground">*When a sign-in is needed, whether for Google, a website builder or another tool, our AI agent hands you the finished work with a one-click copy and open, so you only paste and save.</p>
       </main>
     </div>
   );
