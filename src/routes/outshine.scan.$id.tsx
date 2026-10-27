@@ -84,7 +84,7 @@ function Scan() {
     return () => clearInterval(iv);
   }, []);
   useEffect(() => {
-    if (elapsed >= total + 600) navigate({ to: "/report/$id", params: { id: b.id } });
+    if (elapsed >= total + 600) navigate({ to: "/outshine/report/$id", params: { id: b.id } });
   }, [elapsed, total, b.id, navigate]);
 
   const stage = Math.min(Math.floor(elapsed / STAGE_MS), stages.length - 1);
@@ -100,11 +100,11 @@ function Scan() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-cream">
       <Header />
       <main className="mx-auto max-w-xl px-6 pb-20 pt-4 text-center">
         <div className="text-left">
-          <Button asChild variant="link" className="px-0"><Link to="/"><ArrowLeft />Try another business</Link></Button>
+          <Button asChild variant="link" className="px-0"><Link to="/outshine"><ArrowLeft />Try another business</Link></Button>
         </div>
         <h1 className="mt-2 font-display text-xl font-semibold">Auditing the online presence of {b.name}</h1>
         <p className="text-sm text-muted-foreground">{b.address}</p>
