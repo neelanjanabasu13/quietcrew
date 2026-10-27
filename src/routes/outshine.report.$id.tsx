@@ -177,11 +177,11 @@ function Report() {
             </div>
             <div className="flex flex-col gap-3">
               <p className="font-medium">DIY pack</p><p className="font-display text-3xl font-semibold"><span className="mr-2 text-lg text-muted-foreground line-through">£{WAS_DIY.toFixed(2)}</span>£{PRICE_DIY.toFixed(2)}</p>
-              <p className="flex-1 text-sm text-muted-foreground">Ready-to-use fixes for every finding: the finished wording with one-click copy and open, your QR review card and website, plus a step-by-step guide and PDF. You paste and save.</p>
+              <p className="flex-1 text-sm text-muted-foreground">Ready-to-use fixes for every finding: the finished wording with one-click copy and open, your QR review card, plus a step-by-step guide and PDF. You paste and save.</p>
               {diy ? <Button onClick={downloadDIY} disabled={pdfBusy} className="h-auto min-h-10 w-full whitespace-normal py-3"><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button> : <PayButton b={b} item="diy" label="DIY pack" onSession={setPendingSession}>Get my DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton>}
             </div>
           </div>
-          <p className="mt-5 text-xs text-muted-foreground">Secure one-off payment through Stripe. No subscription.</p>
+          <p className="mt-5 text-xs text-muted-foreground">One-off payment, no subscription.</p>
           {pendingSession && <p role="status" className="mt-3 text-sm">Complete the secure payment in the new tab, then return here.</p>}
           {paymentMessage && <p role="status" className="mt-3 text-sm">{paymentMessage}</p>}
         </section>}
