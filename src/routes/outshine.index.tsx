@@ -153,7 +153,7 @@ function Home() {
                       <li key={a} className="flex items-center gap-3"><span className="w-16 shrink-0 font-semibold">{a}</span><span className="h-3 flex-1 overflow-hidden rounded-full bg-secondary"><span className={`block h-full rounded-full ${c}`} style={{ width: w }} /></span><span className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold text-card ${c}`}>{g}</span></li>
                     ))}
                   </ul> },
-                { n: "02 · £9.99, was £14.99", k: "Get your exact fix list", d: "A detailed report written for your business: what to fix first, step-by-step guides, ready-to-paste wording and a PDF you keep. Most owners would pay a consultant far more for the same list.", bg: "bg-violet-tint",
+                { n: "02 · £9.99, was £14.99", k: "Get your exact fix list", d: "A detailed report written for your business: what to fix first, step-by-step guides, ready-to-paste wording and a PDF you keep. It is the list a consultant would charge you for, at a fraction of the price.", bg: "bg-violet-tint",
                   art: <div className="rounded-xl bg-card p-4 text-sm">
                     <p className="text-xs font-semibold text-violet">Review reply, ready to paste</p>
                     <p className="mt-2 text-muted-foreground">“Thank you for taking the time to write this. We are sorry the visit ran late, and we would like to put it right…”</p>
