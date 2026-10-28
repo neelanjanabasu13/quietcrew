@@ -1,4 +1,4 @@
-export const DIY_AMOUNT = 799;
+export const DIY_AMOUNT = 999;
 export const DIY_PRICE_ID = "outshine_diy_single";
 
 export function isPaidDiySession(session: {

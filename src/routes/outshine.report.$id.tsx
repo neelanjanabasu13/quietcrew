@@ -169,7 +169,7 @@ function Report() {
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">{extraTips(b.trade).map((t) => <li key={t.title} className="border-l-2 border-fix pl-4"><p className="font-medium">{t.title}</p><p className="mt-1 text-sm text-muted-foreground">{t.body}</p></li>)}</ul>
           {reference?.entry && <div className="mt-6 rounded-lg border border-border bg-card p-5"><p className="text-xs text-muted-foreground">A strong {reference.entry.city} profile we keep for comparison</p><p className="mt-1 text-lg font-semibold">{reference.entry.name}</p><p className="mt-1 text-sm text-muted-foreground">A real local business we picked as a reference. It is worth looking at how they present their services, photos and replies to reviews.</p><Button asChild variant="link" className="h-auto px-0"><a href={reference.entry.website} target="_blank" rel="noopener noreferrer">See their profile<ArrowUpRight /></a></Button></div>}</section> : <section className="mt-12 border-y border-border py-8" id="pricing">
           <h2 className="text-2xl font-semibold">From your free audit to practical fixes</h2>
-          <p className="mt-2 text-muted-foreground">Your audit and report stay free. The £7.99 detailed DIY pack adds the instructions and wording for the findings in this report, with no subscription.</p>
+          <p className="mt-2 text-muted-foreground">Your audit and report stay free. The £9.99 detailed DIY pack adds the instructions and wording for the findings in this report, with no subscription.</p>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <div className="flex flex-col gap-3">
               <p className="font-medium">Free scan</p><p className="font-display text-3xl font-semibold">Free</p>

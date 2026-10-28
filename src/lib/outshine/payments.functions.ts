@@ -57,7 +57,7 @@ export const createDiyCheckout = createServerFn({ method: "POST" })
       const stripe = createStripeClient(data.environment);
       const prices = await stripe.prices.list({ lookup_keys: [DIY_PRICE_ID] });
       const price = prices.data[0];
-      if (!price || price.unit_amount !== DIY_AMOUNT || price.currency !== "gbp" || price.type !== "one_time") return { error: "The £7.99 DIY pack price is not configured correctly." };
+      if (!price || price.unit_amount !== DIY_AMOUNT || price.currency !== "gbp" || price.type !== "one_time") return { error: "The £9.99 DIY pack price is not configured correctly." };
       const product = await stripe.products.retrieve(typeof price.product === "string" ? price.product : price.product.id);
       const email = (context.claims as { email?: string }).email;
       const customer = await resolveOrCreateCustomer(stripe, { userId: context.userId, ...(email && { email }) });
