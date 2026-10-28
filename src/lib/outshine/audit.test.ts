@@ -45,9 +45,9 @@ describe("grading", () => {
     expect(checkoutPrice("all")).toBe(29.99);
   });
 
-  it("prices the DIY pack separately at £7.99", () => {
-    expect(PRICE_DIY).toBe(7.99);
-    expect(checkoutPrice("diy")).toBe(7.99);
+  it("prices the DIY pack separately at £9.99", () => {
+    expect(PRICE_DIY).toBe(9.99);
+    expect(checkoutPrice("diy")).toBe(9.99);
   });
 
   it("creates an A benchmark overall and in every area for each trade", () => {
