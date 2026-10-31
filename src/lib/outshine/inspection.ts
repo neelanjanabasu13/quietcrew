@@ -11,11 +11,11 @@ export interface Check {
   detail: string;
 }
 
-const median = (xs: number[]) => {
+const median = (xs: number[]): number => {
   if (!xs.length) return 0;
   const s = [...xs].sort((a, b) => a - b);
   const m = Math.floor(s.length / 2);
-  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+  return s.length % 2 ? (s[m] ?? 0) : ((s[m - 1] ?? 0) + (s[m] ?? 0)) / 2;
 };
 
 /** Only checks that come straight from Google's public data or the business's own website. Nothing is guessed. */
