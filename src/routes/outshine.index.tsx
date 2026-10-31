@@ -27,6 +27,8 @@ export const Route = createFileRoute("/outshine/")({
 
 type Hit = { placeId: string; name: string; address: string; rating: number; reviewCount: number; trade: Trade | null; photo: string | null };
 
+const browseCache = new Map<string, { results: Hit[]; error: string | null }>();
+
 function Home() {
   const [q, setQ] = useState("");
   const [trade, setTrade] = useState<Trade | null>("cleaning");
@@ -44,12 +46,16 @@ function Home() {
     const browsing = s.length < 3 && trade !== null;
     if (s.length < 3 && !browsing) { setHits([]); setLoading(false); setErr(null); return; }
     let live = true;
+    const cacheKey = browsing && trade ? `${trade}|${city}` : null;
+    const cached = cacheKey ? browseCache.get(cacheKey) : undefined;
+    if (cached) { setHits(cached.results); setErr(cached.error); setLoading(false); return; }
     setLoading(true);
     setHits([]);
     setErr(null);
     const to = setTimeout(async () => {
       try {
         const r = await (browsing && trade ? discover({ data: { trade, city } }) : search({ data: { q: trade ? `${s} ${TRADES[trade].label}` : s } }));
+        if (cacheKey && !r.error && r.results.length) browseCache.set(cacheKey, { results: r.results as Hit[], error: null });
         if (live) { setHits(r.results); setErr(r.error); }
       } catch { if (live) setErr("Search is having a moment. Please try again."); }
       if (live) setLoading(false);
