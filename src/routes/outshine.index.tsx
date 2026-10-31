@@ -9,6 +9,8 @@ import { discoverBusinesses, liveId, searchBusinesses } from "@/lib/outshine/pla
 import { Button } from "@/components/ui/button";
 import { ReportStack } from "@/components/outshine/ReportStack";
 import { TradeDeck } from "@/components/outshine/TradeDeck";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { OUTSHINE_FAQ } from "@/lib/outshine/faq";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export const Route = createFileRoute("/outshine/")({
@@ -21,6 +23,7 @@ export const Route = createFileRoute("/outshine/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: OUTSHINE_FAQ.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }) }],
   }),
   component: Home,
 });
@@ -149,17 +152,17 @@ function Home() {
         <section aria-labelledby="how-title" className="bg-violet-deep py-16 text-card md:py-24">
           <div className="mx-auto max-w-3xl px-5">
             <p className="inline-block rounded-full bg-card/10 px-4 py-1.5 text-sm font-semibold text-muted-on-violet">What the audit does</p>
-            <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">Two steps: <span className="text-peach">a free scan, then your exact fix list</span>.</h2>
-            <p className="mt-5 text-lg text-muted-on-violet">The scan is always free. The detailed report on exactly what to fix, and how, is £9.99 for a limited time instead of £14.99.</p>
+            <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">The scan is free for everyone. <span className="text-peach">The fix list is there when you want the answers.</span></h2>
+            <p className="mt-5 text-lg text-muted-on-violet">You never have to buy anything to get your grade and your rival comparison. When you would rather not work out the fixes yourself, the detailed report tells you exactly what to change and how, for £9.99 instead of £14.99 for a limited time.</p>
             <ol className="mt-12">
               {[
-                { n: "01 · Always free", k: "Scan your business", d: "In under a minute you get your grade, the gaps on your public profile, and how you stack up against the nearby businesses in your trade.", bg: "bg-card",
+                { n: "Always free", k: "Scan your business", d: "In under a minute you get your grade, the gaps on your public profile, and how you stack up against the nearby businesses in your trade.", bg: "bg-card",
                   art: <ul className="space-y-2 text-sm">
                     {[["You", "C", "bg-grade-c", "55%"], ["Rival 1", "A", "bg-grade-a", "92%"], ["Rival 2", "B", "bg-grade-b", "78%"], ["Rival 3", "B", "bg-grade-b", "71%"]].map(([a, g, c, w]) => (
                       <li key={a} className="flex items-center gap-3"><span className="w-16 shrink-0 font-semibold">{a}</span><span className="h-3 flex-1 overflow-hidden rounded-full bg-secondary"><span className={`block h-full rounded-full ${c}`} style={{ width: w }} /></span><span className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold text-card ${c}`}>{g}</span></li>
                     ))}
                   </ul> },
-                { n: "02 · £9.99, was £14.99", k: "Get your exact fix list", d: "A detailed report written for your business: what to fix first, step-by-step guides, ready-to-paste wording and a PDF you keep. It is the list a consultant would charge you for, at a fraction of the price.", bg: "bg-violet-tint",
+                { n: "When you are ready · £9.99, was £14.99", k: "Get your exact fix list", d: "A detailed report written for your business: what to fix first, step-by-step guides, ready-to-paste wording and a PDF you keep. It is the list a consultant would charge you for, at a fraction of the price.", bg: "bg-violet-tint",
                   art: <div className="rounded-xl bg-card p-4 text-sm">
                     <p className="text-xs font-semibold text-violet">Review reply, ready to paste</p>
                     <p className="mt-2 text-muted-foreground">“Thank you for taking the time to write this. We are sorry the visit ran late, and we would like to put it right…”</p>
@@ -242,8 +245,56 @@ function Home() {
             ))}
           </ul>
         </section>
+        <ChecksSection />
+        <FaqSection />
         </div>
       </main>
     </div>
+  );
+}
+
+const CHECK_GROUPS = [
+  { t: "Reputation", items: ["Your star rating on Google", "How many reviews you have in total"] },
+  { t: "Against your rivals", items: ["Your rating next to the nearest businesses in your trade", "Your review count next to theirs", "Their overall grade, shown side by side with yours"] },
+  { t: "Profile basics", items: ["Photos you have uploaded yourself", "A website linked from your profile", "Opening hours", "A phone number customers can tap", "An address Google can match to local searches"] },
+  { t: "Trust", items: ["Whether your own website names the credential customers look for, such as Gas Safe, NICEIC or public liability cover"] },
+];
+
+function ChecksSection() {
+  return (
+    <section aria-labelledby="checks-title" className="mt-20">
+      <p className="inline-block rounded-full bg-violet-tint px-4 py-1.5 text-sm font-semibold text-violet">What the free scan checks</p>
+      <h2 id="checks-title" className="mt-4 font-display text-3xl font-extrabold md:text-4xl">Every check comes from public data, <span className="text-violet">so nothing is guessed.</span></h2>
+      <p className="mt-4 max-w-2xl text-lg text-muted-foreground">Each one is marked passed, needs attention or critical in your report, with the reason written in plain English.</p>
+      <div className="mt-10 grid gap-5 md:grid-cols-2">
+        {CHECK_GROUPS.map((g) => (
+          <div key={g.t} className="rounded-[20px] bg-card p-6 soft-shadow">
+            <h3 className="font-display text-xl font-bold">{g.t}</h3>
+            <ul className="mt-4 space-y-2.5">{g.items.map((i) => <li key={i} className="flex gap-3 text-muted-foreground"><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-violet" aria-hidden="true" />{i}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+      <div className="mt-5 rounded-[20px] bg-violet-tint p-6">
+        <h3 className="font-display text-xl font-bold">What the scan does not judge, and why</h3>
+        <p className="mt-2 text-muted-foreground">Google does not share owner replies to reviews, the date order of reviews, your full photo count or your Google posts through its public data. Rather than guess and give you a wrong answer, the scan leaves these out and says so in your report.</p>
+      </div>
+    </section>
+  );
+}
+
+function FaqSection() {
+  return (
+    <section aria-labelledby="faq-title" className="mt-20">
+      <p className="inline-block rounded-full bg-violet-tint px-4 py-1.5 text-sm font-semibold text-violet">Before you ask</p>
+      <h2 id="faq-title" className="mt-4 font-display text-3xl font-extrabold md:text-4xl">Questions trade owners <span className="text-violet">ask first.</span></h2>
+      <Accordion type="single" collapsible className="mt-8 rounded-[20px] bg-card px-6 soft-shadow">
+        {OUTSHINE_FAQ.map((f, i) => (
+          <AccordionItem key={f.q} value={`f${i}`} className={i === OUTSHINE_FAQ.length - 1 ? "border-b-0" : ""}>
+            <AccordionTrigger className="text-left font-display text-lg font-bold">{f.q}</AccordionTrigger>
+            <AccordionContent className="text-base leading-relaxed text-muted-foreground">{f.a}</AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </section>
   );
 }
