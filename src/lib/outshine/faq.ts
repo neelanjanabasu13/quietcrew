@@ -8,6 +8,5 @@ export const OUTSHINE_FAQ: { q: string; a: string }[] = [
   { q: "Does a good grade mean I will rank higher on Google?", a: "Not on its own, and nobody can promise that. The grade measures how complete and convincing your public profile is compared with nearby rivals. Those are things Google says it takes into account and customers notice, but rankings depend on many factors outside anyone's control." },
   { q: "Which trades and areas does it work for?", a: "Any UK business with a Google profile can be scanned. The comparisons and fix lists are written specifically for plumbing and heating, electricians, cleaning, landscaping and salons, and other trades get the general version." },
   { q: "How long does the fix list take to work through?", a: "Most owners can do the high impact fixes in an afternoon. Each step shows a rough time, usually between two and fifteen minutes, so you can do one at a time between jobs." },
-  { q: "What if I pay and the fix list is not useful?", a: "Email hello@quietcrew.ai within 14 days with your report link and the payment will be refunded, no questions asked." },
   { q: "Who is behind Outshine?", a: "Outshine is built by Quietcrew, a small UK firm that takes manual admin off the hands of small businesses. Quietcrew Ltd is registered in England and Wales, company number 17444773." },
 ];
