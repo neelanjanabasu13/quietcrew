@@ -66,10 +66,10 @@ export const photoUrl = (name: string) => `/api/public/outshine-photo?name=${enc
 const FIELDS = "currentOpeningHours,id,displayName,formattedAddress,shortFormattedAddress,addressComponents,location,rating,userRatingCount,reviews,photos,websiteUri,regularOpeningHours,editorialSummary,nationalPhoneNumber,types";
 
 /** Reads the business's own homepage and checks it for trade credentials. null when no website can be read. */
-async function websiteCredential(url: string | undefined, trade: Trade): Promise<boolean | null> {
+async function websiteCredential(url: string | undefined, trade: Trade, timeoutMs = 5000): Promise<boolean | null> {
   if (!url) return null;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(5000), headers: { "User-Agent": "Mozilla/5.0 (compatible; Outshine audit)" }, redirect: "follow" });
+    const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs), headers: { "User-Agent": "Mozilla/5.0 (compatible; Outshine audit)" }, redirect: "follow" });
     if (!res.ok) return null;
     const html = (await res.text()).slice(0, 400_000).replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, " ");
     return CREDENTIAL_WORDS[trade].test(html);
@@ -144,13 +144,27 @@ export async function getLiveBusiness(id: string, trade: Trade, placeId: string,
 }
 
 /** Trade browsing: one search with full fields, graded on the same public evidence rules as a scan. */
+const discoverCache = new Map<string, { at: number; value: Awaited<ReturnType<typeof discoverUncached>> }>();
+const DISCOVER_TTL = 6 * 60 * 60 * 1000;
+
+/** Browse examples change slowly, so repeat picks of the same trade and city are served from memory. */
 export async function discoverPlaces(trade: Trade, queries: string[], keep: (r: { rating: number }) => boolean = () => true) {
+  const key = trade + "|" + queries.join("|");
+  const hit = discoverCache.get(key);
+  if (hit && Date.now() - hit.at < DISCOVER_TTL) return hit.value;
+  const value = await discoverUncached(trade, queries, keep);
+  if (value.length) discoverCache.set(key, { at: Date.now(), value });
+  return value;
+}
+
+async function discoverUncached(trade: Trade, queries: string[], keep: (r: { rating: number }) => boolean) {
   const mask = "places." + FIELDS.split(",").join(",places.");
   // Google returns at most 20 places per page (60 per query), ranked by prominence, so we follow every page.
   const all = async (q: string) => {
     const out: any[] = [];
     let pageToken: string | undefined;
-    for (let i = 0; i < 3; i++) {
+    // One page per query is plenty for twelve examples; extra pages were sequential round trips.
+    for (let i = 0; i < 1; i++) {
       const j: any = await post("places:searchText", { textQuery: q, regionCode: "GB", pageSize: 20, ...(pageToken ? { pageToken } : {}) }, mask + ",nextPageToken").catch(() => ({}));
       out.push(...(j.places ?? []));
       pageToken = j.nextPageToken;
@@ -165,7 +179,7 @@ export async function discoverPlaces(trade: Trade, queries: string[], keep: (r: 
     .filter((p) => keep({ rating: p.rating ?? 0 }))
     .sort((a, b) => (b.userRatingCount ?? 0) - (a.userRatingCount ?? 0))
     .slice(0, 12);
-  const creds = await Promise.all(places.map((p) => websiteCredential(p.websiteUri, trade)));
+  const creds = await Promise.all(places.map((p) => websiteCredential(p.websiteUri, trade, 2500)));
   return places.map((p, i) => ({
     placeId: p.id as string, name: p.displayName?.text ?? "", address: p.formattedAddress ?? "",
     rating: p.rating ?? 0, reviewCount: p.userRatingCount ?? 0, trade: trade as Trade | null,
