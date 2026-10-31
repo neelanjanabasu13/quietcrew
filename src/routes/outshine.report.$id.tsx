@@ -15,6 +15,7 @@ import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { getStripeEnvironment } from "@/lib/stripe";
 import { supabase } from "@/integrations/supabase/client";
 import { SCREEN_NOTE, TOOLS_DISCLAIMER, type UiScreen } from "@/lib/outshine/sop-visuals";
+import { checkSummary, inspect, NOT_CHECKED, type CheckStatus } from "@/lib/outshine/inspection";
 
 function ScreenDiagram({ s }: { s: UiScreen }) {
   return <figure className="overflow-hidden rounded-lg border border-border bg-background">
@@ -164,6 +165,9 @@ function Report() {
             {areaList.filter((area) => areas[area] !== undefined).map((area) => { const value = areas[area]; return <div key={area} className="border-b border-border pb-4"><p className="text-sm text-muted-foreground">{area}</p>{value === undefined ? <p className="mt-2 text-sm text-muted-foreground">Not assessed</p> : <p className={`mt-2 font-display text-4xl font-semibold ${gradeColor(gradeOf(value))}`}>{gradeOf(value)}</p>}</div>; })}
           </div>
         </section>
+
+        <InspectionGrid b={b} />
+
 
         {allClear ? <section className="mt-12 border-y border-border py-8"><p className="flex items-center gap-2 text-grade-a"><Check className="h-5 w-5" />All clear</p><h2 className="mt-2 text-2xl font-semibold">Every public signal we can check already meets the standard</h2><p className="mt-2 max-w-2xl text-muted-foreground">There is nothing for a DIY pack to fix, so we will not ask you to pay for anything. There is always room to grow, though, and these habits are what keep the strongest {TRADES[b.trade].label.toLowerCase()} businesses ahead in areas Google does not show us.</p>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">{extraTips(b.trade).map((t) => <li key={t.title} className="border-l-2 border-fix pl-4"><p className="font-medium">{t.title}</p><p className="mt-1 text-sm text-muted-foreground">{t.body}</p></li>)}</ul>
@@ -429,4 +433,44 @@ function extraTips(trade: keyof typeof TRADES) {
     { title: "Keep photos current", body: `Add fresh photos of ${t.expectedPhotos} every month or so, so the profile looks active.` },
     { title: "Post regular updates", body: "A weekly Google update about a recent job or an open slot signals you are busy and available." },
   ];
+}
+
+const STATUS_STYLE: Record<CheckStatus, { label: string; dot: string; pill: string }> = {
+  pass: { label: "Passed", dot: "bg-grade-a", pill: "bg-secondary text-foreground" },
+  attention: { label: "Needs attention", dot: "bg-grade-c", pill: "bg-accent text-accent-foreground" },
+  critical: { label: "Critical", dot: "bg-destructive", pill: "bg-destructive text-destructive-foreground" },
+  unknown: { label: "Could not check", dot: "bg-muted-foreground", pill: "bg-muted text-muted-foreground" },
+};
+
+function InspectionGrid({ b }: { b: Business }) {
+  const checks = inspect(b);
+  const sum = checkSummary(checks);
+  const order: CheckStatus[] = ["critical", "attention", "pass", "unknown"];
+  const sorted = [...checks].sort((x, y) => order.indexOf(x.status) - order.indexOf(y.status));
+  return (
+    <section className="mt-12" aria-labelledby="inspection-heading">
+      <p className="inline-block rounded-full bg-secondary px-3 py-1 text-xs font-semibold">Free inspection</p>
+      <h2 id="inspection-heading" className="mt-3 text-3xl font-semibold">{sum.checked} public signals checked</h2>
+      <p className="mt-2 max-w-2xl text-muted-foreground">Every check below comes straight from your Google profile, your nearest rivals or your own website, so nothing here is guessed.</p>
+      <div className="mt-5 flex flex-wrap gap-2 text-sm">
+        <span className="rounded-full bg-destructive px-3 py-1 font-semibold text-destructive-foreground">{sum.critical} critical</span>
+        <span className="rounded-full bg-accent px-3 py-1 font-semibold text-accent-foreground">{sum.attention} need attention</span>
+        <span className="rounded-full bg-secondary px-3 py-1 font-semibold">{sum.passed} passed</span>
+      </div>
+      <ul className="mt-6 grid gap-4 md:grid-cols-2">
+        {sorted.map((c) => { const st = STATUS_STYLE[c.status]; return (
+          <li key={c.id} className="rounded-[20px] bg-card p-5 shadow-sm">
+            <div className="flex items-start justify-between gap-3">
+              <div><p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">{c.group}</p><p className="mt-1 font-semibold">{c.label}</p></div>
+              <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${st.pill}`}><span className={`h-2 w-2 rounded-full ${st.dot}`} aria-hidden="true" />{st.label}</span>
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">{c.detail}</p>
+          </li>); })}
+      </ul>
+      <div className="mt-6 rounded-[20px] bg-secondary/60 p-5">
+        <p className="font-semibold">What this free scan does not judge, and why</p>
+        <ul className="mt-3 grid gap-2 text-sm sm:grid-cols-2">{NOT_CHECKED.map((n) => <li key={n.label}><span className="font-medium">{n.label}:</span> <span className="text-muted-foreground">{n.why}</span></li>)}</ul>
+      </div>
+    </section>
+  );
 }
