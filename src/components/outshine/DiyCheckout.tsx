@@ -47,6 +47,7 @@ export function DiyCheckout({ businessId, open, onOpenChange }: { businessId: st
       </div> : error ? <p role="alert" className="py-4 text-sm text-destructive">{error}</p> : clientSecret ?
         <EmbeddedCheckoutProvider stripe={getStripe()} options={{ fetchClientSecret }}><EmbeddedCheckout /></EmbeddedCheckoutProvider>
         : <p role="status" className="py-6 text-sm text-muted-foreground">Preparing secure checkout…</p>}
+      <p className="text-xs leading-relaxed text-muted-foreground">Instant digital delivery after payment. Sales are final, subject to your statutory rights. If you have a technical problem with your report, contact <a href="mailto:hello@quietcrew.ai" className="font-semibold underline underline-offset-4">hello@quietcrew.ai</a> and I will help you sort it out.</p>
     </DialogContent>
   </Dialog>;
 }
