@@ -1,5 +1,7 @@
 # Outshine inside Quietcrew
 
+- [x] Keep FAQ pricing evergreen and add final-sale wording with report support at hello@quietcrew.ai in the FAQ, checkout and report.
+
 - [x] Bring Outshine into Quietcrew at /outshine (search, trade cards, city slider, walkthrough video, scan, report), no external links.
 - [x] Remove "AI agent / Done for you" promises; keep free audit and £7.99 DIY pack.
 - [x] Back to Quietcrew buttons on Goldmine and every Outshine page.
