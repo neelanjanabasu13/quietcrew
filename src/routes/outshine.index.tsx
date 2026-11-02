@@ -6,6 +6,7 @@ import { Shine } from "@/components/outshine/Shine";
 import { TRADES, type Trade } from "@/lib/outshine/audit";
 import { TRADE_PHOTOS } from "@/lib/outshine/sample";
 import { discoverBusinesses, liveId, searchBusinesses } from "@/lib/outshine/places.functions";
+import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 import { Button } from "@/components/ui/button";
 import { ReportStack } from "@/components/outshine/ReportStack";
 import { TradeDeck } from "@/components/outshine/TradeDeck";
