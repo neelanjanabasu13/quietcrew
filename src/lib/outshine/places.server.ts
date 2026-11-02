@@ -82,7 +82,7 @@ export const photoUrl = (name: string) => `/api/public/outshine-photo?name=${enc
 // Detail fields actually graded or shown. No Atmosphere fields (see COST RULE above).
 const FIELDS = "currentOpeningHours,id,displayName,formattedAddress,shortFormattedAddress,addressComponents,location,rating,userRatingCount,photos,websiteUri,regularOpeningHours,nationalPhoneNumber,types";
 // Rivals only need what is graded, so the competitor search skips address parts, phone and live hours.
-const RIVAL_FIELDS = "id,displayName,location,rating,userRatingCount,photos,websiteUri,regularOpeningHours,types";
+const RIVAL_FIELDS = "id,displayName,formattedAddress,location,rating,userRatingCount,photos,websiteUri,regularOpeningHours,types";
 const detailCache = new Map<string, { at: number; value: Business }>();
 
 /** Reads the business's own homepage and checks it for trade credentials. null when no website can be read. */
