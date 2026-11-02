@@ -17,6 +17,7 @@ import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe
 import { getStripe, getStripeEnvironment } from "@/lib/stripe";
 import { CopyDraftButton } from "@/components/CopyDraftButton";
 import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
+import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 import { GoldmineContrast } from "@/components/GoldmineContrast";
 
 const LAST_ORDER_KEY = "goldmine.lastOrder";
@@ -882,6 +883,7 @@ export function GoldmineLive() {
           )}
         </div>
       ) : null}
+      <PoweredByGoogle className="mt-8" />
     </div>
   );
 }
