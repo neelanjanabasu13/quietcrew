@@ -62,7 +62,7 @@ function Home() {
         if (live) { setHits(r.results); setErr(r.error); }
       } catch { if (live) setErr("Search is having a moment. Please try again."); }
       if (live) setLoading(false);
-    }, browsing ? 0 : 400);
+    }, browsing ? 0 : 700);
     return () => { live = false; clearTimeout(to); };
   }, [q, trade, city, search, discover]);
 
@@ -100,7 +100,7 @@ function Home() {
                     <Button variant="ghost" onClick={() => pick(b)} className="flex h-auto w-full justify-start gap-4 rounded-none px-5 py-3 text-left whitespace-normal">
                       {b.photo ? <img src={b.photo} alt="" className="h-10 w-10 rounded-lg object-cover" loading="lazy" width={40} height={40} /> : <span className="h-10 w-10 rounded-lg bg-secondary" />}
                       <span className="min-w-0 flex-1"><span className="block font-medium">{b.name}</span><span className="text-sm text-muted-foreground">{b.address}</span></span>
-                      <span className="shrink-0 text-right text-xs text-muted-foreground">{b.rating > 0 && <span className="block">{b.rating.toFixed(1)} ★</span>}<span>{b.reviewCount.toLocaleString("en-GB")} reviews</span></span>
+                      {b.rating > 0 && <span className="shrink-0 text-right text-xs text-muted-foreground"><span className="block">{b.rating.toFixed(1)} ★</span><span>{b.reviewCount.toLocaleString("en-GB")} reviews</span></span>}
                     </Button>
                   </li>
                 ))}
@@ -115,7 +115,7 @@ function Home() {
               <div className="flex-1">
                 <p className="font-display text-2xl font-extrabold">{picked.name}</p>
                 <p className="text-sm text-muted-foreground">{picked.address}</p>
-                <p className="mt-1 text-sm">{picked.rating.toFixed(1)} ★ · {picked.reviewCount} reviews</p>
+                {picked.rating > 0 && <p className="mt-1 text-sm">{picked.rating.toFixed(1)} ★ · {picked.reviewCount} reviews</p>}
                 {!pickedTrade && <p className="mt-2 text-sm font-semibold text-fix">Pick your trade below so we compare you with the right rivals.</p>}
                 <div className="mt-4 flex items-center gap-4">
                   <button disabled={!pickedTrade} onClick={() => pickedTrade && navigate({ to: "/outshine/scan/$id", params: { id: picked.placeId.startsWith("seed:") ? picked.placeId.slice(5) : liveId(pickedTrade, picked.placeId) } })}
