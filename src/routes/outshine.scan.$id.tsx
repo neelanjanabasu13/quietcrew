@@ -205,6 +205,7 @@ function Scan() {
           <div className="h-full rounded-full bg-foreground transition-[width] duration-150" style={{ width: `${pct}%` }} />
         </div>
         <p className="mt-2 text-xs font-medium text-muted-foreground">{pct}%</p>
+        <PoweredByGoogle className="mt-6" />
       </main>
     </div>
   );

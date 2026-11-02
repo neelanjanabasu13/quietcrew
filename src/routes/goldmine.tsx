@@ -220,6 +220,7 @@ function Goldmine() {
             </Reveal>
           </div>
         </section>
+        <PoweredByGoogle className="pb-10" />
       </main>
 
       <SiteFooter />

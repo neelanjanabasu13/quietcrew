@@ -275,6 +275,7 @@ function Report() {
             </div>
           )}
         </section>}
+        <PoweredByGoogle className="mt-10" />
       </main>
       {!diy && !allClear && <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur"><div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3"><p className="text-sm text-muted-foreground">Free audit · Detailed DIY pack £{PRICE_DIY.toFixed(2)}</p><PayButton b={b} item="diy" label="DIY pack" onBuy={() => setCheckoutOpen(true)}>Get my DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton></div></div>}
     </div>
