@@ -47,23 +47,43 @@ async function post(path: string, body: unknown, mask: string) {
   return res.json() as Promise<any>;
 }
 
+// COST RULE: Google bills each call at the price of its most expensive field. The typeahead asks only for
+// name/address/type (cheapest Text Search tier, no photo loads). Never add reviews, editorialSummary or other
+// Atmosphere fields anywhere: they move every call to Google's top price tier.
+const searchCache = new Map<string, { at: number; value: Awaited<ReturnType<typeof searchUncached>> }>();
+const SEARCH_TTL = 6 * 60 * 60 * 1000;
+
 export async function searchPlaces(q: string, max = 8) {
-  const json = await post("places:searchText", { textQuery: q, regionCode: "GB", maxResultCount: max },
-    "places.id,places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.types,places.photos");
+  const k = q.toLowerCase().replace(/\s+/g, " ").trim() + "|" + max;
+  const hit = searchCache.get(k);
+  if (hit && Date.now() - hit.at < SEARCH_TTL) return hit.value;
+  const value = await searchUncached(q, max);
+  if (searchCache.size > 2000) searchCache.clear();
+  searchCache.set(k, { at: Date.now(), value });
+  return value;
+}
+
+async function searchUncached(q: string, max: number) {
+  const json = await post("places:searchText", { textQuery: q, regionCode: "GB", maxResultCount: Math.min(max, 6) },
+    "places.id,places.displayName,places.formattedAddress,places.types");
   return ((json.places ?? []) as any[]).map((p) => ({
     placeId: p.id as string,
     name: p.displayName?.text ?? "",
     address: p.formattedAddress ?? "",
-    rating: p.rating ?? 0,
-    reviewCount: p.userRatingCount ?? 0,
+    rating: 0,
+    reviewCount: 0,
     trade: guessTrade(p.types, p.displayName?.text),
-    photo: p.photos?.[0]?.name ? photoUrl(p.photos[0].name) : null,
+    photo: null as string | null,
   }));
 }
 
 export const photoUrl = (name: string) => `/api/public/outshine-photo?name=${encodeURIComponent(name)}`;
 
-const FIELDS = "currentOpeningHours,id,displayName,formattedAddress,shortFormattedAddress,addressComponents,location,rating,userRatingCount,reviews,photos,websiteUri,regularOpeningHours,editorialSummary,nationalPhoneNumber,types";
+// Detail fields actually graded or shown. No Atmosphere fields (see COST RULE above).
+const FIELDS = "currentOpeningHours,id,displayName,formattedAddress,shortFormattedAddress,addressComponents,location,rating,userRatingCount,photos,websiteUri,regularOpeningHours,nationalPhoneNumber,types";
+// Rivals only need what is graded, so the competitor search skips address parts, phone and live hours.
+const RIVAL_FIELDS = "id,displayName,location,rating,userRatingCount,photos,websiteUri,regularOpeningHours,types";
+const detailCache = new Map<string, { at: number; value: Business }>();
 
 /** Reads the business's own homepage and checks it for trade credentials. null when no website can be read. */
 async function websiteCredential(url: string | undefined, trade: Trade, timeoutMs = 5000): Promise<boolean | null> {
