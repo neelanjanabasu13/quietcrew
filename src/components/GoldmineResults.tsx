@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CopyDraftButton } from "@/components/CopyDraftButton";
 import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
+import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 
 /**
  * Goldmine results preview.
@@ -546,6 +547,8 @@ export function GoldmineResults() {
           off your list. You choose whom to approach, in whatever order suits your agency.
         </p>
       </div>
+
+      <PoweredByGoogle className="mt-8" />
     </div>
   );
 }
