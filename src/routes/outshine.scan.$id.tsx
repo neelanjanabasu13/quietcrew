@@ -6,6 +6,7 @@ import { ArrowLeft, Check, Loader2, MapPin, Star, Store } from "lucide-react";
 import { TRADES, type Trade } from "@/lib/outshine/audit";
 import { getBusiness } from "@/lib/outshine/places.functions";
 import { photoOf, TRADE_PHOTOS } from "@/lib/outshine/sample";
+import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 
 export const Route = createFileRoute("/outshine/scan/$id")({
   loader: async ({ params }) => {

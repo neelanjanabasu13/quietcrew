@@ -12,6 +12,7 @@ import type { Sop } from "@/lib/outshine/diy";
 import { readDiyPurchase, type PaidPack } from "@/lib/outshine/payments.functions";
 import { DiyCheckout } from "@/components/outshine/DiyCheckout";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 import { getStripeEnvironment } from "@/lib/stripe";
 import { supabase } from "@/integrations/supabase/client";
 import { SCREEN_NOTE, TOOLS_DISCLAIMER, type UiScreen } from "@/lib/outshine/sop-visuals";

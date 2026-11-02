@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import { GoldmineResults } from "@/components/GoldmineResults";
 import { GoldmineLive } from "@/components/GoldmineLive";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 
 const TITLE = "Goldmine by Quietcrew | Local prospect discovery for agencies";
 const DESCRIPTION =
