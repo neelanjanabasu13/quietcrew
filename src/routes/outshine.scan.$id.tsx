@@ -6,6 +6,7 @@ import { ArrowLeft, Check, Loader2, MapPin, Star, Store } from "lucide-react";
 import { TRADES, type Trade } from "@/lib/outshine/audit";
 import { getBusiness } from "@/lib/outshine/places.functions";
 import { photoOf, TRADE_PHOTOS } from "@/lib/outshine/sample";
+import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 
 export const Route = createFileRoute("/outshine/scan/$id")({
   loader: async ({ params }) => {
@@ -205,6 +206,7 @@ function Scan() {
           <div className="h-full rounded-full bg-foreground transition-[width] duration-150" style={{ width: `${pct}%` }} />
         </div>
         <p className="mt-2 text-xs font-medium text-muted-foreground">{pct}%</p>
+        <PoweredByGoogle className="mt-6" />
       </main>
     </div>
   );

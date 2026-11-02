@@ -6,6 +6,7 @@ import { Shine } from "@/components/outshine/Shine";
 import { TRADES, type Trade } from "@/lib/outshine/audit";
 import { TRADE_PHOTOS } from "@/lib/outshine/sample";
 import { discoverBusinesses, liveId, searchBusinesses } from "@/lib/outshine/places.functions";
+import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 import { Button } from "@/components/ui/button";
 import { ReportStack } from "@/components/outshine/ReportStack";
 import { TradeDeck } from "@/components/outshine/TradeDeck";
@@ -94,6 +95,7 @@ function Home() {
                 <span className="m-1.5 hidden items-center rounded-full bg-fix px-6 font-semibold text-fix-foreground sm:flex">Scan free</span>
               </div>
               <p className="mt-3 px-2 text-sm text-muted-foreground">Free, takes under a minute, no card details, and nothing on your profile is changed.</p>
+              <PoweredByGoogle className="mt-2 justify-start px-2" />
               {q.trim().length >= 3 && <ul aria-label="Business results" aria-busy={loading} className="absolute inset-x-0 z-30 mt-2 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_20px_50px_-30px_var(--ink)] focus-within:border-ink">
                 {hits.map((b) => (
                   <li key={b.placeId}>
