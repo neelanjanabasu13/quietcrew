@@ -5,6 +5,8 @@ import { Header } from "@/components/outshine/Brand";
 import { Shine } from "@/components/outshine/Shine";
 import { TRADES, type Trade } from "@/lib/outshine/audit";
 import { TRADE_PHOTOS } from "@/lib/outshine/sample";
+import { outshineAllowance } from "@/lib/outshine/scan.functions";
+import { getStripeEnvironment } from "@/lib/stripe";
 import { discoverBusinesses, liveId, searchBusinesses } from "@/lib/outshine/places.functions";
 import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 import { Button } from "@/components/ui/button";
@@ -44,6 +46,9 @@ function Home() {
   const navigate = useNavigate();
   const search = useServerFn(searchBusinesses);
   const discover = useServerFn(discoverBusinesses);
+  const allowance = useServerFn(outshineAllowance);
+  const [scanNote, setScanNote] = useState("One free guest scan, three free scans total with an account, then £2.99 per scan.");
+  useEffect(() => { let active = true; void allowance({ data: { environment: getStripeEnvironment() } }).then(a => { if (active) setScanNote(a.signedIn ? `${a.remaining} of your three free scans remain. Further scans cost £2.99 each.` : "One free guest scan, three free scans total with an account, then £2.99 per scan."); }).catch(() => {}); return () => { active = false; }; }, [allowance]);
 
   useEffect(() => {
     const s = q.trim();
@@ -94,7 +99,7 @@ function Home() {
                   className="min-w-0 flex-1 rounded-l-full bg-transparent px-6 py-4 text-lg outline-none" />
                 <span className="m-1.5 hidden items-center rounded-full bg-fix px-6 font-semibold text-fix-foreground sm:flex">Scan free</span>
               </div>
-              <p className="mt-3 px-2 text-sm text-muted-foreground">Free, takes under a minute, no card details, and nothing on your profile is changed.</p>
+              <p className="mt-3 px-2 text-sm text-muted-foreground">{scanNote} Nothing on your profile is changed.</p>
               <PoweredByGoogle className="mt-2 justify-start px-2" />
               {q.trim().length >= 3 && <ul aria-label="Business results" aria-busy={loading} className="absolute inset-x-0 z-30 mt-2 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_20px_50px_-30px_var(--ink)] focus-within:border-ink">
                 {hits.map((b) => (
@@ -120,9 +125,9 @@ function Home() {
                 {picked.rating > 0 && <p className="mt-1 text-sm">{picked.rating.toFixed(1)} ★ · {picked.reviewCount} reviews</p>}
                 {!pickedTrade && <p className="mt-2 text-sm font-semibold text-fix">Pick your trade below so we compare you with the right rivals.</p>}
                 <div className="mt-4 flex items-center gap-4">
-                  <button disabled={!pickedTrade} onClick={() => pickedTrade && navigate({ to: "/outshine/scan/$id", params: { id: picked.placeId.startsWith("seed:") ? picked.placeId.slice(5) : liveId(pickedTrade, picked.placeId) } })}
-                    className="rounded-full bg-fix px-6 py-3 font-semibold text-fix-foreground transition hover:-translate-y-0.5 disabled:opacity-40">Grade my business →</button>
-                  <button onClick={() => setPicked(null)} className="text-sm text-muted-foreground underline-offset-4 hover:underline">Not this one</button>
+                  <Button disabled={!pickedTrade} onClick={() => pickedTrade && navigate({ to: "/outshine/scan/$id", search: { fresh: false }, params: { id: picked.placeId.startsWith("seed:") ? picked.placeId.slice(5) : liveId(pickedTrade, picked.placeId) } })}
+                    className="rounded-full bg-fix px-6 py-3 font-semibold text-fix-foreground transition hover:-translate-y-0.5 disabled:opacity-40">Grade my business →</Button>
+                  <Button variant="link" onClick={() => setPicked(null)} className="text-sm text-muted-foreground underline-offset-4 hover:underline">Not this one</Button>
                 </div>
               </div>
             </div>
@@ -154,11 +159,11 @@ function Home() {
         <section aria-labelledby="how-title" className="bg-violet-deep py-16 text-card md:py-24">
           <div className="mx-auto max-w-3xl px-5">
             <p className="inline-block rounded-full bg-card/10 px-4 py-1.5 text-sm font-semibold text-muted-on-violet">What the audit does</p>
-            <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">The scan is free for everyone. <span className="text-peach">The fix list is there when you want the answers.</span></h2>
-            <p className="mt-5 text-lg text-muted-on-violet">You never have to buy anything to get your grade and your rival comparison. When you would rather not work out the fixes yourself, the detailed report tells you exactly what to change and how, for £9.99 instead of £14.99 for a limited time.</p>
+            <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">Your first scan is free. <span className="text-peach">The fix list is there when you want the answers.</span></h2>
+            <p className="mt-5 text-lg text-muted-on-violet">Your first scan includes your grade and rival comparison without payment. Signing in gives you three free scans total, including your guest scan; further scans cost £2.99 each. When you would rather not work out the fixes yourself, the detailed report tells you exactly what to change and how, for £9.99 instead of £14.99 for a limited time.</p>
             <ol className="mt-12">
               {[
-                { n: "Always free", k: "Scan your business", d: "In under a minute you get your grade, the gaps on your public profile, and how you stack up against the nearby businesses in your trade.", bg: "bg-card",
+                { n: "Your first scan is free", k: "Scan your business", d: "In under a minute you get your grade, the gaps on your public profile, and how you stack up against the nearby businesses in your trade.", bg: "bg-card",
                   art: <ul className="space-y-2 text-sm">
                     {[["You", "C", "bg-grade-c", "55%"], ["Rival 1", "A", "bg-grade-a", "92%"], ["Rival 2", "B", "bg-grade-b", "78%"], ["Rival 3", "B", "bg-grade-b", "71%"]].map(([a, g, c, w]) => (
                       <li key={a} className="flex items-center gap-3"><span className="w-16 shrink-0 font-semibold">{a}</span><span className="h-3 flex-1 overflow-hidden rounded-full bg-secondary"><span className={`block h-full rounded-full ${c}`} style={{ width: w }} /></span><span className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold text-card ${c}`}>{g}</span></li>
@@ -238,7 +243,7 @@ function Home() {
           </div>
           <ul className="flex flex-col justify-center gap-3">
             {[
-              <>Your scan is always free</>,
+              <>One guest scan free, three free scans total with an account</>,
               <>Detailed DIY pack · <s className="text-muted-foreground">£14.99</s> £9.99 one-off</>,
               <>Step-by-step guides and copyable wording</>,
               <>Downloadable PDF to keep</>,

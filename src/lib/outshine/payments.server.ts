@@ -12,5 +12,7 @@ export async function confirmDiyPayment(sessionId: string, environment: StripeEn
   if (!purchase || !isPaidDiySession(session, purchase)) return false;
   const { error: updateError } = await supabaseAdmin.from("outshine_purchases").update({ payment_status: "paid", paid_at: new Date().toISOString() }).eq("id", purchase.id);
   if (updateError) throw updateError;
+  const { error: creditError } = await supabaseAdmin.from("outshine_scan_credits").upsert({ user_id: purchase.user_id, business_id: purchase.business_id, environment, kind: "verification", purchase_id: purchase.id, payment_status: "paid" }, { onConflict: "purchase_id", ignoreDuplicates: true });
+  if (creditError) throw creditError;
   return true;
 }

@@ -11,7 +11,7 @@ export type PaidPack = { business: Business; sops: Record<string, Sop>; actions:
 
 const input = z.object({ businessId: z.string().min(1).max(400), environment: z.enum(["sandbox", "live"]) });
 
-async function resolveOrCreateCustomer(
+export async function resolveOrCreateCustomer(
   stripe: ReturnType<typeof createStripeClient>,
   options: { email?: string; userId?: string },
 ): Promise<string> {
@@ -49,8 +49,8 @@ export const createDiyCheckout = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth]).inputValidator((data: unknown) => input.parse(data))
   .handler(async ({ data, context }) => {
     try {
-      const { getBusiness } = await import("./places.functions");
-      const business = await getBusiness({ data: { id: data.businessId } });
+      const { savedBusiness } = await import("./scan-access.server");
+      const business = await savedBusiness(data.businessId, data.environment);
       if (!business?.live) return { error: "Please scan a real business before buying its DIY pack." };
       const { evaluate, topProblems } = await import("./audit");
       if (!topProblems(evaluate(business.trade, business.signals, business.name, true).filter(f => f.id !== "replies"), 5).length) return { error: "This profile has no assessed gaps, so there is no pack to buy." };
@@ -70,7 +70,7 @@ export const createDiyCheckout = createServerFn({ method: "POST" })
         if (previous.status === "open" && previous.client_secret) return { clientSecret: previous.client_secret };
         if (previous.status === "complete") return { error: "Your previous payment is being confirmed. Reload your report before trying again." };
       }
-      const { data: purchase, error } = await supabaseAdmin.from("outshine_purchases").upsert({ user_id: context.userId, business_id: business.id, environment: data.environment, business_snapshot: JSON.parse(JSON.stringify(business)) }, { onConflict: "user_id,business_id,environment" }).select("id").single();
+      const { data: purchase, error } = await supabaseAdmin.from("outshine_purchases").upsert({ user_id: context.userId, business_id: business.id, environment: data.environment, amount: DIY_AMOUNT, business_snapshot: JSON.parse(JSON.stringify(business)) }, { onConflict: "user_id,business_id,environment" }).select("id").single();
       if (error || !purchase) throw error ?? new Error("Could not save your purchase.");
       const origin = new URL(getRequestUrl()).origin;
       const session = await stripe.checkout.sessions.create({

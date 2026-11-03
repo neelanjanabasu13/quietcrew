@@ -38,26 +38,33 @@ import { getBusiness } from "@/lib/outshine/places.functions";
 import { photoOf, TRADE_PHOTOS, type Business } from "@/lib/outshine/sample";
 
 export const Route = createFileRoute("/outshine/report/$id")({
+  ssr: false,
   loader: async ({ params }) => {
-    const b = await getBusiness({ data: { id: params.id } });
-    if (!b) throw notFound();
+    const b = await getBusiness({ data: { id: params.id, environment: getStripeEnvironment() } });
+    if (!b) return { b: null };
     return { b };
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: loaderData ? `${loaderData.b.name} report · Outshine by Quietcrew` : "Report · Outshine by Quietcrew" },
-      { name: "description", content: loaderData ? `Online presence report for ${loaderData.b.name}, a ${TRADES[loaderData.b.trade].label.toLowerCase()} business in ${loaderData.b.area}, with an evidence-based letter grade and a comparison against nearby rivals.` : "An evidence-based online presence report with a letter grade and nearby rivals." },
-      { property: "og:title", content: loaderData ? `${loaderData.b.name} online presence report · Outshine` : "Outshine report" },
-      { property: "og:description", content: loaderData ? `See how ${loaderData.b.name} in ${loaderData.b.area} grades against local ${TRADES[loaderData.b.trade].label.toLowerCase()} rivals, and where it can stand out online.` : "See how this business grades against local rivals." },
+      { title: loaderData?.b ? `${loaderData.b.name} report · Outshine by Quietcrew` : "Report · Outshine by Quietcrew" },
+      { name: "description", content: loaderData?.b ? `Online presence report for ${loaderData.b.name}, a ${TRADES[loaderData.b.trade].label.toLowerCase()} business in ${loaderData.b.area}, with an evidence-based letter grade and a comparison against nearby rivals.` : "An evidence-based online presence report with a letter grade and nearby rivals." },
+      { property: "og:title", content: loaderData?.b ? `${loaderData.b.name} online presence report · Outshine` : "Outshine report" },
+      { property: "og:description", content: loaderData?.b ? `See how ${loaderData.b.name} in ${loaderData.b.area} grades against local ${TRADES[loaderData.b.trade].label.toLowerCase()} rivals, and where it can stand out online.` : "See how this business grades against local rivals." },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: Report,
+  component: ReportPage,
 });
 
-function Report() {
-  const { b: loadedBusiness } = Route.useLoaderData();
+function ReportPage() {
+  const { b } = Route.useLoaderData();
+  const { id } = Route.useParams();
+  if (!b) return <div className="min-h-screen bg-cream"><Header /><main className="mx-auto max-w-2xl px-6 py-12"><h1 className="text-3xl font-extrabold">This saved report is not available</h1><p className="mt-4">Saved scans can be reopened for 48 hours on this device or in the account that ran the scan. Purchased DIY packs remain available to their owner.</p><Button asChild className="mt-6"><Link to="/outshine/scan/$id" params={{ id }} search={{ fresh: false }}>Open or run my scan</Link></Button><Button asChild variant="link"><Link to="/outshine">Back to Outshine</Link></Button></main></div>;
+  return <Report loadedBusiness={b} />;
+}
+
+function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<ReturnType<typeof getBusiness>>> }) {
   const [pack, setPack] = useState<PaidPack | null>(null);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState<string | null>(null);
@@ -158,7 +165,7 @@ function Report() {
             <div>
               <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Your overall grade</p>
               <h2 className="mt-3 text-3xl font-semibold">{allClear ? "Nothing to fix in the public profile we can see." : grade === "A" ? "A strong profile, with room to stay ahead." : "A clearer path to a stronger profile."}</h2>
-              <p className="mt-3 max-w-xl text-muted-foreground">Your grade is {grade}, based on {b.live ? "customer rating, review volume, how recent the newest review is, photos you upload yourself, website, opening hours and the credentials named on your own website" : "reputation, response, visuals, profile and credentials"}, weighted for {TRADES[b.trade].label.toLowerCase()}.</p>
+              <p className="mt-3 max-w-xl text-muted-foreground">Your grade is {grade}, based on {b.live ? "customer rating, review volume, the photo sample Google shares, website, opening hours and the credentials named on your own website" : "reputation, response, visuals, profile and credentials"}, weighted for {TRADES[b.trade].label.toLowerCase()}.</p>
               {b.live && <p className="mt-3 max-w-xl text-xs text-muted-foreground">Public-profile grade, not a rating of service quality or a Google ranking. Every point comes from Google or your own website. Owner replies to reviews are not graded because Google does not publish them. We only show areas we can actually grade from this evidence.</p>}
             </div>
           </div>
@@ -167,6 +174,12 @@ function Report() {
           </div>
         </section>
 
+        {b.live && <section className="mt-8 border-y border-border py-6">
+          <h2 className="text-xl font-semibold">Check again after making changes</h2>
+          <p className="mt-2 text-sm text-muted-foreground">{loadedBusiness.scannedAt ? `Last checked ${new Date(loadedBusiness.scannedAt).toLocaleString("en-GB")}. ` : ""}Reopening this saved report does not use another scan. Apply your changes first, then give Google time to publish them before checking again.</p>
+          <p className="mt-2 text-sm text-muted-foreground">{diy ? "Your DIY pack includes one verification re-check for this business, if it has not already been used. " : ""}One guest scan is free, with three free scans total after signing in. Further scans cost £2.99 each, separate from the detailed DIY pack.</p>
+          <Button asChild variant="outline" className="mt-4"><Link to="/outshine/scan/$id" params={{ id: loadedBusiness.id }} search={{ fresh: true }}>Re-check after my changes</Link></Button>
+        </section>}
         <InspectionGrid b={b} />
 
 
@@ -174,7 +187,7 @@ function Report() {
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">{extraTips(b.trade).map((t) => <li key={t.title} className="border-l-2 border-fix pl-4"><p className="font-medium">{t.title}</p><p className="mt-1 text-sm text-muted-foreground">{t.body}</p></li>)}</ul>
           {reference?.entry && <div className="mt-6 rounded-lg border border-border bg-card p-5"><p className="text-xs text-muted-foreground">A strong {reference.entry.city} profile we keep for comparison</p><p className="mt-1 text-lg font-semibold">{reference.entry.name}</p><p className="mt-1 text-sm text-muted-foreground">A real local business we picked as a reference. It is worth looking at how they present their services, photos and replies to reviews.</p><Button asChild variant="link" className="h-auto px-0"><a href={reference.entry.website} target="_blank" rel="noopener noreferrer">See their profile<ArrowUpRight /></a></Button></div>}</section> : <section className="mt-12 border-y border-border py-8" id="pricing">
           <h2 className="text-2xl font-semibold">From your free audit to practical fixes</h2>
-          <p className="mt-2 text-muted-foreground">Your audit and report stay free. The £9.99 detailed DIY pack adds the instructions and wording for the findings in this report, with no subscription.</p>
+          <p className="mt-2 text-muted-foreground">Your saved report is included with your scan. The £9.99 detailed DIY pack adds the instructions and wording for the findings in this report, with no subscription.</p>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <div className="flex flex-col gap-3">
               <p className="font-medium">Free scan</p><p className="font-display text-3xl font-semibold">Free</p>

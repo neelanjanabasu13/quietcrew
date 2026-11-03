@@ -9,7 +9,9 @@ export const liveId = (trade: string, placeId: string) => `live.${trade}.${place
 export const searchBusinesses = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ q: z.string().trim().min(2).max(120), max: z.number().int().min(1).max(20).optional() }).parse(d))
   .handler(async ({ data }) => {
-    // Seeded showcase business for judges, found by name like a real listing.
+    const { guardLookup } = await import("./scan-access.server");
+    await guardLookup();
+    // Sample listings never trigger a paid scan.
     const seed = /mops\s*stars?/i.test(data.q) ? [{ placeId: "seed:mops-stars-cleaning", name: "Mops Stars Cleaning", address: "88 Upper Street, London N1", rating: 3.9, reviewCount: 14, trade: "cleaning" as const, photo: null }] : [];
     const { searchPlaces } = await import("./places.server");
     try { return { results: [...seed, ...(await searchPlaces(data.q, data.max))], error: null }; }
@@ -17,24 +19,20 @@ export const searchBusinesses = createServerFn({ method: "GET" })
   });
 
 export const getBusiness = createServerFn({ method: "GET" })
-  .inputValidator((d) => z.object({ id: z.string().min(1).max(400) }).parse(d))
+  .inputValidator((d) => z.object({ id: z.string().min(1).max(400), environment: z.enum(["sandbox", "live"]).default("live") }).parse(d))
   .handler(async ({ data }) => {
     const sample = findBusiness(data.id);
-    if (sample) return { ...sample, reference: getCuratedReference(sample.address, sample.trade, sample.location) };
-    const [prefix, trade, ...rest] = data.id.split(".");
-    const placeId = rest.join(".");
-    const { getLiveBusiness, isTrade } = await import("./places.server");
-    if (prefix !== "live" || !trade || !isTrade(trade) || !placeId) return null;
-    try {
-      const business = await getLiveBusiness(data.id, trade, placeId);
-      const reference = getCuratedReference(business.address, trade, business.location);
-      return { ...business, reference };
-    } catch { return null; }
+    if (sample) return { ...sample, scannedAt: null as string | null, expiresAt: null as string | null, reference: getCuratedReference(sample.address, sample.trade, sample.location) };
+    const { savedBusiness } = await import("./scan-access.server");
+    const business = await savedBusiness(data.id, data.environment);
+    return business ? { ...business, reference: getCuratedReference(business.address, business.trade, business.location) } : null;
   });
 
 export const discoverBusinesses = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ trade: z.enum(["plumbing", "electrician", "cleaning", "landscaping", "salon"]), city: z.string().trim().min(2).max(40) }).parse(d))
   .handler(async ({ data }) => {
+    const { guardLookup } = await import("./scan-access.server");
+    await guardLookup();
     const { discoverPlaces } = await import("./places.server");
     const { discoveryQueries, pickExamples, inExampleRange } = await import("./discovery");
     const { evaluate, cappedGrade } = await import("./audit");

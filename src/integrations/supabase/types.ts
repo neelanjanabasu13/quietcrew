@@ -190,6 +190,150 @@ export type Database = {
         }
         Relationships: []
       }
+      outshine_request_budgets: {
+        Row: {
+          bucket: string
+          expires_at: string
+          used: number
+        }
+        Insert: {
+          bucket: string
+          expires_at: string
+          used?: number
+        }
+        Update: {
+          bucket?: string
+          expires_at?: string
+          used?: number
+        }
+        Relationships: []
+      }
+      outshine_scan_credits: {
+        Row: {
+          business_id: string
+          created_at: string
+          environment: string
+          id: string
+          kind: string
+          payment_status: string
+          purchase_id: string | null
+          stripe_session_id: string | null
+          used_by: string | null
+          user_id: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          environment: string
+          id?: string
+          kind?: string
+          payment_status?: string
+          purchase_id?: string | null
+          stripe_session_id?: string | null
+          used_by?: string | null
+          user_id: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          environment?: string
+          id?: string
+          kind?: string
+          payment_status?: string
+          purchase_id?: string | null
+          stripe_session_id?: string | null
+          used_by?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      outshine_scans: {
+        Row: {
+          business_id: string
+          completed_at: string | null
+          created_at: string
+          credit_id: string | null
+          environment: string
+          expires_at: string | null
+          id: string
+          ip_hash: string
+          snapshot: Json | null
+          source: string
+          status: string
+          user_id: string | null
+          visitor_id: string
+        }
+        Insert: {
+          business_id: string
+          completed_at?: string | null
+          created_at?: string
+          credit_id?: string | null
+          environment: string
+          expires_at?: string | null
+          id?: string
+          ip_hash: string
+          snapshot?: Json | null
+          source?: string
+          status?: string
+          user_id?: string | null
+          visitor_id: string
+        }
+        Update: {
+          business_id?: string
+          completed_at?: string | null
+          created_at?: string
+          credit_id?: string | null
+          environment?: string
+          expires_at?: string | null
+          id?: string
+          ip_hash?: string
+          snapshot?: Json | null
+          source?: string
+          status?: string
+          user_id?: string | null
+          visitor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outshine_scans_credit_id_fkey"
+            columns: ["credit_id"]
+            isOneToOne: false
+            referencedRelation: "outshine_scan_credits"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "outshine_scans_visitor_id_fkey"
+            columns: ["visitor_id"]
+            isOneToOne: false
+            referencedRelation: "outshine_visitors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      outshine_visitors: {
+        Row: {
+          created_at: string
+          id: string
+          ip_hash: string
+          token_hash: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ip_hash: string
+          token_hash: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ip_hash?: string
+          token_hash?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -221,6 +365,21 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      outshine_reserve_scan: {
+        Args: {
+          p_business: string
+          p_environment: string
+          p_fresh?: boolean
+          p_ip: string
+          p_user: string
+          p_visitor: string
+        }
+        Returns: Json
+      }
+      outshine_take_budget: {
+        Args: { p_bucket: string; p_expires: string; p_limit: number }
         Returns: boolean
       }
     }
