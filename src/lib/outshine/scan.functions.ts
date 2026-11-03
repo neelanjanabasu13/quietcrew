@@ -30,16 +30,20 @@ export const startOutshineScan = createServerFn({ method: "POST" }).inputValidat
 });
 export const outshineAllowance = createServerFn({ method: "POST" }).inputValidator((d: unknown) => z.object({ environment: z.enum(["sandbox", "live"]) }).parse(d)).handler(async ({ data }) => {
   const { scanIdentity } = await import("./scan-access.server");
-  const { db, userId, visitor, ipHash } = await scanIdentity(true);
-  if (!visitor) throw new Error("Could not check scan allowance.");
+  // Read-only: checking a balance must never create a visitor session or spend a safety budget.
+  const { db, userId, visitor, ipHash } = await scanIdentity(false);
+  if (!visitor && !userId) {
+    const { count } = await db.from("outshine_scans").select("id", { count: "exact", head: true }).eq("environment", data.environment).eq("source", "free").in("status", ["running", "completed"]).eq("ip_hash", ipHash);
+    return { signedIn: false, remaining: freeScansRemaining(false, count ?? 0) };
+  }
   // Claiming the guest history is safe only for the original opaque cookie and an unclaimed visitor.
-  if (userId && !visitor.user_id) {
+  if (userId && visitor && !visitor.user_id) {
     const { data: claimed, error } = await db.from("outshine_visitors").update({ user_id: userId }).eq("id", visitor.id).is("user_id", null).select("id").maybeSingle();
     if (error) throw error;
     if (claimed) { const { error: claimError } = await db.from("outshine_scans").update({ user_id: userId }).eq("visitor_id", visitor.id).is("user_id", null); if (claimError) throw claimError; }
   }
   let query = db.from("outshine_scans").select("id", { count: "exact", head: true }).eq("environment", data.environment).eq("source", "free").in("status", ["running", "completed"]);
-  query = userId ? query.eq("user_id", userId) : query.or(`visitor_id.eq.${visitor.id},ip_hash.eq.${ipHash}`);
+  query = userId ? query.eq("user_id", userId) : query.or(`visitor_id.eq.${visitor!.id},ip_hash.eq.${ipHash}`);
   const { count, error } = await query;
   if (error) throw error;
   return { signedIn: Boolean(userId), remaining: freeScansRemaining(Boolean(userId), count ?? 0) };

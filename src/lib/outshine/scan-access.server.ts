@@ -27,7 +27,7 @@ export async function scanIdentity(create = false) {
   let token = getCookie(COOKIE);
   let visitor = token && /^[a-f0-9]{64}$/.test(token) ? (await db.from("outshine_visitors").select("*").eq("token_hash", hash(token)).maybeSingle()).data : null;
   if (!visitor && create) {
-    await takeBudget(`visitor:${ipHash}`, 5, 24 * 60 * 60 * 1000);
+    await takeBudget(`visitor:${ipHash}`, 20, 24 * 60 * 60 * 1000);
     token = randomBytes(32).toString("hex");
     const { data, error } = await db.from("outshine_visitors").insert({ token_hash: hash(token), ip_hash: ipHash }).select("*").single();
     if (error || !data) throw new Error("Could not start a scan session.");
