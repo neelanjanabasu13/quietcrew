@@ -61,7 +61,14 @@ export async function savedBusiness(id: string, environment: "sandbox" | "live")
   else return null;
   const { data, error } = await query.maybeSingle();
   if (error) throw error;
-  return data?.snapshot ? { ...(data.snapshot as unknown as Business), scannedAt: data.completed_at, expiresAt: data.expires_at } : null;
+  if (data?.snapshot) return { ...(data.snapshot as unknown as Business), scannedAt: data.completed_at, expiresAt: data.expires_at };
+  // A purchased pack remains readable after the free scan snapshot expires, without new Google calls.
+  if (userId) {
+    const { data: purchase, error: purchaseError } = await db.from("outshine_purchases").select("business_snapshot,paid_at").eq("user_id", userId).eq("business_id", id).eq("environment", environment).eq("payment_status", "paid").maybeSingle();
+    if (purchaseError) throw purchaseError;
+    if (purchase) return { ...(purchase.business_snapshot as unknown as Business), scannedAt: purchase.paid_at, expiresAt: null };
+  }
+  return null;
 }
 export async function finishScan(scanId: string, business: Business | null) {
   const { supabaseAdmin: db } = await import("@/integrations/supabase/client.server");
