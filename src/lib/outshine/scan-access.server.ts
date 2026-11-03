@@ -32,7 +32,9 @@ export async function scanIdentity(create = false) {
     const { data, error } = await db.from("outshine_visitors").insert({ token_hash: hash(token), ip_hash: ipHash }).select("*").single();
     if (error || !data) throw new Error("Could not start a scan session.");
     visitor = data;
-    setCookie(COOKIE, token, { httpOnly: true, sameSite: "lax", secure: new URL(request.url).protocol === "https:", path: "/", maxAge: 60 * 60 * 24 * 365 });
+    const secure = new URL(request.url).protocol === "https:" || request.headers.get("x-forwarded-proto") === "https";
+    // SameSite=None keeps the guest session inside embedded previews too.
+    setCookie(COOKIE, token, { httpOnly: true, sameSite: secure ? "none" : "lax", secure, path: "/", maxAge: 60 * 60 * 24 * 365 });
   }
   return { db, userId, visitor, ipHash };
 }
@@ -43,7 +45,8 @@ export async function takeBudget(scope: string, limit: number, windowMs: number)
   if (error || !data) throw new Error("The scan safety limit has been reached. Please try again later; no scan has been used.");
 }
 export async function guardLookup() {
-  const identity = await scanIdentity(true);
+  // Searching never creates a guest session; only reserving a scan does.
+  const identity = await scanIdentity(false);
   await takeBudget(`lookup:${identity.ipHash}`, 30, 60 * 60 * 1000);
   return identity;
 }
