@@ -7,7 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Header } from "./Brand";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { getStripe, getStripeEnvironment } from "@/lib/stripe";
-import { startOutshineScan } from "@/lib/outshine/scan.functions";
+import { outshineAllowance, startOutshineScan } from "@/lib/outshine/scan.functions";
+import { ACCOUNT_FREE_SCANS, GUEST_FREE_SCANS } from "@/lib/outshine/scan-rules";
 import { confirmScanCheckout, createScanCheckout } from "@/lib/outshine/scan-payments.functions";
 import { getBusiness } from "@/lib/outshine/places.functions";
 import { findBusiness } from "@/lib/outshine/sample";
@@ -18,10 +19,13 @@ export function ScanGate({ id, fresh, paymentSession, onReady }: { id: string; f
   const [error, setError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [allowance, setAllowance] = useState<{ signedIn: boolean; remaining: number } | null>(null);
   const start = useServerFn(startOutshineScan);
   const read = useServerFn(getBusiness);
   const checkout = useServerFn(createScanCheckout);
   const confirm = useServerFn(confirmScanCheckout);
+  const balance = useServerFn(outshineAllowance);
+  useEffect(() => { if (findBusiness(id)) return; balance({ data: { environment: getStripeEnvironment() } }).then(setAllowance).catch(() => setAllowance(null)); }, [id, status, balance]);
   const run = useCallback(async (changesConfirmed = false) => {
     setStatus("loading"); setError(null);
     try {
@@ -64,6 +68,7 @@ export function ScanGate({ id, fresh, paymentSession, onReady }: { id: string; f
   return <div className="min-h-screen bg-cream"><Header /><main className="mx-auto max-w-2xl px-6 py-12">
     <Button asChild variant="link" className="px-0"><Link to="/outshine">← Back to Outshine</Link></Button>
     <h1 className="mt-6 text-3xl font-extrabold">{status === "signin" ? "Sign in for more scans" : status === "payment" || status.startsWith("checkout") ? "A fresh scan for £2.99" : status === "confirmation" ? "Ready to check your changes?" : "Your Outshine scan"}</h1>
+    {allowance && <p className="mt-4 inline-flex rounded-full bg-violet-tint px-4 py-1.5 text-sm font-semibold text-violet-deep" aria-live="polite">{allowance.signedIn ? `Free scans: ${ACCOUNT_FREE_SCANS - allowance.remaining} of ${ACCOUNT_FREE_SCANS} used` : `Guest scan: ${GUEST_FREE_SCANS - allowance.remaining} of ${GUEST_FREE_SCANS} used`}{allowance.remaining === 0 ? ", further scans are £2.99" : ""}</p>}
     {status === "loading" && <p role="status" className="mt-5 text-muted-foreground">Checking your allowance and preparing your report…</p>}
     {error && <p role="alert" className="mt-5 text-destructive">{error}</p>}
     {status === "signin" && <div className="mt-6 space-y-4"><p>Your guest scan is included in three free scans total when you create an account. A detailed DIY pack is a separate purchase.</p><Button asChild><Link to="/login" search={{ next, mode: "signup" }}>Create a free account</Link></Button><Button asChild variant="outline" className="ml-3"><Link to="/login" search={{ next, mode: "signin" }}>Sign in</Link></Button></div>}
