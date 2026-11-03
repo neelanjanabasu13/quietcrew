@@ -1,22 +1,20 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { Header } from "@/components/outshine/Brand";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check, Loader2, MapPin, Star, Store } from "lucide-react";
 import { TRADES, type Trade } from "@/lib/outshine/audit";
 import { getBusiness } from "@/lib/outshine/places.functions";
 import { photoOf, TRADE_PHOTOS } from "@/lib/outshine/sample";
+import { ScanGate, type LoadedAudit } from "@/components/outshine/ScanGate";
 import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 
 export const Route = createFileRoute("/outshine/scan/$id")({
-  loader: async ({ params }) => {
-    const b = await getBusiness({ data: { id: params.id } });
-    if (!b) throw notFound();
-    return { b };
-  },
-  head: ({ loaderData }) => ({
+  ssr: false,
+  validateSearch: (s: Record<string, unknown>) => ({ fresh: s["fresh"] === "1", scan_payment: typeof s["scan_payment"] === "string" ? s["scan_payment"] : undefined }),
+  head: () => ({
     meta: [
-      { title: loaderData ? `Grading ${loaderData.b.name} · Outshine` : "Grading · Outshine" },
+      { title: "Scan your business · Outshine by Quietcrew" },
       { name: "description", content: "Outshine is checking this business's online presence against local competitors." },
       { property: "og:title", content: "Live audit in progress · Outshine" },
       { property: "og:description", content: "Checking public reviews, photos and profile information." },
@@ -24,7 +22,7 @@ export const Route = createFileRoute("/outshine/scan/$id")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: Scan,
+  component: ScanPage,
 });
 
 const STAGE_MS = 4800;
@@ -59,8 +57,19 @@ function ScanLine() {
   return <div className="pointer-events-none animate-laser absolute inset-x-0 h-px bg-foreground/40 shadow-[0_0_14px_4px_var(--border)]" />;
 }
 
-function Scan() {
-  const { b } = Route.useLoaderData();
+function ScanPage() {
+  const { id } = Route.useParams();
+  const { fresh, scan_payment } = Route.useSearch();
+  const navigate = useNavigate();
+  const [business, setBusiness] = useState<LoadedAudit | null>(null);
+  const ready = useCallback((b: LoadedAudit, cached: boolean) => {
+    if (cached) { void navigate({ to: "/outshine/report/$id", params: { id: b.id } }); return; }
+    setBusiness(b);
+  }, [navigate]);
+  return business ? <Scan b={business} /> : <ScanGate id={id} fresh={fresh || Boolean(scan_payment)} paymentSession={scan_payment} onReady={ready} />;
+}
+
+function Scan({ b }: { b: LoadedAudit }) {
   const t = TRADES[b.trade];
   const navigate = useNavigate();
   const s = b.signals;
@@ -71,8 +80,8 @@ function Scan() {
 
   const stages = [
     { title: "Scanning Your Online Profile", sub: "Reviewing photos, rating, hours, address and business details." },
-    { title: "Analysing Visual Content", sub: "Looking at every photo customers see before they decide to call." },
-    { title: "Scanning Customer Reviews", sub: "Reading what your customers actually say." },
+    { title: "Analysing Visual Content", sub: "Reviewing the limited photo sample Google shares, not the complete gallery." },
+    { title: "Checking Rating and Review Count", sub: "Checking the public rating and total review count, without reading review text." },
     { title: "Scanning Website", sub: `Checking your website for ${t.credential}.` },
     { title: "Scanning Nearby Market", sub: `Finding nearby ${t.label.toLowerCase()} businesses and how they compare.` },
   ];
@@ -92,7 +101,7 @@ function Scan() {
   const within = Math.min(1, (elapsed - stage * STAGE_MS) / STAGE_MS);
   const pct = Math.min(100, Math.round((elapsed / total) * 100));
   const done = elapsed >= total;
-  const st = stages[stage]!;
+  const st = stages[stage] ?? stages[0];
 
   const websiteChecks = [
     { label: "Website loads", ok: s.websiteCredential != null },

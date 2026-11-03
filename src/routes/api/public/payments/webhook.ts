@@ -7,6 +7,11 @@ import { type StripeEnv, verifyWebhook } from "@/lib/stripe.server";
  * repeated notification changes nothing.
  */
 async function fulfil(session: any, eventId: string, environment: StripeEnv) {
+  if (session?.metadata?.outshineScanCreditId) {
+    const { confirmScanPayment } = await import("@/lib/outshine/scan-payments.server");
+    await confirmScanPayment(session.id, environment);
+    return;
+  }
   if (session?.metadata?.outshinePurchaseId) {
     const { confirmDiyPayment } = await import("@/lib/outshine/payments.server");
     await confirmDiyPayment(session.id, environment);
