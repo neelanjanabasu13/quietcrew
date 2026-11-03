@@ -22,7 +22,7 @@ export const getBusiness = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ id: z.string().min(1).max(400), environment: z.enum(["sandbox", "live"]).default("live") }).parse(d))
   .handler(async ({ data }) => {
     const sample = findBusiness(data.id);
-    if (sample) return { ...sample, reference: getCuratedReference(sample.address, sample.trade, sample.location) };
+    if (sample) return { ...sample, scannedAt: null as string | null, expiresAt: null as string | null, reference: getCuratedReference(sample.address, sample.trade, sample.location) };
     const { savedBusiness } = await import("./scan-access.server");
     const business = await savedBusiness(data.id, data.environment);
     return business ? { ...business, reference: getCuratedReference(business.address, business.trade, business.location) } : null;

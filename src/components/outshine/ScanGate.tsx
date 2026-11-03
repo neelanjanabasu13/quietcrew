@@ -13,7 +13,7 @@ import { getBusiness } from "@/lib/outshine/places.functions";
 import { findBusiness } from "@/lib/outshine/sample";
 
 export type LoadedAudit = NonNullable<Awaited<ReturnType<typeof getBusiness>>>;
-export function ScanGate({ id, fresh, paymentSession, onReady }: { id: string; fresh: boolean; paymentSession?: string; onReady: (business: LoadedAudit, cached: boolean) => void }) {
+export function ScanGate({ id, fresh, paymentSession, onReady }: { id: string; fresh: boolean; paymentSession?: string | undefined; onReady: (business: LoadedAudit, cached: boolean) => void }) {
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);

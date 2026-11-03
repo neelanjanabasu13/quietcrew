@@ -11,7 +11,7 @@ import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 
 export const Route = createFileRoute("/outshine/scan/$id")({
   ssr: false,
-  validateSearch: (s: Record<string, unknown>) => ({ fresh: s["fresh"] === "1", scan_payment: typeof s["scan_payment"] === "string" ? s["scan_payment"] : undefined }),
+  validateSearch: (s: Record<string, unknown>): { fresh?: boolean; scan_payment?: string | undefined } => ({ fresh: s["fresh"] === "1", scan_payment: typeof s["scan_payment"] === "string" ? s["scan_payment"] : undefined }),
   head: () => ({
     meta: [
       { title: "Scan your business · Outshine by Quietcrew" },
@@ -66,7 +66,7 @@ function ScanPage() {
     if (cached) { void navigate({ to: "/outshine/report/$id", params: { id: b.id } }); return; }
     setBusiness(b);
   }, [navigate]);
-  return business ? <Scan b={business} /> : <ScanGate id={id} fresh={fresh || Boolean(scan_payment)} paymentSession={scan_payment} onReady={ready} />;
+  return business ? <Scan b={business} /> : <ScanGate id={id} fresh={Boolean(fresh || scan_payment)} paymentSession={scan_payment} onReady={ready} />;
 }
 
 function Scan({ b }: { b: LoadedAudit }) {
@@ -101,7 +101,7 @@ function Scan({ b }: { b: LoadedAudit }) {
   const within = Math.min(1, (elapsed - stage * STAGE_MS) / STAGE_MS);
   const pct = Math.min(100, Math.round((elapsed / total) * 100));
   const done = elapsed >= total;
-  const st = stages[stage] ?? stages[0];
+  const st = stages[stage] ?? { title: "Checking your profile", sub: "Preparing your report." };
 
   const websiteChecks = [
     { label: "Website loads", ok: s.websiteCredential != null },

@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { findBusiness } from "./sample";
 import { freeScansRemaining } from "./scan-rules";
 
 const input = z.object({ businessId: z.string().regex(/^live\.(plumbing|electrician|cleaning|landscaping|salon)\.[A-Za-z0-9_-]+$/).max(400), environment: z.enum(["sandbox", "live"]), fresh: z.boolean().default(false), changesConfirmed: z.boolean().default(false) });
@@ -10,7 +9,7 @@ export const startOutshineScan = createServerFn({ method: "POST" }).inputValidat
   if (!visitor) return { kind: "error", message: "Could not start a scan session." };
   if (visitor.user_id && visitor.user_id !== userId) return { kind: "signin", message: "Sign in to continue with this scan session." };
   if (data.fresh && !data.changesConfirmed) return { kind: "error", message: "Make your changes first, then confirm you are ready for a fresh check." };
-  const { data: reservation, error } = await db.rpc("outshine_reserve_scan", { p_visitor: visitor.id, p_user: userId ?? undefined, p_ip: ipHash, p_business: data.businessId, p_environment: data.environment, p_fresh: data.fresh });
+  const { data: reservation, error } = await db.rpc("outshine_reserve_scan", { p_visitor: visitor.id, p_user: userId as string, p_ip: ipHash, p_business: data.businessId, p_environment: data.environment, p_fresh: data.fresh });
   if (error) return { kind: "error", message: "The scan allowance could not be checked. No scan was started." };
   const result = reservation as { kind: string; scanId?: string };
   if (result.kind === "cached") return { kind: "ready", cached: true };
