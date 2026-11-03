@@ -11,7 +11,7 @@ import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 
 export const Route = createFileRoute("/outshine/scan/$id")({
   ssr: false,
-  validateSearch: (s: Record<string, unknown>): { fresh?: boolean; scan_payment?: string | undefined } => ({ fresh: s["fresh"] === "1" || s["fresh"] === true || s["fresh"] === "true", scan_payment: typeof s["scan_payment"] === "string" ? s["scan_payment"] : undefined }),
+  validateSearch: (s: Record<string, unknown>): { fresh?: boolean; scan_payment?: string | undefined } => ({ fresh: s["fresh"] === 1 || s["fresh"] === "1" || s["fresh"] === true || s["fresh"] === "true", scan_payment: typeof s["scan_payment"] === "string" ? s["scan_payment"] : undefined }),
   head: () => ({
     meta: [
       { title: "Scan your business · Outshine by Quietcrew" },
