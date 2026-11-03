@@ -22,6 +22,13 @@
       "when": 1793718080801,
       "tag": "0002_outshine_scan_allowances",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793718370666,
+      "tag": "0003_outshine_diy_price_total",
+      "breakpoints": true
     }
   ]
 }
