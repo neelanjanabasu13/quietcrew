@@ -1,6 +1,7 @@
 // Live Google Places (New) lookups, mapped into the same Business shape the sample data uses.
 import { TRADES, type Signals, type Trade } from "./audit";
 import type { Business } from "./sample";
+import { guardGoogleCall, signedPhotoUrl } from "./scan-access.server";
 
 const API = "https://places.googleapis.com/v1";
 const key = () => {
@@ -38,6 +39,7 @@ export function guessTrade(types: string[] = [], name = ""): Trade | null {
 }
 
 async function post(path: string, body: unknown, mask: string) {
+  await guardGoogleCall();
   const res = await fetch(`${API}/${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-Goog-Api-Key": key(), "X-Goog-FieldMask": mask },
@@ -77,7 +79,7 @@ async function searchUncached(q: string, max: number) {
   }));
 }
 
-export const photoUrl = (name: string) => `/api/public/outshine-photo?name=${encodeURIComponent(name)}`;
+export const photoUrl = signedPhotoUrl;
 
 // Detail fields actually graded or shown. No Atmosphere fields (see COST RULE above).
 const FIELDS = "currentOpeningHours,id,displayName,formattedAddress,shortFormattedAddress,addressComponents,location,rating,userRatingCount,photos,websiteUri,regularOpeningHours,nationalPhoneNumber,types";
@@ -117,11 +119,11 @@ function toSignals(p: any, trade: Trade, credential: boolean | null = null): Sig
   };
 }
 
-export async function getLiveBusiness(id: string, trade: Trade, placeId: string, includeCompetitors = true): Promise<Business> {
+export async function getLiveBusiness(id: string, trade: Trade, placeId: string, includeCompetitors = true, fresh = false): Promise<Business> {
   // Reports are reopened often (scan page, report page, refreshes), so reuse a recent lookup instead of paying again.
   const ck = id + "|" + includeCompetitors;
   const hit = detailCache.get(ck);
-  if (hit && Date.now() - hit.at < SEARCH_TTL) return hit.value;
+  if (!fresh && hit && Date.now() - hit.at < SEARCH_TTL) return hit.value;
   const value = await liveUncached(id, trade, placeId, includeCompetitors);
   if (detailCache.size > 1000) detailCache.clear();
   detailCache.set(ck, { at: Date.now(), value });
@@ -129,6 +131,7 @@ export async function getLiveBusiness(id: string, trade: Trade, placeId: string,
 }
 
 async function liveUncached(id: string, trade: Trade, placeId: string, includeCompetitors: boolean): Promise<Business> {
+  await guardGoogleCall();
   const res = await fetch(`${API}/places/${encodeURIComponent(placeId)}?languageCode=en-GB&regionCode=GB`, {
     headers: { "X-Goog-Api-Key": key(), "X-Goog-FieldMask": FIELDS },
   });
