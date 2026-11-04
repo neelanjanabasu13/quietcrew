@@ -1,4 +1,5 @@
 import { ProductSlider } from "@/components/ProductSlider";
+import { WorkflowShowcase } from "@/components/WorkflowShowcase";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
@@ -341,6 +342,27 @@ function Index() {
         </section>
 
 
+
+        {/* Workflows in motion */}
+        <section id="workflows" className="on-violet violet-glow scroll-mt-[110px] text-white">
+          <div className="container-page section-y">
+            <Reveal className="mx-auto max-w-[760px] text-center">
+              <Eyebrow tone="violet">Workflows in motion</Eyebrow>
+              <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
+                The same job,
+                <br />
+                <span className="text-peach">with the busywork taken out.</span>
+              </h2>
+              <p className="mx-auto mt-6 max-w-[620px] text-[18px] text-muted-on-violet">
+                Pick a card to watch the manual version race the automated one, with a person still
+                approving anything that goes out.
+              </p>
+            </Reveal>
+            <Reveal className="mt-10">
+              <WorkflowShowcase />
+            </Reveal>
+          </div>
+        </section>
 
         {/* How it works */}
         <section id="how-it-works" className="scroll-mt-[110px] bg-white text-ink">
