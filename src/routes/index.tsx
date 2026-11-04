@@ -234,47 +234,7 @@ function Index() {
               </Reveal>
             </div>
 
-            {/* The two products, side by side */}
-            <div className="mt-10 grid gap-6 md:grid-cols-2">
-              <Reveal delay={60} className="h-full">
-                <article className="flex h-full flex-col rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-8">
-                  <p className="eyebrow self-start">For marketing and SEO agencies</p>
-                  <h2 className="mt-4 text-[1.6rem] md:text-[2rem]">
-                    Goldmine <span className="text-violet">by Quietcrew</span>
-                  </h2>
-                  <p className="mt-3 text-[16px] text-muted-paper">
-                    Pick a London area and a business category, and Goldmine finds the local
-                    businesses there, checks what Gemini, OpenAI and Claude say about them, and
-                    drafts your first outreach to the ones worth approaching.
-                  </p>
-                  <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6">
-                    <p className="text-[15px] font-semibold text-violet">£49 per scan</p>
-                    <Link to="/goldmine" className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]">
-                      See Goldmine
-                    </Link>
-                  </div>
-                </article>
-              </Reveal>
-
-              <Reveal delay={120} className="h-full">
-                <article className="flex h-full flex-col rounded-[24px] bg-paper p-6 text-ink soft-shadow-lg md:p-8">
-                  <p className="eyebrow self-start">For UK trades and local services</p>
-                  <h2 className="mt-4 text-[1.6rem] md:text-[2rem]">
-                    Outshine <span className="text-violet">by Quietcrew</span>
-                  </h2>
-                  <p className="mt-3 text-[16px] text-muted-paper">
-                    A free check of your public business profile against nearby businesses in your
-                    trade, with a practical report you can act on yourself.
-                  </p>
-                  <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6">
-                    <p className="text-[15px] font-semibold text-violet">Free scan, fix list £9.99</p>
-                    <Link to="/outshine" className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]">
-                      Scan your business free
-                    </Link>
-                  </div>
-                </article>
-              </Reveal>
-            </div>
+            <ProductSlider />
           </div>
         </section>
 
