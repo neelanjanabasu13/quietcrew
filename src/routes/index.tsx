@@ -244,10 +244,9 @@ function Index() {
                 <span className="text-violet">the starting point.</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[620px] text-[18px] text-muted-paper">
-                We start with the work that is taking your team too long. Sometimes the answer is
-                connecting two systems you already pay for, sometimes a straightforward automation, and
-                sometimes AI can do something that was not practical before. We will use whatever makes
-                the most sense, and tell you when AI does not.
+                We start with the work that is taking your team too long. Sometimes that means
+                connecting systems you already pay for, sometimes an automation, and sometimes AI. We
+                tell you when it is not the answer.
               </p>
             </Reveal>
           </div>
