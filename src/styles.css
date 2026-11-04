@@ -494,14 +494,14 @@
 
 /* Product brand tokens */
 :root {
-  --goldmine-from: #fff4d6;
-  --goldmine-to: #f6c75a;
-  --goldmine-ink: #5a3b00;
-  --goldmine-accent: #8a5a0b;
-  --outshine-from: #e3fbf4;
-  --outshine-to: #7fdcc4;
-  --outshine-ink: #0d4a3d;
-  --outshine-accent: #0b6b54;
+  --goldmine-from: #FFFFFF;
+  --goldmine-to: #DCD3FF;
+  --goldmine-ink: #2B1580;
+  --goldmine-accent: #6B4EF5;
+  --outshine-from: #EFEBFF;
+  --outshine-to: #B9A8FF;
+  --outshine-ink: #3A1E9E;
+  --outshine-accent: #3A1E9E;
 }
 .brand-goldmine {
   background: radial-gradient(circle at 85% 10%, color-mix(in oklab, var(--goldmine-to) 70%, transparent), transparent 55%),
