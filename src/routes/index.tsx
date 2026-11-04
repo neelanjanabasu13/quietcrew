@@ -3,14 +3,12 @@ import type { ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import { LiveWorkflow, Marquee, RotatingWord } from "@/components/LiveWorkflow";
+import { RotatingWord } from "@/components/LiveWorkflow";
 import {
   CandidateSummary,
   AccountBrief,
   LeaseAnswer,
-  WeeklyReport,
 } from "@/components/Artefacts";
-import { ExampleTabs } from "@/components/ExampleTabs";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import {
   Accordion,
@@ -67,7 +65,7 @@ const serviceOfferings = [
   {
     name: "Internal AI Tools",
     description:
-      "Practical internal AI tools built around a specific job, such as question answering across your documents, contract and lease intelligence and proposal drafting from past work.",
+      "Practical internal AI tools built around a specific job, such as question answering across your documents, contract search and proposal drafting from past work.",
     price: 4000,
   },
 ];
@@ -152,124 +150,16 @@ const services = [
     title: "Internal AI Tools",
     line: "Sometimes the problem is not moving information, it is finding it. We build simple AI tools that help your team use the information sitting in your documents and systems, built around a specific job your team needs to do rather than another generic chatbot.",
     examples:
-      "Company knowledge assistant, question-answering across your documents, contract and lease intelligence, proposal drafting from past work, policy and operations assistants.",
+      "Company knowledge assistant, question-answering across your documents, contract search, proposal drafting from past work, policy and operations assistants.",
     price: "From £4,000, 2 to 4 weeks",
     artefact: <LeaseAnswer />,
   },
 ];
 
-const sectors: { title: string; who: string; work?: string }[] = [
-  {
-    title: "Recruitment & Staffing",
-    who: "Your recruiters should be talking to candidates and clients, not copying CVs into an ATS or cleaning up CRM records.",
-    work: "CV → extract details → ATS → summary → recruiter",
-  },
-  {
-    title: "Professional Services",
-    who: "If expensive consultants are spending hours preparing reports, searching old documents or doing repetitive client admin, there is probably work we can remove.",
-  },
-  {
-    title: "Marketing & Digital Agencies",
-    who: "The work around client delivery adds up: onboarding, project setup, reporting, CRM updates and all the little hand-offs nobody wants to own.",
-    work: "Client won → project → tasks → onboarding",
-  },
-  {
-    title: "Property",
-    who: "Enquiries, leases, documents, approvals and updates across multiple systems create a surprising amount of admin.",
-    work: "Lease → extract key information → searchable → team",
-  },
-  {
-    title: "Accounting & Bookkeeping",
-    who: "Invoices and receipts to sort, the same month-end checks every month, and records to keep straight across your practice software, so there is usually plenty here worth automating.",
-  },
-];
-
-
-const examples: {
-  title: string;
-  label: string;
-  steps: string[];
-  manual: string[];
-  minutesPerManualStep: number;
-  before: string;
-  approvalIndex: number;
-  artefact: ReactNode;
-}[] = [
-  {
-    title: "Recruitment",
-    label: "Recruitment",
-    steps: ["CV arrives", "Details extracted", "ATS updated", "Summary written", "Recruiter notified"],
-    manual: [
-      "CV lands in a shared inbox",
-      "Someone opens it and reads it",
-      "Six fields retyped into the ATS",
-      "Summary written by hand",
-      "Forwarded on to the recruiter",
-    ],
-    minutesPerManualStep: 2,
-    before:
-      "Before this ran on its own, someone opened each CV, retyped six fields into the ATS, wrote a summary and forwarded it on, which took about ten minutes and happened forty times a week.",
-    approvalIndex: 3,
-    artefact: <CandidateSummary />,
-  },
-  {
-    title: "Sales",
-    label: "Sales",
-    steps: ["New lead", "Company researched", "Qualified", "CRM enriched", "Brief sent to rep"],
-    manual: [
-      "Lead sits in the CRM untouched",
-      "Rep opens the company website",
-      "Notes copied into the record",
-      "Fit worked out from memory",
-      "Call taken with whatever is known",
-    ],
-    minutesPerManualStep: 3,
-    before:
-      "Before this ran on its own, the rep researched the company on the morning of the call, whenever there was time for it.",
-    approvalIndex: 2,
-    artefact: <AccountBrief />,
-  },
-  {
-    title: "Property",
-    label: "Property",
-    steps: ["Lease received", "Key terms extracted", "System updated", "Made searchable", "Team notified"],
-    manual: [
-      "Lease filed away as a PDF",
-      "Question comes in from a colleague",
-      "Forty pages read again",
-      "Clause found and quoted by hand",
-      "Answer emailed back the next day",
-    ],
-    minutesPerManualStep: 6,
-    before:
-      "Before this ran on its own, the lease sat in a folder and somebody read all forty pages each time a question came up.",
-    approvalIndex: 1,
-    artefact: <LeaseAnswer />,
-  },
-  {
-    title: "Agency",
-    label: "Agencies",
-    steps: ["New client won", "Project created", "Tasks generated", "Team assigned", "Onboarding starts"],
-    manual: [
-      "Deal marked won in the CRM",
-      "Project board built from scratch",
-      "Tasks copied from an older project",
-      "Owners and dates chased in chat",
-      "Kick-off booked a week later",
-    ],
-    minutesPerManualStep: 5,
-    before:
-      "Before this ran on its own, onboarding relied on a half-remembered checklist that was done slightly differently every time.",
-    approvalIndex: 3,
-    artefact: <WeeklyReport />,
-  },
-];
-
-
 const steps = [
   {
     title: "Show us the annoying bit",
-    body: "Pick one job your team repeats every week, such as retyping CV fields, tidying CRM records or chasing an approval.",
+    body: "Pick one job your team repeats every week, such as tidying CRM records, building client reports or chasing an approval.",
   },
   {
     title: "We work out what is happening",
@@ -316,7 +206,7 @@ function Index() {
                   <br />
                   <span className="text-peach">
                     Your team still does{" "}
-                    <RotatingWord words={["the copying.", "the chasing.", "the CVs.", "the leases.", "the reports."]} />
+                    <RotatingWord words={["the copying.", "the chasing.", "the follow-ups.", "the reports."]} />
                   </span>
                 </h1>
               </Reveal>
@@ -331,10 +221,10 @@ function Index() {
                     Book a free Workflow Review
                   </a>
                   <a
-                    href="#examples"
+                    href="#services"
                     className="pill-btn px-7 py-4 text-[1rem] text-white ring-1 ring-white/40 hover:bg-white/10"
                   >
-                    See it working
+                    See what we build
                   </a>
                 </div>
                 <p className="mt-4 text-[15px] text-muted-on-violet">
@@ -344,81 +234,47 @@ function Index() {
               </Reveal>
             </div>
 
-            {/* Goldmine: our off-the-shelf launching product, front and centre */}
-            <Reveal className="mt-10" delay={60}>
-              <div className="rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-7">
-                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
-                  <div className="min-w-0">
-                    <p className="eyebrow">Launching now</p>
-                    <h2 className="mt-3 text-[1.4rem] md:text-[1.7rem]">
-                      Goldmine <span className="text-violet">by Quietcrew</span>
-                    </h2>
-                    <p className="mt-2 max-w-[560px] text-[15px] text-muted-paper md:text-[16px]">
-                      Our off-the-shelf product for SEO and marketing agencies. Pick a London area
-                      and a business category, and Goldmine finds the businesses there, checks what
-                      Gemini, OpenAI and Claude say about them, and drafts your first outreach.
-                    </p>
-                  </div>
-                  <div className="flex flex-none flex-col items-start gap-3 lg:items-end">
-                    <p className="text-[15px] font-semibold text-violet">
-                      £49 per scan, introductory price
-                    </p>
-                    <Link
-                      to="/goldmine"
-                      className="pill-btn btn-primary-dark inline-block px-6 py-3.5 text-[0.95rem]"
-                    >
+            {/* The two products, side by side */}
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <Reveal delay={60} className="h-full">
+                <article className="flex h-full flex-col rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-8">
+                  <p className="eyebrow self-start">For marketing and SEO agencies</p>
+                  <h2 className="mt-4 text-[1.6rem] md:text-[2rem]">
+                    Goldmine <span className="text-violet">by Quietcrew</span>
+                  </h2>
+                  <p className="mt-3 text-[16px] text-muted-paper">
+                    Pick a London area and a business category, and Goldmine finds the local
+                    businesses there, checks what Gemini, OpenAI and Claude say about them, and
+                    drafts your first outreach to the ones worth approaching.
+                  </p>
+                  <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6">
+                    <p className="text-[15px] font-semibold text-violet">£49 per scan</p>
+                    <Link to="/goldmine" className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]">
                       See Goldmine
                     </Link>
                   </div>
-                </div>
-              </div>
-            </Reveal>
+                </article>
+              </Reveal>
 
-            <Reveal className="mt-6" delay={120}>
-              <article className="rounded-[20px] bg-paper p-6 text-ink soft-shadow-lg md:p-7">
-                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
-                  <div className="min-w-0">
-                    <p className="eyebrow">For UK trades</p>
-                    <h2 className="mt-3 text-[1.4rem] md:text-[1.7rem]">
-                      Outshine <span className="text-violet">by Quietcrew</span>
-                    </h2>
-                    <p className="mt-2 max-w-[560px] text-[15px] text-muted-paper md:text-[16px]">
-                      A free online presence audit for UK trades. Compare your public business
-                      profile with nearby businesses and download a practical report.
-                    </p>
-                  </div>
-                  <div className="flex flex-none flex-col items-start gap-3 lg:items-end">
-                    <p className="text-[15px] font-semibold text-violet">
-                      Detailed DIY pack: £9.99 one-off.
-                    </p>
-                    <a
-                      href="/outshine"
-                      className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]"
-                    >
+              <Reveal delay={120} className="h-full">
+                <article className="flex h-full flex-col rounded-[24px] bg-paper p-6 text-ink soft-shadow-lg md:p-8">
+                  <p className="eyebrow self-start">For UK trades and local services</p>
+                  <h2 className="mt-4 text-[1.6rem] md:text-[2rem]">
+                    Outshine <span className="text-violet">by Quietcrew</span>
+                  </h2>
+                  <p className="mt-3 text-[16px] text-muted-paper">
+                    A free check of your public business profile against nearby businesses in your
+                    trade, with a practical report you can act on yourself.
+                  </p>
+                  <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6">
+                    <p className="text-[15px] font-semibold text-violet">Free scan, fix list £9.99</p>
+                    <Link to="/outshine" className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]">
                       Scan your business free
-                    </a>
+                    </Link>
                   </div>
-                </div>
-              </article>
-            </Reveal>
-
-            <Reveal className="mt-6" delay={120}>
-              <LiveWorkflow />
-            </Reveal>
-          </div>
-
-          <div className="border-t border-white/10 py-5 text-muted-on-violet">
-            <Marquee
-              items={[
-                "CV to ATS",
-                "Invoice to finance system",
-                "Lease to searchable answer",
-                "Enquiry to CRM",
-                "Client won to project set up",
-                "Weekly report, written and sent",
-                "Approval chased, then closed",
-              ]}
-            />
+                </article>
+              </Reveal>
+            </div>
           </div>
         </section>
 
@@ -500,37 +356,6 @@ function Index() {
               ))}
             </div>
 
-            {/* Goldmine: a Quietcrew service, highlighted */}
-            <Reveal className="mt-6">
-              <div className="on-violet violet-glow rounded-[24px] p-7 text-white soft-shadow-lg md:p-10">
-                <div className="grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
-                  <div>
-                    <p className="eyebrow-on-violet">One of our services</p>
-                    <h3 className="mt-4 text-[1.7rem] md:text-[2.2rem]">
-                      Goldmine <span className="text-peach">by Quietcrew</span>
-                    </h3>
-                    <p className="mt-4 max-w-[600px] text-[16px] text-muted-on-violet">
-                      A product for SEO and marketing agencies. Choose a London area and a business
-                      category, and Goldmine finds the businesses there, weighs their customer
-                      reputation against what Gemini, OpenAI and Claude actually say about them, and
-                      prepares the evidence and the first outreach drafts. You decide whom to
-                      approach.
-                    </p>
-                    <p className="mt-5 text-[15px] font-semibold text-peach">
-                      £49 per area and category scan, introductory price
-                    </p>
-                  </div>
-                  <div className="lg:justify-self-end">
-                    <Link
-                      to="/goldmine"
-                      className="pill-btn btn-white inline-block px-7 py-4 text-[1rem]"
-                    >
-                      See Goldmine
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
           </div>
         </section>
 
@@ -554,61 +379,6 @@ function Index() {
           </div>
         </section>
 
-        {/* Who we help + workflow examples: the centrepiece */}
-        <section id="who-we-help" className="on-violet violet-glow scroll-mt-[110px] text-white">
-          <div className="container-page py-16 md:py-24">
-            <Reveal className="mx-auto max-w-[820px] text-center">
-              <Eyebrow tone="violet">Who we help</Eyebrow>
-              <h2 className="mt-5 text-[2.2rem] md:text-[3.4rem]">
-                The businesses we
-                <br />
-                <span className="text-peach">tend to be useful for</span>
-              </h2>
-              <p className="mx-auto mt-6 max-w-[680px] text-[16px] text-muted-on-violet">
-                Growing service businesses where people are expensive, processes grew organically and
-                nobody has time to automate them.
-              </p>
-            </Reveal>
-
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              {sectors.map((s, i) => (
-                <Reveal
-                  key={s.title}
-                  className="rounded-[20px] bg-white/10 p-6"
-                  delay={i * 50}
-                >
-                  <h3 className="text-[1.2rem]">{s.title}</h3>
-                  <p className="mt-3 text-[15px] text-muted-on-violet">{s.who}</p>
-                  {s.work ? (
-                    <p className="mt-4 text-[13px] font-semibold uppercase tracking-[0.08em] text-peach">
-                      {s.work}
-                    </p>
-                  ) : null}
-                </Reveal>
-              ))}
-            </div>
-
-
-            <Reveal id="examples" className="mx-auto mt-16 max-w-[820px] scroll-mt-[110px] text-center">
-              <Eyebrow tone="violet">Workflow examples</Eyebrow>
-              <h2 className="mt-5 text-[2rem] md:text-[3rem]">
-                What this looks like
-                <br />
-                <span className="text-peach">in practice</span>
-              </h2>
-            </Reveal>
-
-            <Reveal className="mt-12">
-              <ExampleTabs examples={examples} />
-            </Reveal>
-
-            <Reveal className="mt-8 text-center">
-              <p className="text-[14px] text-muted-on-violet">
-                Illustrative workflows, not client results.
-              </p>
-            </Reveal>
-          </div>
-        </section>
 
 
         {/* How it works */}
