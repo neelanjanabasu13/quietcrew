@@ -6,4 +6,5 @@
 - [x] Verified allowance rules against the database, plus the confirmation step and sample report in the browser. No billable Google scan was run.
 - [ ] Complete a test-card payment for a £2.99 scan and the £9.99 pack, then confirm the unlock. Blocked: needs a manual preview purchase with a real scanned business.
 - [ ] Publish. Blocked: the owner has not asked to publish.
-- [ ] Homepage product slider. Blocked: separate owner approval needed.
+- [x] Homepage streamlined: Goldmine and Outshine cards first, sector cards and workflow examples removed.
+- [ ] P1/P2 items: DIY pack delivery checks, Goldmine scan progress feedback, booking calendar, UK-wide Goldmine, CSV export.
