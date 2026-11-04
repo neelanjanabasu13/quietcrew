@@ -8,6 +8,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { WorkflowRace } from "@/components/WorkflowRace";
+import { LivePanel, PRODUCT_RUNS } from "@/components/LiveWorkflow";
 
 type Item = {
   key: string;
@@ -185,34 +186,55 @@ export function WorkflowShowcase() {
         </div>
       </div>
 
-      <div key={ex.key} className="mt-8 rounded-[20px] bg-white/[0.07] p-6 md:p-9">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h3 className="text-[1.6rem] md:text-[2rem]">{ex.title}</h3>
-            <p className="mt-3 max-w-[640px] text-[15px] leading-[1.6] text-muted-on-violet">{ex.before}</p>
+      {ex.href ? (
+        <div className="mt-8">
+          <div className="grid gap-5 lg:grid-cols-2">
+            {(["goldmine", "outshine"] as const).map((k) => (
+              <div key={k} className="flex flex-col gap-3">
+                <LivePanel run={PRODUCT_RUNS[k]} highlighted={active === k} />
+                <Link
+                  to={k === "goldmine" ? "/goldmine" : "/outshine"}
+                  className="pill-btn btn-white self-start px-6 py-3 text-[15px]"
+                >
+                  {k === "goldmine" ? "See Goldmine" : "See Outshine"}
+                </Link>
+              </div>
+            ))}
           </div>
-          {ex.href ? (
-            <Link to={ex.href} className="pill-btn btn-white px-6 py-3 text-[15px]">
-              Try {ex.title}
-            </Link>
-          ) : (
-            <a href="#book" className="pill-btn btn-white px-6 py-3 text-[15px]">
-              Ask about this
-            </a>
-          )}
+          <p className="mt-4 text-[12.5px] text-muted-on-violet">
+            Both run the same steps as the live products. The businesses and figures shown are made-up examples.
+          </p>
         </div>
-        <div className="mt-6">
-          <WorkflowRace
-            manual={ex.manual}
-            steps={ex.steps}
-            approvalIndex={ex.approvalIndex}
-            minutesPerManualStep={ex.minutesPerManualStep}
-          />
+      ) : (
+      <div key={ex.key} className="mt-8 rounded-[20px] bg-white/[0.07] p-6 md:p-9">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h3 className="text-[1.6rem] md:text-[2rem]">{ex.title}</h3>
+              <p className="mt-3 max-w-[640px] text-[15px] leading-[1.6] text-muted-on-violet">{ex.before}</p>
+            </div>
+            {ex.href ? (
+              <Link to={ex.href} className="pill-btn btn-white px-6 py-3 text-[15px]">
+                Try {ex.title}
+              </Link>
+            ) : (
+              <a href="#book" className="pill-btn btn-white px-6 py-3 text-[15px]">
+                Ask about this
+              </a>
+            )}
+          </div>
+          <div className="mt-6">
+            <WorkflowRace
+              manual={ex.manual}
+              steps={ex.steps}
+              approvalIndex={ex.approvalIndex}
+              minutesPerManualStep={ex.minutesPerManualStep}
+            />
+          </div>
+          <p className="mt-4 text-[12.5px] text-muted-on-violet">
+            Timings are illustrative examples, not measured results.
+          </p>
         </div>
-        <p className="mt-4 text-[12.5px] text-muted-on-violet">
-          Timings are illustrative examples, not measured results.
-        </p>
-      </div>
+      )}
     </div>
   );
 }
