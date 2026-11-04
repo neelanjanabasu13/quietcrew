@@ -38,7 +38,7 @@ export function SiteNav() {
 
           <div className="hidden items-center gap-4 md:flex">
             <a
-              href="/#services"
+              href="/#workflows"
               className="text-[15px] font-semibold text-muted-paper transition-colors hover:text-violet"
             >
               Services
@@ -80,7 +80,7 @@ export function SiteNav() {
         <div id="mobile-menu" className="container-page md:hidden">
           <div className="menu-sheet mt-3 rounded-[20px] p-4 soft-shadow-lg">
             <a
-              href="/#services"
+              href="/#workflows"
               onClick={() => setOpen(false)}
               className="block border-b border-border py-4 text-[18px] font-bold text-ink"
             >
