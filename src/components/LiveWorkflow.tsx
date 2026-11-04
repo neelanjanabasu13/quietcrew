@@ -173,6 +173,132 @@ export const RUNS: Run[] = [
   },
 ];
 
+/** Real product sequences, so the homepage shows what Goldmine and Outshine actually do. */
+export const PRODUCT_RUNS: Record<"goldmine" | "outshine", Run> = {
+  goldmine: {
+    tab: "Goldmine",
+    caption: "Goldmine, bakeries in Camden",
+    title: "Prospect: Rise & Crumb Bakery, Camden",
+    steps: [
+      { step: "Locality and category set", detail: "Camden, bakeries" },
+      { step: "Google Places searched", detail: "Well-reviewed businesses shortlisted" },
+      { step: "AI assistants asked", detail: "ChatGPT, Gemini and Claude checked" },
+      { step: "Gold score calculated", detail: "Strong reputation, weak AI visibility" },
+      { step: "Outreach drafted", detail: "Ready for you to review and send" },
+    ],
+    fields: [
+      ["Google rating", "4.8 from 412 reviews"],
+      ["ChatGPT", "Not mentioned"],
+      ["Gemini", "Not mentioned"],
+      ["Claude", "Mentioned once"],
+      ["Gold score", "86 out of 100"],
+      ["Outreach draft", "Ready to copy"],
+    ],
+    summary:
+      "Hi Priya, Rise & Crumb has one of the best ratings in Camden, yet when people ask an AI assistant for a bakery nearby, it rarely comes up.",
+    before:
+      "Before Goldmine, someone searched Maps street by street, asked each assistant by hand and wrote every cold email from scratch.",
+  },
+  outshine: {
+    tab: "Outshine",
+    caption: "Outshine, plumbers in Leeds",
+    title: "Audit: Kirkstall Plumbing & Heating, Leeds",
+    steps: [
+      { step: "Business found", detail: "Google listing matched" },
+      { step: "Nearby rivals pulled", detail: "Closest competitors compared" },
+      { step: "Public signals graded", detail: "Ten checks against rivals" },
+      { step: "Gaps highlighted", detail: "What needs attention first" },
+      { step: "Fix Pack written", detail: "Scripts ready to copy and paste" },
+    ],
+    fields: [
+      ["Rating vs rivals", "B, 4.6 against 4.7"],
+      ["Review volume", "D, 38 against 120"],
+      ["Photos", "C, 4 on the listing"],
+      ["Website link", "A, present and working"],
+      ["Opening hours", "F, missing"],
+      ["Overall", "C, three quick wins"],
+    ],
+    summary:
+      "Review request ready: Thanks for choosing us today. If you have a minute, a short Google review helps other local people find us.",
+    before:
+      "Before Outshine, an owner scrolled through rivals on Google, guessed what was different and never found time to compare properly.",
+  },
+};
+
+/** One running product panel with its own timer. */
+export function LivePanel({ run, highlighted = false }: { run: Run; highlighted?: boolean }) {
+  const reduced = useReducedMotion();
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (reduced) {
+      setActive(run.steps.length - 1);
+      return;
+    }
+    setActive(0);
+    const id = window.setInterval(() => {
+      setActive((v) => (v + 1) % (run.steps.length + 2));
+    }, 1400);
+    return () => window.clearInterval(id);
+  }, [reduced, run]);
+
+  const done = Math.min(active, run.steps.length - 1);
+  const complete = active >= run.steps.length - 1;
+
+  return (
+    <div className={`live-panel relative h-full transition-shadow ${highlighted ? "ring-2 ring-white/60" : ""}`}>
+      <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3.5">
+        <span className="live-dot" />
+        <p className="text-[13px] font-semibold text-white">{run.tab} running</p>
+        <p className="ml-auto text-[12px] text-muted-on-violet">{run.caption}</p>
+      </div>
+      <ol className="space-y-1 p-5">
+        {run.steps.map((r, i) => {
+          const state = i < done ? "done" : i === done ? "active" : "idle";
+          return (
+            <li key={r.step} className={`live-step live-step-${state}`}>
+              <span className="live-tick" aria-hidden="true">
+                {state === "idle" ? "" : "✓"}
+              </span>
+              <span>
+                <span className="block text-[14px] font-semibold text-white">{r.step}</span>
+                <span className="block text-[12.5px] text-muted-on-violet">{r.detail}</span>
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+      <div className="px-5 pb-5">
+        <div className="relative rounded-[14px] bg-white p-4 text-left">
+          <span className="absolute right-3 top-3 rounded-full bg-violet-tint px-2 py-0.5 text-[9.5px] font-semibold uppercase tracking-[0.1em] text-violet">
+            Example output
+          </span>
+          <p className="pr-24 text-[13px] font-bold text-ink">{run.title}</p>
+          <div className="mt-2">
+            {run.fields.map(([label, value], i) => (
+              <div
+                key={label}
+                className="live-field flex items-start justify-between gap-4 border-b border-border py-1.5 last:border-b-0"
+                style={{ opacity: complete || i <= done + 1 ? 1 : 0.12 }}
+              >
+                <span className="text-[11.5px] font-semibold uppercase tracking-[0.05em] text-muted-paper">{label}</span>
+                <span className="text-right text-[12.5px] text-ink">{value}</span>
+              </div>
+            ))}
+          </div>
+          <p
+            className="mt-3 text-[12.5px] italic text-muted-paper transition-opacity duration-500"
+            style={{ opacity: complete ? 1 : 0.15 }}
+          >
+            {run.summary}
+          </p>
+        </div>
+      </div>
+      <p className="border-t border-white/10 px-5 py-3 text-[12px] text-muted-on-violet">{run.before}</p>
+    </div>
+  );
+}
+
 /**
  * Hero product mock. A workflow running in front of you: steps tick through
  * on a loop and the finished artefact fills in on the right. Sector tabs let
