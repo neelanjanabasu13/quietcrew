@@ -3,14 +3,12 @@ import type { ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import { LiveWorkflow, Marquee, RotatingWord } from "@/components/LiveWorkflow";
+import { RotatingWord } from "@/components/LiveWorkflow";
 import {
   CandidateSummary,
   AccountBrief,
   LeaseAnswer,
-  WeeklyReport,
 } from "@/components/Artefacts";
-import { ExampleTabs } from "@/components/ExampleTabs";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import {
   Accordion,
@@ -158,114 +156,6 @@ const services = [
   },
 ];
 
-const sectors: { title: string; who: string; work?: string }[] = [
-  {
-    title: "Recruitment & Staffing",
-    who: "Your recruiters should be talking to candidates and clients, not copying CVs into an ATS or cleaning up CRM records.",
-    work: "CV → extract details → ATS → summary → recruiter",
-  },
-  {
-    title: "Professional Services",
-    who: "If expensive consultants are spending hours preparing reports, searching old documents or doing repetitive client admin, there is probably work we can remove.",
-  },
-  {
-    title: "Marketing & Digital Agencies",
-    who: "The work around client delivery adds up: onboarding, project setup, reporting, CRM updates and all the little hand-offs nobody wants to own.",
-    work: "Client won → project → tasks → onboarding",
-  },
-  {
-    title: "Property",
-    who: "Enquiries, leases, documents, approvals and updates across multiple systems create a surprising amount of admin.",
-    work: "Lease → extract key information → searchable → team",
-  },
-  {
-    title: "Accounting & Bookkeeping",
-    who: "Invoices and receipts to sort, the same month-end checks every month, and records to keep straight across your practice software, so there is usually plenty here worth automating.",
-  },
-];
-
-
-const examples: {
-  title: string;
-  label: string;
-  steps: string[];
-  manual: string[];
-  minutesPerManualStep: number;
-  before: string;
-  approvalIndex: number;
-  artefact: ReactNode;
-}[] = [
-  {
-    title: "Recruitment",
-    label: "Recruitment",
-    steps: ["CV arrives", "Details extracted", "ATS updated", "Summary written", "Recruiter notified"],
-    manual: [
-      "CV lands in a shared inbox",
-      "Someone opens it and reads it",
-      "Six fields retyped into the ATS",
-      "Summary written by hand",
-      "Forwarded on to the recruiter",
-    ],
-    minutesPerManualStep: 2,
-    before:
-      "Before this ran on its own, someone opened each CV, retyped six fields into the ATS, wrote a summary and forwarded it on, which took about ten minutes and happened forty times a week.",
-    approvalIndex: 3,
-    artefact: <CandidateSummary />,
-  },
-  {
-    title: "Sales",
-    label: "Sales",
-    steps: ["New lead", "Company researched", "Qualified", "CRM enriched", "Brief sent to rep"],
-    manual: [
-      "Lead sits in the CRM untouched",
-      "Rep opens the company website",
-      "Notes copied into the record",
-      "Fit worked out from memory",
-      "Call taken with whatever is known",
-    ],
-    minutesPerManualStep: 3,
-    before:
-      "Before this ran on its own, the rep researched the company on the morning of the call, whenever there was time for it.",
-    approvalIndex: 2,
-    artefact: <AccountBrief />,
-  },
-  {
-    title: "Property",
-    label: "Property",
-    steps: ["Lease received", "Key terms extracted", "System updated", "Made searchable", "Team notified"],
-    manual: [
-      "Lease filed away as a PDF",
-      "Question comes in from a colleague",
-      "Forty pages read again",
-      "Clause found and quoted by hand",
-      "Answer emailed back the next day",
-    ],
-    minutesPerManualStep: 6,
-    before:
-      "Before this ran on its own, the lease sat in a folder and somebody read all forty pages each time a question came up.",
-    approvalIndex: 1,
-    artefact: <LeaseAnswer />,
-  },
-  {
-    title: "Agency",
-    label: "Agencies",
-    steps: ["New client won", "Project created", "Tasks generated", "Team assigned", "Onboarding starts"],
-    manual: [
-      "Deal marked won in the CRM",
-      "Project board built from scratch",
-      "Tasks copied from an older project",
-      "Owners and dates chased in chat",
-      "Kick-off booked a week later",
-    ],
-    minutesPerManualStep: 5,
-    before:
-      "Before this ran on its own, onboarding relied on a half-remembered checklist that was done slightly differently every time.",
-    approvalIndex: 3,
-    artefact: <WeeklyReport />,
-  },
-];
-
-
 const steps = [
   {
     title: "Show us the annoying bit",
@@ -316,7 +206,7 @@ function Index() {
                   <br />
                   <span className="text-peach">
                     Your team still does{" "}
-                    <RotatingWord words={["the copying.", "the chasing.", "the CVs.", "the leases.", "the reports."]} />
+                    <RotatingWord words={["the copying.", "the chasing.", "the follow-ups.", "the reports."]} />
                   </span>
                 </h1>
               </Reveal>
@@ -331,10 +221,10 @@ function Index() {
                     Book a free Workflow Review
                   </a>
                   <a
-                    href="#examples"
+                    href="#services"
                     className="pill-btn px-7 py-4 text-[1rem] text-white ring-1 ring-white/40 hover:bg-white/10"
                   >
-                    See it working
+                    See what we build
                   </a>
                 </div>
                 <p className="mt-4 text-[15px] text-muted-on-violet">
