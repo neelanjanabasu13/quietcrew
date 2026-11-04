@@ -188,10 +188,11 @@ export function WorkflowShowcase() {
 
       {ex.href ? (
         <div className="mt-8">
-          <div className="grid gap-5 lg:grid-cols-2">
-            {(["goldmine", "outshine"] as const).map((k) => (
-              <div key={k} className="flex flex-col gap-3">
-                <LivePanel run={PRODUCT_RUNS[k]} highlighted={active === k} />
+          {(() => {
+            const k = active === "outshine" ? "outshine" : "goldmine";
+            return (
+              <div key={k} className="mx-auto flex max-w-[720px] flex-col gap-3">
+                <LivePanel run={PRODUCT_RUNS[k]} highlighted />
                 <Link
                   to={k === "goldmine" ? "/goldmine" : "/outshine"}
                   className="pill-btn btn-white self-start px-6 py-3 text-[15px]"
@@ -199,10 +200,10 @@ export function WorkflowShowcase() {
                   {k === "goldmine" ? "See Goldmine" : "See Outshine"}
                 </Link>
               </div>
-            ))}
-          </div>
-          <p className="mt-4 text-[12.5px] text-muted-on-violet">
-            Both run the same steps as the live products. The businesses and figures shown are made-up examples.
+            );
+          })()}
+          <p className="mx-auto mt-4 max-w-[720px] text-[12.5px] text-muted-on-violet">
+            This runs the same steps as the live product. The business and figures shown are made-up examples.
           </p>
         </div>
       ) : (
