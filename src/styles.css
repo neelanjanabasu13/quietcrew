@@ -517,8 +517,8 @@
 .brand-outshine .brand-accent { color: var(--outshine-accent); }
 .brand-goldmine .brand-pill { background: var(--goldmine-ink); color: var(--goldmine-from); }
 .brand-outshine .brand-pill { background: var(--outshine-ink); color: var(--outshine-from); }
-.brand-goldmine .pill-btn.brand-btn { background: var(--goldmine-ink); color: var(--white); }
-.brand-outshine .pill-btn.brand-btn { background: var(--outshine-ink); color: var(--white); }
+.brand-goldmine .pill-btn.brand-btn { background: var(--goldmine-ink); color: var(--cream); }
+.brand-outshine .pill-btn.brand-btn { background: var(--outshine-ink); color: var(--cream); }
 .brand-btn:hover { filter: brightness(1.15); }
 .product-slider { scrollbar-width: none; }
 .product-slider::-webkit-scrollbar { display: none; }
