@@ -344,81 +344,47 @@ function Index() {
               </Reveal>
             </div>
 
-            {/* Goldmine: our off-the-shelf launching product, front and centre */}
-            <Reveal className="mt-10" delay={60}>
-              <div className="rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-7">
-                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
-                  <div className="min-w-0">
-                    <p className="eyebrow">Launching now</p>
-                    <h2 className="mt-3 text-[1.4rem] md:text-[1.7rem]">
-                      Goldmine <span className="text-violet">by Quietcrew</span>
-                    </h2>
-                    <p className="mt-2 max-w-[560px] text-[15px] text-muted-paper md:text-[16px]">
-                      Our off-the-shelf product for SEO and marketing agencies. Pick a London area
-                      and a business category, and Goldmine finds the businesses there, checks what
-                      Gemini, OpenAI and Claude say about them, and drafts your first outreach.
-                    </p>
-                  </div>
-                  <div className="flex flex-none flex-col items-start gap-3 lg:items-end">
-                    <p className="text-[15px] font-semibold text-violet">
-                      £49 per scan, introductory price
-                    </p>
-                    <Link
-                      to="/goldmine"
-                      className="pill-btn btn-primary-dark inline-block px-6 py-3.5 text-[0.95rem]"
-                    >
+            {/* The two products, side by side */}
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <Reveal delay={60} className="h-full">
+                <article className="flex h-full flex-col rounded-[24px] bg-white p-6 text-ink soft-shadow-lg md:p-8">
+                  <p className="eyebrow self-start">For marketing and SEO agencies</p>
+                  <h2 className="mt-4 text-[1.6rem] md:text-[2rem]">
+                    Goldmine <span className="text-violet">by Quietcrew</span>
+                  </h2>
+                  <p className="mt-3 text-[16px] text-muted-paper">
+                    Pick a London area and a business category, and Goldmine finds the local
+                    businesses there, checks what Gemini, OpenAI and Claude say about them, and
+                    drafts your first outreach to the ones worth approaching.
+                  </p>
+                  <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6">
+                    <p className="text-[15px] font-semibold text-violet">£49 per scan</p>
+                    <Link to="/goldmine" className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]">
                       See Goldmine
                     </Link>
                   </div>
-                </div>
-              </div>
-            </Reveal>
+                </article>
+              </Reveal>
 
-            <Reveal className="mt-6" delay={120}>
-              <article className="rounded-[20px] bg-paper p-6 text-ink soft-shadow-lg md:p-7">
-                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
-                  <div className="min-w-0">
-                    <p className="eyebrow">For UK trades</p>
-                    <h2 className="mt-3 text-[1.4rem] md:text-[1.7rem]">
-                      Outshine <span className="text-violet">by Quietcrew</span>
-                    </h2>
-                    <p className="mt-2 max-w-[560px] text-[15px] text-muted-paper md:text-[16px]">
-                      A free online presence audit for UK trades. Compare your public business
-                      profile with nearby businesses and download a practical report.
-                    </p>
-                  </div>
-                  <div className="flex flex-none flex-col items-start gap-3 lg:items-end">
-                    <p className="text-[15px] font-semibold text-violet">
-                      Detailed DIY pack: £9.99 one-off.
-                    </p>
-                    <a
-                      href="/outshine"
-                      className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]"
-                    >
+              <Reveal delay={120} className="h-full">
+                <article className="flex h-full flex-col rounded-[24px] bg-paper p-6 text-ink soft-shadow-lg md:p-8">
+                  <p className="eyebrow self-start">For UK trades and local services</p>
+                  <h2 className="mt-4 text-[1.6rem] md:text-[2rem]">
+                    Outshine <span className="text-violet">by Quietcrew</span>
+                  </h2>
+                  <p className="mt-3 text-[16px] text-muted-paper">
+                    A free check of your public business profile against nearby businesses in your
+                    trade, with a practical report you can act on yourself.
+                  </p>
+                  <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6">
+                    <p className="text-[15px] font-semibold text-violet">Free scan, fix list £9.99</p>
+                    <Link to="/outshine" className="pill-btn btn-primary-dark px-6 py-3.5 text-[0.95rem]">
                       Scan your business free
-                    </a>
+                    </Link>
                   </div>
-                </div>
-              </article>
-            </Reveal>
-
-            <Reveal className="mt-6" delay={120}>
-              <LiveWorkflow />
-            </Reveal>
-          </div>
-
-          <div className="border-t border-white/10 py-5 text-muted-on-violet">
-            <Marquee
-              items={[
-                "CV to ATS",
-                "Invoice to finance system",
-                "Lease to searchable answer",
-                "Enquiry to CRM",
-                "Client won to project set up",
-                "Weekly report, written and sent",
-                "Approval chased, then closed",
-              ]}
-            />
+                </article>
+              </Reveal>
+            </div>
           </div>
         </section>
 
@@ -500,37 +466,6 @@ function Index() {
               ))}
             </div>
 
-            {/* Goldmine: a Quietcrew service, highlighted */}
-            <Reveal className="mt-6">
-              <div className="on-violet violet-glow rounded-[24px] p-7 text-white soft-shadow-lg md:p-10">
-                <div className="grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
-                  <div>
-                    <p className="eyebrow-on-violet">One of our services</p>
-                    <h3 className="mt-4 text-[1.7rem] md:text-[2.2rem]">
-                      Goldmine <span className="text-peach">by Quietcrew</span>
-                    </h3>
-                    <p className="mt-4 max-w-[600px] text-[16px] text-muted-on-violet">
-                      A product for SEO and marketing agencies. Choose a London area and a business
-                      category, and Goldmine finds the businesses there, weighs their customer
-                      reputation against what Gemini, OpenAI and Claude actually say about them, and
-                      prepares the evidence and the first outreach drafts. You decide whom to
-                      approach.
-                    </p>
-                    <p className="mt-5 text-[15px] font-semibold text-peach">
-                      £49 per area and category scan, introductory price
-                    </p>
-                  </div>
-                  <div className="lg:justify-self-end">
-                    <Link
-                      to="/goldmine"
-                      className="pill-btn btn-white inline-block px-7 py-4 text-[1rem]"
-                    >
-                      See Goldmine
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
           </div>
         </section>
 
@@ -554,61 +489,6 @@ function Index() {
           </div>
         </section>
 
-        {/* Who we help + workflow examples: the centrepiece */}
-        <section id="who-we-help" className="on-violet violet-glow scroll-mt-[110px] text-white">
-          <div className="container-page py-16 md:py-24">
-            <Reveal className="mx-auto max-w-[820px] text-center">
-              <Eyebrow tone="violet">Who we help</Eyebrow>
-              <h2 className="mt-5 text-[2.2rem] md:text-[3.4rem]">
-                The businesses we
-                <br />
-                <span className="text-peach">tend to be useful for</span>
-              </h2>
-              <p className="mx-auto mt-6 max-w-[680px] text-[16px] text-muted-on-violet">
-                Growing service businesses where people are expensive, processes grew organically and
-                nobody has time to automate them.
-              </p>
-            </Reveal>
-
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              {sectors.map((s, i) => (
-                <Reveal
-                  key={s.title}
-                  className="rounded-[20px] bg-white/10 p-6"
-                  delay={i * 50}
-                >
-                  <h3 className="text-[1.2rem]">{s.title}</h3>
-                  <p className="mt-3 text-[15px] text-muted-on-violet">{s.who}</p>
-                  {s.work ? (
-                    <p className="mt-4 text-[13px] font-semibold uppercase tracking-[0.08em] text-peach">
-                      {s.work}
-                    </p>
-                  ) : null}
-                </Reveal>
-              ))}
-            </div>
-
-
-            <Reveal id="examples" className="mx-auto mt-16 max-w-[820px] scroll-mt-[110px] text-center">
-              <Eyebrow tone="violet">Workflow examples</Eyebrow>
-              <h2 className="mt-5 text-[2rem] md:text-[3rem]">
-                What this looks like
-                <br />
-                <span className="text-peach">in practice</span>
-              </h2>
-            </Reveal>
-
-            <Reveal className="mt-12">
-              <ExampleTabs examples={examples} />
-            </Reveal>
-
-            <Reveal className="mt-8 text-center">
-              <p className="text-[14px] text-muted-on-violet">
-                Illustrative workflows, not client results.
-              </p>
-            </Reveal>
-          </div>
-        </section>
 
 
         {/* How it works */}
