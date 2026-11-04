@@ -182,7 +182,7 @@ export function WorkflowShowcase() {
         </div>
       </div>
 
-      <div key={ex.key} className="mt-8 animate-fade-in rounded-[20px] bg-white/[0.07] p-6 md:p-9">
+      <div key={ex.key} className="mt-8 rounded-[20px] bg-white/[0.07] p-6 md:p-9">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h3 className="text-[1.6rem] md:text-[2rem]">{ex.title}</h3>
