@@ -122,8 +122,8 @@ export function ProductSlider() {
                   </li>
                 ))}
               </ul>
-              <p className="brand-pill mt-3 inline-block rounded-full px-3 py-1 text-[13px] font-semibold">
-                {p.artefact.foot}
+              <p className="mt-3 border-t border-dashed border-ink/15 pt-2 text-[13px] font-semibold text-ink/60">
+                Next step <span aria-hidden>→</span> {p.artefact.foot}
               </p>
             </div>
 
