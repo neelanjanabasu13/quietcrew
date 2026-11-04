@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 
 const links = [
-  { href: "/#how-it-works", label: "How it works" },
+  { href: "/goldmine", label: "Goldmine" },
   { href: "/#how-it-works", label: "How It Works" },
   { href: "/#faq", label: "FAQ" },
   { href: "/outshine", label: "Outshine" },
