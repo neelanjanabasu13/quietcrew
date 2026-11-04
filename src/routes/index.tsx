@@ -1,3 +1,4 @@
+import { ProductSlider } from "@/components/ProductSlider";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
