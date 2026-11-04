@@ -167,16 +167,19 @@ export function WorkflowShowcase() {
           );
         })}
 
-        <div className="flex flex-col rounded-[20px] bg-peach p-5 text-ink sm:col-span-2 lg:col-span-1">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-violet-deep">
+        <div className="flex flex-col rounded-[20px] bg-gradient-to-b from-white to-violet-tint p-5 text-ink ring-1 ring-white/50 soft-shadow-lg sm:col-span-2 lg:col-span-1">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-violet">
             One-time
           </span>
-          <span className="mt-2 text-[1.2rem] font-extrabold leading-tight">Workflow Audit</span>
-          <span className="mt-1 text-[14px]">
+          <span className="mt-2 text-[1.2rem] font-extrabold leading-tight text-ink">Workflow Audit</span>
+          <span className="mt-1 text-[14px] text-muted-paper">
             One process mapped in detail, with the hours it costs and a fixed quote to fix it.
           </span>
-          <span className="mt-auto pt-4 text-[1.1rem] font-extrabold">£99</span>
-          <a href="#book" className="pill-btn mt-3 bg-ink px-4 py-2.5 text-[14px] text-white">
+          <span className="mt-auto pt-4 text-[1.1rem] font-extrabold text-violet-deep">£99</span>
+          <a
+            href="#book"
+            className="pill-btn mt-3 bg-violet-deep px-4 py-2.5 text-[14px] text-paper transition-colors hover:bg-violet"
+          >
             Ask for an audit
           </a>
         </div>

@@ -6,11 +6,6 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { RotatingWord } from "@/components/LiveWorkflow";
-import {
-  CandidateSummary,
-  AccountBrief,
-  LeaseAnswer,
-} from "@/components/Artefacts";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import {
   Accordion,
@@ -43,7 +38,7 @@ const faqEntries: { q: string; a: string }[] = [
   },
   {
     q: "How much does it cost?",
-    a: "Most first projects are £2,000 to £10,000 depending on how many systems are involved. We give a fixed price after the Workflow Review, before any work starts.",
+    a: "Goldmine is £49 per scan, the Outshine scan is free with the detailed fix list at £9.99, and a one-time Workflow Audit is £99. Custom automation is quoted as a fixed price after the Workflow Review, so you know the cost before any work starts.",
   },
   {
     q: "How long does it take?",
@@ -96,14 +91,6 @@ const servicesSchema = {
       url: "https://quietcrew.ai",
       email: "hello@quietcrew.ai",
     },
-    offers: {
-      "@type": "Offer",
-      priceSpecification: {
-        "@type": "PriceSpecification",
-        priceCurrency: "GBP",
-        minPrice: s.price,
-      },
-    },
   })),
 };
 
@@ -127,36 +114,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-
-const services = [
-  {
-    tag: "Most common starting point",
-    title: "Workflow & Systems Automation",
-    line: "Your systems probably work fine individually. We connect them so your team does not have to sit in the middle moving information from one to another.",
-    examples:
-      "Client and staff onboarding, document processing, moving data between systems, approvals and sign-offs, scheduled reporting, follow-up chasing.",
-    price: "From £2,000, 1 to 3 weeks",
-    artefact: <CandidateSummary />,
-  },
-  {
-    tag: null,
-    title: "Sales Workflow Automation",
-    line: "Your salespeople should not spend half their day researching accounts, updating the CRM and writing follow-ups. We automate the repetitive work around the sale, not the relationship itself.",
-    examples:
-      "Lead research and qualification, CRM enrichment and hygiene, account briefs before meetings, automated follow-up, pipeline reporting.",
-    price: "From £2,500, 1 to 3 weeks",
-    artefact: <AccountBrief />,
-  },
-  {
-    tag: null,
-    title: "Internal AI Tools",
-    line: "Sometimes the problem is not moving information, it is finding it. We build simple AI tools that help your team use the information sitting in your documents and systems, built around a specific job your team needs to do rather than another generic chatbot.",
-    examples:
-      "Company knowledge assistant, question-answering across your documents, contract search, proposal drafting from past work, policy and operations assistants.",
-    price: "From £4,000, 2 to 4 weeks",
-    artefact: <LeaseAnswer />,
-  },
-];
 
 const steps = [
   {
@@ -223,7 +180,7 @@ function Index() {
                     Book a free Workflow Review
                   </a>
                   <a
-                    href="#services"
+                    href="#workflows"
                     className="pill-btn px-7 py-4 text-[1rem] text-white ring-1 ring-white/40 hover:bg-white/10"
                   >
                     See what we build
@@ -273,51 +230,6 @@ function Index() {
                 </span>
               ))}
             </Reveal>
-          </div>
-        </section>
-
-        {/* Services */}
-        <section id="services" className="scroll-mt-[110px] bg-white text-ink">
-          <div className="container-page section-y">
-            <Reveal className="mx-auto max-w-[760px] text-center">
-              <Eyebrow>What you get</Eyebrow>
-              <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
-                What we can take
-                <br />
-                <span className="text-violet">off your team&rsquo;s plate</span>
-              </h2>
-            </Reveal>
-
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
-              {services.map((s, i) => (
-                <Reveal
-                  key={s.title}
-                  className="flex flex-col rounded-[20px] bg-white p-6 soft-shadow"
-                  delay={i * 60}
-                >
-                  {s.tag && (
-                    <p className="eyebrow mb-4 self-start">{s.tag}</p>
-                  )}
-                  <h3 className="text-[1.35rem]">{s.title}</h3>
-                  <p className="mt-3 text-[16px] text-muted-paper">{s.line}</p>
-                  <ul className="mt-4 flex flex-wrap gap-2">
-                    {s.examples
-                      .split(",")
-                      .slice(0, 4)
-                      .map((chip) => (
-                        <li
-                          key={chip}
-                          className="rounded-full bg-violet-tint px-3 py-1.5 text-[13px] font-semibold text-violet"
-                        >
-                          {chip.trim().replace(/\.$/, "").replace(/^./, (c) => c.toUpperCase())}
-                        </li>
-                      ))}
-                  </ul>
-                  <p className="mt-auto pt-5 text-[15px] font-semibold text-violet">{s.price}</p>
-                </Reveal>
-              ))}
-            </div>
-
           </div>
         </section>
 
