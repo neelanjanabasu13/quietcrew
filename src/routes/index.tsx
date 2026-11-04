@@ -65,7 +65,7 @@ const serviceOfferings = [
   {
     name: "Internal AI Tools",
     description:
-      "Practical internal AI tools built around a specific job, such as question answering across your documents, contract and lease intelligence and proposal drafting from past work.",
+      "Practical internal AI tools built around a specific job, such as question answering across your documents, contract search and proposal drafting from past work.",
     price: 4000,
   },
 ];
@@ -150,7 +150,7 @@ const services = [
     title: "Internal AI Tools",
     line: "Sometimes the problem is not moving information, it is finding it. We build simple AI tools that help your team use the information sitting in your documents and systems, built around a specific job your team needs to do rather than another generic chatbot.",
     examples:
-      "Company knowledge assistant, question-answering across your documents, contract and lease intelligence, proposal drafting from past work, policy and operations assistants.",
+      "Company knowledge assistant, question-answering across your documents, contract search, proposal drafting from past work, policy and operations assistants.",
     price: "From £4,000, 2 to 4 weeks",
     artefact: <LeaseAnswer />,
   },
@@ -159,7 +159,7 @@ const services = [
 const steps = [
   {
     title: "Show us the annoying bit",
-    body: "Pick one job your team repeats every week, such as retyping CV fields, tidying CRM records or chasing an approval.",
+    body: "Pick one job your team repeats every week, such as tidying CRM records, building client reports or chasing an approval.",
   },
   {
     title: "We work out what is happening",
