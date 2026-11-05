@@ -8,3 +8,11 @@
 - [ ] Publish. Blocked: the owner has not asked to publish.
 - [x] Homepage streamlined: Goldmine and Outshine cards first, sector cards and workflow examples removed. Priced bespoke services section deleted, bespoke work shown as "Price on request", Workflow Audit card restyled white with violet type.
 - [ ] P1/P2 items: DIY pack delivery checks, Goldmine scan progress feedback, booking calendar, UK-wide Goldmine, CSV export.
+
+# Batch 2026-11-05
+- [ ] Rename DIY pack to Done-for-You Fix Pack across Outshine
+- [ ] Goldmine phased scan progress messages
+- [ ] Goldmine CSV export
+- [ ] Footer Services link repoint
+- [ ] More Outshine trades; more Goldmine UK cities (engine permitting)
+- [ ] Outshine PDF table page-break polish
