@@ -10,9 +10,9 @@
 - [ ] P1/P2 items: DIY pack delivery checks, Goldmine scan progress feedback, booking calendar, UK-wide Goldmine, CSV export.
 
 # Batch 2026-11-05
-- [ ] Rename DIY pack to Done-for-You Fix Pack across Outshine
-- [ ] Goldmine phased scan progress messages
-- [ ] Goldmine CSV export
-- [ ] Footer Services link repoint
-- [ ] More Outshine trades; more Goldmine UK cities (engine permitting)
-- [ ] Outshine PDF table page-break polish
+- [x] Rename DIY pack to Done-for-You Fix Pack across Outshine
+- [x] Goldmine phased scan progress messages
+- [x] Goldmine CSV export
+- [x] Footer Services link repoint
+- [ ] More Outshine trades (needs owner-approved trade list and checks) and Goldmine UK cities (blocked: Railway engine only supports London areas)
+- [x] Outshine PDF table page-break polish
