@@ -16,3 +16,5 @@
 - [x] Footer Services link repoint
 - [ ] More Outshine trades (needs owner-approved trade list and checks) and Goldmine UK cities (blocked: Railway engine only supports London areas)
 - [x] Outshine PDF table page-break polish
+- [x] 1:1 consultation box (£100 per hour) in the booking section, email button, verified at 752px and 1280px
+- [ ] Decide whether homepage copy switches from "we/our/us" to "I/my" (35 instances on the homepage)
