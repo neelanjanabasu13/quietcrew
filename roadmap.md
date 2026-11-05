@@ -17,4 +17,4 @@
 - [ ] More Outshine trades (needs owner-approved trade list and checks) and Goldmine UK cities (blocked: Railway engine only supports London areas)
 - [x] Outshine PDF table page-break polish
 - [x] 1:1 consultation box (£100 per hour) in the booking section, email button, verified at 752px and 1280px
-- [ ] Decide whether homepage copy switches from "we/our/us" to "I/my" (35 instances on the homepage)
+- [x] Homepage rebuilt: personal hero, two tools with live demos, Work with me tiers (audit £99, consultation £100/hour, setup and builds on request), How I work, first-person FAQ and contact; menu, footer and enquiry form switched to "I/me"
