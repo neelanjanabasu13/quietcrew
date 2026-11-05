@@ -30,7 +30,7 @@ export async function buildReportPdf(r: PdfReportInput): Promise<Blob> {
   const chrome = () => {
     const n = doc.getNumberOfPages();
     doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(...muted);
-    if (n > 1) { doc.text(`${clean(r.name)}  ·  Outshine report and DIY pack`, M, 11); doc.setDrawColor(...line); doc.line(M, 13, W - M, 13); }
+    if (n > 1) { doc.text(`${clean(r.name)}  ·  Outshine report and Done-for-You Fix Pack`, M, 11); doc.setDrawColor(...line); doc.line(M, 13, W - M, 13); }
     doc.text("Outshine by Quietcrew", M, H - 8);
     doc.text(`Page ${n}`, W - M, H - 8, { align: "right" });
   };
@@ -121,7 +121,7 @@ export async function buildReportPdf(r: PdfReportInput): Promise<Blob> {
   chrome();
   doc.setFillColor(...accent); doc.rect(0, 0, W, 4, "F");
   y = 18;
-  para("OUTSHINE REPORT AND DIY PACK", 8, accent, "bold", 0, 1);
+  para("OUTSHINE REPORT AND DONE-FOR-YOU FIX PACK", 8, accent, "bold", 0, 1);
   y += 6;
   para(r.name, 22, ink, "bold", 0, 1);
   para([r.address, r.tradeLabel, `Prepared ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`].filter(Boolean).join("  ·  "), 9, muted, "normal", 0, 4);
@@ -267,7 +267,7 @@ export async function buildFreeReportPdf(r: FreeReportInput): Promise<Blob> {
   ensure(26); y += 2;
   doc.setFillColor(...ink); doc.roundedRect(M, y, CW, 22, 3, 3, "F");
   doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.text("Ready to outshine them?", M + 6, y + 8);
-  doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.text("Get the DIY pack with ready-to-use wording and step-by-step guides.", M + 6, y + 14);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.text("Get the Done-for-You Fix Pack with ready-to-use wording and step-by-step guides.", M + 6, y + 14);
   doc.setTextColor(...gold); doc.textWithLink("quietcrew.ai/outshine", M + 6, y + 19, { url: "https://quietcrew.ai/outshine" });
 
   doc.setProperties({ title: `${r.name} free Outshine report`, author: "Outshine by Quietcrew" });

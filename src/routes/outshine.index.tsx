@@ -20,7 +20,7 @@ export const Route = createFileRoute("/outshine/")({
   head: () => ({
     meta: [
       { title: "Outshine by Quietcrew · Free online presence audit for UK trades" },
-      { name: "description", content: "Compare your UK trade business with nearby rivals in a free online presence audit, then get a detailed DIY fix list for £9.99 (was £14.99)." },
+      { name: "description", content: "Compare your UK trade business with nearby rivals in a free online presence audit, then get a Done-for-You Fix Pack for £9.99 (was £14.99)." },
       { property: "og:title", content: "Outshine by Quietcrew · Free online presence audit for UK trades" },
       { property: "og:description", content: "Compare your public business profile with nearby businesses and download a practical report." },
       { property: "og:type", content: "website" },
@@ -238,13 +238,13 @@ function Home() {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-fix">From findings to fixes</p>
             <h2 className="mt-3 font-display text-3xl font-extrabold md:text-4xl">Your exact fix list for <span className="mr-2 text-2xl text-muted-foreground line-through md:text-3xl">£14.99</span><span className="text-violet">£9.99</span>.</h2>
             <p className="mt-4 max-w-md text-muted-foreground">
-              Your free scan shows where you fall behind. The detailed DIY pack tells you exactly what to fix for your business, in what order, with the wording ready to paste, so an afternoon is all it takes. One payment, no subscription.
+              Your free scan shows where you fall behind. The Done-for-You Fix Pack tells you exactly what to fix for your business, in what order, with the wording ready to paste, so an afternoon is all it takes. One payment, no subscription.
             </p>
           </div>
           <ul className="flex flex-col justify-center gap-3">
             {[
               <>One guest scan free, three free scans total with an account</>,
-              <>Detailed DIY pack · <s className="text-muted-foreground">£14.99</s> £9.99 one-off</>,
+              <>Done-for-You Fix Pack · <s className="text-muted-foreground">£14.99</s> £9.99 one-off</>,
               <>Step-by-step guides and copyable wording</>,
               <>Downloadable PDF to keep</>,
             ].map((t, i) => (

@@ -105,7 +105,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
         if ("error" in result) { setPaymentMessage(result.error); return; }
         setPack(result.pack);
         const params = new URLSearchParams(window.location.search);
-        if (result.pack) { setCheckoutOpen(false); setPaymentMessage("Your payment is confirmed and your detailed DIY pack is ready."); }
+        if (result.pack) { setCheckoutOpen(false); setPaymentMessage("Your payment is confirmed and your Done-for-You Fix Pack is ready."); }
         else if (params.get("buy") === "diy") setCheckoutOpen(true);
         else if (params.has("session_id")) setPaymentMessage("Your payment is not confirmed yet. Refresh this report shortly; the pack stays locked until payment is confirmed.");
       } catch (e) { if (active) setPaymentMessage(e instanceof Error ? e.message : "Could not check your purchase."); }
@@ -177,7 +177,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
         {b.live && <section className="mt-8 border-y border-border py-6">
           <h2 className="text-xl font-semibold">Check again after making changes</h2>
           <p className="mt-2 text-sm text-muted-foreground">{loadedBusiness.scannedAt ? `Last checked ${new Date(loadedBusiness.scannedAt).toLocaleString("en-GB")}. ` : ""}Reopening this saved report does not use another scan. Apply your changes first, then give Google time to publish them before checking again.</p>
-          <p className="mt-2 text-sm text-muted-foreground">{diy ? "Your DIY pack includes one verification re-check for this business, if it has not already been used. " : ""}One guest scan is free, with three free scans total after signing in. Further scans cost £2.99 each, separate from the detailed DIY pack.</p>
+          <p className="mt-2 text-sm text-muted-foreground">{diy ? "Your Done-for-You Fix Pack includes one verification re-check for this business, if it has not already been used. " : ""}One guest scan is free, with three free scans total after signing in. Further scans cost £2.99 each, separate from the Done-for-You Fix Pack.</p>
           <Button asChild variant="outline" className="mt-4"><Link to="/outshine/scan/$id" params={{ id: loadedBusiness.id }} search={{ fresh: true }}>Re-check after my changes</Link></Button>
         </section>}
         <InspectionGrid b={b} />
@@ -187,7 +187,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">{extraTips(b.trade).map((t) => <li key={t.title} className="border-l-2 border-fix pl-4"><p className="font-medium">{t.title}</p><p className="mt-1 text-sm text-muted-foreground">{t.body}</p></li>)}</ul>
           {reference?.entry && <div className="mt-6 rounded-lg border border-border bg-card p-5"><p className="text-xs text-muted-foreground">A strong {reference.entry.city} profile we keep for comparison</p><p className="mt-1 text-lg font-semibold">{reference.entry.name}</p><p className="mt-1 text-sm text-muted-foreground">A real local business we picked as a reference. It is worth looking at how they present their services, photos and replies to reviews.</p><Button asChild variant="link" className="h-auto px-0"><a href={reference.entry.website} target="_blank" rel="noopener noreferrer">See their profile<ArrowUpRight /></a></Button></div>}</section> : <section className="mt-12 border-y border-border py-8" id="pricing">
           <h2 className="text-2xl font-semibold">From your free audit to practical fixes</h2>
-          <p className="mt-2 text-muted-foreground">Your saved report is included with your scan. The £9.99 detailed DIY pack adds the instructions and wording for the findings in this report, with no subscription.</p>
+          <p className="mt-2 text-muted-foreground">Your saved report is included with your scan. The £9.99 Done-for-You Fix Pack adds the instructions and wording for the findings in this report, with no subscription.</p>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <div className="flex flex-col gap-3">
               <p className="font-medium">Free scan</p><p className="font-display text-3xl font-semibold">Free</p>
@@ -196,9 +196,9 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
               <Button onClick={downloadReport} className="h-auto min-h-10 w-full whitespace-normal py-3"><Download />Download free report</Button>
             </div>
             <div className="flex flex-col gap-3">
-              <p className="font-medium">Detailed DIY pack</p><p className="font-display text-3xl font-semibold">£{PRICE_DIY.toFixed(2)}</p>
+              <p className="font-medium">Done-for-You Fix Pack</p><p className="font-display text-3xl font-semibold">£{PRICE_DIY.toFixed(2)}</p>
               <p className="flex-1 text-sm text-muted-foreground">Detailed guides for your findings, ready-to-paste wording, annotated steps and a PDF to keep. Review-request guides include a QR review card where a review link is available. You review and apply the changes yourself.</p>
-              {diy ? <Button onClick={downloadDIY} disabled={pdfBusy} className="h-auto min-h-10 w-full whitespace-normal py-3"><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button> : <PayButton b={b} item="diy" label="DIY pack" onBuy={() => setCheckoutOpen(true)}>Get my DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton>}
+              {diy ? <Button onClick={downloadDIY} disabled={pdfBusy} className="h-auto min-h-10 w-full whitespace-normal py-3"><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button> : <PayButton b={b} item="diy" label="Done-for-You Fix Pack" onBuy={() => setCheckoutOpen(true)}>Get my DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton>}
             </div>
           </div>
           <p className="mt-5 text-xs text-muted-foreground">One-off payment, no subscription.</p>
@@ -268,7 +268,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
           {diy ? (
             <>
             <div className="sticky top-2 z-30 mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-fix bg-card p-4 shadow-lg">
-              <p className="text-sm"><span className="font-semibold">Your DIY pack is unlocked.</span> <span className="text-muted-foreground">Download the full report and every guide as one searchable PDF with clickable contents.</span></p>
+              <p className="text-sm"><span className="font-semibold">Your Done-for-You Fix Pack is unlocked.</span> <span className="text-muted-foreground">Download the full report and every guide as one searchable PDF with clickable contents.</span></p>
               <Button onClick={downloadDIY} disabled={pdfBusy}><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button>
             </div>
             <div className="mt-8 space-y-10">{problems.map((f, i) => { const sop = pack.sops[f.id]; return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f} n={i + 1} sop={sop} />}</div>; })}</div>
@@ -281,9 +281,9 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
               <div className="absolute inset-0 grid place-items-center rounded-lg bg-background/40">
                 <div className="mx-4 max-w-md rounded-lg border border-border bg-card p-8 text-center shadow-lg">
                   <Lock className="mx-auto h-8 w-8 text-fix" />
-                  <p className="mt-4 text-xl font-semibold">Unlock the full DIY pack</p>
+                  <p className="mt-4 text-xl font-semibold">Unlock your Done-for-You Fix Pack</p>
                   <p className="mt-2 text-sm text-muted-foreground">{problems.length} detailed SOP{problems.length === 1 ? "" : "s"} for your report, with exact clicks, scripts and links. One-off payment, no subscription.</p>
-                  <div className="mt-5"><PayButton b={b} item="diy" label="DIY pack" onBuy={() => setCheckoutOpen(true)}>Get my detailed DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton></div>
+                  <div className="mt-5"><PayButton b={b} item="diy" label="Done-for-You Fix Pack" onBuy={() => setCheckoutOpen(true)}>Get my Done-for-You Fix Pack · £{PRICE_DIY.toFixed(2)}</PayButton></div>
                 </div>
               </div>
             </div>
@@ -291,7 +291,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
         </section>}
         <PoweredByGoogle className="mt-10" />
       </main>
-      {!diy && !allClear && <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur"><div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3"><p className="text-sm text-muted-foreground">Free audit · Detailed DIY pack £{PRICE_DIY.toFixed(2)}</p><PayButton b={b} item="diy" label="DIY pack" onBuy={() => setCheckoutOpen(true)}>Get my DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton></div></div>}
+      {!diy && !allClear && <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur"><div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3"><p className="text-sm text-muted-foreground">Free audit · Done-for-You Fix Pack £{PRICE_DIY.toFixed(2)}</p><PayButton b={b} item="diy" label="Done-for-You Fix Pack" onBuy={() => setCheckoutOpen(true)}>Get my DIY pack · £{PRICE_DIY.toFixed(2)}</PayButton></div></div>}
     </div>
   );
 }
@@ -319,7 +319,7 @@ function ProblemCard({ f, n, b, autoRun, showcase = false }: { f: Finding; n: nu
       <h3 className="mt-3 text-2xl font-semibold">{f.title}</h3>
       <p className="mt-3"><span className="text-muted-foreground">Evidence: </span>{f.evidence}</p>
       <p className="mt-2 text-muted-foreground">{f.impact}</p>
-      <p className="mt-5 text-sm"><a href="#diy" className="font-semibold text-fix underline underline-offset-4">Fix it yourself with the DIY pack</a><span className="text-muted-foreground">: the finished wording, one-click buttons and a step-by-step guide.</span></p>
+      <p className="mt-5 text-sm"><a href="#diy" className="font-semibold text-fix underline underline-offset-4">Get it all written for you in the Done-for-You Fix Pack</a><span className="text-muted-foreground">: the finished wording, one-click buttons and a step-by-step guide.</span></p>
     </div>
     <div className="flex flex-col">
       <div className="inline-flex self-start gap-1 text-xs">{(["Before", "After"] as const).map((l) => <Button key={l} size="sm" variant={showAfter === (l === "After") ? "secondary" : "ghost"} onClick={() => setShowAfter(l === "After")}>{l}</Button>)}</div>

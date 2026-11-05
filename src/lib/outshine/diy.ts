@@ -261,7 +261,7 @@ function baseSop(f: Finding, trade: Trade, businessName: string): Sop {
         time: "An afternoon, doing it yourself",
         youNeed: ["A Google account that manages your Business Profile"],
         steps: [
-          "Pick one of the no-code tools listed below (they are starting points, not the only options). The quickest DIY route is to open Lovable, paste the ready-made prompt below with your details filled in, and let it build the page for you.",
+          "Pick one of the no-code tools listed below (they are starting points, not the only options). The quickest route is to open Lovable, paste the ready-made prompt below with your details filled in, and let it build the page for you.",
           "Your page needs exactly five things, in this order: what you do and where, your services as a short list, genuine reviews, real photos, and a big tap-to-call phone button plus a contact form.",
           "Keep it to one page. Customers from Google want to check you are real and ring you, not read an essay.",
           `Only show qualifications you genuinely hold, such as ${t.credential}. ${t.credentialPlain}`,
