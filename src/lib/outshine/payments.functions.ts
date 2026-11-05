@@ -51,13 +51,13 @@ export const createDiyCheckout = createServerFn({ method: "POST" })
     try {
       const { savedBusiness } = await import("./scan-access.server");
       const business = await savedBusiness(data.businessId, data.environment);
-      if (!business?.live) return { error: "Please scan a real business before buying its DIY pack." };
+      if (!business?.live) return { error: "Please scan a real business before buying its Done-for-You Fix Pack." };
       const { evaluate, topProblems } = await import("./audit");
       if (!topProblems(evaluate(business.trade, business.signals, business.name, true).filter(f => f.id !== "replies"), 5).length) return { error: "This profile has no assessed gaps, so there is no pack to buy." };
       const stripe = createStripeClient(data.environment);
       const prices = await stripe.prices.list({ lookup_keys: [DIY_PRICE_ID] });
       const price = prices.data[0];
-      if (!price || price.unit_amount !== DIY_AMOUNT || price.currency !== "gbp" || price.type !== "one_time") return { error: "The £9.99 DIY pack price is not configured correctly." };
+      if (!price || price.unit_amount !== DIY_AMOUNT || price.currency !== "gbp" || price.type !== "one_time") return { error: "The £9.99 Done-for-You Fix Pack price is not configured correctly." };
       const product = await stripe.products.retrieve(typeof price.product === "string" ? price.product : price.product.id);
       const email = (context.claims as { email?: string }).email;
       const customer = await resolveOrCreateCustomer(stripe, { userId: context.userId, ...(email && { email }) });

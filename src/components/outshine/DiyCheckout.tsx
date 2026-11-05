@@ -37,7 +37,7 @@ export function DiyCheckout({ businessId, open, onOpenChange }: { businessId: st
   const next = `/outshine/report/${encodeURIComponent(businessId)}?buy=diy`;
   return <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent className="max-h-[90dvh] w-[calc(100%-2rem)] max-w-3xl overflow-y-auto rounded-[20px] p-5 sm:p-8">
-      <DialogTitle>Get your detailed DIY pack · £9.99</DialogTitle>
+      <DialogTitle>Get your Done-for-You Fix Pack · £9.99</DialogTitle>
       <DialogDescription>Step-by-step guides for your audit findings, ready-to-paste wording and a downloadable PDF. One payment, no subscription.</DialogDescription>
       <PaymentTestModeBanner />
       {signedIn === false ? <div className="space-y-4 py-4">

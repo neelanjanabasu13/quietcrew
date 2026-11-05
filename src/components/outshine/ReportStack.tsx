@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 // Fictitious example reports used only to illustrate the product on the homepage.
 const CARDS = [
   { name: "Pipe Dreams Plumbing", town: "Leeds", grade: "C", tone: "bg-grade-c", line: "Solid reviews, but no website to send callers to.",
-    rows: [["Reputation", "B"], ["Photos", "D"], ["Website", "F"]], fix: "DIY guide: a one-page website" },
+    rows: [["Reputation", "B"], ["Photos", "D"], ["Website", "F"]], fix: "Fix Pack: a one-page website" },
   { name: "Shear Genius", town: "Brighton", grade: "D", tone: "bg-grade-d", line: "Great stylists, hidden behind six photos.",
-    rows: [["Reputation", "B"], ["Photos", "F"], ["Profile", "D"]], fix: "DIY guide: your business description" },
+    rows: [["Reputation", "B"], ["Photos", "F"], ["Profile", "D"]], fix: "Fix Pack: your business description" },
   { name: "Bright Sparks Electrical", town: "Bristol", grade: "B", tone: "bg-grade-b", line: "Nearly there. Two rivals still outshine you.",
-    rows: [["Reputation", "A"], ["Photos", "C"], ["Credentials", "B"]], fix: "DIY guide: replies to your reviews" },
+    rows: [["Reputation", "A"], ["Photos", "C"], ["Credentials", "B"]], fix: "Fix Pack: replies to your reviews" },
 ];
 
 // Resting positions, front to back.

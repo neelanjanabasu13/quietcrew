@@ -51,7 +51,7 @@ const products: Product[] = [
     artefact: {
       title: "Report: a Leeds plumber",
       rows: [["Reputation", "B"], ["Photos", "D"], ["Website", "F"]],
-      foot: "DIY guide: a one-page website",
+      foot: "Fix Pack: a one-page website",
     },
   },
 ];
