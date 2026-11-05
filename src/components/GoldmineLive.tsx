@@ -19,6 +19,7 @@ import { CopyDraftButton } from "@/components/CopyDraftButton";
 import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
 import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 import { GoldmineContrast } from "@/components/GoldmineContrast";
+import { businessesToCsv } from "@/lib/goldmine/csv";
 
 const LAST_ORDER_KEY = "goldmine.lastOrder";
 import { PROVIDERS, type ProviderCheck, type ProviderName, type ScanSnapshot } from "@/lib/goldmine/types";
@@ -106,6 +107,42 @@ const LOCKED_PLACEHOLDER_ROWS = 5;
  * browser, so their results stay theirs while no account exists yet.
  */
 const GUEST_TOKEN_KEY = "goldmine.guest";
+
+function downloadCsv(snapshot: ScanSnapshot, businesses: ScanSnapshot["businesses"]) {
+  const blob = new Blob(["\ufeff" + businessesToCsv(businesses)], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `goldmine-${snapshot.locality}-${snapshot.category}`.toLowerCase().replace(/[^a-z0-9]+/g, "-") + ".csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+const SCAN_PHASES = [
+  "Finding well-reviewed businesses on Google",
+  "Asking ChatGPT, Gemini and Claude who they recommend",
+  "Working out each Gold score",
+  "Results ready",
+];
+
+function ScanPhases({ snapshot }: { snapshot: ScanSnapshot }) {
+  const done = snapshot.status === "completed";
+  const { completed, unavailable, total } = snapshot.counts;
+  const phase = done ? 3 : snapshot.businesses.length === 0 ? 0 : completed + unavailable < total ? 1 : 2;
+  return (
+    <ol className="mt-5 grid gap-2 sm:grid-cols-4" aria-label="Scan progress">
+      {SCAN_PHASES.map((label, i) => {
+        const state = i < phase || done ? "done" : i === phase ? "now" : "next";
+        return (
+          <li key={label} className={`flex items-start gap-2 rounded-[14px] px-3 py-2 text-[13px] font-semibold ${state === "next" ? "bg-cream text-muted-paper" : "bg-violet-tint text-ink"}`}>
+            {state === "done" ? <span aria-hidden className="text-violet">✓</span> : state === "now" ? <span aria-hidden className="mt-0.5 inline-block h-3 w-3 shrink-0 animate-spin rounded-full border-2 border-violet-tint border-t-violet" /> : <span aria-hidden className="text-muted-paper">○</span>}
+            <span>{label}<span className="sr-only">{state === "done" ? " (done)" : state === "now" ? " (in progress)" : ""}</span></span>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
 
 function guestToken(): string {
   const existing = window.localStorage.getItem(GUEST_TOKEN_KEY);
@@ -494,6 +531,7 @@ export function GoldmineLive() {
                   ? "Every check that could run has come back."
                   : "Results appear here as they arrive.")}
             </p>
+            {snapshot.status !== "failed" ? <ScanPhases snapshot={snapshot} /> : null}
 
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               <div className="rounded-[14px] bg-violet-tint px-4 py-3">
@@ -526,6 +564,17 @@ export function GoldmineLive() {
                 ? `, after ${snapshot.discovery.chainsExcluded} chain ${snapshot.discovery.chainsExcluded === 1 ? "exclusion" : "exclusions"}`
                 : ""}
             </p>
+          ) : null}
+
+          {visibleBusinesses.length > 0 ? (
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <button type="button" onClick={() => downloadCsv(snapshot, visibleBusinesses)} className="rounded-full bg-violet-deep px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-violet-deeper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet">
+                Download as CSV
+              </button>
+              <span className="text-[14px] text-muted-paper">
+                {unlocked ? "Every business in this scan, ready for your CRM or a spreadsheet." : "Includes the businesses you can see. Unlock the scan to export the full list."}
+              </span>
+            </div>
           ) : null}
 
           <p className="mt-4 text-[14px] text-muted-paper">
