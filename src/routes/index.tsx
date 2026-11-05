@@ -392,6 +392,21 @@ function Index() {
                   Show us one repetitive process. In 30 minutes we will map it, tell you what could be
                   automated, roughly what it would cost, and whether it is worth doing at all.
                 </p>
+                <div className="mt-8 rounded-[20px] bg-white/[0.09] p-6">
+                  <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-peach">
+                    1:1 consultation · £100 per hour
+                  </p>
+                  <p className="mt-3 text-[16px] text-muted-on-violet">
+                    If you would rather talk it through with me directly, I offer hour-long sessions on
+                    your software setup, the tools worth buying and small no-code builds.
+                  </p>
+                  <a
+                    href="mailto:hello@quietcrew.ai?subject=Consultation%20enquiry"
+                    className="pill-btn btn-white mt-5 inline-flex px-6 py-3 text-[15px]"
+                  >
+                    Email me to arrange a consultation
+                  </a>
+                </div>
                 <p className="mt-8 text-[15px] text-muted-on-violet">
                   Prefer email? Write to{" "}
                   <a href="mailto:hello@quietcrew.ai" className="font-semibold text-peach underline underline-offset-4">
