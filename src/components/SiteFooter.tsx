@@ -23,8 +23,8 @@ export function SiteFooter() {
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted-on-violet">Site</p>
           <ul className="mt-4 space-y-3">
             <li>
-              <a href="/#workflows" className="text-[15px] font-semibold text-white hover:text-peach">
-                Services
+              <a href="/#work-with-me" className="text-[15px] font-semibold text-white hover:text-peach">
+                Work with me
               </a>
             </li>
             <li>
@@ -42,7 +42,7 @@ export function SiteFooter() {
             </li>
             <li>
               <a href="/#book" className="text-[15px] font-semibold text-white hover:text-peach">
-                Book a Workflow Review
+                Get in touch
               </a>
             </li>
             <li>

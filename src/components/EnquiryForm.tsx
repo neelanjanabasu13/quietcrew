@@ -43,13 +43,13 @@ export function EnquiryForm() {
 
   function validate(): boolean {
     const next: Partial<Record<keyof Fields, string>> = {};
-    if (!values.name.trim()) next.name = "Please tell us your name.";
-    if (!values.company.trim()) next.company = "Please tell us your company.";
+    if (!values.name.trim()) next.name = "Please tell me your name.";
+    if (!values.company.trim()) next.company = "Please tell me your business name.";
     if (!values.email.trim()) next.email = "Please add a work email.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(values.email.trim()))
       next.email = "That does not look like a valid email address.";
     if (!values.companySize) next.companySize = "Please choose a company size.";
-    if (!values.manual.trim()) next.manual = "Tell us one thing your team still does manually.";
+    if (!values.manual.trim()) next.manual = "Tell me what you would like help with.";
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -87,10 +87,10 @@ export function EnquiryForm() {
       <div className="rounded-[20px] bg-white p-8 soft-shadow-lg" role="status" aria-live="polite">
         <p className="eyebrow">Enquiry received</p>
         <h3 className="mt-4 text-2xl text-ink">
-          Thanks. We will come back to you within one working day.
+          Thanks. I will reply within one working day.
         </h3>
         <p className="mt-3 text-[16px] text-muted-paper">
-          If it is easier, you can also pick a time directly using the booking option below.
+          If it is easier, you can also write to me directly at hello@quietcrew.ai.
         </p>
       </div>
     );
@@ -102,7 +102,7 @@ export function EnquiryForm() {
         <Field id="name" label="Name" error={errors.name}>
           <input id="name" name="name" className={fieldClass} value={values.name} onChange={set("name")} autoComplete="name" aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
         </Field>
-        <Field id="company" label="Company" error={errors.company}>
+        <Field id="company" label="Business name" error={errors.company}>
           <input id="company" name="company" className={fieldClass} value={values.company} onChange={set("company")} autoComplete="organization" aria-invalid={!!errors.company} aria-describedby={errors.company ? "company-error" : undefined} />
         </Field>
         <Field id="email" label="Work email" error={errors.email}>
@@ -124,7 +124,7 @@ export function EnquiryForm() {
           </Field>
         </div>
         <div className="md:col-span-2">
-          <Field id="manual" label="What does your team still do manually?" error={errors.manual}>
+          <Field id="manual" label="What would you like help with?" error={errors.manual}>
             <textarea id="manual" name="manual" rows={4} className={fieldClass} value={values.manual} onChange={set("manual")} aria-invalid={!!errors.manual} aria-describedby={errors.manual ? "manual-error" : undefined} />
           </Field>
         </div>
@@ -143,10 +143,10 @@ export function EnquiryForm() {
       )}
 
       <button type="submit" className="pill-btn btn-primary-dark mt-7 w-full md:w-auto" disabled={submitting}>
-        {submitting ? "Sending" : "Book a Free Workflow Review"}
+        {submitting ? "Sending" : "Send my enquiry"}
       </button>
       <p className="mt-4 text-[15px] text-muted-paper">
-        We use your details only to reply to this enquiry. See our{" "}
+        I use your details only to reply to this enquiry. See the{" "}
         <a href="/privacy" className="font-semibold text-violet underline underline-offset-4">
           privacy notice
         </a>
