@@ -249,13 +249,14 @@ function Index() {
                   <h3 className="mt-3 text-[1.4rem]">{t.title}</h3>
                   <p className="mt-2 text-[1.15rem] font-extrabold text-violet-deep">{t.price}</p>
                   <p className="mt-4 text-[16px] text-muted-paper">{t.body}</p>
-                  <a
-                    href={`mailto:hello@quietcrew.ai?subject=${encodeURIComponent(t.subject)}`}
-                    className="pill-btn btn-primary-dark mt-auto self-start px-6 py-3 text-[15px]"
-                    style={{ marginTop: "1.75rem" }}
-                  >
-                    {t.cta}
-                  </a>
+                  <div className="mt-auto pt-7">
+                    <a
+                      href={`mailto:hello@quietcrew.ai?subject=${encodeURIComponent(t.subject)}`}
+                      className="pill-btn btn-primary-dark px-6 py-3 text-[15px]"
+                    >
+                      {t.cta}
+                    </a>
+                  </div>
                 </Reveal>
               ))}
             </div>

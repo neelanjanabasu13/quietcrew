@@ -4,9 +4,9 @@ import { Menu, X } from "lucide-react";
 
 const links = [
   { href: "/goldmine", label: "Goldmine" },
-  { href: "/#how-it-works", label: "How It Works" },
-  { href: "/#faq", label: "FAQ" },
   { href: "/outshine", label: "Outshine" },
+  { href: "/#work-with-me", label: "Work with me" },
+  { href: "/#faq", label: "FAQ" },
 ];
 
 export function SiteNav() {
@@ -37,12 +37,6 @@ export function SiteNav() {
 
 
           <div className="hidden items-center gap-4 md:flex">
-            <a
-              href="/#workflows"
-              className="text-[15px] font-semibold text-muted-paper transition-colors hover:text-violet"
-            >
-              Services
-            </a>
             {links.map((l) => (
               <a
                 key={l.href}
@@ -56,10 +50,10 @@ export function SiteNav() {
 
           <div className="hidden items-center gap-2 md:flex">
             <a href="mailto:hello@quietcrew.ai" className="pill-btn btn-ghost-light">
-              Email us
+              Email me
             </a>
             <a href="/#book" className="pill-btn btn-primary-dark">
-              Book a Workflow Review
+              Get in touch
             </a>
           </div>
 
@@ -79,13 +73,6 @@ export function SiteNav() {
       {open && (
         <div id="mobile-menu" className="container-page md:hidden">
           <div className="menu-sheet mt-3 rounded-[20px] p-4 soft-shadow-lg">
-            <a
-              href="/#workflows"
-              onClick={() => setOpen(false)}
-              className="block border-b border-border py-4 text-[18px] font-bold text-ink"
-            >
-              Services
-            </a>
             {links.map((l) => (
               <a
                 key={l.href}
@@ -97,7 +84,7 @@ export function SiteNav() {
               </a>
             ))}
             <a href="/#book" onClick={() => setOpen(false)} className="pill-btn btn-primary-dark mt-4 w-full">
-              Book a Workflow Review
+              Get in touch
             </a>
           </div>
         </div>
