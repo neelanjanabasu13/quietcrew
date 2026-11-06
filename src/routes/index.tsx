@@ -29,11 +29,11 @@ const faqEntries: { q: string; a: string }[] = [
   },
   {
     q: "How much does it cost?",
-    a: "Goldmine is £49 per scan. The Outshine scan is free, and the Done-for-You Fix Pack is £9.99, reduced from £14.99. A Workflow Audit is £99, a 1:1 consultation is £100 per hour, and setup or small builds are quoted as a fixed price before we start, so you always know the cost first.",
+    a: "Goldmine is £49 per scan. The Outshine scan is free, and the Done-for-You Fix Pack is £9.99, reduced from £14.99. A Workflow Audit is £99, a 1:1 consultation is £100 per hour, and when we do the work for you it is priced on the outcome, which we agree with you before we start.",
   },
   {
     q: "What happens in a Workflow Audit?",
-    a: "You pick one job that takes your team too long, and we map it with you from start to finish. You then get a plain English write-up of what could be connected, what could be automated, which off-the-shelf tools would suit you, and whether it is worth doing at all.",
+    a: "You pick the job that takes your team too long, and we go deep into how it works today. We then map the fix step by step, covering what to change, how to do it and why. You can stop there and do it yourself with the plan, or ask us to do it for you on an outcome-based fee.",
   },
   {
     q: "Do you build AI agents?",
@@ -113,26 +113,32 @@ const tiers = [
     label: "One-time",
     title: "Workflow Audit",
     price: "£99",
-    body: "Pick one job that eats your week, such as chasing quotes, updating spreadsheets or sending the same report. We map it with you and hand you a plain English plan of what to connect, what to automate and which tools to use.",
+    body: "Pick one job that eats your week, such as chasing quotes, updating spreadsheets or sending the same report. We go deep into how it works today, then hand you a step-by-step fix covering what to change, how to do it and why. You can stop there and do it yourself, or ask us to do it for you.",
     subject: "Workflow Audit enquiry",
-    cta: "Ask for an audit",
+    cta: "Book an audit",
   },
   {
     label: "1:1",
     title: "Consultation",
     price: "£100 per hour",
-    body: "An hour with us on your software setup, the tools worth paying for and the ones you can cancel, or a small no-code build you have in mind. You leave with clear next steps.",
+    body: "An hour with us on your software setup, the tools worth paying for and the ones you can cancel, or a small build you have in mind. You leave knowing exactly what to do next, and who can do it.",
     subject: "Consultation enquiry",
     cta: "Arrange a consultation",
   },
   {
     label: "Hands-on",
-    title: "Setup and small builds",
-    price: "Price on request",
-    body: "When you would rather we did it, we connect the tools you already use, set up simple automations between them, or build a clean one-page website for your business. You get a fixed price before we start.",
-    subject: "Setup or build enquiry",
-    cta: "Tell us what you need",
+    title: "We do it for you",
+    price: "Outcome-based pricing",
+    body: "Once the fix is clear, we can carry it out: connecting the tools you already use, setting up the automations, or building a clean one-page website. We agree the result you want before we start, and you pay for that outcome rather than our hours.",
+    subject: "Done for you enquiry",
+    cta: "Ask us to do it",
   },
+];
+
+const steps = [
+  { title: "We dig in.", body: "We go deep into the part of the business that is costing you time." },
+  { title: "We map the fix.", body: "What to change, how to do it and why, step by step." },
+  { title: "You choose.", body: "Do it yourself with the plan, or have us build it for an outcome-based fee." },
 ];
 
 const principles = [
@@ -231,10 +237,23 @@ function Index() {
                 <span className="text-violet">the tools do not cover?</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[620px] text-[18px] text-muted-paper">
-                Choose how much help you want, from a single review of one process to having us set it
-                up for you.
+                We find what is slowing you down, show you exactly how to fix it, and then you choose:
+                do it yourself with our step-by-step plan, or have us do it for you.
               </p>
             </Reveal>
+
+            <ol className="mt-10 grid gap-4 md:grid-cols-3">
+              {steps.map((s, i) => (
+                <li key={s.title} className="flex gap-4 rounded-[20px] bg-violet-tint p-5">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet-deep text-[15px] font-bold text-white">
+                    {i + 1}
+                  </span>
+                  <p className="text-[15px] text-ink">
+                    <strong className="font-semibold">{s.title}</strong> {s.body}
+                  </p>
+                </li>
+              ))}
+            </ol>
 
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               {tiers.map((t, i) => (
