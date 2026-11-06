@@ -43,13 +43,13 @@ export function EnquiryForm() {
 
   function validate(): boolean {
     const next: Partial<Record<keyof Fields, string>> = {};
-    if (!values.name.trim()) next.name = "Please tell me your name.";
-    if (!values.company.trim()) next.company = "Please tell me your business name.";
+    if (!values.name.trim()) next.name = "Please tell us your name.";
+    if (!values.company.trim()) next.company = "Please tell us your business name.";
     if (!values.email.trim()) next.email = "Please add a work email.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(values.email.trim()))
       next.email = "That does not look like a valid email address.";
     if (!values.companySize) next.companySize = "Please choose a company size.";
-    if (!values.manual.trim()) next.manual = "Tell me what you would like help with.";
+    if (!values.manual.trim()) next.manual = "Tell us what you would like help with.";
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -87,10 +87,10 @@ export function EnquiryForm() {
       <div className="rounded-[20px] bg-white p-8 soft-shadow-lg" role="status" aria-live="polite">
         <p className="eyebrow">Enquiry received</p>
         <h3 className="mt-4 text-2xl text-ink">
-          Thanks. I will reply within one working day.
+          Thanks. We will reply within one working day.
         </h3>
         <p className="mt-3 text-[16px] text-muted-paper">
-          If it is easier, you can also write to me directly at hello@quietcrew.ai.
+          If it is easier, you can also write to us directly at hello@quietcrew.ai.
         </p>
       </div>
     );
@@ -146,7 +146,7 @@ export function EnquiryForm() {
         {submitting ? "Sending" : "Send my enquiry"}
       </button>
       <p className="mt-4 text-[15px] text-muted-paper">
-        I use your details only to reply to this enquiry. See the{" "}
+        We use your details only to reply to this enquiry. See the{" "}
         <a href="/privacy" className="font-semibold text-violet underline underline-offset-4">
           privacy notice
         </a>
