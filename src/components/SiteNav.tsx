@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react";
 const links = [
   { href: "/goldmine", label: "Goldmine" },
   { href: "/outshine", label: "Outshine" },
-  { href: "/#work-with-me", label: "Work with me" },
+  { href: "/#work-with-me", label: "Work with us" },
   { href: "/#faq", label: "FAQ" },
 ];
 
@@ -50,7 +50,7 @@ export function SiteNav() {
 
           <div className="hidden items-center gap-2 md:flex">
             <a href="mailto:hello@quietcrew.ai" className="pill-btn btn-ghost-light">
-              Email me
+              Email us
             </a>
             <a href="/#book" className="pill-btn btn-primary-dark">
               Get in touch
