@@ -15,13 +15,13 @@ import {
 
 const TITLE = "Quietcrew | Ready-made tools and hands-on help for small UK businesses";
 const DESCRIPTION =
-  "Goldmine finds local prospects for agencies, Outshine shows local businesses how they compare with nearby rivals on Google, and I offer audits, consultations and small builds for everything else.";
+  "Goldmine finds local prospects for agencies, Outshine shows local businesses how they compare with nearby rivals on Google, and we offer audits, consultations and small builds for everything else.";
 const OG_IMAGE = "https://quietcrew.ai/og-quietcrew.jpg";
 
 const faqEntries: { q: string; a: string }[] = [
   {
     q: "Who is behind Quietcrew?",
-    a: "Quietcrew is run by me, an independent builder in the UK. I build the tools myself, and when you get in touch you speak to me directly rather than to a sales team.",
+    a: "Quietcrew is a small UK firm. We build the tools ourselves, and when you get in touch you speak to the person doing the work rather than to a sales team.",
   },
   {
     q: "What is the difference between Goldmine and Outshine?",
@@ -29,19 +29,19 @@ const faqEntries: { q: string; a: string }[] = [
   },
   {
     q: "How much does it cost?",
-    a: "Goldmine is £49 per scan. The Outshine scan is free, and the Done-for-You Fix Pack is £9.99, reduced from £14.99. A Workflow Audit is £99, a 1:1 consultation is £100 per hour, and setup or small builds are quoted as a fixed price before I start, so you always know the cost first.",
+    a: "Goldmine is £49 per scan. The Outshine scan is free, and the Done-for-You Fix Pack is £9.99, reduced from £14.99. A Workflow Audit is £99, a 1:1 consultation is £100 per hour, and setup or small builds are quoted as a fixed price before we start, so you always know the cost first.",
   },
   {
     q: "What happens in a Workflow Audit?",
-    a: "You pick one job that takes your team too long, and I map it with you from start to finish. You then get a plain English write-up of what could be connected, what could be automated, which off-the-shelf tools would suit you, and whether it is worth doing at all.",
+    a: "You pick one job that takes your team too long, and we map it with you from start to finish. You then get a plain English write-up of what could be connected, what could be automated, which off-the-shelf tools would suit you, and whether it is worth doing at all.",
   },
   {
     q: "Do you build AI agents?",
-    a: "Not at the moment. I start with the software you already pay for and simple automations, and if something needs more than I can deliver well, I will tell you plainly rather than take it on.",
+    a: "Not at the moment. We start with the software you already pay for and simple automations, and if something needs more than we can deliver well, we will tell you plainly rather than take it on.",
   },
   {
     q: "What happens to my data?",
-    a: "Wherever possible it stays in the tools and accounts you already control. I agree the scope, access and data handling with you before anything is connected, and a person always approves anything irreversible, such as payments, deletions or messages to your customers.",
+    a: "Wherever possible it stays in the tools and accounts you already control. We agree the scope, access and data handling with you before anything is connected, and a person always approves anything irreversible, such as payments, deletions or messages to your customers.",
   },
 ];
 
@@ -113,7 +113,7 @@ const tiers = [
     label: "One-time",
     title: "Workflow Audit",
     price: "£99",
-    body: "Pick one job that eats your week, such as chasing quotes, updating spreadsheets or sending the same report. I map it with you and hand you a plain English plan of what to connect, what to automate and which tools to use.",
+    body: "Pick one job that eats your week, such as chasing quotes, updating spreadsheets or sending the same report. We map it with you and hand you a plain English plan of what to connect, what to automate and which tools to use.",
     subject: "Workflow Audit enquiry",
     cta: "Ask for an audit",
   },
@@ -121,7 +121,7 @@ const tiers = [
     label: "1:1",
     title: "Consultation",
     price: "£100 per hour",
-    body: "An hour with me on your software setup, the tools worth paying for and the ones you can cancel, or a small no-code build you have in mind. You leave with clear next steps.",
+    body: "An hour with us on your software setup, the tools worth paying for and the ones you can cancel, or a small no-code build you have in mind. You leave with clear next steps.",
     subject: "Consultation enquiry",
     cta: "Arrange a consultation",
   },
@@ -129,9 +129,9 @@ const tiers = [
     label: "Hands-on",
     title: "Setup and small builds",
     price: "Price on request",
-    body: "When you would rather I did it, I connect the tools you already use, set up simple automations between them, or build a clean one-page website for your business. You get a fixed price before I start.",
+    body: "When you would rather we did it, we connect the tools you already use, set up simple automations between them, or build a clean one-page website for your business. You get a fixed price before we start.",
     subject: "Setup or build enquiry",
-    cta: "Tell me what you need",
+    cta: "Tell us what you need",
   },
 ];
 
@@ -142,7 +142,7 @@ const principles = [
   },
   {
     title: "What you already own comes first",
-    body: "If your existing software can do the job, I connect it. If a simple automation will do, I set that up, and I only suggest new tools when they clearly earn their place.",
+    body: "If your existing software can do the job, we connect it. If a simple automation will do, we set that up, and we only suggest new tools when they clearly earn their place.",
   },
   {
     title: "A person approves anything irreversible",
@@ -150,7 +150,7 @@ const principles = [
   },
   {
     title: "Plain answers, including no",
-    body: "If something is not worth automating, or is beyond what I can deliver well, I will say so before you spend anything.",
+    body: "If something is not worth automating, or is beyond what we can deliver well, we will say so before you spend anything.",
   },
 ];
 
@@ -178,8 +178,8 @@ function Index() {
 
               <Reveal delay={80}>
                 <p className="max-w-[520px] text-[1.05rem] text-muted-on-violet md:text-[1.15rem]">
-                  I build simple tools that help agencies and local businesses win more work, and when you
-                  need something more specific, I will sit down with you and work out the simplest fix.
+                  We build simple tools that help agencies and local businesses win more work, and when you
+                  need something more specific, we will sit down with you and work out the simplest fix.
                 </p>
                 <div className="mt-7 flex flex-wrap items-center gap-3">
                   <a href="#tools" className="pill-btn btn-white px-7 py-4 text-[1rem]">
@@ -189,7 +189,7 @@ function Index() {
                     href="#work-with-me"
                     className="pill-btn px-7 py-4 text-[1rem] text-white ring-1 ring-white/40 hover:bg-white/10"
                   >
-                    Work with me
+                    Work with us
                   </a>
                 </div>
               </Reveal>
@@ -220,18 +220,18 @@ function Index() {
           </div>
         </section>
 
-        {/* Work with me */}
+        {/* Work with us */}
         <section id="work-with-me" className="scroll-mt-[110px] bg-cream text-ink">
           <div className="container-page section-y">
             <Reveal className="mx-auto max-w-[760px] text-center">
-              <Eyebrow>Work with me</Eyebrow>
+              <Eyebrow>Work with us</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
                 Need something
                 <br />
                 <span className="text-violet">the tools do not cover?</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[620px] text-[18px] text-muted-paper">
-                Choose how much help you want, from a single review of one process to having me set it
+                Choose how much help you want, from a single review of one process to having us set it
                 up for you.
               </p>
             </Reveal>
@@ -265,16 +265,16 @@ function Index() {
               <a href="mailto:hello@quietcrew.ai" className="font-semibold text-violet underline underline-offset-4">
                 hello@quietcrew.ai
               </a>
-              , and I reply within one working day.
+              , and we reply within one working day.
             </p>
           </div>
         </section>
 
-        {/* How I work */}
+        {/* How we work */}
         <section id="how-i-work" className="on-violet violet-glow scroll-mt-[110px] text-white">
           <div className="container-page section-y">
             <Reveal className="mx-auto max-w-[780px] text-center">
-              <Eyebrow tone="violet">How I work</Eyebrow>
+              <Eyebrow tone="violet">How we work</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
                 Small on purpose,
                 <br />
@@ -300,7 +300,7 @@ function Index() {
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
                 Questions
                 <br />
-                <span className="text-violet">people ask me</span>
+                <span className="text-violet">people ask us</span>
               </h2>
             </Reveal>
             <Reveal className="mx-auto mt-10 max-w-[880px]">
@@ -329,13 +329,13 @@ function Index() {
               <Reveal>
                 <Eyebrow tone="violet">Get in touch</Eyebrow>
                 <h2 className="mt-5 text-[2rem] md:text-[3rem]">
-                  Tell me what is
+                  Tell us what is
                   <br />
                   <span className="text-peach">slowing you down.</span>
                 </h2>
                 <p className="mt-6 text-[16px] text-muted-on-violet">
-                  Describe the job that takes too long or the tool you are unsure about, and I will reply
-                  within one working day with an honest view of whether I can help and what it would cost.
+                  Describe the job that takes too long or the tool you are unsure about, and we will reply
+                  within one working day with an honest view of whether we can help and what it would cost.
                 </p>
                 <p className="mt-8 text-[15px] text-muted-on-violet">
                   Prefer email? Write to{" "}

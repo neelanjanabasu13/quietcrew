@@ -24,7 +24,7 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-3">
             <li>
               <a href="/#work-with-me" className="text-[15px] font-semibold text-white hover:text-peach">
-                Work with me
+                Work with us
               </a>
             </li>
             <li>

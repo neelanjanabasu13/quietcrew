@@ -202,7 +202,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
             </div>
           </div>
           <p className="mt-5 text-xs text-muted-foreground">One-off payment, no subscription.</p>
-          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">The detailed fix list is delivered digitally after payment, and sales are final, subject to your statutory rights. If something did not generate properly or you have a technical problem with your report, contact <a href="mailto:hello@quietcrew.ai" className="font-semibold underline underline-offset-4">hello@quietcrew.ai</a> and I will help you sort it out.</p>
+          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">The detailed fix list is delivered digitally after payment, and sales are final, subject to your statutory rights. If something did not generate properly or you have a technical problem with your report, contact <a href="mailto:hello@quietcrew.ai" className="font-semibold underline underline-offset-4">hello@quietcrew.ai</a> and we will help you sort it out.</p>
           {paymentMessage && <p role="status" className="mt-3 text-sm">{paymentMessage}</p>}
         </section>}
 
