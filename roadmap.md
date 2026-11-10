@@ -18,3 +18,12 @@
 - [x] Outshine PDF table page-break polish
 - [x] 1:1 consultation box (£100 per hour) in the booking section, email button, verified at 752px and 1280px
 - [x] Homepage rebuilt: personal hero, two tools with live demos, Work with me tiers (audit £99, consultation £100/hour, setup and builds on request), How I work, first-person FAQ and contact; menu, footer and enquiry form switched to "I/me"
+- [x] Site switched to company "we" voice; consultation repriced to £149 per hour (card, FAQ, structured data)
+- [x] Stale "free 30 minute Workflow Review" wording removed from the enquiry confirmation email, internal notification, terms, privacy and MCP tool descriptions
+
+# Still open
+- [ ] Stripe live: sandbox connected, but the go-live form, live app install and live keys are not done. Live checkout cannot work until they are.
+- [ ] One real test-card purchase: a £2.99 scan and the £9.99 Done-for-You Fix Pack, then confirm the unlock. Needs a manual preview purchase against a real scanned business.
+- [ ] Google Workspace mailbox for hello@quietcrew.ai: MX records at the domain provider. notify.quietcrew.ai is active for Lovable transactional email; the hello@ mailbox is separate.
+- [ ] Publish: the owner has not asked to publish.
+- [ ] More Outshine trades (needs an owner-approved trade list) and Goldmine UK cities (blocked: the Railway engine only supports London areas).
