@@ -63,8 +63,8 @@
       },
       {
         "name": "list_enquiries",
-        "title": "List Workflow Review enquiries",
-        "description": "List enquiries submitted through the Quietcrew Workflow Review form, newest first. Requires an administrator account.",
+        "title": "List enquiries",
+        "description": "List enquiries submitted through the Quietcrew enquiry form, newest first. Requires an administrator account.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
@@ -111,7 +111,7 @@
       {
         "name": "enquiry_stats",
         "title": "Summarise enquiries",
-        "description": "Count Workflow Review enquiries over a recent window and break them down by company size. Requires an administrator account.",
+        "description": "Count enquiries submitted through the Quietcrew enquiry form over a recent window and break them down by company size. Requires an administrator account.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,

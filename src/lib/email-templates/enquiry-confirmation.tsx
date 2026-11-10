@@ -32,8 +32,9 @@ export function EnquiryConfirmation({
             Thanks {name}, we have your enquiry.
           </Heading>
           <Text style={{ color: '#6B6880', fontSize: '16px', lineHeight: 1.6 }}>
-            We will read it properly and come back to you within one working day with a
-            time for your free 30 minute Workflow Review.
+            We will read it properly and reply within one working day with an honest view:
+            whether one of our ready-made tools already covers it, whether the £99 workflow
+            audit is the right next step, or whether you do not need us at all.
           </Text>
           {manualWork ? (
             <Section style={{ backgroundColor: '#EFEBFF', borderRadius: '14px', marginTop: '8px', padding: '18px 20px' }}>
@@ -46,7 +47,7 @@ export function EnquiryConfirmation({
             </Section>
           ) : null}
           <Text style={{ color: '#6B6880', fontSize: '16px', lineHeight: 1.6 }}>
-            In that call we map the process, tell you what could be automated, roughly what
+            If it looks like a fit, we will explain what the work involves, roughly what
             it would cost, and whether it is worth doing at all. If you would like to add
             anything before then, reply to this email.
           </Text>

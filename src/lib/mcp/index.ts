@@ -12,7 +12,7 @@ export default defineMcp({
   title: "Quietcrew",
   version: "0.1.0",
   instructions:
-    "Tools for the Quietcrew website. Use whoami to confirm the signed-in account and its role, list_enquiries to read Workflow Review enquiries, and enquiry_stats to summarise recent enquiries. Reading enquiries requires an administrator account.",
+    "Tools for the Quietcrew website. Use whoami to confirm the signed-in account and its role, list_enquiries to read enquiries submitted through the website form, and enquiry_stats to summarise recent enquiries. Reading enquiries requires an administrator account.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",

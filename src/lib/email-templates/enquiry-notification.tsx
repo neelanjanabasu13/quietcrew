@@ -32,11 +32,11 @@ export function EnquiryNotification({
   return (
     <Html lang="en-GB">
       <Head />
-      <Preview>New Workflow Review enquiry</Preview>
+      <Preview>New enquiry from a business on the Quietcrew site.</Preview>
       <Body style={{ backgroundColor: '#FAF5EF', fontFamily: 'Helvetica, Arial, sans-serif', margin: 0, padding: '32px 0' }}>
         <Container style={{ backgroundColor: '#FFFFFF', borderRadius: '20px', maxWidth: '560px', padding: '40px' }}>
           <Heading style={{ color: '#1A1633', fontSize: '22px', margin: 0 }}>
-            New Workflow Review enquiry
+            New enquiry
           </Heading>
           <Text style={rowLabel}>Name</Text>
           <Text style={rowValue}>{name}</Text>
@@ -58,7 +58,7 @@ export function EnquiryNotification({
 
 export const template = {
   component: EnquiryNotification,
-  subject: (data) => `New enquiry: ${data['company'] || 'Workflow Review'}`,
+  subject: (data) => `New enquiry: ${data['company'] || 'Quietcrew'}`,
   displayName: 'Enquiry notification (internal)',
   to: 'hello@quietcrew.ai',
   previewData: {
