@@ -270,7 +270,7 @@ function Index() {
                   <p className="mt-4 text-[16px] text-muted-paper">{t.body}</p>
                   <div className="mt-auto pt-7">
                     <a
-                      href={`mailto:hello@quietcrew.ai?subject=${encodeURIComponent(t.subject)}`}
+                      href={`mailto:sales@quietcrew.ai?subject=${encodeURIComponent(t.subject)}`}
                       className="pill-btn btn-primary-dark px-6 py-3 text-[15px]"
                     >
                       {t.cta}
@@ -281,8 +281,8 @@ function Index() {
             </div>
             <p className="mt-8 text-center text-[15px] text-muted-paper">
               Every button opens an email to{" "}
-              <a href="mailto:hello@quietcrew.ai" className="font-semibold text-violet underline underline-offset-4">
-                hello@quietcrew.ai
+              <a href="mailto:sales@quietcrew.ai" className="font-semibold text-violet underline underline-offset-4">
+                sales@quietcrew.ai
               </a>
               , and we reply within one working day.
             </p>
