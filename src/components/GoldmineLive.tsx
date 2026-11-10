@@ -416,6 +416,11 @@ export function GoldmineLive() {
         assistant checks for you, and nothing is sent to any business on your behalf.
       </p>
 
+      <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-violet-tint px-4 py-2 text-[13px] font-semibold text-violet">
+        <span aria-hidden="true">◎</span>
+        London only for now. Other cities are coming soon.
+      </p>
+
       <div className="mt-5 grid gap-4 md:grid-cols-2">
         <div>
           <label htmlFor="goldmine-locality" className="mono-label text-muted-paper">
@@ -442,7 +447,8 @@ export function GoldmineLive() {
             ))}
           </select>
           <p id="goldmine-locality-help" className="mt-2 text-[13px] text-muted-paper">
-            One London area, grouped by central, north, east, south and west.
+            One London area, grouped by central, north, east, south and west. Other cities are
+            coming soon.
           </p>
         </div>
 

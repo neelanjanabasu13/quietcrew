@@ -64,6 +64,10 @@ function Goldmine() {
                 actually say about them, and prepares the evidence and the first outreach drafts.
                 You decide whom to approach.
               </p>
+              <p className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[13px] font-semibold text-white ring-1 ring-white/20">
+                <span aria-hidden="true">◎</span>
+                London only for now. Other cities are coming soon.
+              </p>
             </Reveal>
 
             {/* Intake and live results, run through the server side engine layer */}
