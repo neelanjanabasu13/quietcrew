@@ -27,3 +27,6 @@
 - [ ] Google Workspace mailbox for hello@quietcrew.ai: MX records at the domain provider. notify.quietcrew.ai is active for Lovable transactional email; the hello@ mailbox is separate.
 - [ ] Publish: the owner has not asked to publish.
 - [ ] More Outshine trades (needs an owner-approved trade list) and Goldmine UK cities (blocked: the Railway engine only supports London areas).
+
+# Email routing
+- [x] Use sales for the three Work with us enquiries, support for Outshine report and checkout help, and keep hello for general contact and enquiry forms.
