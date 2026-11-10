@@ -4,9 +4,9 @@ import { supabaseForUser } from "../supabase";
 
 export default defineTool({
   name: "list_enquiries",
-  title: "List Workflow Review enquiries",
+  title: "List enquiries",
   description:
-    "List enquiries submitted through the Quietcrew Workflow Review form, newest first. Requires an administrator account.",
+    "List enquiries submitted through the Quietcrew enquiry form, newest first. Requires an administrator account.",
   inputSchema: {
     limit: z.number().int().min(1).max(100).default(20).describe("How many enquiries to return."),
     search: z

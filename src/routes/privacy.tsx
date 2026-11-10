@@ -57,7 +57,8 @@ function PrivacyPage() {
           <section>
             <h2 className="text-2xl">Why we use it</h2>
             <p className="mt-3">
-              We use enquiry details to respond to you, to prepare for a Workflow Review, and to keep a
+              We use enquiry details to respond to you, to prepare for any audit or consultation
+              that follows, and to keep a
               record of the conversation. Our lawful basis is legitimate interests (responding to a
               business enquiry you made) and, where a contract follows, performance of that contract.
             </p>

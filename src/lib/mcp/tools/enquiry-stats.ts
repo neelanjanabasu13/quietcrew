@@ -6,7 +6,7 @@ export default defineTool({
   name: "enquiry_stats",
   title: "Summarise enquiries",
   description:
-    "Count Workflow Review enquiries over a recent window and break them down by company size. Requires an administrator account.",
+    "Count enquiries submitted through the Quietcrew enquiry form over a recent window and break them down by company size. Requires an administrator account.",
   inputSchema: {
     days: z.number().int().min(1).max(365).default(30).describe("How many days back to include."),
   },

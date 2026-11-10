@@ -57,8 +57,8 @@ function TermsPage() {
           <section>
             <h2 className="text-2xl">Enquiries and bookings</h2>
             <p className="mt-3">
-              Submitting the enquiry form or booking a Workflow Review does not create a contract for
-              services. Any engagement is governed by a separate scope of work and a data processing
+              Submitting the enquiry form or booking a paid audit or consultation does not create a
+              contract for services. Any engagement is governed by a separate scope of work and a data processing
               agreement signed by both parties.
             </p>
           </section>
