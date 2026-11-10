@@ -29,7 +29,7 @@ const faqEntries: { q: string; a: string }[] = [
   },
   {
     q: "How much does it cost?",
-    a: "Goldmine is £49 per scan. The Outshine scan is free, and the Done-for-You Fix Pack is £9.99, reduced from £14.99. A Workflow Audit is £99, a 1:1 consultation is £100 per hour, and when we do the work for you it is priced on the outcome, which we agree with you before we start.",
+    a: "Goldmine is £49 per scan. The Outshine scan is free, and the Done-for-You Fix Pack is £9.99, reduced from £14.99. A Workflow Audit is £99, a 1:1 consultation is £149 per hour, and when we do the work for you it is priced on the outcome, which we agree with you before we start.",
   },
   {
     q: "What happens in a Workflow Audit?",
@@ -56,7 +56,7 @@ const serviceOfferings = [
     name: "1:1 Consultation",
     description:
       "An hour-long session on your software setup, the tools worth buying and small no-code builds.",
-    price: "100",
+    price: "149",
   },
 ];
 
@@ -120,7 +120,7 @@ const tiers = [
   {
     label: "1:1",
     title: "Consultation",
-    price: "£100 per hour",
+    price: "£149 per hour",
     body: "An hour with us on your software setup, the tools worth paying for and the ones you can cancel, or a small build you have in mind. You leave knowing exactly what to do next, and who can do it.",
     subject: "Consultation enquiry",
     cta: "Arrange a consultation",
