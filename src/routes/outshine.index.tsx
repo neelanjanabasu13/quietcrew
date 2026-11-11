@@ -285,10 +285,6 @@ function ChecksSection() {
         <h3 className="font-display text-xl font-bold">What the scan does not judge, and why</h3>
         <p className="mt-2 text-muted-foreground">Google does not share owner replies to reviews, the date order of reviews, your full photo count or your Google posts through its public data. Rather than guess and give you a wrong answer, the scan leaves these out and says so in your report.</p>
       </div>
-      <div className="mt-5 rounded-[20px] bg-card p-6 soft-shadow">
-        <h3 className="font-display text-xl font-bold">ChatGPT now lets you claim your business</h3>
-        <p className="mt-2 text-muted-foreground">Claiming it is the easy part, and we show you how in the Fix Pack. Whether ChatGPT and other AI tools recommend you over the business down the road still comes down to your reviews, photos, website and details, which is what Outshine checks and helps you fix.</p>
-      </div>
     </section>
   );
 }
