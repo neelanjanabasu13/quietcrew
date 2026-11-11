@@ -83,6 +83,11 @@ export function inspect(b: Business): Check[] {
       status: s.websiteCredential === true ? "pass" : s.websiteCredential === false ? "attention" : "unknown",
       detail: s.websiteCredential === true ? `Your website mentions ${t.credential}.` : s.websiteCredential === false ? `Your website does not mention ${t.credential}. ${t.credentialPlain}` : "We could not read a website to check this.",
     },
+    {
+      id: "chatgpt", group: "Trust", label: "Claimed in ChatGPT Business Hub",
+      status: "unknown",
+      detail: "We cannot see this from public data. ChatGPT now lets UK businesses claim their listing for free at chatgpt.com/business, which takes a few minutes and is worth doing.",
+    },
   );
   return checks;
 }

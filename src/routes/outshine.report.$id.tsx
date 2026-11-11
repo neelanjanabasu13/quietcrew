@@ -1,3 +1,4 @@
+import { ChatgptGuide } from "@/components/outshine/ChatgptGuide";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
@@ -178,6 +179,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
           <h2 className="text-xl font-semibold">Check again after making changes</h2>
           <p className="mt-2 text-sm text-muted-foreground">{loadedBusiness.scannedAt ? `Last checked ${new Date(loadedBusiness.scannedAt).toLocaleString("en-GB")}. ` : ""}Reopening this saved report does not use another scan. Apply your changes first, then give Google time to publish them before checking again.</p>
           <p className="mt-2 text-sm text-muted-foreground">{diy ? "Your Done-for-You Fix Pack includes one verification re-check for this business, if it has not already been used. " : ""}One guest scan is free, with three free scans total after signing in. Further scans cost £2.99 each, separate from the Done-for-You Fix Pack.</p>
+          <p className="mt-2 text-sm text-muted-foreground">If you have claimed your business in ChatGPT Business Hub, note its mention and click numbers before you make changes and again a few weeks later, so you can see whether the work paid off.</p>
           <Button asChild variant="outline" className="mt-4"><Link to="/outshine/scan/$id" params={{ id: loadedBusiness.id }} search={{ fresh: true }}>Re-check after my changes</Link></Button>
         </section>}
         <InspectionGrid b={b} />
@@ -271,7 +273,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
               <p className="text-sm"><span className="font-semibold">Your Done-for-You Fix Pack is unlocked.</span> <span className="text-muted-foreground">Download the full report and every guide as one searchable PDF with clickable contents.</span></p>
               <Button onClick={downloadDIY} disabled={pdfBusy}><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button>
             </div>
-            <div className="mt-8 space-y-10">{problems.map((f, i) => { const sop = pack.sops[f.id]; return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f} n={i + 1} sop={sop} />}</div>; })}</div>
+            <div className="mt-8 space-y-10">{problems.map((f, i) => { const sop = pack.sops[f.id]; return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f} n={i + 1} sop={sop} />}</div>; })}<ChatgptGuide b={b} /></div>
             </>
           ) : (
             <div className="relative mt-8">
