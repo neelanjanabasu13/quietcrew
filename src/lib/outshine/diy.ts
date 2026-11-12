@@ -278,6 +278,35 @@ function baseSop(f: Finding, trade: Trade, businessName: string): Sop {
   }
 }
 
+/**
+ * Bonus guide included in every Fix Pack: claiming the free ChatGPT business
+ * listing OpenAI is rolling out. Written honestly: availability is limited and
+ * the exact screens may change as OpenAI expands it.
+ */
+export function chatgptListingSop(businessName: string): Sop {
+  return {
+    goal: `Claim the free ChatGPT business listing for ${businessName}, so the details ChatGPT shows about you are ones you have approved.`,
+    time: "15 minutes, if the listing is available for your business",
+    youNeed: ["A free ChatGPT account", "Your business details exactly as they appear on your Google profile"],
+    steps: [
+      "Open ChatGPT and sign in. Business listings are rolling out gradually, starting in the United States, so the option may not be available for your business yet.",
+      "Search for your business by name and town, the way a customer would. If ChatGPT shows a listing or profile for your business, look for a 'Claim' or 'Is this your business?' option on it.",
+      "Follow the verification steps ChatGPT offers. It may ask you to confirm ownership by email, phone or another check.",
+      "Once claimed, check every field: name, address, phone, opening hours, website and services. Make each one match your Google Business Profile word for word.",
+      "If no claim option appears yet, do not force it. Keep your Google profile complete and accurate, because that is the public record AI tools learn from, and check again in a few weeks.",
+    ],
+    scripts: [],
+    proTips: [
+      "Consistency is the whole game. The name, address and phone number on your ChatGPT listing, Google profile and website should be identical, character for character.",
+      "Set a monthly reminder to search your own business name in ChatGPT and read what it says. Wrong details cost you calls you never hear about.",
+    ],
+    guardrails: [
+      "Claiming a listing is free. Never pay a third party that offers to get you listed on ChatGPT; nobody can sell you that.",
+      "Only claim a listing for a business you own or manage. Claiming a competitor's listing is fraud.",
+    ],
+  };
+}
+
 /** Short fallback used where only a quick step list is needed (e.g. downloads). */
 export function diyInstructions(f: Finding, trade: Trade): string[] {
   return sopFor(f, trade, "your business").steps;

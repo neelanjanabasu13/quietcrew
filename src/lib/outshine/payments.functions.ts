@@ -101,9 +101,9 @@ export const readDiyPurchase = createServerFn({ method: "POST" })
       } else return { pack: null };
       const business = purchase.business_snapshot as unknown as Business;
       const { evaluate, topProblems } = await import("./audit");
-      const { sopFor } = await import("./diy");
+      const { sopFor, chatgptListingSop } = await import("./diy");
       const { runAgent } = await import("./agent");
       const findings = topProblems(evaluate(business.trade, business.signals, business.name, true).filter(f => f.id !== "replies"), 5);
-      return { pack: { business, sops: Object.fromEntries(findings.map(f => [f.id, sopFor(f, business.trade, business.name)])), actions: Object.fromEntries(findings.map(f => [f.id, runAgent(f.fix, business).output])) } };
+      return { pack: { business, sops: { ...Object.fromEntries(findings.map(f => [f.id, sopFor(f, business.trade, business.name)])), "chatgpt-listing": chatgptListingSop(business.name) }, actions: Object.fromEntries(findings.map(f => [f.id, runAgent(f.fix, business).output])) } };
     } catch (error) { return { error: getStripeErrorMessage(error) }; }
   });

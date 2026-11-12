@@ -125,7 +125,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
         name: b.name, address: b.address, tradeLabel: TRADES[b.trade].label, trade: b.trade, grade,
         areas: areaList.filter((a) => areas[a] !== undefined).map((a) => ({ area: a, grade: gradeOf(areas[a] ?? 0) })),
         rivals: comps.map((c) => ({ name: c.name, grade: c.grade })),
-        findings: problems, sops: problems.flatMap((f) => { const sop = pack.sops[f.id]; return sop ? [sop] : []; }),
+        findings: problems, sops: [...problems.flatMap((f) => { const sop = pack.sops[f.id]; return sop ? [sop] : []; }), ...(pack.sops["chatgpt-listing"] ? [pack.sops["chatgpt-listing"]] : [])],
       });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -271,7 +271,9 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
               <p className="text-sm"><span className="font-semibold">Your Done-for-You Fix Pack is unlocked.</span> <span className="text-muted-foreground">Download the full report and every guide as one searchable PDF with clickable contents.</span></p>
               <Button onClick={downloadDIY} disabled={pdfBusy}><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button>
             </div>
-            <div className="mt-8 space-y-10">{problems.map((f, i) => { const sop = pack.sops[f.id]; return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f} n={i + 1} sop={sop} />}</div>; })}</div>
+            <div className="mt-8 space-y-10">{problems.map((f, i) => { const sop = pack.sops[f.id]; return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f} n={i + 1} sop={sop} />}</div>; })}
+              {pack.sops["chatgpt-listing"] && <SopCard f={{ id: "chatgpt-listing", area: "Profile", title: "Bonus: claim your free ChatGPT business listing", evidence: "", impact: "", before: "", after: "", fix: "description", score: 1, weight: 0 }} n={problems.length + 1} sop={pack.sops["chatgpt-listing"]} />}
+            </div>
             </>
           ) : (
             <div className="relative mt-8">
