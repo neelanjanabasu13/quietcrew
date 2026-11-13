@@ -2,7 +2,8 @@
 
 The work gets done in the background.
 
-Quietcrew is a UK firm that provides off-the-shelf business audits and practical workflow automation for service and agency businesses. We remove repetitive manual work by connecting existing software, automating steps between tools, and adding artificial intelligence only where it genuinely improves the process.
+Quietcrew is a UK firm that builds simple AI tools that help agencies and local businesses win more work. We also provide 1:1 custom audits and bespoke fixes depending on user needs.
+
 
 - **Primary website:** [quietcrew.ai](https://quietcrew.ai)
 - **Support and enquiries:** hello@quietcrew.ai
