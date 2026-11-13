@@ -87,6 +87,10 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
   }).sort((a, c) => c.score - a.score);
   // The seeded showcase lists every problem so judges see the website build and Gmail actions too.
   const problems = topProblems(b.live ? findings.filter((f) => f.id !== "replies") : findings, b.seeded ? 8 : 5);
+  const guides = pack ? uniqueFixes(problems, pack).flatMap((finding) => {
+    const sop = pack.sops[finding.id];
+    return sop ? [{ finding, sop }] : [];
+  }) : [];
   const [selected, setSelected] = useState<string[]>([]);
   const projected = projectFindings(findings, selected);
   const projectedScore = scoreOf(projected);
@@ -125,7 +129,9 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
         name: b.name, address: b.address, tradeLabel: TRADES[b.trade].label, trade: b.trade, grade,
         areas: areaList.filter((a) => areas[a] !== undefined).map((a) => ({ area: a, grade: gradeOf(areas[a] ?? 0) })),
         rivals: comps.map((c) => ({ name: c.name, grade: c.grade })),
-        findings: problems, sops: [...uniqueFixes(problems, pack).flatMap((f) => { const sop = pack.sops[f.id]; return sop ? [sop] : []; }), ...(pack.sops["chatgpt-listing"] ? [pack.sops["chatgpt-listing"]] : [])],
+        findings: problems,
+        guides,
+        bonusSop: pack.sops["chatgpt-listing"],
       });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -166,7 +172,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
               <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Your overall grade</p>
               <h2 className="mt-3 text-3xl font-semibold">{allClear ? "Nothing to fix in the public profile we can see." : grade === "A" ? "A strong profile, with room to stay ahead." : "A clearer path to a stronger profile."}</h2>
               <p className="mt-3 max-w-xl text-muted-foreground">Your grade is {grade}, based on {b.live ? "customer rating, review volume, the photo sample Google shares, website, opening hours and the credentials named on your own website" : "reputation, response, visuals, profile and credentials"}, weighted for {TRADES[b.trade].label.toLowerCase()}.</p>
-              {b.live && <p className="mt-3 max-w-xl text-xs text-muted-foreground">Public-profile grade, not a rating of service quality or a Google ranking. Every point comes from Google or your own website. Owner replies to reviews are not graded because Google does not publish them. We only show areas we can actually grade from this evidence.</p>}
+              {b.live && <p className="mt-3 max-w-xl text-xs text-muted-foreground">Public-profile grade, not a rating of service quality or a Google ranking. Every point comes from Google or your own website. Owner replies to reviews are not graded because the Places API does not provide them. We only show areas we can actually grade from this evidence.</p>}
             </div>
           </div>
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -271,8 +277,8 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
               <p className="text-sm"><span className="font-semibold">Your Done-for-You Fix Pack is unlocked.</span> <span className="text-muted-foreground">Download the full report and every guide as one searchable PDF with clickable contents.</span></p>
               <Button onClick={downloadDIY} disabled={pdfBusy}><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button>
             </div>
-            <div className="mt-8 space-y-10">{uniqueFixes(problems, pack).map((f, i) => { const sop = pack.sops[f.id]; return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f} n={i + 1} sop={sop} />}</div>; })}
-              {pack.sops["chatgpt-listing"] && <SopCard f={{ id: "chatgpt-listing", area: "Profile", title: "Bonus: claim your free ChatGPT business listing", evidence: "", impact: "", before: "", after: "", fix: "description", score: 1, weight: 0 }} n={uniqueFixes(problems, pack).length + 1} sop={pack.sops["chatgpt-listing"]} />}
+            <div className="mt-8 space-y-10">{guides.map(({ finding: f, sop }, i) => { return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f.fix === "review-request" ? { ...f, title: "Make it easy to leave a review" } : f} n={i + 1} sop={sop} />}</div>; })}
+              {pack.sops["chatgpt-listing"] && <SopCard f={{ id: "chatgpt-listing", area: "Profile", title: "Bonus: set up your ChatGPT business profile", evidence: "", impact: "", before: "", after: "", fix: "description", score: 1, weight: 0 }} n={guides.length + 1} sop={pack.sops["chatgpt-listing"]} />}
             </div>
             </>
           ) : (
@@ -335,8 +341,10 @@ function ProblemCard({ f, n, b, autoRun, showcase = false }: { f: Finding; n: nu
 /** Drops findings whose guide and ready-to-use output repeat one already shown, so a buyer never sees the same SOP twice. */
 function uniqueFixes(list: Finding[], pack: PaidPack): Finding[] {
   const seen = new Set<string>();
+  const ratingGuide = list.find((f) => f.id === "rating" && pack.sops[f.id]);
   return list.filter((f) => {
     const sop = pack.sops[f.id];
+    if (f.fix === "review-request" && ratingGuide && f.id !== ratingGuide.id) return false;
     const key = JSON.stringify([f.fix, sop?.steps ?? f.id, sop?.scripts ?? null, pack.actions[f.id] ?? ""]);
     if (seen.has(key)) return false;
     seen.add(key); return true;
@@ -382,7 +390,8 @@ function SopCard({ f, n, sop }: { f: Finding; n: number; sop: Sop }) {
       <ul className="mt-2 space-y-1 text-sm">{sop.youNeed.map((y) => <li key={y} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-grade-a" />{y}</li>)}</ul>
     </div>}
     {sop.rootCauses && <div className="mt-6">
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Fix the cause first</p>
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Common issues to look for</p>
+      <p className="mt-2 text-sm text-muted-foreground">These examples are general guidance for your trade. They are not findings from your reviews.</p>
       <div className="mt-2 grid gap-2 sm:grid-cols-2">{sop.rootCauses.map((c) => <div key={c.theme} className="rounded-lg bg-secondary p-3 text-sm"><p className="font-medium">{c.theme}</p><p className="mt-1 text-muted-foreground">{c.fix}</p></div>)}</div>
     </div>}
     <ol className="mt-6 space-y-3">
@@ -394,7 +403,7 @@ function SopCard({ f, n, sop }: { f: Finding; n: number; sop: Sop }) {
       <p className="mt-2 text-xs text-muted-foreground">{SCREEN_NOTE}</p>
     </div>}
     {sop.tools && <div className="mt-6">
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Popular no-code tools</p>
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Useful links</p>
       <div className="mt-2 grid gap-2 sm:grid-cols-2">{sop.tools.map((t) => <a key={t.name} href={t.url} target="_blank" rel="noopener noreferrer" className="flex items-start justify-between gap-2 rounded-lg border border-border p-3 text-sm hover:border-fix"><span><span className="font-medium">{t.name}</span><span className="block text-muted-foreground">{t.bestFor}</span></span><ArrowUpRight className="h-4 w-4 shrink-0" /></a>)}</div>
       <p className="mt-2 text-xs italic text-muted-foreground">{TOOLS_DISCLAIMER}</p>
     </div>}

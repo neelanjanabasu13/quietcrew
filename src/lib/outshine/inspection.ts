@@ -93,7 +93,7 @@ export const NOT_CHECKED = [
   { label: "How recent your newest review is", why: "Google only shares five reviews, picked by relevance rather than date." },
   { label: "Your full photo count", why: "Google only shares a sample of up to ten photos." },
   { label: "Google posts and updates", why: "Google does not share posts through its public data." },
-  { label: "Whether you have claimed your ChatGPT business listing", why: "ChatGPT does not share this publicly, so we cannot check it. Claiming is free inside ChatGPT and is rolling out gradually, starting in the US." },
+  { label: "Whether you have claimed your ChatGPT business listing", why: "ChatGPT does not share this publicly, so we cannot check it. Check profile eligibility in ChatGPT Business Hub." },
 ];
 
 export function checkSummary(checks: Check[]) {

@@ -1,6 +1,6 @@
 import { TRADES, type Finding, type Trade } from "./audit";
 import { PLAYBOOKS } from "./playbook";
-import { descriptionPrompt, NO_CODE_TOOLS, reviewPrompt, SCREENS, websitePrompt, type AiPrompt, type ToolLink, type UiScreen } from "./sop-visuals";
+import { AI_ASSISTANTS, descriptionPrompt, NO_CODE_TOOLS, reviewPrompt, SCREENS, websitePrompt, type AiPrompt, type ToolLink, type UiScreen } from "./sop-visuals";
 
 export interface Sop {
   /** What this SOP achieves, in one line. */
@@ -35,12 +35,22 @@ export interface Sop {
  * exact buttons and menus as they appear on google.com/business (also reachable
  * by searching your own business name on Google while signed in).
  */
-export function sopFor(f: Finding, trade: Trade, businessName: string): Sop {
+export function sopFor(f: Finding, trade: Trade, businessName: string, area?: string, directReviewLink?: string): Sop {
   const sop = sopCore(f, trade, businessName);
   const label = TRADES[trade].label;
   if (f.id === "credential") return { ...sop, screens: [SCREENS.description] };
   switch (f.fix) {
-    case "review-request": return { ...sop, screens: [SCREENS.askReviews, SCREENS.reviewLink], prompts: [reviewPrompt(businessName, label)] };
+    case "review-request": return {
+      ...sop,
+      steps: directReviewLink ? [`Open your review link using the Your review form link below. Check that it opens the right business before sharing it. The next steps show where to find the link in Google if you need it.`, ...sop.steps] : sop.steps,
+      screens: [SCREENS.askReviews, SCREENS.reviewLink],
+      tools: [
+        { name: "Google Business Profile", url: "https://business.google.com/", bestFor: "Find your review link" },
+        { name: "Canva QR generator", url: "https://www.canva.com/qr-code-generator/", bestFor: "Make a printable review card" },
+        ...(directReviewLink ? [{ name: "Your review form", url: directReviewLink, bestFor: "Test or share your review link" }] : []),
+      ],
+      prompts: [reviewPrompt(businessName, label, area)],
+    };
     case "review-replies": return { ...sop, screens: [SCREENS.replyReviews] };
     case "description": return { ...sop, screens: [SCREENS.description], prompts: [descriptionPrompt(businessName, label)] };
     case "photos": return { ...sop, screens: [SCREENS.photos] };
@@ -59,10 +69,10 @@ function sopCore(f: Finding, trade: Trade, businessName: string): Sop {
     case "review-request":
       return {
         ...base,
-        steps: [...base.steps.slice(0, 6), `Pick your asking moment. For ${t.label.toLowerCase()}, the best one is: ${p.askMoment}`, ...base.steps.slice(6)],
+        steps: base.steps,
         scripts: [...base.scripts, p.expectationScript],
         ...(f.id === "rating" ? { rootCauses: p.rootCauses } : {}),
-        proTips: [...base.proTips, ...(f.id === "rating" ? ["Fix the cause before chasing new reviews. More reviews only help once the complaint behind the low ones stops happening."] : [])],
+        proTips: [...base.proTips, ...(f.id === "rating" ? ["If a concern comes up repeatedly, check what you can change in the service itself."] : [])],
         guardrails: p.guardrails,
       };
     case "review-replies":
@@ -114,37 +124,32 @@ function baseSop(f: Finding, trade: Trade, businessName: string): Sop {
   switch (f.fix) {
     case "review-request":
       return {
-        goal: "Build a steady flow of genuine Google reviews from happy customers.",
+        goal: "People with a complaint may think to leave a review on their own. A short, optional invitation after every visit or job makes it easier for more customers to share their experience.",
         time: "30 minutes to set up, then 2 minutes per customer",
         youNeed: [
           "A Google account that manages your Business Profile",
           "A smartphone or computer with a browser",
-          "A free QR code generator (we recommend qr-code-generator.com or Canva's free QR tool)",
+          "A QR code generator, such as the Canva tool linked below",
         ],
         steps: [
           "Go to google.com/business and sign in with the Google account that manages your profile. If you have never claimed your profile, search your business name on Google and click 'Own this business?' to claim it first.",
           "On your profile dashboard, find and click the 'Ask for reviews' button (it may show as 'Share review form'). Google shows you a short link that goes straight to your review form.",
-          "Copy that link. This is the single most valuable link your business owns.",
-          "Open qr-code-generator.com in a new tab. Paste your review link into the URL box, choose a static QR code (free, never expires), and download it as a PNG.",
-          "Print the QR code. Put it on a small card you can hand over, on your invoices, and on a sign near where customers pay. Laminate one for your van or till.",
+          "Copy the link and open it on your phone. Check that it shows the right business before sharing it.",
+          "Open the Canva QR generator linked below. Paste your review link, download the code as a PNG and scan it with your phone before printing.",
+          "Print the QR code. Put it on a small card you can hand over, on your invoices, and on a sign near where customers pay. Choose a spot where people can scan it easily.",
           "Save the review link in your phone's notes app so you can text or WhatsApp it to customers in two taps.",
-          "Set a habit: every time a job finishes and the customer says something positive, that is your moment. Use the script below, word for word.",
+          "Make the invitation part of your regular follow-up, regardless of how the customer felt.",
           "Once a week, check your profile for new reviews and reply to every one (see the review replies SOP if you have it).",
         ],
         scripts: [
-          {
-            label: "Ask in person, right after the job",
-            text: `"I'm really glad you're happy with it. Would you mind scanning this code? It goes straight to our Google page and takes about a minute. It genuinely helps a small local business like ours."`,
-          },
-          {
-            label: "Follow-up text or WhatsApp (send within 24 hours)",
-            text: `Hi [name], thanks again for having us today. If you were happy with the work, a quick Google review would mean a lot: [paste your review link]. No worries at all if not, and thanks again!`,
-          },
+          { label: "In person with your QR card", text: "Thanks for choosing us. If you would like to leave an honest Google review, you can scan this whenever you have a minute." },
+          { label: "WhatsApp follow-up", text: `Hi [first name], thanks for choosing ${businessName}. If you have a minute, we would appreciate hearing about your experience: [review link]. Thanks, [your name].` },
+          { label: "Short text", text: `Thanks for choosing ${businessName}. If you would like to leave a Google review, here is the link: [review link].` },
         ],
         proTips: [
           "Never offer discounts, gifts or prizes for reviews. Google removes incentivised reviews and can suspend profiles.",
-          "Ask every happy customer, not just a few. A trickle of 2 to 4 reviews a month beats a burst of 20 in one week, which can look suspicious.",
-          "The best time to ask is the exact moment a customer compliments you. Have the card in your pocket.",
+          "Give everyone the same opportunity to leave an honest review.",
+          "Choose a consistent time, such as after the visit or when you send the final invoice.",
         ],
       };
     case "review-replies":
@@ -261,7 +266,8 @@ function baseSop(f: Finding, trade: Trade, businessName: string): Sop {
         time: "An afternoon, doing it yourself",
         youNeed: ["A Google account that manages your Business Profile"],
         steps: [
-          "Pick one of the no-code tools listed below (they are starting points, not the only options). The quickest route is to open Lovable, paste the ready-made prompt below with your details filled in, and let it build the page for you.",
+          "If you already have a website, check that the contact or booking link works on your phone. Then go straight to the step for linking your site from Google.",
+          "If you need a website, pick one of the no-code tools listed below (they are starting points, not the only options). The quickest route is to open Lovable, paste the ready-made prompt below with your details filled in, and let it build the page for you.",
           "Your page needs exactly five things, in this order: what you do and where, your services as a short list, genuine reviews, real photos, and a big tap-to-call phone button plus a contact form.",
           "Keep it to one page. Customers from Google want to check you are real and ring you, not read an essay.",
           `Only show qualifications you genuinely hold, such as ${t.credential}. ${t.credentialPlain}`,
@@ -283,26 +289,33 @@ function baseSop(f: Finding, trade: Trade, businessName: string): Sop {
  * listing OpenAI is rolling out. Written honestly: availability is limited and
  * the exact screens may change as OpenAI expands it.
  */
-export function chatgptListingSop(businessName: string): Sop {
+export function chatgptListingSop(businessName: string, area?: string): Sop {
+  const hub = { name: "Businesses in ChatGPT", url: "https://openai.com/business/businesses-in-chatgpt/", bestFor: "Check eligibility and open Business Hub" };
   return {
-    goal: `Claim the free ChatGPT business listing for ${businessName}, so the details ChatGPT shows about you are ones you have approved.`,
-    time: "15 minutes, if the listing is available for your business",
-    youNeed: ["A free ChatGPT account", "Your business details exactly as they appear on your Google profile"],
+    goal: "Give people checking your services, location or contact details a current source of information about your business.",
+    time: "Allow time for verification",
+    youNeed: ["Your official website, contact details and booking or enquiry link", "A list of confirmed services and opening hours"],
+    tools: [hub],
     steps: [
-      "Open ChatGPT and sign in. Business listings are rolling out gradually, starting in the United States, so the option may not be available for your business yet.",
-      "Search for your business by name and town, the way a customer would. If ChatGPT shows a listing or profile for your business, look for a 'Claim' or 'Is this your business?' option on it.",
-      "Follow the verification steps ChatGPT offers. It may ask you to confirm ownership by email, phone or another check.",
-      "Once claimed, check every field: name, address, phone, opening hours, website and services. Make each one match your Google Business Profile word for word.",
-      "If no claim option appears yet, do not force it. Keep your Google profile complete and accurate, because that is the public record AI tools learn from, and check again in a few weeks.",
+      `Open the Businesses in ChatGPT link below, select Claim your business and sign in. Search for ${businessName} and check the details before selecting it. Follow the verification steps if offered. If you cannot claim it yet, you can still prepare your details and run the checks below.`,
+      "Gather your public name, address or service area, hours, website, contact details and services. Test the links on your phone. Include prices or policies only if you can confirm them.",
+      "Use the prompt below to draft a description in your own voice. Check every detail, fill in the placeholders and submit the confirmed information in the fields available in Business Hub.",
+      "When the changes are public, check your profile and click the website or contact link. Ask an assistant one discovery question without your business name, one question about your business details, and one about a confirmed service. Save the question, answer and any source links.",
+      "If an answer is unclear, open any cited page to see what it actually says. Fix inaccurate or missing details on pages you control. After the fix is public, repeat the same question with the same assistant and search setting.",
     ],
     scripts: [],
+    prompts: [{
+      label: "Draft a profile in your own voice",
+      openIn: AI_ASSISTANTS,
+      text: `Write a business profile for ${businessName} in ${area || "[your area]"}. Confirmed facts: [services, hours, website and booking or enquiry link]. Audience: [who we help]. Voice: [paste an anonymised example or your saved voice note]. Boundaries: [words to avoid and any field length limit]. First summarise the voice and flag missing facts. Wait for me to confirm. Then draft three versions: a short introduction, a services-first description and a booking or enquiry-first description. Use British English and only the facts supplied. Leave unknown details in brackets.`,
+    }],
     proTips: [
-      "Consistency is the whole game. The name, address and phone number on your ChatGPT listing, Google profile and website should be identical, character for character.",
-      "Set a monthly reminder to search your own business name in ChatGPT and read what it says. Wrong details cost you calls you never hear about.",
+      "Ask questions a real customer would ask: Where can I find [confirmed service] in [area]? Where is [business name] and how do I contact them? Does [business name] offer [confirmed service]?",
+      "Check aggregated mentions, website clicks and discovery topics in Business Hub when available. Your before and after questions are spot checks. They cannot establish a ranking or prove what caused an answer to change.",
     ],
     guardrails: [
-      "Claiming a listing is free. Never pay a third party that offers to get you listed on ChatGPT; nobody can sell you that.",
-      "Only claim a listing for a business you own or manage. Claiming a competitor's listing is fraud.",
+      "Only claim a business you own or are authorised to represent. Claiming does not guarantee placement or recommendations.",
+      "Eligible UK businesses can check profile access. Business Agents are a separate feature, initially available to eligible US ecommerce and online service businesses.",
     ],
   };
 }
