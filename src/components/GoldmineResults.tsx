@@ -373,7 +373,7 @@ export function GoldmineResults() {
                   </div>
                   <div className="text-right">
                     <p className="text-[13px] text-muted-paper">Gold opportunity score</p>
-                    <p className="text-[22px] font-extrabold text-violet">{b.gold}</p>
+                    <p className="text-[22px] font-extrabold text-violet">{b.gold}<span className="text-[13px] font-semibold text-muted-paper"> / 100</span></p>
                   </div>
                 </div>
 

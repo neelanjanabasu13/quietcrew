@@ -623,7 +623,7 @@ export function GoldmineLive() {
                         </div>
                         <div className="text-right">
                           <p className="text-[13px] text-muted-paper">Gold opportunity score</p>
-                          <p className="text-[22px] font-extrabold text-violet">{b.gold}</p>
+                          <p className="text-[22px] font-extrabold text-violet">{b.gold}<span className="text-[13px] font-semibold text-muted-paper"> / 100</span></p>
                         </div>
                       </div>
 
@@ -758,7 +758,7 @@ export function GoldmineLive() {
                       </div>
                       <div className="grid h-24 w-24 shrink-0 place-items-center rounded-full bg-violet-tint text-center">
                         <div>
-                          <p className="text-[2rem] font-extrabold leading-none text-violet">{open.gold}</p>
+                          <p className="text-[2rem] font-extrabold leading-none text-violet">{open.gold}<span className="text-[0.9rem] font-semibold text-muted-paper">/100</span></p>
                           <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-paper">
                             Gold
                           </p>

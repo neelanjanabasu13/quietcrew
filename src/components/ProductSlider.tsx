@@ -32,7 +32,7 @@ const products: Product[] = [
     tilt: "md:-rotate-[2deg] md:hover:rotate-0",
     artefact: {
       title: "Prospect: a Camden bakery",
-      rows: [["Google rating", "4.8"], ["Named by assistants", "0 of 3"], ["Gold score", "86"]],
+      rows: [["Google rating", "4.8"], ["Named by assistants", "0 of 3"], ["Gold score", "86 / 100"]],
       foot: "Outreach draft ready to copy",
     },
   },
