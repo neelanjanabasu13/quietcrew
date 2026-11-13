@@ -7,7 +7,7 @@ export interface AgentRun { steps: string[]; output: string; }
 /** One active sentence per fix saying what Outshine does for the owner. */
 export const AGENT_ACTION: Record<FixKind, string> = {
   website: "We write the words for a simple one-page website, ready to paste into a free site builder.",
-  "review-request": "Our AI agent creates your review link and writes the messages that ask happy customers for reviews.",
+  "review-request": "Our AI agent creates your review link and writes the messages that ask customers for reviews.",
   "review-replies": "Our AI agent writes a personal reply to every unanswered review for you.",
   description: "Our AI agent writes your Google business description for you, with your services and credentials.",
   photos: "Our AI agent builds your photo shot list and writes captions with local keywords for you.",
@@ -45,7 +45,7 @@ export function runAgent(kind: FixKind, b: Business): AgentRun {
     case "review-request":
       return {
         steps: ["Creating your short review link", "Writing a friendly text to send after each job", "Writing a follow-up for people who don't reply"],
-        output: (() => { const link = reviewLink(b) ?? "[your Google review link]"; return `After the job:\nHi {name}, thanks for choosing ${b.name} today! If you were happy with the work, a quick Google review would mean the world to a small local business like ours: ${link}  Thanks, ${first}\n\nThree days later, if no review:\nHi {name}, just a gentle nudge in case you missed it. It only takes 30 seconds: ${link}  Thank you!`; })(),
+        output: (() => { const link = reviewLink(b) ?? "[your Google review link]"; return `After the job:\nHi {name}, thanks for choosing ${b.name} today! If you would like to share your experience, here is our Google review link: ${link}  Thanks, ${first}\n\nThree days later, if no review:\nHi {name}, just a gentle nudge in case you missed it. It only takes 30 seconds: ${link}  Thank you!`; })(),
       };
     case "photos":
       return {

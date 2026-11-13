@@ -24,13 +24,12 @@ export const AI_ASSISTANTS: ToolLink[] = [
   { name: "ChatGPT", url: "https://chatgpt.com", bestFor: "General writing and ideas" },
   { name: "Claude", url: "https://claude.ai", bestFor: "Longer, natural-sounding copy" },
   { name: "Gemini", url: "https://gemini.google.com", bestFor: "Works well with Google accounts" },
-  { name: "Perplexity", url: "https://www.perplexity.ai", bestFor: "Answers with sources, good for research" },
 ];
 
 export const NO_CODE_TOOLS: ToolLink[] = [
   { name: "Lovable", url: "https://lovable.dev", bestFor: "Describe your site in plain English and AI builds it" },
   { name: "Carrd", url: "https://carrd.co", bestFor: "Very simple, cheap one-page sites" },
-  { name: "Canva Websites", url: "https://www.canva.com/websites/", bestFor: "Drag-and-drop if you already use Canva" },
+  { name: "Canva Websites", url: "https://www.canva.com/website-builder/", bestFor: "Drag-and-drop if you already use Canva" },
   { name: "Google Sites", url: "https://sites.google.com", bestFor: "Free and basic, uses your Google account" },
 ];
 
@@ -129,10 +128,12 @@ The page needs, in this order: a headline saying what I do and where, a large ta
   };
 }
 
-export function reviewPrompt(businessName: string, tradeLabel: string): AiPrompt {
+export function reviewPrompt(businessName: string, tradeLabel: string, area?: string): AiPrompt {
   return {
     label: "Paste this into any AI assistant to personalise your review messages",
-    text: `I run ${businessName}, a ${tradeLabel.toLowerCase()} business in [your town], UK. Write three short, friendly WhatsApp messages (under 50 words each) asking a happy customer for a Google review after a [type of job]. Include the placeholder [review link]. Sound like a real local tradesperson, not a company. No incentives, no pressure.`,
+    text: `I run ${businessName}, a ${tradeLabel.toLowerCase()} business in ${area || "[town or service area]"}. My confirmed services: [services]. My tone and boundaries: [greeting, sign-off, phrases to use or avoid]. Here are two or three messages I have written: [paste examples after removing names, phone numbers and appointment details].
+
+Describe my voice and wait for me to confirm it. Then draft three genuine review invitations: one sentence for handing over a QR card, a WhatsApp message under 50 words, and a short SMS that names the business. Use [first name], [your name] and [review link] where appropriate. Invite honest feedback without pressure, incentives or a suggested rating. Do not assume how the customer felt. Give me a short voice note I can save and reuse.`,
     openIn: AI_ASSISTANTS,
   };
 }

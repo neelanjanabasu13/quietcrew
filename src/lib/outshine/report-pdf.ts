@@ -11,7 +11,8 @@ export interface PdfReportInput {
   areas: { area: string; grade: string }[];
   rivals: { name: string; grade: string }[];
   findings: Finding[];
-  sops: Sop[];
+  guides: { finding: Finding; sop: Sop }[];
+  bonusSop?: Sop | undefined;
 }
 
 type RGB = [number, number, number];
@@ -40,7 +41,11 @@ export async function buildReportPdf(r: PdfReportInput): Promise<Blob> {
   const para = (text: string, size = 9.5, color: RGB = ink, style: "normal" | "bold" | "italic" = "normal", indent = 0, after = 1.2) => {
     doc.setFont("helvetica", style); doc.setTextColor(...color);
     const ls = lines(text, size, CW - indent); const lh = size * 0.42;
-    for (const l of ls) { ensure(lh); doc.text(l, M + indent, y); y += lh; }
+    ls.forEach((l, i) => {
+      ensure(lh);
+      const options = i < ls.length - 1 ? { align: "justify" as const, maxWidth: CW - indent } : {};
+      doc.text(l, M + indent, y, options); y += lh;
+    });
     y += after;
   };
   const label = (text: string, color: RGB = accent) => { ensure(12); y += 2.5; para(text.toUpperCase(), 7.5, color, "bold", 0, 0.8); };
@@ -53,7 +58,7 @@ export async function buildReportPdf(r: PdfReportInput): Promise<Blob> {
   const numbered = (n: number, text: string) => {
     doc.setFont("helvetica", "normal"); doc.setTextColor(...ink);
     const ls = lines(text, 9.5, CW - 9); const lh = 4;
-    ensure(lh + 1);
+    ensure(ls.length * lh + 1);
     doc.setFillColor(...accent); doc.circle(M + 2.5, y - 1.3, 2.3, "F");
     doc.setFont("helvetica", "bold"); doc.setFontSize(7); doc.setTextColor(255, 255, 255); doc.text(String(n), M + 2.5, y - 0.3, { align: "center" });
     doc.setFont("helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(...ink);
@@ -133,13 +138,13 @@ export async function buildReportPdf(r: PdfReportInput): Promise<Blob> {
   let ax = M + 24;
   r.areas.forEach((a) => { doc.setFont("helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(...ink); doc.text(a.grade, ax, cardTop + 16); doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(...muted); doc.text(clean(a.area), ax, cardTop + 21); ax += Math.max(24, doc.getTextWidth(clean(a.area)) + 8); });
   y = cardTop + 32;
-  para("Your free diagnostic comes first, followed by a step-by-step guide for each finding. Guides show the exact screens to use, word-for-word scripts and ready-made AI prompts, written for someone doing this for the first time.", 9.5, muted, "normal", 0, 3);
+  para("See what we found, why it matters and how to act on it. Where findings share a fix, you will find one guide with the steps, diagrams and wording you need.", 9.5, muted, "normal", 0, 3);
 
   label("Contents");
   const tocPage = doc.getNumberOfPages();
   const tocY = y;
   const toc: { title: string; page: number; level: number }[] = [];
-  y += (r.sops.length + 1) * 5.5 + 3;
+  y += (r.guides.length + Number(Boolean(r.bonusSop)) + 1) * 5.5 + 3;
   const mark = (title: string, level = 0) => toc.push({ title, page: doc.getNumberOfPages(), level });
 
   // ---- Diagnostic (flows on) ----
@@ -154,37 +159,47 @@ export async function buildReportPdf(r: PdfReportInput): Promise<Blob> {
   r.findings.forEach((f, i) => { para(`${i + 1}. ${f.title}`, 10, ink, "bold", 0, 0.6); para(f.evidence, 9, muted, "normal", 4, 0.6); para(f.impact, 9, ink, "normal", 4, 2); });
 
   // ---- Guides (continuous) ----
-  r.sops.forEach((s, i) => {
-    const f = r.findings[i]!;
-    section(`Guide ${i + 1}: ${f.title}`, 1);
-    para(`GUIDE ${i + 1}  ·  ${f.area.toUpperCase()}  ·  ${s.time.toUpperCase()}`, 7.5, accent, "bold", 0, 1);
-    y += 3; para(f.title, 14, ink, "bold", 0, 1);
+  const renderGuide = (s: Sop, title: string, subtitle: string, tocTitle: string) => {
+    section(tocTitle, 1);
+    para(`${subtitle}  ·  ${s.time.toUpperCase()}`, 7.5, accent, "bold", 0, 1);
+    y += 3; para(title, 14, ink, "bold", 0, 1);
     para(s.goal, 9.5, muted, "normal", 0, 1);
     if (s.youNeed.length) { label("Before you start"); s.youNeed.forEach((x) => bullet(x)); }
-    if (s.rootCauses?.length) { label("Fix the cause first"); s.rootCauses.forEach((c) => { para(c.theme, 9.5, ink, "bold", 0, 0.3); para(c.fix, 9, muted, "normal", 0, 1.5); }); }
+    if (s.rootCauses?.length) { ensure(32); label("Common issues to look for"); para("These examples are general guidance for your trade. They are not findings from your reviews."); s.rootCauses.forEach((c) => { ensure(9 + lines(c.fix, 9, CW).length * 3.78); para(c.theme, 9.5, ink, "bold", 0, 0.3); para(c.fix, 9, muted, "normal", 0, 1.5); }); }
     label("Step by step");
     s.steps.forEach((st, j) => numbered(j + 1, st));
-    if (s.screens?.length) { label("What you will see"); screens(s.screens); }
+    if (s.screens?.length) { ensure(44); label("What you will see"); screens(s.screens); }
     if (s.shotList?.length) { label("Your five-shot photo set"); s.shotList.forEach((c) => { para(c.shot, 9.5, ink, "bold", 0, 0.3); para(c.how, 9, muted, "normal", 0, 1.5); }); }
     if (s.tools?.length) {
-      label("Popular no-code tools");
-      s.tools.forEach((t) => { ensure(5); doc.setFont("helvetica", "bold"); doc.setFontSize(9.5); doc.setTextColor(...accent); doc.textWithLink(t.name, M, y, { url: t.url }); doc.setFont("helvetica", "normal"); doc.setTextColor(...muted); doc.text(clean(`${t.bestFor}  ·  ${t.url.replace(/^https:\/\//, "")}`), M + 32, y); y += 4.8; });
+      label("Useful links");
+      s.tools.forEach((t) => {
+        ensure(10);
+        doc.setFont("helvetica", "bold"); doc.setFontSize(9.5); doc.setTextColor(...accent);
+        doc.textWithLink(t.name, M, y, { url: t.url });
+        y += 4.2;
+        para(t.bestFor, 8.5, muted, "normal", 0, 1.4);
+      });
       para(TOOLS_DISCLAIMER, 8, muted, "italic", 0, 2);
     }
-    if (s.prompts?.length) { label("Ready-made AI prompts"); s.prompts.forEach((p) => box(p.label, p.text, { links: p.openIn, footnote: `Fill in the [square brackets] first.${s.tools ? "" : " " + TOOLS_DISCLAIMER}` })); }
-    if (s.scripts.length) { label("Word-for-word scripts"); s.scripts.forEach((sc) => box(sc.label, sc.text)); }
+    if (s.prompts?.length) { ensure(23 + lines(s.prompts[0]!.text, 9, CW - 10).length * 3.9); label("Ready-made AI prompts"); s.prompts.forEach((p) => box(p.label, p.text, { links: p.openIn, footnote: `Fill in the [square brackets] first.${s.tools ? "" : " " + TOOLS_DISCLAIMER}` })); }
+    if (s.scripts.length) { ensure(21 + lines(s.scripts[0]!.text, 9, CW - 10).length * 3.9); label("Word-for-word scripts"); s.scripts.forEach((sc) => box(sc.label, sc.text)); }
     if (s.proTips.length) { label("Pro tips"); s.proTips.forEach((p) => bullet(p, muted)); }
     if (s.guardrails?.length) { label("Do not", [190, 40, 50]); s.guardrails.forEach((g) => bullet(g)); }
+  };
+  r.guides.forEach(({ finding, sop }, i) => {
+    const title = finding.fix === "review-request" ? "Make it easy to leave a review" : finding.title;
+    renderGuide(sop, title, `GUIDE ${i + 1}  ·  ${finding.area.toUpperCase()}`, `Guide ${i + 1}: ${title}`);
   });
+  if (r.bonusSop) renderGuide(r.bonusSop, "Set up your ChatGPT business profile", "BONUS GUIDE  ·  BUSINESS HUB", "Bonus: Set up your ChatGPT business profile");
 
   // ---- Fill contents ----
   doc.setPage(tocPage);
   let ty = tocY + 1;
   toc.forEach((t) => {
     doc.setFont("helvetica", t.level ? "normal" : "bold"); doc.setFontSize(9.5); doc.setTextColor(...ink);
-    const title = lines(t.title, 9.5, CW - 20)[0] ?? "";
+    const title = lines(t.title, 9.5, CW - 28)[0] ?? "";
     doc.textWithLink(title, M + t.level * 4, ty, { pageNumber: t.page });
-    doc.setTextColor(...muted); doc.text(String(t.page), W - M, ty, { align: "right" });
+    doc.setTextColor(...muted); doc.textWithLink(`Page ${t.page}`, W - M, ty, { align: "right", pageNumber: t.page });
     doc.outline.add(null, clean(t.title), { pageNumber: t.page });
     ty += 5.5;
   });
