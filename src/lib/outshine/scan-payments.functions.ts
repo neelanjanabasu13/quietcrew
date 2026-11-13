@@ -5,7 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
 import { SCAN_AMOUNT, SCAN_PRICE_ID } from "./scan-rules";
 import { resolveOrCreateCustomer } from "./payments.functions";
-const input = z.object({ businessId: z.string().regex(/^live\.(plumbing|electrician|cleaning|landscaping|salon)\.[A-Za-z0-9_-]+$/).max(400), environment: z.enum(["sandbox", "live"]) });
+const input = z.object({ businessId: z.string().regex(/^live\.(plumbing|electrician|cleaning|landscaping|salon)\.[A-Za-z0-9_-]+$/).max(400), environment: z.enum(["sandbox", "live"]), returnOrigin: z.string().url().max(200).refine(v => v.startsWith("https://") || v.startsWith("http://localhost"), "Invalid origin").optional() });
 export const createScanCheckout = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((d: unknown) => input.parse(d)).handler(async ({ data, context }) => {
   try {
     const stripe = createStripeClient(data.environment);
@@ -28,7 +28,7 @@ export const createScanCheckout = createServerFn({ method: "POST" }).middleware(
     }
     const { data: credit, error } = await db.from("outshine_scan_credits").insert({ user_id: context.userId, business_id: data.businessId, environment: data.environment }).select("id").single();
     if (error || !credit) throw error ?? new Error("Could not save the scan purchase.");
-    const origin = new URL(getRequestUrl()).origin;
+    const origin = data.returnOrigin ?? new URL(getRequestUrl()).origin;
     const session = await stripe.checkout.sessions.create({ mode: "payment", ui_mode: "embedded_page", customer, adaptive_pricing: { enabled: false }, line_items: [{ price: price.id, quantity: 1 }], return_url: `${origin}/outshine/scan/${encodeURIComponent(data.businessId)}?scan_payment={CHECKOUT_SESSION_ID}`, payment_intent_data: { description: product.name }, metadata: { outshineScanCreditId: credit.id, userId: context.userId, businessId: data.businessId, environment: data.environment } }, { idempotencyKey: `outshine-scan-${credit.id}` });
     const { error: saveError } = await db.from("outshine_scan_credits").update({ stripe_session_id: session.id }).eq("id", credit.id);
     if (saveError) throw saveError;

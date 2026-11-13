@@ -23,7 +23,7 @@ export function DiyCheckout({ businessId, open, onOpenChange }: { businessId: st
       setSignedIn(Boolean(data.session));
       if (!data.session) return;
       try {
-        const result = await create({ data: { businessId, environment: getStripeEnvironment() } });
+        const result = await create({ data: { businessId, environment: getStripeEnvironment(), returnOrigin: window.location.origin } });
         if ("error" in result) throw new Error(result.error);
         if (active) setClientSecret(result.clientSecret);
       } catch (e) { if (active) setError(e instanceof Error ? e.message : "Payment could not be opened."); }

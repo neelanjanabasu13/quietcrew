@@ -58,7 +58,7 @@ export function ScanGate({ id, fresh, paymentSession, onReady }: { id: string; f
   const buy = async () => {
     setStatus("checkout-loading"); setError(null);
     try {
-      const result = await checkout({ data: { businessId: id, environment: getStripeEnvironment() } });
+      const result = await checkout({ data: { businessId: id, environment: getStripeEnvironment(), returnOrigin: window.location.origin } });
       if ("error" in result) throw new Error(result.error);
       setClientSecret(result.clientSecret); setStatus("checkout");
     } catch (e) { setError(e instanceof Error ? e.message : "Checkout could not open."); setStatus("payment"); }
