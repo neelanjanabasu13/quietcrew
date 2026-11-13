@@ -7,7 +7,7 @@
 - [ ] Complete a test-card payment for a £2.99 scan and the £9.99 pack, then confirm the unlock. Blocked: needs a manual preview purchase with a real scanned business.
 - [ ] Publish. Blocked: the owner has not asked to publish.
 - [x] Homepage streamlined: Goldmine and Outshine cards first, sector cards and workflow examples removed. Priced bespoke services section deleted, bespoke work shown as "Price on request", Workflow Audit card restyled white with violet type.
-- [ ] P1/P2 items: DIY pack delivery checks, Goldmine scan progress feedback, booking calendar, UK-wide Goldmine, CSV export.
+- [x] Goldmine scan progress, CSV export, ChatGPT listing guide/check/FAQ done. Booking calendar dropped (email only). UK Goldmine blocked on engine.
 
 # Batch 2026-11-05
 - [x] Rename DIY pack to Done-for-You Fix Pack across Outshine
@@ -22,9 +22,9 @@
 - [x] Stale "free 30 minute Workflow Review" wording removed from the enquiry confirmation email, internal notification, terms, privacy and MCP tool descriptions
 
 # Still open
-- [ ] Stripe live: sandbox connected, but the go-live form, live app install and live keys are not done. Live checkout cannot work until they are.
+- [x] Stripe live: go-live checklist and readiness check complete.
 - [ ] One real test-card purchase: a £2.99 scan and the £9.99 Done-for-You Fix Pack, then confirm the unlock. Needs a manual preview purchase against a real scanned business.
-- [ ] Google Workspace mailbox for hello@quietcrew.ai: MX records at the domain provider. notify.quietcrew.ai is active for Lovable transactional email; the hello@ mailbox is separate.
+- [ ] Google Workspace mailbox for hello@quietcrew.ai: SPF, DKIM, DMARC live; owner must delete the five old aspmx MX records and keep only smtp.google.com. notify.quietcrew.ai is active for Lovable transactional email; the hello@ mailbox is separate.
 - [ ] Publish: the owner has not asked to publish.
 - [ ] More Outshine trades (needs an owner-approved trade list) and Goldmine UK cities (blocked: the Railway engine only supports London areas).
 
