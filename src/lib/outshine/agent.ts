@@ -6,7 +6,7 @@ export interface AgentRun { steps: string[]; output: string; }
 
 /** One active sentence per fix saying what Outshine does for the owner. */
 export const AGENT_ACTION: Record<FixKind, string> = {
-  website: "Our AI agent builds your website for you in one click, in under a minute.",
+  website: "We write the words for a simple one-page website, ready to paste into a free site builder.",
   "review-request": "Our AI agent creates your review link and writes the messages that ask happy customers for reviews.",
   "review-replies": "Our AI agent writes a personal reply to every unanswered review for you.",
   description: "Our AI agent writes your Google business description for you, with your services and credentials.",
@@ -54,8 +54,16 @@ export function runAgent(kind: FixKind, b: Business): AgentRun {
       };
     case "website":
       return {
-        steps: ["Pulling your photos, reviews and services", "Writing your page", "Adding click-to-call and a quote form", "Publishing to a live address"],
-        output: `Your website is live at outshine.lovable.app/site/${b.id}`,
+        steps: ["Pulling your services, area and rating", "Writing your page sections", "Adding your call-to-action"],
+        output: [
+          `Headline: ${t.label} in ${b.area} you can rely on`,
+          `Strapline: ${b.name}, rated ${b.signals.rating.toFixed(1)} stars by ${b.signals.reviewCount} local customers.`,
+          `Services:\n${b.services.slice(0, 6).map((x) => `- ${x}`).join("\n")}`,
+          `Why choose us: clear upfront quotes, tidy work and honest advice.${t.credential ? ` ${t.credential} in place.` : ""}`,
+          `Area covered: ${b.area} and nearby.`,
+          `Button: Call ${b.phone} for a free quote`,
+          `How to publish: paste these sections into a free one-page builder such as Carrd or Google Sites, publish it, then paste the address into the Website field of your Google profile.`,
+        ].join("\n\n"),
       };
   }
 }
@@ -73,7 +81,7 @@ export interface Handoff { created: string; you: string; why: string; }
 
 /** Honest split between what the agent finishes and the one step only the owner can take. */
 export const AGENT_HANDOFF: Record<FixKind, Handoff> = {
-  website: { created: "A live one-page website with your services, reviews and click-to-call, published at its own link.", you: "Paste the link into the Website field of your Google profile.", why: "Google only lets the signed-in owner edit the listing." },
+  website: { created: "Finished wording for a one-page website: headline, services, reasons to choose you and a call button.", you: "Paste it into a free builder such as Carrd or Google Sites, publish, then add the address to your Google profile.", why: "Google only lets the signed-in owner edit the listing." },
   "review-request": { created: "Your real Google review link, a printable QR counter card and two ready-to-send customer messages.", you: "Print the card and send the message to customers after each job.", why: "Texts must come from your own phone, and printing needs a printer." },
   "review-replies": { created: "A personal reply for every unanswered review, written in your voice.", you: "Paste each reply under its review on Google.", why: "Google only lets the listing owner reply to reviews." },
   description: { created: "A finished business description within Google's 750-character limit.", you: "Paste it into the Description box on your Google profile and save.", why: "Google only lets the signed-in owner edit the listing." },

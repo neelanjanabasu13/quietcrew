@@ -125,7 +125,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
         name: b.name, address: b.address, tradeLabel: TRADES[b.trade].label, trade: b.trade, grade,
         areas: areaList.filter((a) => areas[a] !== undefined).map((a) => ({ area: a, grade: gradeOf(areas[a] ?? 0) })),
         rivals: comps.map((c) => ({ name: c.name, grade: c.grade })),
-        findings: problems, sops: [...problems.flatMap((f) => { const sop = pack.sops[f.id]; return sop ? [sop] : []; }), ...(pack.sops["chatgpt-listing"] ? [pack.sops["chatgpt-listing"]] : [])],
+        findings: problems, sops: [...uniqueFixes(problems, pack).flatMap((f) => { const sop = pack.sops[f.id]; return sop ? [sop] : []; }), ...(pack.sops["chatgpt-listing"] ? [pack.sops["chatgpt-listing"]] : [])],
       });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -271,8 +271,8 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
               <p className="text-sm"><span className="font-semibold">Your Done-for-You Fix Pack is unlocked.</span> <span className="text-muted-foreground">Download the full report and every guide as one searchable PDF with clickable contents.</span></p>
               <Button onClick={downloadDIY} disabled={pdfBusy}><Download />{pdfBusy ? "Preparing PDF..." : "Download full PDF report"}</Button>
             </div>
-            <div className="mt-8 space-y-10">{problems.map((f, i) => { const sop = pack.sops[f.id]; return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f} n={i + 1} sop={sop} />}</div>; })}
-              {pack.sops["chatgpt-listing"] && <SopCard f={{ id: "chatgpt-listing", area: "Profile", title: "Bonus: claim your free ChatGPT business listing", evidence: "", impact: "", before: "", after: "", fix: "description", score: 1, weight: 0 }} n={problems.length + 1} sop={pack.sops["chatgpt-listing"]} />}
+            <div className="mt-8 space-y-10">{uniqueFixes(problems, pack).map((f, i) => { const sop = pack.sops[f.id]; return <div key={f.id} className="space-y-4">{!showcase && <DiyActions f={f} b={b} output={pack.actions[f.id] ?? ""} />}{sop && <SopCard f={f} n={i + 1} sop={sop} />}</div>; })}
+              {pack.sops["chatgpt-listing"] && <SopCard f={{ id: "chatgpt-listing", area: "Profile", title: "Bonus: claim your free ChatGPT business listing", evidence: "", impact: "", before: "", after: "", fix: "description", score: 1, weight: 0 }} n={uniqueFixes(problems, pack).length + 1} sop={pack.sops["chatgpt-listing"]} />}
             </div>
             </>
           ) : (
@@ -332,6 +332,17 @@ function ProblemCard({ f, n, b, autoRun, showcase = false }: { f: Finding; n: nu
   </article>;
 }
 
+/** Drops findings whose guide and ready-to-use output repeat one already shown, so a buyer never sees the same SOP twice. */
+function uniqueFixes(list: Finding[], pack: PaidPack): Finding[] {
+  const seen = new Set<string>();
+  return list.filter((f) => {
+    const sop = pack.sops[f.id];
+    const key = JSON.stringify([f.fix, sop?.steps ?? f.id, sop?.scripts ?? null, pack.actions[f.id] ?? ""]);
+    if (seen.has(key)) return false;
+    seen.add(key); return true;
+  });
+}
+
 /** DIY pack: the finished, ready-to-use fix with one-click actions, shown above the step-by-step guide. */
 function DiyActions({ f, b, output }: { f: Finding; b: Business; output: string }) {
   const [copied, setCopied] = useState(false);
@@ -343,13 +354,7 @@ function DiyActions({ f, b, output }: { f: Finding; b: Business; output: string 
   };
   return <div className="rounded-lg border border-fix bg-accent/50 p-6 text-accent-foreground md:p-8">
     <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-fix">Ready to use · {f.title}</p>
-    {false
-      ? <div className="mt-3"><p className="font-medium">Your one-page website is ready, built from your business details.</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            
-            <Button variant="outline" onClick={() => copyAndOpen(`${window.location.origin}/site/${b.id}`)}>{copied ? "Link copied ✓ Paste it on Google" : "Copy link and open Google"}<ArrowUpRight /></Button>
-          </div></div>
-      : <div className="mt-3"><pre className="max-h-72 overflow-auto whitespace-pre-wrap rounded-md bg-card p-4 font-sans text-sm text-card-foreground">{output}</pre>
+    {<div className="mt-3"><pre className="max-h-72 overflow-auto whitespace-pre-wrap rounded-md bg-card p-4 font-sans text-sm text-card-foreground">{output}</pre>
           <div className="mt-4 flex flex-wrap gap-2">
             <Button onClick={() => copyAndOpen(output)}>{copied ? "Copied ✓ Paste it on Google" : "Copy and open Google"}<ArrowUpRight /></Button>
             {f.fix === "review-request" && link && <Button variant="outline" onClick={() => downloadReviewFlyer({ name: b.name, phone: b.phone, link })}><Download />Download QR review card</Button>}
