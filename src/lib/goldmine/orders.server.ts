@@ -20,6 +20,7 @@ import {
 import { fixturePendingSnapshot } from "./fixtures";
 import { normaliseEngineRun, normaliseOutreach } from "./mapping";
 import type { ScanSnapshot } from "./types";
+import { opportunitySnapshot } from "./opportunities";
 
 /**
  * Who an order belongs to. A signed in agency owns it by user id; a visitor
@@ -327,6 +328,7 @@ export async function markOrderPaid(orderId: string, reference: string, provider
  * read from the page source either.
  */
 export function limitSnapshotForPreview(snapshot: ScanSnapshot): ScanSnapshot {
+  snapshot = opportunitySnapshot(snapshot);
   const total = snapshot.businesses.length;
   if (total <= FREE_PREVIEW_COUNT) return { ...snapshot, lockedCount: 0 };
   return {

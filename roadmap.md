@@ -1,5 +1,7 @@
 # Outshine launch safeguards
 
+- [x] Goldmine: filter completed zero-score prospects before preview/payment counts, explain low-yield searches and offer area selection without automatically starting another scan.
+
 - [x] P0.1: One guest scan, three free scans total per account (guest scan included), enforced in the database.
 - [x] P0.2: Saved reports reopen for 48 hours without another scan; fresh re-checks need confirmation after changes.
 - [x] P0.3: Extra scans cost £2.99 each (test product created), separate from the £9.99 DIY pack; each paid pack includes one same-business verification re-check.

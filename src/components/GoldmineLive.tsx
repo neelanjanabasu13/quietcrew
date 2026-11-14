@@ -20,6 +20,8 @@ import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
 import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 import { GoldmineContrast } from "@/components/GoldmineContrast";
 import { businessesToCsv } from "@/lib/goldmine/csv";
+import { nearbyAreas, opportunitySnapshot } from "@/lib/goldmine/opportunities";
+import { Button } from "@/components/ui/button";
 
 const LAST_ORDER_KEY = "goldmine.lastOrder";
 import { PROVIDERS, type ProviderCheck, type ProviderName, type ScanSnapshot } from "@/lib/goldmine/types";
@@ -392,16 +394,17 @@ export function GoldmineLive() {
     }
   }
 
+  const opportunities = snapshot ? opportunitySnapshot(snapshot).businesses : [];
   const visibleBusinesses = unlocked
-    ? (snapshot?.businesses ?? [])
-    : (snapshot?.businesses ?? []).slice(0, FREE_PREVIEW_COUNT);
+    ? opportunities
+    : opportunities.slice(0, FREE_PREVIEW_COUNT);
   // Held back businesses are counted by the server for a visitor, because
   // their details are never sent to the browser in the first place.
   const lockedCount =
-    (snapshot?.lockedCount ?? 0) + (snapshot?.businesses.length ?? 0) - visibleBusinesses.length;
+    (snapshot?.lockedCount ?? 0) + opportunities.length - visibleBusinesses.length;
   // Rows already drawn from businesses the browser holds, and how many
   // placeholder rows the rest needs, so the paid scan reads at full size.
-  const lockedRows = (snapshot?.businesses.length ?? 0) - visibleBusinesses.length;
+  const lockedRows = opportunities.length - visibleBusinesses.length;
   const placeholderCount = Math.max(
     0,
     Math.min(lockedCount - lockedRows, LOCKED_PLACEHOLDER_ROWS),
@@ -409,6 +412,8 @@ export function GoldmineLive() {
   const scanTotal = visibleBusinesses.length + lockedCount;
   const open = visibleBusinesses.find((b) => b.id === openId) ?? null;
   const openDrafts = openId ? draftState[openId] : undefined;
+  const lowYield = snapshot?.status === "completed" && scanTotal <= FREE_PREVIEW_COUNT;
+  const suggestions = snapshot ? nearbyAreas(snapshot.locality, localityGroups) : [];
 
 
   return (
@@ -580,7 +585,7 @@ export function GoldmineLive() {
                 Download as CSV
               </button>
               <span className="text-[14px] text-muted-paper">
-                {unlocked ? "Every business in this scan, ready for your CRM or a spreadsheet." : "Includes the businesses you can see. Unlock the scan to export the full list."}
+                {unlocked || lockedCount === 0 ? "Includes all prospects shown in this scan." : "Includes the businesses you can see. Unlock the scan to export the full list."}
               </span>
             </div>
           ) : null}
@@ -592,15 +597,44 @@ export function GoldmineLive() {
             training rather than from a live search of the web.
           </p>
 
-          {snapshot.businesses.length === 0 ? (
+          {lowYield ? (
+            <section className="mt-6 rounded-[20px] bg-violet-tint p-5 sm:p-6" aria-labelledby="goldmine-low-yield">
+              <h3 id="goldmine-low-yield" className="text-[1.2rem] text-ink">
+                {scanTotal === 0
+                  ? `No positive-score prospects found in ${snapshot.locality}`
+                  : `Only ${scanTotal === 1 ? "one prospect" : "two prospects"} found in ${snapshot.locality}`}
+              </h3>
+              <p className="mt-3 text-[15px] text-muted-paper">
+                {scanTotal === 0
+                  ? "This completed scan did not return a business with a Gold opportunity score above zero. This does not prove there is no opportunity, especially where assistant checks were unavailable."
+                  : "All positive-score prospects from this scan are included in your free preview, so there is nothing more to unlock for £49."}
+                {" "}Try another area for {snapshot.category}. These suggestions are alternatives, not a prediction of better results.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2" aria-label="Alternative areas">
+                {suggestions.map((area) => (
+                  <Button key={area} type="button" variant="secondary" className="h-auto whitespace-normal rounded-full px-4 py-2 text-[14px]" onClick={() => {
+                    setLocality(area);
+                    setCategory(snapshot.category);
+                    document.getElementById("goldmine-locality")?.focus();
+                    document.getElementById("goldmine-locality")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "center" });
+                  }}>
+                    Choose {area}
+                  </Button>
+                ))}
+              </div>
+              <p className="mt-3 text-[13px] text-muted-paper">Choosing an area only updates the search. Press Run the free preview when you are ready.</p>
+            </section>
+          ) : null}
+
+          {opportunities.length === 0 ? (
+            lowYield ? null :
             <p className="mt-6 rounded-[16px] bg-cream p-4 text-[15px] text-muted-paper">
-              No businesses came back for this run. Nothing was found rather than hidden, and the
-              message above says what the engine reported.
+              {snapshot.status === "pending" || snapshot.status === "partial" ? "Discovery and assistant checks are still running. This is not a final result." : "No businesses came back for this run. The message above says what the engine reported."}
             </p>
           ) : (
             <div className="mt-6">
               <ul className={open ? "hidden" : "grid gap-4 md:grid-cols-2"}>
-                {snapshot.businesses.map((b, index) => {
+                {opportunities.map((b, index) => {
                   const locked = !unlocked && index >= FREE_PREVIEW_COUNT;
                   const pending = PROVIDERS.filter((p) => b.providers[p].status === "pending").length;
                   const isOpen = openId === b.id;
@@ -669,7 +703,7 @@ export function GoldmineLive() {
                     ))
                   : null}
 
-                {lockedCount > 0 ? (
+                {lockedCount > 0 && snapshot.status === "completed" ? (
                   <li className="rounded-[20px] bg-violet-deep p-6 text-white soft-shadow-lg md:col-span-2">
                     <p className="eyebrow-on-violet self-start text-[12px] font-semibold uppercase tracking-[0.12em] text-peach">
                       Full scan

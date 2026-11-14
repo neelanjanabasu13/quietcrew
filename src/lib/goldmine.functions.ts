@@ -10,6 +10,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { canUnlockOpportunities, opportunitySnapshot } from "./goldmine/opportunities";
 
 const orderIdSchema = z.object({ orderId: z.string().uuid() });
 
@@ -51,7 +52,7 @@ export const createGoldmineOrder = createServerFn({ method: "POST" })
 async function gateForPayment(orderId: string, userId: string, snapshot: import("./goldmine/types").ScanSnapshot) {
   const { loadOwnedOrder, limitSnapshotForPreview } = await import("./goldmine/orders.server");
   const order = await loadOwnedOrder(orderId, { userId });
-  if (order?.payment_status === "paid") return { ...snapshot, lockedCount: 0, paid: true };
+  if (order?.payment_status === "paid") return { ...opportunitySnapshot(snapshot), lockedCount: 0, paid: true };
   return { ...limitSnapshotForPreview(snapshot), paid: false };
 }
 
@@ -115,10 +116,14 @@ export const createGoldmineCheckout = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }): Promise<{ clientSecret: string } | { error: string }> => {
-    const { loadOwnedOrder } = await import("./goldmine/orders.server");
+    const { loadOwnedOrder, readScanForOrder } = await import("./goldmine/orders.server");
     const order = await loadOwnedOrder(data.orderId, { userId: context.userId });
     if (!order) return { error: "That scan was not found in your account." };
     if (order.payment_status === "paid") return { error: "This scan is already unlocked." };
+    const snapshot = await readScanForOrder(data.orderId, { userId: context.userId });
+    if (!canUnlockOpportunities(snapshot)) {
+      return { error: "There are no completed prospects beyond your free preview to unlock. Please try another area." };
+    }
     const { createStripeClient, getStripeErrorMessage } = await import("./stripe.server");
     try {
       const stripe = createStripeClient(data.environment);
