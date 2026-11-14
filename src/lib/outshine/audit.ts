@@ -24,6 +24,7 @@ export interface Signals {
   /** Live only: photos in Google's public feed uploaded by the business itself. */
   ownerPhotos?: number;
   /** Live only: whether the business's own website names a trade credential. null when there is no readable website. */
+  websiteNextStep?: boolean | null;
   websiteCredential?: boolean | null;
 }
 
@@ -187,7 +188,7 @@ function evaluatePublic(trade: Trade, s: Signals): Finding[] {
     { id: "photos", area: "Visuals", fix: "photos", weight: t.weights.Visuals / 2, score: clamp(s.photoCount / photosTarget),
       title: "Make your work easier to see", evidence: `${s.photoCount} photos returned by Google, which exposes up to ten, not the full gallery. This check targets ${photosTarget} visible photos; their dates and quality are not graded.`, impact: `Useful photos of ${t.expectedPhotos} help customers inspect your work.`, before: `${s.photoCount} photos available in the public feed`, after: `Add useful photos of ${t.expectedPhotos}` },
     { id: "website", area: "Profile", fix: "website", weight: t.weights.Profile / 4, score: s.hasWebsite ? 1 : 0,
-      title: s.hasWebsite ? "Your website is linked" : "No website linked to your profile", evidence: s.hasWebsite ? "Google returns a website link." : "Google returns no website link.", impact: "A website gives customers somewhere to learn more before contacting you.", before: s.hasWebsite ? "Website linked" : "No website link returned", after: s.hasWebsite ? "Your website stays linked from your Google profile" : "The Done-for-You Fix Pack provides finished website copy, structure and click-by-click instructions, ready to paste into a site builder" },
+      title: s.hasWebsite ? "Your website is linked" : "No website linked to your profile", evidence: s.hasWebsite ? (s.websiteNextStep === true ? "Google returns a website link, and the linked page contains a contact, call or booking link." : "Google returns a website link.") : "Google returns no website link.", impact: "A website gives customers somewhere to learn more before contacting you.", before: s.hasWebsite ? "Website linked" : "No website link returned", after: s.hasWebsite ? "Your website stays linked from your Google profile" : "The Done-for-You Fix Pack provides finished website copy, structure and click-by-click instructions, ready to paste into a site builder" },
     { id: "hours", area: "Profile", fix: "description", weight: t.weights.Profile / 4, score: s.hasHours ? 1 : 0,
       title: s.hasHours ? "Your opening hours are available" : "Your opening hours are not available", evidence: s.hasHours ? "Google returns regular opening hours." : "Google returns no regular opening hours; confirm whether hours apply to your business.", impact: "Clear availability helps customers decide when to contact you.", before: s.hasHours ? "Opening hours available" : "No regular opening hours returned", after: "Accurate opening hours for your business" },
     ...(s.websiteCredential == null ? [] : [{ id: "credential", area: "Credentials" as Area, fix: "description" as FixKind, weight: t.weights.Credentials, score: s.websiteCredential ? 1 : 0,

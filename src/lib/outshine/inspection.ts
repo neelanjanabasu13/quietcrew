@@ -63,6 +63,13 @@ export function inspect(b: Business): Check[] {
       status: s.hasWebsite ? "pass" : "critical",
       detail: s.hasWebsite ? "A website is linked from your Google profile." : "There is no website on your Google profile, so people who want to check you out go elsewhere.",
     },
+    ...(b.live && s.hasWebsite ? [{
+      id: "website-next-step", group: "Profile basics" as const, label: "Can customers call, book or enquire?",
+      status: s.websiteNextStep === true ? "pass" as const : "unknown" as const,
+      detail: s.websiteNextStep === true
+        ? "The page linked from your Google profile contains a contact, call or booking link. Open it on your phone to check that it works."
+        : "We could not confirm a contact, call or booking link on the linked page. Open the website from your Google profile on your phone and try the action a customer would take.",
+    }] : []),
     {
       id: "hours", group: "Profile basics", label: "Opening hours",
       status: s.hasHours ? "pass" : "attention",

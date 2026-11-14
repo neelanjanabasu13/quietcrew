@@ -84,9 +84,7 @@ function Home() {
         <section className="mx-auto grid max-w-6xl items-center gap-14 px-5 pb-20 pt-8 md:pt-14 lg:grid-cols-[1.15fr_1fr] [&>*]:min-w-0">
         <div className="min-w-0">
           <h1 className="animate-rise font-display text-4xl font-extrabold leading-[0.95] sm:text-5xl md:text-6xl">
-            Make your business{" "}
-            <Shine halo>outshine</Shine>{" "}
-            every rival down the road.
+            Free <Shine halo>Google Business Profile</Shine> audit
           </h1>
           <p className="animate-rise mt-6 max-w-xl text-lg text-muted-foreground">
             Type your business name and we will grade your public profile against the three closest rivals in your trade.

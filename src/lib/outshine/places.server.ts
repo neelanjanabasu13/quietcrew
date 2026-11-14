@@ -1,3 +1,4 @@
+import { websiteNextStep } from "./website-check";
 // Live Google Places (New) lookups, mapped into the same Business shape the sample data uses.
 import { TRADES, type Signals, type Trade } from "./audit";
 import type { Business } from "./sample";
@@ -87,15 +88,20 @@ const FIELDS = "currentOpeningHours,id,displayName,formattedAddress,shortFormatt
 const RIVAL_FIELDS = "id,displayName,formattedAddress,location,rating,userRatingCount,photos,websiteUri,regularOpeningHours,types";
 const detailCache = new Map<string, { at: number; value: Business }>();
 
-/** Reads the business's own homepage and checks it for trade credentials. null when no website can be read. */
-async function websiteCredential(url: string | undefined, trade: Trade, timeoutMs = 5000): Promise<boolean | null> {
-  if (!url) return null;
+/** Reuse the existing website read for the credentials and customer-action checks. */
+async function readWebsite(url: string | undefined, trade: Trade, timeoutMs = 5000) {
+  const unknown = { credential: null, nextStep: null };
+  if (!url) return unknown;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs), headers: { "User-Agent": "Mozilla/5.0 (compatible; Outshine audit)" }, redirect: "follow" });
-    if (!res.ok) return null;
-    const html = (await res.text()).slice(0, 400_000).replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, " ");
-    return CREDENTIAL_WORDS[trade].test(html);
-  } catch { return null; }
+    if (!res.ok || !res.headers.get("content-type")?.includes("text/html")) return unknown;
+    const html = (await res.text()).slice(0, 400_000).replace(/<!--[^]*?-->|<script[^]*?<\/script>|<style[^]*?<\/style>/gi, " ");
+    return { credential: CREDENTIAL_WORDS[trade].test(html), nextStep: websiteNextStep(html) };
+  } catch { return unknown; }
+}
+
+async function websiteCredential(url: string | undefined, trade: Trade, timeoutMs = 5000) {
+  return (await readWebsite(url, trade, timeoutMs)).credential;
 }
 
 function toSignals(p: any, trade: Trade, credential: boolean | null = null): Signals {
@@ -139,7 +145,7 @@ async function liveUncached(id: string, trade: Trade, placeId: string, includeCo
   const p = (await res.json()) as any;
   const town = (p.addressComponents ?? []).find((c: any) => c.types?.includes("postal_town") || c.types?.includes("locality"))?.longText;
 
-  const ownCredential = websiteCredential(p.websiteUri, trade);
+  const ownWebsite = readWebsite(p.websiteUri, trade);
   let competitors: Business["competitors"] = [];
   if (p.location && includeCompetitors) {
     const near = await post("places:searchText", {
@@ -156,12 +162,13 @@ async function liveUncached(id: string, trade: Trade, placeId: string, includeCo
     }));
   }
 
+  const website = await ownWebsite;
   return {
     id, name: p.displayName?.text ?? "Your business", trade,
     location: p.location,
     address: p.formattedAddress ?? "", area: town ?? p.shortFormattedAddress ?? "your area",
     phone: p.nationalPhoneNumber ?? "",
-    signals: toSignals(p, trade, await ownCredential),
+    signals: { ...toSignals(p, trade, website.credential), websiteNextStep: website.nextStep },
     services: DEFAULT_SERVICES[trade],
     // Review text is an Atmosphere field (top price tier), so it is never requested.
     reviews: [],
