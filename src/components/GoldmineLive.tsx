@@ -579,10 +579,82 @@ export function GoldmineLive() {
             </p>
           ) : null}
 
+          {!unlocked && (snapshot.status === "pending" || snapshot.status === "partial") ? (
+            <p className="mt-4 text-[15px] font-semibold text-ink">Full scan · £49. Available once the scan finishes.</p>
+          ) : null}
+          {lockedCount > 0 && snapshot.status === "completed" ? (
+                  <div className="mt-4 rounded-[20px] bg-violet-deep p-6 text-white soft-shadow-lg md:col-span-2">
+                    <p className="eyebrow-on-violet self-start text-[12px] font-semibold uppercase tracking-[0.12em] text-peach">
+                      Full scan
+                    </p>
+                    <h3 className="mt-3 text-[1.35rem] text-white">
+                      {lockedCount === 1
+                        ? "One more business in this area"
+                        : `${lockedCount} more businesses in this area`}
+                    </h3>
+                    <p className="mt-3 text-[15px] text-muted-on-violet">
+                      The first two results are open so you can judge the quality. The rest of the
+                      list, with every reputation figure, each assistant check and the outreach draft
+                      for each business, comes with the full scan at £49.
+                    </p>
+                    {signedIn === false ? (
+                      <>
+                        <div className="mt-5 flex flex-wrap gap-3">
+                          <a
+                            href="/login?next=/goldmine&mode=signup"
+                            className="pill-btn inline-flex bg-white px-6 py-3 text-[15px] font-semibold text-ink"
+                          >
+                            Unlock full scan · £49
+                          </a>
+                          <a
+                            href="/login?next=/goldmine&mode=signin"
+                            className="pill-btn inline-flex px-6 py-3 text-[15px] font-semibold text-white ring-1 ring-white/40"
+                          >
+                            I already have an account
+                          </a>
+                        </div>
+                        <p className="mt-3 text-[14px] text-muted-on-violet">
+                          An account is needed for the full scan, so the purchase is recorded and
+                          billed to you and the results stay yours. Your preview comes with you
+                          when you sign in.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        {checkoutOpen ? (
+                          <div className="mt-5 overflow-hidden rounded-[20px] bg-white">
+                            <EmbeddedCheckoutProvider stripe={getStripe()} options={{ fetchClientSecret }}>
+                              <EmbeddedCheckout />
+                            </EmbeddedCheckoutProvider>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCheckoutError(null);
+                              setCheckoutOpen(true);
+                            }}
+                            className="pill-btn mt-5 bg-white px-6 py-3 text-[15px] font-semibold text-ink"
+                          >
+                            Unlock full scan · £49
+                          </button>
+                        )}
+                        {checkoutError ? (
+                          <p role="alert" className="mt-3 text-[14px] text-peach">{checkoutError}</p>
+                        ) : null}
+                        <p className="mt-3 text-[14px] text-muted-on-violet">
+                          One payment of £49 unlocks every business in this scan, and the results
+                          stay in your account.
+                        </p>
+                      </>
+                    )}
+                  </div>
+                ) : null}
+
           {visibleBusinesses.length > 0 ? (
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <button type="button" onClick={() => downloadCsv(snapshot, visibleBusinesses)} className="rounded-full bg-violet-deep px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-violet-deeper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet">
-                Download as CSV
+                {unlocked ? "Download full CSV" : "Download preview CSV"}
               </button>
               <span className="text-[14px] text-muted-paper">
                 {unlocked || lockedCount === 0 ? "Includes all prospects shown in this scan." : "Includes the businesses you can see. Unlock the scan to export the full list."}
@@ -703,74 +775,7 @@ export function GoldmineLive() {
                     ))
                   : null}
 
-                {lockedCount > 0 && snapshot.status === "completed" ? (
-                  <li className="rounded-[20px] bg-violet-deep p-6 text-white soft-shadow-lg md:col-span-2">
-                    <p className="eyebrow-on-violet self-start text-[12px] font-semibold uppercase tracking-[0.12em] text-peach">
-                      Full scan
-                    </p>
-                    <h3 className="mt-3 text-[1.35rem] text-white">
-                      {lockedCount === 1
-                        ? "One more business in this area"
-                        : `${lockedCount} more businesses in this area`}
-                    </h3>
-                    <p className="mt-3 text-[15px] text-muted-on-violet">
-                      The first two results are open so you can judge the quality. The rest of the
-                      list, with every reputation figure, each assistant check and the outreach draft
-                      for each business, comes with the full scan at £49.
-                    </p>
-                    {signedIn === false ? (
-                      <>
-                        <div className="mt-5 flex flex-wrap gap-3">
-                          <a
-                            href="/login?next=/goldmine&mode=signup"
-                            className="pill-btn inline-flex bg-white px-6 py-3 text-[15px] font-semibold text-ink"
-                          >
-                            Create a free account to buy, £49
-                          </a>
-                          <a
-                            href="/login?next=/goldmine&mode=signin"
-                            className="pill-btn inline-flex px-6 py-3 text-[15px] font-semibold text-white ring-1 ring-white/40"
-                          >
-                            I already have an account
-                          </a>
-                        </div>
-                        <p className="mt-3 text-[14px] text-muted-on-violet">
-                          An account is needed for the full scan, so the purchase is recorded and
-                          billed to you and the results stay yours. Your preview comes with you
-                          when you sign in.
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        {checkoutOpen ? (
-                          <div className="mt-5 overflow-hidden rounded-[20px] bg-white">
-                            <EmbeddedCheckoutProvider stripe={getStripe()} options={{ fetchClientSecret }}>
-                              <EmbeddedCheckout />
-                            </EmbeddedCheckoutProvider>
-                          </div>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setCheckoutError(null);
-                              setCheckoutOpen(true);
-                            }}
-                            className="pill-btn mt-5 bg-white px-6 py-3 text-[15px] font-semibold text-ink"
-                          >
-                            Unlock the full scan, £49
-                          </button>
-                        )}
-                        {checkoutError ? (
-                          <p role="alert" className="mt-3 text-[14px] text-peach">{checkoutError}</p>
-                        ) : null}
-                        <p className="mt-3 text-[14px] text-muted-on-violet">
-                          One payment of £49 unlocks every business in this scan, and the results
-                          stay in your account.
-                        </p>
-                      </>
-                    )}
-                  </li>
-                ) : null}
+
               </ul>
 
 
