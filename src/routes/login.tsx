@@ -67,8 +67,10 @@ function Login() {
   // session, so send the person on to where they were heading.
   useEffect(() => {
     const go = () => {
-      const stored = safeNext(sessionStorage.getItem(NEXT_KEY) ?? next);
+      const saved = sessionStorage.getItem(NEXT_KEY) ?? localStorage.getItem(NEXT_KEY);
+      const stored = safeNext(next !== "/" ? next : saved ?? next);
       sessionStorage.removeItem(NEXT_KEY);
+      localStorage.removeItem(NEXT_KEY);
       window.location.href = stored;
     };
     supabase.auth.getSession().then(({ data }) => {
@@ -83,8 +85,9 @@ function Login() {
   async function onGoogle() {
     setError(null);
     sessionStorage.setItem(NEXT_KEY, next);
+    localStorage.setItem(NEXT_KEY, next);
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}/login`,
+      redirect_uri: `${window.location.origin}/login?next=${encodeURIComponent(next)}`,
     });
     if (result.error) {
       setError("Google sign-in did not complete. Please try again.");

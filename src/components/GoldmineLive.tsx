@@ -295,6 +295,8 @@ export function GoldmineLive() {
         }
         setOrderId(id);
         setSnapshot(snap);
+        if (snap.locality) setLocality(snap.locality);
+        if (snap.category) setCategory(snap.category);
         if (snap.status === "pending" || snap.status === "partial") beginPolling(id);
       } catch {
         window.localStorage.removeItem(LAST_ORDER_KEY);
