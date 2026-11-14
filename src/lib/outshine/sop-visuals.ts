@@ -131,9 +131,7 @@ The page needs, in this order: a headline saying what I do and where, a large ta
 export function reviewPrompt(businessName: string, tradeLabel: string, area?: string): AiPrompt {
   return {
     label: "Paste this into any AI assistant to personalise your review messages",
-    text: `I run ${businessName}, a ${tradeLabel.toLowerCase()} business in ${area || "[town or service area]"}. My confirmed services: [services]. My tone and boundaries: [greeting, sign-off, phrases to use or avoid]. Here are two or three messages I have written: [paste examples after removing names, phone numbers and appointment details].
-
-Describe my voice and wait for me to confirm it. Then draft three genuine review invitations: one sentence for handing over a QR card, a WhatsApp message under 50 words, and a short SMS that names the business. Use [first name], [your name] and [review link] where appropriate. Invite honest feedback without pressure, incentives or a suggested rating. Do not assume how the customer felt. Give me a short voice note I can save and reuse.`,
+    text: `Write three ready-to-use Google review invitations for ${businessName}, an independent ${tradeLabel.toLowerCase()} business in ${area || "[town or service area]"}. Use warm, everyday British English that fits our trade. Thank the customer for choosing us today, invite honest feedback and thank them for supporting a local business. Give me one spoken sentence for handing over a printed QR card, one friendly WhatsApp message under 45 words, and one short SMS that names the business. Use [first name] and [review link] where needed. Keep the invitation optional and suitable for every customer. Do not assume they were happy, suggest a star rating or offer an incentive. Return just the three labelled versions.`,
     openIn: AI_ASSISTANTS,
   };
 }

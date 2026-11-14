@@ -142,9 +142,9 @@ function baseSop(f: Finding, trade: Trade, businessName: string): Sop {
           "Once a week, check your profile for new reviews and reply to every one (see the review replies SOP if you have it).",
         ],
         scripts: [
-          { label: "In person with your QR card", text: "Thanks for choosing us. If you would like to leave an honest Google review, you can scan this whenever you have a minute." },
-          { label: "WhatsApp follow-up", text: `Hi [first name], thanks for choosing ${businessName}. If you have a minute, we would appreciate hearing about your experience: [review link]. Thanks, [your name].` },
-          { label: "Short text", text: `Thanks for choosing ${businessName}. If you would like to leave a Google review, here is the link: [review link].` },
+          { label: "In person with your QR card", text: "Thanks for choosing us today, and if you’d like to tell us how you found everything, you can scan this to leave us a Google review." },
+          { label: "WhatsApp follow-up", text: `Hi [first name], thanks for choosing ${businessName} today. If you have a minute, we’d love to hear how you found everything: [review link]. Thanks for supporting our little business.` },
+          { label: "Short text", text: `Thanks for choosing ${businessName} today. If you’d like to tell us how it went, here’s our Google review link: [review link].` },
         ],
         proTips: [
           "Never offer discounts, gifts or prizes for reviews. Google removes incentivised reviews and can suspend profiles.",
