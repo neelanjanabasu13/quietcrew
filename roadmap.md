@@ -1,5 +1,11 @@
 # Outshine launch safeguards
 
+## Requested pass: 15 November 2026
+- [ ] Item 1: £19.99 Fix Pack price in checkout and Outshine, matching Stripe price and applied database migration, preserving historic purchases and £2.99 scans. Homepage stays unchanged as requested in the brief.
+- [ ] Item 4: Goldmine free/additional prospect counts beside checkout; mobile guest preview, sign-in return, sandbox purchase and matching full CSV verification.
+- [ ] Item 5: Clearly labelled Goldmine example results with live-preview link, no disabled purchase or stale payment message, London-area wording.
+- [ ] Publish only after payment, database and verification readiness; do not implement items 2, 3 or 6 in this pass.
+
 - [x] Goldmine: filter completed zero-score prospects before preview/payment counts, explain low-yield searches and offer area selection without automatically starting another scan.
 
 - [x] P0.1: One guest scan, three free scans total per account (guest scan included), enforced in the database.
