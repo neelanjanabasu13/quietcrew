@@ -427,17 +427,6 @@ export function GoldmineResults() {
                 the list, with every reputation figure, each assistant check and the outreach drafts
                 for each business, comes with the full scan at £49.
               </p>
-              <button
-                type="button"
-                disabled
-                className="pill-btn mt-5 bg-white px-6 py-3 text-[15px] font-semibold text-ink disabled:opacity-70"
-              >
-                Unlock the full scan, £49
-              </button>
-              <p className="mt-3 text-[14px] text-muted-on-violet">
-                Payment opens in the next few days, once the business account is live. Nothing is
-                charged today.
-              </p>
             </li>
           ) : null}
         </ul>
