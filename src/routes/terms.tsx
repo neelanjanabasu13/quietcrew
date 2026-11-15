@@ -9,12 +9,12 @@ export const Route = createFileRoute("/terms")({
       {
         name: "description",
         content:
-          "The terms that apply to using the Quietcrew website, and how our client engagements are contracted.",
+          "Terms for using Quietcrew and buying Goldmine scans and Outshine Fix Packs.",
       },
       { property: "og:title", content: "Terms of Use | Quietcrew" },
       {
         property: "og:description",
-        content: "Terms for using the Quietcrew website and how client work is contracted.",
+        content: "Terms for using Quietcrew and buying Goldmine scans and Outshine Fix Packs.",
       },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -30,68 +30,23 @@ function TermsPage() {
       <main className="container-page section-y max-w-[760px]">
         <p className="eyebrow">Legal</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Terms of use</h1>
-        <p className="mt-6 rounded-[16px] bg-violet-tint px-5 py-4 text-[15px] text-ink">
-          Draft for legal review. This is starter wording for a UK business and must be checked by a
-          solicitor before launch.
-        </p>
+        <div className="mt-8 space-y-8 text-justify text-[17px] leading-[1.65] text-ink">
 
-        <div className="mt-10 space-y-8 text-[17px] leading-[1.65] text-ink">
-          <section>
-            <h2 className="text-2xl">About these terms</h2>
-            <p className="mt-3">
-              This website is operated by Quietcrew, a business registered
-              in England and Wales. By using the site you accept these terms. If you do not accept them,
-              please do not use the site.
-            </p>
+          <p>Quietcrew is a UK AI and automation consultancy. We help businesses decide where AI and automation can improve their day-to-day work, then help put those changes into practice. We also offer ready-made tools, including Goldmine for agencies looking for local prospects and Outshine for businesses looking to improve their Google Business Profile.</p>
+          <p>Quietcrew is the trading name of QUIETCREW LTD, registered in England and Wales under company number 17444773. Our registered office is listed on our <a className="underline" href="/company-information">Company Information page</a>. For questions about these terms or a purchase, email <a className="underline" href="mailto:hello@quietcrew.ai">hello@quietcrew.ai</a>.</p>
+          <section><h2 className="text-2xl">What these terms cover</h2><p className="mt-3">These terms cover use of the Quietcrew website and purchases of our ready-made tools. For consultancy, audits and bespoke work, we agree the scope, price and terms with you separately before work begins.</p></section>
+          <section><h2 className="text-2xl">What you are buying</h2>
+            <p className="mt-3"><strong>Goldmine</strong> helps agencies find and research local businesses. Buying a full scan unlocks the additional prospects and full CSV export for the scan you selected, as shown before checkout. The results reflect the public business information and AI answers checked for that scan. They can help you decide whom to approach. They do not guarantee future recommendations, replies or sales.</p>
+            <p className="mt-3"><strong>Outshine</strong> checks public information about a business and its nearby rivals. Each paid purchase covers the scan or Fix Pack shown at checkout. The Fix Pack includes tailored instructions and ready-to-use wording so you can apply the changes yourself. We can agree separately to carry out work for you.</p>
+            <p className="mt-3">We show the total price before you place an order. Paid access is linked to the account you use to buy. Keep your order confirmation so we can help you find your purchase if needed.</p>
           </section>
-
-          <section>
-            <h2 className="text-2xl">Information on this site</h2>
-            <p className="mt-3">
-              The content here is provided for general information about our services. Workflow examples
-              shown on the site are illustrative. Prices and timescales are indicative starting points,
-              not offers, and are confirmed in writing before any work begins.
-            </p>
+          <section><h2 className="text-2xl">If you are unhappy with your results</h2>
+            <p className="mt-3">If the results are not what you expected, or you cannot access your scan or download, email <a className="underline" href="mailto:hello@quietcrew.ai">hello@quietcrew.ai</a> with your order details and a short description of the issue. We will look into what happened and work with you to put it right.</p>
+            <p className="mt-3">We do not offer discretionary refunds for a change of mind or because the results differ from what you hoped for. Any cancellation, refund or other rights you have under law still apply.</p>
           </section>
-
-          <section>
-            <h2 className="text-2xl">Enquiries and bookings</h2>
-            <p className="mt-3">
-              Submitting the enquiry form or booking a paid audit or consultation does not create a
-              contract for services. Any engagement is governed by a separate scope of work and a data processing
-              agreement signed by both parties.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl">Intellectual property</h2>
-            <p className="mt-3">
-              The Quietcrew name, wording, design and graphics on this site belong to Quietcrew Ltd. You
-              may view and print pages for your own business use. You may not copy or republish the
-              content commercially without our written permission. Work we build for a client is owned by
-              that client on the terms set out in their scope of work.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl">Liability</h2>
-            <p className="mt-3">
-              We take care to keep this site accurate and available, but we do not guarantee either. To
-              the extent permitted by law we exclude liability for loss arising from use of the site.
-              Nothing in these terms limits liability for death or personal injury caused by negligence,
-              or for fraud.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl">Governing law</h2>
-            <p className="mt-3">
-              These terms are governed by the laws of England and Wales, and the courts of England and
-              Wales have exclusive jurisdiction.
-            </p>
-          </section>
-
-          <p className="text-[15px] text-muted-paper">Last updated: August 2026.</p>
+          <section><h2 className="text-2xl">Using the website and reports</h2><p className="mt-3">You may use your reports and downloads for your own business, including adapting Goldmine’s outreach drafts. Review any draft and check the details before sending it. Use your own account and only access reports you are authorised to view.</p></section>
+          <section><h2 className="text-2xl">Governing law</h2><p className="mt-3">These terms are governed by the laws of England and Wales. If you are a consumer, this does not take away any protections or rights to bring a claim that apply where you live.</p></section>
+          <p className="text-left text-[15px] text-muted-paper">Last updated: 15 November 2026.</p>
         </div>
       </main>
       <SiteFooter />
