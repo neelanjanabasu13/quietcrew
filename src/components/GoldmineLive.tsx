@@ -502,7 +502,7 @@ export function GoldmineLive() {
           <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-violet">Full scan</p>
           <p className="mt-1 text-[1.4rem] font-extrabold text-ink">£49, one payment</p>
           <p className="mt-1 text-[14px] text-muted-paper">
-            Every qualified business found, each assistant check and an outreach draft for each one.
+            Goldmine checks up to 50 businesses per scan. Some areas have fewer businesses in the category you choose, and not every business qualifies as a prospect. Your preview shows exactly how many more results you can unlock before you pay.
           </p>
         </div>
       </div>
@@ -593,9 +593,7 @@ export function GoldmineLive() {
                         : `${lockedCount} more businesses in this area`}
                     </h3>
                     <p className="mt-3 text-[15px] text-muted-on-violet">
-                      The first two results are open so you can judge the quality. The rest of the
-                      list, with every reputation figure, each assistant check and the outreach draft
-                      for each business, comes with the full scan at £49.
+                      {visibleBusinesses.length} in your free preview. £49 unlocks {lockedCount} more, plus the full CSV, assistant checks and outreach drafts.
                     </p>
                     {signedIn === false ? (
                       <>
