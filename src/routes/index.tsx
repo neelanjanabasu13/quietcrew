@@ -1,7 +1,8 @@
+import { FIX_PACK, GOLDMINE_SCAN, WORKFLOW_AUDIT, CONSULTATION_HOURLY } from "@/lib/home-prices";
 import { ProductSlider } from "@/components/ProductSlider";
 import { WorkflowShowcase } from "@/components/WorkflowShowcase";
 import { createFileRoute } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
@@ -29,7 +30,7 @@ const faqEntries: { q: string; a: string }[] = [
   },
   {
     q: "How much does it cost?",
-    a: "Goldmine is £49 per scan. The Outshine scan is free, and the Done-for-You Fix Pack is £9.99, reduced from £14.99. A Workflow Audit is £99, a 1:1 consultation is £149 per hour, and when we do the work for you it is priced on the outcome, which we agree with you before we start.",
+    a: `Goldmine is £${GOLDMINE_SCAN} per scan. The Outshine scan is free, and the Done-for-You Fix Pack is £${FIX_PACK}. A Workflow Audit is £${WORKFLOW_AUDIT}, a 1:1 consultation is £${CONSULTATION_HOURLY} per hour, and when we do the work for you it is priced on the outcome, which we agree with you before we start.`,
   },
   {
     q: "What happens in a Workflow Audit?",
@@ -50,13 +51,13 @@ const serviceOfferings = [
     name: "Workflow Audit",
     description:
       "A one-time review of one repetitive process, ending with a plain English plan of what to connect, what to automate and which tools to use.",
-    price: "99",
+    price: String(WORKFLOW_AUDIT),
   },
   {
     name: "1:1 Consultation",
     description:
       "An hour-long session on your software setup, the tools worth buying and small no-code builds.",
-    price: "149",
+    price: String(CONSULTATION_HOURLY),
   },
 ];
 
@@ -112,25 +113,22 @@ const tiers = [
   {
     label: "One-time",
     title: "Workflow Audit",
-    price: "£99",
+    price: `£${WORKFLOW_AUDIT}`,
     body: "Pick one job that eats your week, such as chasing quotes, updating spreadsheets or sending the same report. We go deep into how it works today, then hand you a step-by-step fix covering what to change, how to do it and why. You can stop there and do it yourself, or ask us to do it for you.",
-    subject: "Workflow Audit enquiry",
-    cta: "Book an audit",
+    cta: "Enquire about an audit",
   },
   {
     label: "1:1",
     title: "Consultation",
-    price: "£149 per hour",
+    price: `£${CONSULTATION_HOURLY} per hour`,
     body: "An hour with us on your software setup, the tools worth paying for and the ones you can cancel, or a small build you have in mind. You leave knowing exactly what to do next, and who can do it.",
-    subject: "Consultation enquiry",
-    cta: "Arrange a consultation",
+    cta: "Enquire about a consultation",
   },
   {
     label: "Hands-on",
     title: "We do it for you",
     price: "Outcome-based pricing",
     body: "Once the fix is clear, we can carry it out: connecting the tools you already use, setting up the automations, or building a clean one-page website. We agree the result you want before we start, and you pay for that outcome rather than our hours.",
-    subject: "Done for you enquiry",
     cta: "Ask us to do it",
   },
 ];
@@ -165,6 +163,7 @@ function Eyebrow({ children, tone = "light" }: { children: ReactNode; tone?: "li
 }
 
 function Index() {
+  const [service, setService] = useState("");
   return (
     <div className="min-h-screen bg-white">
       <SiteNav />
@@ -188,14 +187,17 @@ function Index() {
                   need something more specific, we will sit down with you and work out the simplest fix.
                 </p>
                 <div className="mt-7 flex flex-wrap items-center gap-3">
-                  <a href="#tools" className="pill-btn btn-white px-7 py-4 text-[1rem]">
-                    See the tools
+                  <a href="/goldmine" className="pill-btn btn-white px-7 py-4 text-[1rem]">
+                    Goldmine for agencies
+                  </a>
+                  <a href="/outshine" className="pill-btn btn-white px-7 py-4 text-[1rem]">
+                    Outshine for local businesses
                   </a>
                   <a
                     href="#work-with-me"
                     className="pill-btn px-7 py-4 text-[1rem] text-white ring-1 ring-white/40 hover:bg-white/10"
                   >
-                    Work with us
+                    Get help with a workflow
                   </a>
                 </div>
               </Reveal>
@@ -211,13 +213,12 @@ function Index() {
             <Reveal className="mx-auto max-w-[760px] text-center">
               <Eyebrow>Ready-made tools</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
-                Watch each tool
+                See what you get
                 <br />
-                <span className="text-violet">do the legwork.</span>
+                <span className="text-violet">from each tool.</span>
               </h2>
               <p className="mx-auto mt-6 max-w-[620px] text-[18px] text-muted-paper">
-                Pick a tool to see the steps it runs for you, from the first search to the finished
-                result you can act on.
+                Switch between the sample results to see the evidence, the suggested next step and what you can take away.
               </p>
             </Reveal>
             <Reveal className="on-violet violet-glow mt-10 rounded-[20px] p-5 text-white md:p-10">
@@ -270,7 +271,8 @@ function Index() {
                   <p className="mt-4 text-[16px] text-muted-paper">{t.body}</p>
                   <div className="mt-auto pt-7">
                     <a
-                      href={`mailto:sales@quietcrew.ai?subject=${encodeURIComponent(t.subject)}`}
+                      href="#book"
+                      onClick={() => setService(t.title)}
                       className="pill-btn btn-primary-dark px-6 py-3 text-[15px]"
                     >
                       {t.cta}
@@ -280,9 +282,9 @@ function Index() {
               ))}
             </div>
             <p className="mt-8 text-center text-[15px] text-muted-paper">
-              Every button opens an email to{" "}
-              <a href="mailto:sales@quietcrew.ai" className="font-semibold text-violet underline underline-offset-4">
-                sales@quietcrew.ai
+              Prefer email? Write to{" "}
+              <a href="mailto:hello@quietcrew.ai" className="font-semibold text-violet underline underline-offset-4">
+                hello@quietcrew.ai
               </a>
               , and we reply within one working day.
             </p>
@@ -366,7 +368,7 @@ function Index() {
               </Reveal>
 
               <Reveal delay={60}>
-                <EnquiryForm />
+                <EnquiryForm service={service} />
               </Reveal>
             </div>
           </div>

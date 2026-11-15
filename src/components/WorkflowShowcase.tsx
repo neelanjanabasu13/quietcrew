@@ -1,3 +1,4 @@
+import { FIX_PACK, GOLDMINE_SCAN } from "@/lib/home-prices";
 /**
  * Product picker for the homepage. Two cards (Goldmine and Outshine); the
  * selected card plays its live product simulation underneath.
@@ -15,8 +16,8 @@ type Item = {
 };
 
 const items: Item[] = [
-  { key: "goldmine", title: "Goldmine", who: "For marketing and SEO agencies", price: "£49 per scan" },
-  { key: "outshine", title: "Outshine", who: "For trades and local services", price: "Free scan, Fix Pack £9.99" },
+  { key: "goldmine", title: "Goldmine", who: "For marketing and SEO agencies", price: `£${GOLDMINE_SCAN} per scan` },
+  { key: "outshine", title: "Outshine", who: "For trades and local services", price: `Free scan, Fix Pack £${FIX_PACK}` },
 ];
 
 export function WorkflowShowcase() {

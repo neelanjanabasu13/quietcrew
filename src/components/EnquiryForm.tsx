@@ -26,7 +26,7 @@ const sizes = ["1-9", "10-24", "25-49", "50-149", "150+"];
 const fieldClass =
   "w-full rounded-[14px] border-0 bg-muted px-4 py-3.5 text-[16px] text-ink placeholder:text-muted-paper";
 
-export function EnquiryForm() {
+export function EnquiryForm({ service = "" }: { service?: string }) {
   const [values, setValues] = useState<Fields>(empty);
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -69,7 +69,7 @@ export function EnquiryForm() {
           email: values.email.trim(),
           companySize: values.companySize,
           systems: values.systems.trim() || undefined,
-          manualWork: values.manual.trim() || undefined,
+          manualWork: service ? `Service: ${service}\n\n${values.manual.trim()}` : values.manual.trim() || undefined,
         },
       });
       setValues(empty);
@@ -124,6 +124,7 @@ export function EnquiryForm() {
           </Field>
         </div>
         <div className="md:col-span-2">
+          {service && <p role="status" className="text-sm font-semibold text-ink">Enquiring about: {service}</p>}
           <Field id="manual" label="What would you like help with?" error={errors.manual}>
             <textarea id="manual" name="manual" rows={4} className={fieldClass} value={values.manual} onChange={set("manual")} aria-invalid={!!errors.manual} aria-describedby={errors.manual ? "manual-error" : undefined} />
           </Field>

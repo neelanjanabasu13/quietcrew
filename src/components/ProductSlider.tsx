@@ -1,3 +1,4 @@
+import { FIX_PACK, GOLDMINE_SCAN } from "@/lib/home-prices";
 import { useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -26,7 +27,7 @@ const products: Product[] = [
     name: "Goldmine",
     line: "Find the gold before your rivals do.",
     body: "Pick a London area and a category, and Goldmine finds well reviewed businesses that AI assistants rarely recommend, then drafts your first outreach to each one.",
-    price: "£49 per scan",
+    price: `£${GOLDMINE_SCAN} per scan`,
     cta: "See Goldmine",
     to: "/goldmine",
     tilt: "md:-rotate-[2deg] md:hover:rotate-0",
@@ -44,7 +45,7 @@ const products: Product[] = [
     name: "Outshine",
     line: "Then make sure you are the one that shines.",
     body: "A free check of your public business profile against nearby rivals in your trade, with a practical report you can act on yourself, no agency needed.",
-    price: "Free scan, fix list £9.99",
+    price: `Free scan, fix list £${FIX_PACK}`,
     cta: "Scan your business free",
     to: "/outshine",
     tilt: "md:rotate-[2deg] md:hover:rotate-0",
