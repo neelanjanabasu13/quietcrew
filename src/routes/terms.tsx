@@ -11,6 +11,8 @@ export const Route = createFileRoute("/terms")({
         content:
           "Terms for using Quietcrew and buying Goldmine scans and Outshine Fix Packs.",
       },
+      { property: "og:image", content: "https://quietcrew.ai/og-quietcrew.jpg" },
+      { name: "twitter:image", content: "https://quietcrew.ai/og-quietcrew.jpg" },
       { property: "og:title", content: "Terms of Use | Quietcrew" },
       {
         property: "og:description",

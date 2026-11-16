@@ -23,7 +23,7 @@ function Tile({ t, i, on, onPick }: { t: (typeof TILES)[number]; i: number; on: 
     <li className="animate-rise w-52 shrink-0" style={{ animationDelay: `${300 + i * 70}ms` }}>
       <button type="button" aria-pressed={on} onMouseEnter={run} onFocus={run} onClick={() => { run(); onPick(t.trade); }}
         className={`group flex w-full items-center gap-3 rounded-2xl border bg-card p-2.5 text-left transition duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${play ? "trade-play" : ""} ${on ? "border-ink shadow-[0_14px_30px_-18px_var(--ink)]" : "border-border"}`}>
-        <img src={t.img} alt="" width={768} height={960} loading="lazy"
+        <img src={t.img} alt={`${t.name} trade example photo`} width={768} height={960} loading="lazy"
           className={`h-14 w-14 shrink-0 rounded-xl object-cover transition duration-500 ${on ? "rotate-6 scale-105" : "saturate-[.55] group-hover:saturate-100"}`} />
         <span className="min-w-0">
           <span className="flex items-center gap-1.5 font-display font-bold leading-tight">

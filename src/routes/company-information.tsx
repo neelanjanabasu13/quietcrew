@@ -11,6 +11,8 @@ export const Route = createFileRoute("/company-information")({
         content:
           "Company details for Quietcrew Ltd, including registration number, incorporation date and contact email.",
       },
+      { property: "og:image", content: "https://quietcrew.ai/og-quietcrew.jpg" },
+      { name: "twitter:image", content: "https://quietcrew.ai/og-quietcrew.jpg" },
       { property: "og:title", content: "Company Information | Quietcrew" },
       {
         property: "og:description",

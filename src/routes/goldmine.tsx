@@ -25,6 +25,8 @@ export const Route = createFileRoute("/goldmine")({
     meta: [
       { title: TITLE },
       { name: "description", content: DESCRIPTION },
+      { property: "og:image", content: "https://quietcrew.ai/og-goldmine.jpg" },
+      { name: "twitter:image", content: "https://quietcrew.ai/og-goldmine.jpg" },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },

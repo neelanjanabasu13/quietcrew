@@ -219,7 +219,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
             {[{ name: b.name, score, grade, category: "You", photo: photoOf(b) }, ...comps.map((c) => ({ name: c.name, score: c.score, grade: c.grade, category: "Nearby rival", photo: c.photo ?? TRADE_PHOTOS[b.trade] })), ...(referenceBusiness ? [{ name: referenceBusiness.name, score: scoreOf(referenceFindings), grade: cappedGrade(referenceFindings), category: `${reference?.entry?.city} reference`, photo: photoOf(referenceBusiness) }] : [])].map((c) => {
               const g = c.grade;
               return <div key={c.name} className={`w-56 shrink-0 snap-start overflow-hidden rounded-lg border bg-card ${c.category === "You" ? "border-ink" : "border-border"}`}>
-                <img src={c.photo} alt="" loading="lazy" width={400} height={200} className="h-32 w-full object-cover" />
+                <img src={c.photo} alt={`Photo of ${c.name}`} loading="lazy" width={400} height={200} className="h-32 w-full object-cover" />
                 <div className="p-4"><p className="text-xs text-muted-foreground">{c.category}</p><div className="mt-2 flex items-start justify-between gap-3"><p className="break-words font-medium leading-tight">{c.name}</p><p className={`shrink-0 font-display text-4xl font-bold ${gradeColor(g)}`}>{g}</p></div></div>
               </div>;
             })}

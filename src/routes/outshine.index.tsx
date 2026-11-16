@@ -22,6 +22,8 @@ export const Route = createFileRoute("/outshine/")({
     meta: [
       { title: "Outshine by Quietcrew · Free online presence audit for UK trades" },
       { name: "description", content: `Compare your UK trade business with nearby rivals in a free online presence audit, then get a Done-for-You Fix Pack for ${P.fixPack} (was ${P.fixPackWas}).` },
+      { property: "og:image", content: "https://quietcrew.ai/og-outshine.jpg" },
+      { name: "twitter:image", content: "https://quietcrew.ai/og-outshine.jpg" },
       { property: "og:title", content: "Outshine by Quietcrew · Free online presence audit for UK trades" },
       { property: "og:description", content: "Compare your public business profile with nearby businesses and download a practical report." },
       { property: "og:type", content: "website" },
@@ -104,7 +106,7 @@ function Home() {
                 {hits.map((b) => (
                   <li key={b.placeId}>
                     <Button variant="ghost" onClick={() => pick(b)} className="flex h-auto w-full justify-start gap-4 rounded-none px-5 py-3 text-left whitespace-normal">
-                      {b.photo ? <img src={b.photo} alt="" className="h-10 w-10 rounded-lg object-cover" loading="lazy" width={40} height={40} /> : <span className="h-10 w-10 rounded-lg bg-secondary" />}
+                      {b.photo ? <img src={b.photo} alt={`Google photo of ${b.name}`} className="h-10 w-10 rounded-lg object-cover" loading="lazy" width={40} height={40} /> : <span className="h-10 w-10 rounded-lg bg-secondary" />}
                       <span className="min-w-0 flex-1"><span className="block font-medium">{b.name}</span><span className="text-sm text-muted-foreground">{b.address}</span></span>
                       {b.rating > 0 && <span className="shrink-0 text-right text-xs text-muted-foreground"><span className="block">{b.rating.toFixed(1)} ★</span><span>{b.reviewCount.toLocaleString("en-GB")} reviews</span></span>}
                     </Button>
@@ -213,7 +215,7 @@ function Home() {
                   {hits.length > 0 ? <CarouselContent aria-label="Business results" className="-ml-3">
                     {hits.map((b) => <CarouselItem key={b.placeId} className="basis-[85%] pl-3 sm:basis-1/2">
                       <Button variant="outline" onClick={() => pick(b)} className="flex h-24 w-full justify-start gap-3 rounded-xl bg-card px-3 text-left whitespace-normal hover:-translate-y-0.5">
-                        {b.photo ? <img src={b.photo} alt="" className="h-16 w-14 shrink-0 rounded-md object-cover" loading="lazy" width={56} height={64} /> : <span className="h-16 w-14 shrink-0 rounded-md bg-secondary" />}
+                        {b.photo ? <img src={b.photo} alt={`Google photo of ${b.name}`} className="h-16 w-14 shrink-0 rounded-md object-cover" loading="lazy" width={56} height={64} /> : <span className="h-16 w-14 shrink-0 rounded-md bg-secondary" />}
                         <span className="min-w-0 flex-1">
                           <span className="line-clamp-2 text-sm font-semibold leading-5">{b.name}</span>
                           <span className="mt-1 block truncate text-xs text-muted-foreground">{b.address}</span>

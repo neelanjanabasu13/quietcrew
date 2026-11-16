@@ -11,6 +11,8 @@ export const Route = createFileRoute("/privacy")({
         content:
           "How Quietcrew handles personal information for enquiries, accounts, scans, purchases and consultancy.",
       },
+      { property: "og:image", content: "https://quietcrew.ai/og-quietcrew.jpg" },
+      { name: "twitter:image", content: "https://quietcrew.ai/og-quietcrew.jpg" },
       { property: "og:title", content: "Privacy Notice | Quietcrew" },
       {
         property: "og:description",
