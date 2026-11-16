@@ -33,3 +33,18 @@ describe("Goldmine opportunity results", () => {
     expect(nearbyAreas("Highgate, London, UK", [{ areas: ["Highgate", "Hampstead", "Camden Town"] }])).toEqual(["Hampstead", "Camden Town"]);
   });
 });
+it("counts only positive-score prospects by search area and preserves totals in the preview", () => {
+  const snapshot = scan([90, 12, 0]);
+  snapshot.discovery = {
+    found: 3, qualified: 3, analysed: 3, chainsExcluded: 0,
+    searchAreas: ["Highgate", "Crouch End"],
+  };
+  snapshot.businesses[0].searchArea = { name: "Highgate", nearby: false };
+  for (const business of snapshot.businesses.slice(1)) {
+    business.searchArea = { name: "Crouch End", nearby: true };
+  }
+  const full = opportunitySnapshot(snapshot);
+  expect(full.discovery?.prospectsByArea).toEqual({ Highgate: 1, "Crouch End": 1 });
+  const preview = opportunitySnapshot({ ...full, businesses: full.businesses.slice(0, 1), lockedCount: 1 });
+  expect(preview.discovery?.prospectsByArea).toEqual(full.discovery?.prospectsByArea);
+});

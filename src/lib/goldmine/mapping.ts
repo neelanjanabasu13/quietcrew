@@ -134,7 +134,10 @@ function businessFromResult(raw: unknown, index: number, locality: string, categ
     "The score measures how much room there is for you to help, not how well the business is run.",
   );
 
+  const discovery = asDict(result["discovery"]);
+  const searchArea = typeof discovery["area"] === "string" ? discovery["area"].trim() : "";
   return {
+    ...(searchArea ? { searchArea: { name: searchArea, nearby: discovery["nearby"] === true } } : {}),
     id: String(result["place_id"] ?? `business-${index}`),
     name: String(result["name"] ?? "Unnamed business"),
     area: String(result["address"] ?? locality),
@@ -215,6 +218,9 @@ export function normaliseEngineRun(payload: unknown, locality: string, category:
     : "The run is under way. Results appear here as they arrive.";
 
   const disc = asDict(run["discovery"]);
+  const searchAreas = asArray(disc["search_areas"]).filter(
+    (area): area is string => typeof area === "string" && area.trim().length > 0,
+  );
   return {
     status,
     isFixture: false,
@@ -223,6 +229,7 @@ export function normaliseEngineRun(payload: unknown, locality: string, category:
     businesses,
     counts: countChecks(businesses),
     discovery: {
+      ...(searchAreas.length ? { searchAreas } : {}),
       found: asNumber(disc["candidates_found"]),
       qualified: asNumber(disc["candidates_qualified"]),
       analysed: businesses.length,

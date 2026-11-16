@@ -413,6 +413,7 @@ export function GoldmineLive() {
   const open = visibleBusinesses.find((b) => b.id === openId) ?? null;
   const openDrafts = openId ? draftState[openId] : undefined;
   const lowYield = snapshot?.status === "completed" && scanTotal <= FREE_PREVIEW_COUNT;
+  const [searchedLocality, ...searchedNearby] = snapshot?.discovery?.searchAreas ?? [];
   const suggestions = snapshot ? nearbyAreas(snapshot.locality, localityGroups) : [];
 
 
@@ -529,6 +530,12 @@ export function GoldmineLive() {
 
       {snapshot ? (
         <div className="mt-8 border-t border-border pt-8">
+          {searchedLocality ? (
+            <nav aria-label="Breadcrumb" className="mb-3 text-[14px] text-muted-paper">
+              Goldmine <span aria-hidden="true">›</span> London <span aria-hidden="true">›</span>{" "}
+              <strong>{searchedLocality}</strong>
+            </nav>
+          ) : null}
           <div aria-live="polite" aria-atomic="true">
             <p className="eyebrow self-start">
               {snapshot.status === "completed"
@@ -538,7 +545,7 @@ export function GoldmineLive() {
                   : "Scan running"}
             </p>
             <p className="mt-3 text-[15px] text-muted-paper">
-              {snapshot.locality}, {snapshot.category}.{" "}
+              {searchedLocality ?? snapshot.locality}, {snapshot.category}.{" "}
               {snapshot.message ||
                 (snapshot.status === "completed"
                   ? "Every check that could run has come back."
@@ -569,6 +576,22 @@ export function GoldmineLive() {
             </div>
           </div>
 
+          {searchedLocality ? (
+            <p className="mt-4 rounded-[14px] bg-cream px-4 py-3 text-[15px] text-ink">
+              <strong>Search area</strong>{" "}
+              {searchedNearby.length
+                ? `${searchedLocality}, then widened to ${searchedNearby.join(", ")}.`
+                : `${searchedLocality} only.`}
+              {snapshot.discovery?.prospectsByArea ? (
+                <span className="mt-1 block text-muted-paper">
+                  {[searchedLocality, ...searchedNearby].map((area) => {
+                    const count = snapshot.discovery?.prospectsByArea?.[area] ?? 0;
+                    return `${count} ${count === 1 ? "prospect" : "prospects"} in ${area}`;
+                  }).join(" · ")}
+                </span>
+              ) : null}
+            </p>
+          ) : null}
           {snapshot.discovery && snapshot.discovery.found !== null ? (
             <p className="mt-4 rounded-[14px] bg-cream px-4 py-3 text-[15px] font-semibold text-ink">
               {snapshot.discovery.found} found, {snapshot.discovery.qualified ?? "?"} qualified,{" "}
@@ -590,7 +613,7 @@ export function GoldmineLive() {
                     <h3 className="mt-3 text-[1.35rem] text-white">
                       {lockedCount === 1
                         ? "One more business in this area"
-                        : `${lockedCount} more businesses in this area`}
+                        : `${lockedCount} more businesses in this scan`}
                     </h3>
                     <p className="mt-3 text-[15px] text-muted-on-violet">
                       {visibleBusinesses.length} in your free preview. £49 unlocks {lockedCount} more, plus the full CSV, assistant checks and outreach drafts.
@@ -726,6 +749,11 @@ export function GoldmineLive() {
                         <div>
                           <h3 className="text-[1.1rem]">{b.name}</h3>
                           <p className="mt-1 text-[14px] text-muted-paper">{b.area}</p>
+                          {b.searchArea ? (
+                            <p className="mt-1 text-[13px] font-semibold text-violet">
+                              {b.searchArea.nearby ? "Nearby · " : ""}AI checks for {b.searchArea.name}
+                            </p>
+                          ) : null}
                         </div>
                         <div className="text-right">
                           <p className="text-[13px] text-muted-paper">Gold opportunity score</p>
@@ -793,6 +821,7 @@ export function GoldmineLive() {
                         <h3 className="mt-4 text-[1.6rem] md:text-[2rem]">{open.name}</h3>
                         <p className="mt-2 text-[14px] text-muted-paper">
                           {open.category} · {open.area}
+                          {open.searchArea ? ` · AI checks for ${open.searchArea.name}` : ""}
                         </p>
                       </div>
                       <div className="grid h-24 w-24 shrink-0 place-items-center rounded-full bg-violet-tint text-center">

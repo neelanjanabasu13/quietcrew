@@ -3,12 +3,17 @@ import type { ScanSnapshot } from "./types";
 /** Filter before preview slicing so zero scores never occupy or inflate paid slots. */
 export function opportunitySnapshot(snapshot: ScanSnapshot): ScanSnapshot {
   if (snapshot.status !== "completed") return snapshot;
-  return {
-    ...snapshot,
-    businesses: snapshot.businesses
-      .filter((business) => Number.isFinite(business.gold) && business.gold > 0)
-      .sort((a, b) => b.gold - a.gold),
-  };
+  const businesses = snapshot.businesses
+    .filter((business) => Number.isFinite(business.gold) && business.gold > 0)
+    .sort((a, b) => b.gold - a.gold);
+  const discovery = snapshot.discovery;
+  if (!discovery?.searchAreas?.length || discovery.prospectsByArea) return { ...snapshot, businesses };
+  const prospectsByArea = Object.fromEntries(discovery.searchAreas.map((area) => [area, 0]));
+  for (const business of businesses) {
+    const area = business.searchArea?.name;
+    if (area && Object.hasOwn(prospectsByArea, area)) prospectsByArea[area] += 1;
+  }
+  return { ...snapshot, businesses, discovery: { ...discovery, prospectsByArea } };
 }
 
 export function canUnlockOpportunities(snapshot: ScanSnapshot): boolean {

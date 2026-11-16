@@ -19,6 +19,7 @@ export type ScanBusiness = {
   name: string;
   area: string;
   category: string;
+  searchArea?: { name: string; nearby: boolean };
   reputation: { rating: number; reviews: number };
   gold: number;
   why: string;
@@ -38,6 +39,8 @@ export type DiscoveryCounts = {
   qualified: number | null;
   analysed: number;
   chainsExcluded: number | null;
+  searchAreas?: string[];
+  prospectsByArea?: Record<string, number>;
 };
 
 /** Overall run state. Partial means some checks landed and others have not. */
