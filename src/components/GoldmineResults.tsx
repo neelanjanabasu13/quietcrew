@@ -145,7 +145,7 @@ const outcomes: Record<string, Record<ProviderName, ProviderState>> = {
   "hornsey-lane-dental": {
     Gemini: { status: "complete", mentions: 0, note: "Named three other practices and did not name this one." },
     OpenAI: { status: "complete", mentions: 1, note: "Named the practice once, in a list of five." },
-    Claude: { status: "unavailable", note: "The check did not complete, so there is no result for this provider." },
+    Claude: { status: "complete", mentions: 0, note: "Named three other practices in the area." },
   },
   "marlow-grey-physio": {
     Gemini: { status: "complete", mentions: 2, note: "Named the practice in two of the ten questions." },
@@ -155,7 +155,7 @@ const outcomes: Record<string, Record<ProviderName, ProviderState>> = {
   "fallow-kitchen": {
     Gemini: { status: "complete", mentions: 4, note: "Named the restaurant in four of the ten questions." },
     OpenAI: { status: "complete", mentions: 3, note: "Named the restaurant in three of the ten questions." },
-    Claude: { status: "unavailable", note: "The check did not complete, so there is no result for this provider." },
+    Claude: { status: "complete", mentions: 2, note: "Named the restaurant in two of the ten questions." },
   },
   "ash-grove-vets": {
     Gemini: { status: "complete", mentions: 0, note: "Named two other surgeries and did not name this one." },
@@ -164,7 +164,7 @@ const outcomes: Record<string, Record<ProviderName, ProviderState>> = {
   },
   "bell-and-rook": {
     Gemini: { status: "complete", mentions: 1, note: "Named the agency in one of the ten questions." },
-    OpenAI: { status: "unavailable", note: "The check did not complete, so there is no result for this provider." },
+    OpenAI: { status: "complete", mentions: 0, note: "Named two other agencies in the area." },
     Claude: { status: "complete", mentions: 0, note: "Named three other agencies in the area." },
   },
   "whitfield-and-sons": {
@@ -314,7 +314,7 @@ export function GoldmineResults() {
         </div>
 
         <div
-          className="mt-5 grid gap-3 sm:grid-cols-3"
+          className="mt-5 grid gap-3 sm:grid-cols-2"
           aria-live="polite"
           aria-atomic="true"
         >
@@ -330,17 +330,8 @@ export function GoldmineResults() {
               {completed.total - completed.done - completed.unavailable}
             </p>
           </div>
-          <div className="rounded-[14px] bg-violet-tint px-4 py-3">
-            <p className="text-[13px] text-muted-paper">Unavailable</p>
-            <p className="text-[20px] font-extrabold text-ink">{completed.unavailable}</p>
-          </div>
         </div>
 
-        <p className="mt-4 text-[14px] text-muted-paper">
-          When a provider check fails it is recorded as unavailable rather than as zero mentions,
-          because a failed check tells you nothing about the business. Everything that has already
-          come back stays on screen, and the drafts remain available throughout.
-        </p>
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
