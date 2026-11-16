@@ -150,7 +150,7 @@ export const createGoldmineCheckout = createServerFn({ method: "POST" })
       const session = await stripe.checkout.sessions.create({
         line_items: [{ price: price.id, quantity: 1 }],
         mode: "payment",
-        ui_mode: "embedded_page",
+        ui_mode: "embedded_page", allow_promotion_codes: true,
         return_url: assertAllowedReturnUrl(data.returnUrl),
         customer: customerId,
         payment_intent_data: { description: "Goldmine by Quietcrew Scan" },

@@ -9,3 +9,11 @@ describe("Outshine DIY purchase rules", () => {
   it("only delivers to the paying owner and report", () => { expect(isPaidDiySession(session, { ...purchase, user_id: "other" })).toBe(false); expect(isPaidDiySession(session, { ...purchase, business_id: "other" })).toBe(false); });
   it("keeps test purchases separate from live", () => { expect(isPaidDiySession(session, { ...purchase, environment: "live" })).toBe(false); });
 });
+import { isSettledAmount as settled } from "./payment-rules";
+describe("100% promotion codes", () => {
+  it("accepts a £0 session only when the subtotal was the full price", () => {
+    expect(settled({ payment_status: "no_payment_required", amount_total: 0, amount_subtotal: 1999 }, 1999)).toBe(true);
+    expect(settled({ payment_status: "no_payment_required", amount_total: 0, amount_subtotal: 999 }, 1999)).toBe(false);
+    expect(settled({ payment_status: "unpaid", amount_total: 0, amount_subtotal: 1999 }, 1999)).toBe(false);
+  });
+});

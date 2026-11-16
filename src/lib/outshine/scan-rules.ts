@@ -1,3 +1,4 @@
+import { isSettledAmount } from "./payment-rules";
 import { PRICES_PENCE } from "../pricing";
 export const GUEST_FREE_SCANS = 1;
 export const ACCOUNT_FREE_SCANS = 3;
@@ -11,8 +12,8 @@ export function freeScansRemaining(signedIn: boolean, used: number) {
 export function savedReportValid(expiresAt: string | null, now = Date.now()) {
   return Boolean(expiresAt && Date.parse(expiresAt) > now);
 }
-export function isPaidScanSession(session: { status?: string | null; payment_status?: string; amount_total?: number | null; currency?: string | null; metadata?: Record<string, string> | null }, credit: { id: string; user_id: string; business_id: string; environment: string }) {
-  return session.status === "complete" && session.payment_status === "paid" && session.amount_total === SCAN_AMOUNT && session.currency === "gbp"
+export function isPaidScanSession(session: { status?: string | null; payment_status?: string; amount_total?: number | null; amount_subtotal?: number | null; currency?: string | null; metadata?: Record<string, string> | null }, credit: { id: string; user_id: string; business_id: string; environment: string }) {
+  return session.status === "complete" && isSettledAmount(session, SCAN_AMOUNT) && session.currency === "gbp"
     && session.metadata?.["outshineScanCreditId"] === credit.id && session.metadata?.["userId"] === credit.user_id
     && session.metadata?.["businessId"] === credit.business_id && session.metadata?.["environment"] === credit.environment;
 }
