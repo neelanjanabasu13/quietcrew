@@ -1,0 +1,2 @@
+ALTER TABLE public.outshine_purchases DROP CONSTRAINT outshine_purchases_amount_check;
+ALTER TABLE public.outshine_purchases ADD CONSTRAINT outshine_purchases_amount_check CHECK (amount = ANY (ARRAY[799, 999, 1999]));
