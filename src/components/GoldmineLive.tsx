@@ -192,7 +192,7 @@ function ProviderRow({ provider, check }: { provider: ProviderName; check: Provi
           Checking…
         </span>
       ) : check.status === "unavailable" ? (
-        <span className="text-muted-paper">Unavailable</span>
+        <span className="text-muted-paper">Not checked</span>
       ) : (
         <span className="text-violet">
           {check.mentions === 0
@@ -896,7 +896,7 @@ export function GoldmineLive() {
                                   Checking…
                                 </span>
                               ) : s.status === "unavailable" ? (
-                                <span className="text-muted-paper">Unavailable</span>
+                                <span className="text-muted-paper">Not checked</span>
                               ) : (
                                 <span className="text-violet">
                                   {s.mentions === 0

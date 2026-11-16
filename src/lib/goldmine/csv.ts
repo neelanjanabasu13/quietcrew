@@ -12,7 +12,7 @@ export function businessesToCsv(businesses: ScanBusiness[]): string {
   const header = ["Rank", "Business", "Area", "Category", "Google rating", "Google reviews", "Gold score", "Group", "Website", ...PROVIDERS.map((p) => `${p} mentions`), "Why it is a prospect", "First outreach draft", "AI check area", "Search coverage"];
   const rows = businesses.map((b, i) => [
     i + 1, b.name, b.area, b.category, b.reputation.rating, b.reputation.reviews, b.gold, evidenceGroup(b).label, b.website ?? "",
-    ...PROVIDERS.map((p) => { const c = b.providers[p]; return c.status === "complete" ? c.mentions : c.status === "unavailable" ? "unavailable" : "pending"; }),
+    ...PROVIDERS.map((p) => { const c = b.providers[p]; return c.status === "complete" ? c.mentions : c.status === "unavailable" ? "not checked" : "pending"; }),
     b.why, b.drafts[0]?.body ?? "", b.searchArea?.name ?? "",
     b.searchArea ? (b.searchArea.nearby ? "Nearby" : "Selected area") : "",
   ]);

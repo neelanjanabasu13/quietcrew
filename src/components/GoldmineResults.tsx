@@ -231,7 +231,7 @@ function ProviderRow({ provider, state }: { provider: ProviderName; state: Provi
           Checking…
         </span>
       ) : state.status === "unavailable" ? (
-        <span className="text-muted-paper">Unavailable</span>
+        <span className="text-muted-paper">Not checked</span>
       ) : (
         <span className="text-violet">
           {state.mentions === 0
@@ -428,7 +428,7 @@ export function GoldmineResults() {
                             Checking…
                           </span>
                         ) : s.status === "unavailable" ? (
-                          <span className="text-muted-paper">Unavailable</span>
+                          <span className="text-muted-paper">Not checked</span>
                         ) : (
                           <span className="text-violet">
                             {s.mentions === 0 ? "No mentions found" : `${s.mentions} in ten questions`}

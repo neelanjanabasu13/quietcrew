@@ -13,6 +13,6 @@ describe("businessesToCsv", () => {
     const [, row] = businessesToCsv([b]).split("\r\n");
     expect(row).toContain('"Joe ""The"" Baker"');
     expect(row).toContain(`"'=SUM(A1)"`);
-    expect(row).toContain('"0","unavailable","pending"');
+    expect(row).toContain('"0","not checked","pending"');
   });
 });

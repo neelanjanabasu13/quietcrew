@@ -290,7 +290,7 @@ function Report({ loadedBusiness }: { loadedBusiness: NonNullable<Awaited<Return
               <div className="absolute inset-0 grid place-items-center rounded-lg bg-background/40">
                 <div className="mx-4 max-w-md rounded-lg border border-border bg-card p-8 text-center shadow-lg">
                   <Lock className="mx-auto h-8 w-8 text-fix" />
-                  <p className="mt-4 text-xl font-semibold">Unlock your Done-for-You Fix Pack</p>
+                  <p className="mt-4 text-xl font-semibold">Get your Done-for-You Fix Pack</p>
                   <p className="mt-2 text-sm text-muted-foreground">{problems.length} detailed SOP{problems.length === 1 ? "" : "s"} for your report, with exact clicks, scripts and links. One-off payment, no subscription.</p>
                   <div className="mt-5"><PayButton b={b} item="diy" label="Done-for-You Fix Pack" onBuy={() => setCheckoutOpen(true)}>Get my Done-for-You Fix Pack · {P.fixPack}</PayButton></div>
                 </div>
