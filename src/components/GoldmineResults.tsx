@@ -312,9 +312,6 @@ export function GoldmineResults() {
             Replay the preview
           </button>
         </div>
-
-        </div>
-
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
