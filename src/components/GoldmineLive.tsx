@@ -606,11 +606,19 @@ export function GoldmineLive() {
           ) : null}
           {snapshot.discovery && snapshot.discovery.found !== null ? (
             <p className="mt-4 rounded-[14px] bg-cream px-4 py-3 text-[15px] font-semibold text-ink">
-              {snapshot.discovery.found} found, {snapshot.discovery.qualified ?? "?"} qualified,{" "}
-              {snapshot.discovery.analysed} analysed
-              {snapshot.discovery.chainsExcluded
-                ? `, after ${snapshot.discovery.chainsExcluded} chain ${snapshot.discovery.chainsExcluded === 1 ? "exclusion" : "exclusions"}`
-                : ""}
+              {(() => {
+                const d = snapshot.discovery!;
+                const chains = d.chainsExcluded ?? 0;
+                return (
+                  <>
+                    Google listed {d.found} {snapshot.category.toLowerCase()} in this area.
+                    {chains > 0
+                      ? ` We set aside ${chains} ${chains === 1 ? "chain or multi-site business" : "chains and multi-site businesses"}, because independents are the ones an agency can actually win, `
+                      : " "}
+                    and checked {d.analysed} {d.analysed === 1 ? "independent business" : "independent businesses"} against what AI assistants recommend.
+                  </>
+                );
+              })()}
             </p>
           ) : null}
 
@@ -686,7 +694,7 @@ export function GoldmineLive() {
                   </div>
                 ) : null}
 
-          {visibleBusinesses.length > 0 ? (
+          {unlocked && visibleBusinesses.length > 0 ? (
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <button type="button" onClick={() => downloadCsv(snapshot, visibleBusinesses)} className="rounded-full bg-violet-deep px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-violet-deeper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet">
                 {unlocked ? "Download full CSV" : "Download preview CSV"}
