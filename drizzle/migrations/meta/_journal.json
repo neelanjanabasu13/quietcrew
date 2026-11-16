@@ -36,6 +36,13 @@
       "when": 1794828216337,
       "tag": "0004_allow_fix_pack_1999",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794844857731,
+      "tag": "0005_goldmine_orders_server_only_insert",
+      "breakpoints": true
     }
   ]
 }
