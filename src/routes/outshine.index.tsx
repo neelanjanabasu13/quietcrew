@@ -1,5 +1,5 @@
 import { PRICE_LABELS as P } from "@/lib/pricing";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Header } from "@/components/outshine/Brand";
@@ -46,6 +46,7 @@ function Home() {
   const [hits, setHits] = useState<Hit[]>([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [needSignin, setNeedSignin] = useState(false);
   const navigate = useNavigate();
   const search = useServerFn(searchBusinesses);
   const discover = useServerFn(discoverBusinesses);
@@ -64,11 +65,12 @@ function Home() {
     setLoading(true);
     setHits([]);
     setErr(null);
+    setNeedSignin(false);
     const to = setTimeout(async () => {
       try {
         const r = await (browsing && trade ? discover({ data: { trade, city } }) : search({ data: { q: trade ? `${s} ${TRADES[trade].label}` : s } }));
         if (cacheKey && !r.error && r.results.length) browseCache.set(cacheKey, { results: r.results as Hit[], error: null });
-        if (live) { setHits(r.results); setErr(r.error); }
+        if (live) { setHits(r.results); setErr(r.error); setNeedSignin("signin" in r && !!r.signin); }
       } catch { if (live) setErr("Search is having a moment. Please try again."); }
       if (live) setLoading(false);
     }, browsing ? 0 : 700);
@@ -113,7 +115,7 @@ function Home() {
                   </li>
                 ))}
                 {loading && !hits.length && <li className="px-5 py-4 text-sm text-muted-foreground">Searching…</li>}
-                {!loading && !hits.length && <li className="px-5 py-4 text-sm text-muted-foreground">{err ?? "No match found. Try adding your town or postcode."}</li>}
+                {!loading && !hits.length && <li className="px-5 py-4 text-sm text-muted-foreground">{err ?? "No match found. Try adding your town or postcode."}{needSignin && <> <Link to="/login" search={{ next: "/outshine", mode: "signin" }} className="font-semibold text-primary underline">Sign in</Link></>}</li>}
               </ul>}
               <a href="#browse" className="mt-4 inline-block px-2 text-sm font-semibold text-violet underline-offset-4 hover:underline">Not sure what to type? Browse local businesses by trade ↓</a>
             </div>
@@ -224,7 +226,7 @@ function Home() {
                       </Button>
                     </CarouselItem>)}
                   </CarouselContent> : <div className="flex h-full items-center rounded-xl border border-border bg-card px-4 text-sm text-muted-foreground" role="status">
-                    {loading ? "Finding local businesses…" : err ?? "No 4 to 4.5 star examples here. Try another city."}
+                    {loading ? "Finding local businesses…" : err ?? "No 4 to 4.5 star examples here. Try another city."}{needSignin && <> <Link to="/login" search={{ next: "/outshine", mode: "signin" }} className="font-semibold text-primary underline">Sign in</Link></>}
                   </div>}
                 </div>
               </Carousel>}

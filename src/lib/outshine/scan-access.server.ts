@@ -44,9 +44,17 @@ export async function takeBudget(scope: string, limit: number, windowMs: number)
   const { data, error } = await supabaseAdmin.rpc("outshine_take_budget", { p_bucket: `${scope}:${window}`, p_limit: limit, p_expires: new Date((window + 1) * windowMs).toISOString() });
   if (error || !data) throw new Error("The scan safety limit has been reached. Please try again later; no scan has been used.");
 }
+export const SIGNIN_TO_SEARCH = "SIGNIN_TO_SEARCH";
 export async function guardLookup() {
   // Searching never creates a guest session; only reserving a scan does.
   const identity = await scanIdentity(false);
+  // Guests get searches only until their free scan is used, matched by browser or connection.
+  if (!identity.userId) {
+    const ors = [`ip_hash.eq.${identity.ipHash}`, ...(identity.visitor ? [`visitor_id.eq.${identity.visitor.id}`] : [])].join(",");
+    const { count, error } = await identity.db.from("outshine_scans").select("id", { count: "exact", head: true }).eq("source", "free").in("status", ["running", "completed"]).or(ors);
+    if (error) throw error;
+    if ((count ?? 0) > 0) throw new Error(SIGNIN_TO_SEARCH);
+  }
   await takeBudget(`lookup:${identity.ipHash}`, 30, 60 * 60 * 1000);
   return identity;
 }

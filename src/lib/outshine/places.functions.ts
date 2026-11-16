@@ -4,13 +4,15 @@ import { findBusiness } from "./sample";
 import { getCuratedReference } from "./references";
 
 // Live ids look like "live.plumbing.<googlePlaceId>".
+export const SIGNIN_MESSAGE = "You have used your free guest scan. Sign in for two more free scans.";
 export const liveId = (trade: string, placeId: string) => `live.${trade}.${placeId}`;
 
 export const searchBusinesses = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ q: z.string().trim().min(2).max(120), max: z.number().int().min(1).max(20).optional() }).parse(d))
   .handler(async ({ data }) => {
-    const { guardLookup } = await import("./scan-access.server");
-    await guardLookup();
+    const { guardLookup, SIGNIN_TO_SEARCH } = await import("./scan-access.server");
+    try { await guardLookup(); }
+    catch (e) { if (e instanceof Error && e.message === SIGNIN_TO_SEARCH) return { results: [], error: SIGNIN_MESSAGE, signin: true }; throw e; }
     // Sample listings never trigger a paid scan.
     const seed = /mops\s*stars?/i.test(data.q) ? [{ placeId: "seed:mops-stars-cleaning", name: "Mops Stars Cleaning", address: "88 Upper Street, London N1", rating: 3.9, reviewCount: 14, trade: "cleaning" as const, photo: null }] : [];
     const { searchPlaces } = await import("./places.server");
@@ -31,8 +33,9 @@ export const getBusiness = createServerFn({ method: "GET" })
 export const discoverBusinesses = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ trade: z.enum(["plumbing", "electrician", "cleaning", "landscaping", "salon"]), city: z.string().trim().min(2).max(40) }).parse(d))
   .handler(async ({ data }) => {
-    const { guardLookup } = await import("./scan-access.server");
-    await guardLookup();
+    const { guardLookup, SIGNIN_TO_SEARCH } = await import("./scan-access.server");
+    try { await guardLookup(); }
+    catch (e) { if (e instanceof Error && e.message === SIGNIN_TO_SEARCH) return { results: [], error: SIGNIN_MESSAGE, signin: true }; throw e; }
     const { discoverPlaces } = await import("./places.server");
     const { discoveryQueries, pickExamples, inExampleRange } = await import("./discovery");
     const { evaluate, cappedGrade } = await import("./audit");
