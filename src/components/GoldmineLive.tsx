@@ -311,6 +311,7 @@ export function GoldmineLive() {
         setSnapshot(snap);
         if (snap.locality) setLocality(snap.locality);
         if (snap.category) setCategory(snap.category);
+        setTimeout(() => document.getElementById("goldmine-scan-results")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
         if (snap.status === "pending" || snap.status === "partial") beginPolling(id);
       } catch {
         window.localStorage.removeItem(LAST_ORDER_KEY);
@@ -541,7 +542,7 @@ export function GoldmineLive() {
       ) : null}
 
       {snapshot ? (
-        <div className="mt-8 border-t border-border pt-8">
+        <div id="goldmine-scan-results" className="mt-8 scroll-mt-28 border-t border-border pt-8">
           {searchedLocality ? (
             <nav aria-label="Breadcrumb" className="mb-3 text-[14px] text-muted-paper">
               Goldmine <span aria-hidden="true">›</span> London <span aria-hidden="true">›</span>{" "}

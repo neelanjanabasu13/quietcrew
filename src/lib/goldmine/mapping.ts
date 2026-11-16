@@ -224,8 +224,10 @@ export function normaliseEngineRun(payload: unknown, locality: string, category:
   return {
     status,
     isFixture: false,
-    locality: String(run["location"] ?? locality),
-    category: String(run["category"] ?? category),
+    // Keep the area and category the customer chose, so the form and results
+    // always show their own choice rather than the engine's wording.
+    locality,
+    category,
     businesses,
     counts: countChecks(businesses),
     discovery: {

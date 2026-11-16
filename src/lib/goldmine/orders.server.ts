@@ -222,7 +222,7 @@ export async function readScanForOrder(orderId: string, owner: OrderOwner): Prom
     // Partial results already stored are preserved rather than discarded.
     const stored = order.results as ScanSnapshot | null;
     if (stored && Array.isArray(stored.businesses)) {
-      return { ...stored, status: "partial", message: "Some checks could not be reached. What has already arrived is shown below." };
+      return { ...stored, locality: order.locality, category: order.category, status: "partial", message: "Some checks could not be reached. What has already arrived is shown below." };
     }
     throw new Error("Could not read that scan");
   }
