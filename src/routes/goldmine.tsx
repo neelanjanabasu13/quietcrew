@@ -178,7 +178,7 @@ function Goldmine() {
             <Reveal className="mx-auto max-w-[760px] text-center">
               <Eyebrow>How it works</Eyebrow>
               <h2 className="mt-5 text-[2rem] md:text-[3.2rem]">
-                From a postcode
+                From an area
                 <br />
                 <span className="text-violet">to a shortlist</span>
               </h2>
