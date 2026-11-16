@@ -313,23 +313,6 @@ export function GoldmineResults() {
           </button>
         </div>
 
-        <div
-          className="mt-5 grid gap-3 sm:grid-cols-2"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          <div className="rounded-[14px] bg-violet-tint px-4 py-3">
-            <p className="text-[13px] text-muted-paper">Checks completed</p>
-            <p className="text-[20px] font-extrabold text-ink">
-              {completed.done} of {completed.total}
-            </p>
-          </div>
-          <div className="rounded-[14px] bg-violet-tint px-4 py-3">
-            <p className="text-[13px] text-muted-paper">Still running</p>
-            <p className="text-[20px] font-extrabold text-ink">
-              {completed.total - completed.done - completed.unavailable}
-            </p>
-          </div>
         </div>
 
       </div>

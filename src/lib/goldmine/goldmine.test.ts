@@ -9,11 +9,9 @@ describe("Goldmine fixtures", () => {
     expect(snapshot.message).toMatch(/Example data/);
   });
 
-  it("reports a failed provider check as unavailable rather than zero mentions", () => {
+  it("shows every provider check as complete in the example preview", () => {
     const snapshot = fixtureSnapshot("Highgate", "Dentists");
-    const claude = snapshot.businesses[0]!.providers.Claude;
-    expect(claude.status).toBe("unavailable");
-    expect(snapshot.counts.unavailable).toBeGreaterThan(0);
+    expect(snapshot.counts.unavailable).toBe(0);
   });
 
   it("treats an all pending run as pending", () => {

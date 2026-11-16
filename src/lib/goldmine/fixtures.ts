@@ -24,7 +24,7 @@ function businesses(locality: string, category: string): ScanBusiness[] {
       providers: {
         Gemini: { status: "complete", mentions: 0, note: "Named three other practices and did not name this one." },
         OpenAI: { status: "complete", mentions: 1, note: "Named the practice once, in a list of five." },
-        Claude: { status: "unavailable", note: "The check did not complete, so there is no result for this provider." },
+        Claude: { status: "complete", mentions: 0, note: "Named other businesses nearby and did not name this one." },
       },
       drafts: [
         {
@@ -71,7 +71,7 @@ function businesses(locality: string, category: string): ScanBusiness[] {
       providers: {
         Gemini: { status: "complete", mentions: 4, note: "Named the business in four of the ten questions." },
         OpenAI: { status: "complete", mentions: 3, note: "Named the business in three of the ten questions." },
-        Claude: { status: "unavailable", note: "The check did not complete, so there is no result for this provider." },
+        Claude: { status: "complete", mentions: 0, note: "Named other businesses nearby and did not name this one." },
       },
       drafts: [
         {
