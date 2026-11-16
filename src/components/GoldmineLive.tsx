@@ -565,27 +565,6 @@ export function GoldmineLive() {
             </p>
             {snapshot.status !== "failed" ? <ScanPhases snapshot={snapshot} /> : null}
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-[14px] bg-violet-tint px-4 py-3">
-                <p className="text-[13px] text-muted-paper">Checks completed</p>
-                <p className="text-[20px] font-extrabold text-ink">
-                  {snapshot.counts.completed} of {snapshot.counts.total}
-                </p>
-              </div>
-              <div className="rounded-[14px] bg-violet-tint px-4 py-3">
-                <p className="text-[13px] text-muted-paper">Still running</p>
-                <p className="text-[20px] font-extrabold text-ink">
-                  {Math.max(
-                    snapshot.counts.total - snapshot.counts.completed - snapshot.counts.unavailable,
-                    0,
-                  )}
-                </p>
-              </div>
-              <div className="rounded-[14px] bg-violet-tint px-4 py-3">
-                <p className="text-[13px] text-muted-paper">Unavailable</p>
-                <p className="text-[20px] font-extrabold text-ink">{snapshot.counts.unavailable}</p>
-              </div>
-            </div>
           </div>
 
           {searchedLocality ? (
@@ -706,8 +685,7 @@ export function GoldmineLive() {
           ) : null}
 
           <p className="mt-4 text-[14px] text-muted-paper">
-            A provider check that fails is recorded as unavailable rather than as no mentions,
-            because a failed check tells you nothing about the business. The OpenAI and Claude
+            The OpenAI and Claude
             checks do not use web search at present, so read them as what the models say from
             training rather than from a live search of the web.
           </p>
