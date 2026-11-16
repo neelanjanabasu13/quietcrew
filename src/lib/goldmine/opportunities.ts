@@ -11,7 +11,7 @@ export function opportunitySnapshot(snapshot: ScanSnapshot): ScanSnapshot {
   const prospectsByArea = Object.fromEntries(discovery.searchAreas.map((area) => [area, 0]));
   for (const business of businesses) {
     const area = business.searchArea?.name;
-    if (area && Object.hasOwn(prospectsByArea, area)) prospectsByArea[area] += 1;
+    if (area && Object.hasOwn(prospectsByArea, area)) prospectsByArea[area] = (prospectsByArea[area] ?? 0) + 1;
   }
   return { ...snapshot, businesses, discovery: { ...discovery, prospectsByArea } };
 }

@@ -39,7 +39,7 @@ it("counts only positive-score prospects by search area and preserves totals in 
     found: 3, qualified: 3, analysed: 3, chainsExcluded: 0,
     searchAreas: ["Highgate", "Crouch End"],
   };
-  snapshot.businesses[0].searchArea = { name: "Highgate", nearby: false };
+  snapshot.businesses[0]!.searchArea = { name: "Highgate", nearby: false };
   for (const business of snapshot.businesses.slice(1)) {
     business.searchArea = { name: "Crouch End", nearby: true };
   }
