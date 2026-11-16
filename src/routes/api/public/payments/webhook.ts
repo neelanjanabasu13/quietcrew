@@ -9,12 +9,12 @@ import { type StripeEnv, verifyWebhook } from "@/lib/stripe.server";
 async function fulfil(session: any, eventId: string, environment: StripeEnv) {
   if (session?.metadata?.outshineScanCreditId) {
     const { confirmScanPayment } = await import("@/lib/outshine/scan-payments.server");
-    await confirmScanPayment(session.id, environment);
+    if (await confirmScanPayment(session.id, environment)) await sendOrderEmail(session, "an extra Outshine scan", "/outshine");
     return;
   }
   if (session?.metadata?.outshinePurchaseId) {
     const { confirmDiyPayment } = await import("@/lib/outshine/payments.server");
-    await confirmDiyPayment(session.id, environment);
+    if (await confirmDiyPayment(session.id, environment)) await sendOrderEmail(session, "the Outshine Fix Pack", "/outshine");
     return;
   }
   const orderId: string | undefined = session?.metadata?.goldmineOrderId;
@@ -22,7 +22,23 @@ async function fulfil(session: any, eventId: string, environment: StripeEnv) {
   const { recordPaymentEvent, markOrderPaid } = await import("@/lib/goldmine/orders.server");
   const fresh = await recordPaymentEvent({ provider: "stripe", eventId, orderId, payload: { session: session.id } });
   if (!fresh) return;
-  await markOrderPaid(orderId, session.id, "stripe");
+  if (await markOrderPaid(orderId, session.id, "stripe")) await sendOrderEmail(session, "a Goldmine scan", "/goldmine");
+}
+
+/** One confirmation per checkout session, £0 coupon orders included. Never blocks fulfilment. */
+async function sendOrderEmail(session: any, product: string, path: string) {
+  const to: string | undefined = session?.customer_details?.email ?? session?.customer_email ?? undefined;
+  if (!to) return;
+  try {
+    const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+    const pence = typeof session.amount_total === "number" ? session.amount_total : null;
+    await sendTemplateEmail("order-confirmation", to, {
+      templateData: { product, amount: pence === null ? "" : `£${(pence / 100).toFixed(2)}`, link: `https://quietcrew.ai${path}` },
+      idempotencyKey: `order-confirmation-${session.id}`,
+    });
+  } catch (e) {
+    console.error("[payments] order email failed", e);
+  }
 }
 
 export const Route = createFileRoute("/api/public/payments/webhook")({
