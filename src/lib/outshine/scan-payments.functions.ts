@@ -5,6 +5,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
 import { SCAN_AMOUNT, SCAN_PRICE_ID } from "./scan-rules";
+import { PRICE_LABELS } from "../pricing";
 import { resolveOrCreateCustomer } from "./payments.functions";
 const input = z.object({ businessId: z.string().regex(/^live\.(plumbing|electrician|cleaning|landscaping|salon)\.[A-Za-z0-9_-]+$/).max(400), environment: z.enum(["sandbox", "live"]), returnOrigin: z.string().url().max(200).refine(v => v.startsWith("https://") || v.startsWith("http://localhost"), "Invalid origin").optional() });
 export const createScanCheckout = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((d: unknown) => input.parse(d)).handler(async ({ data, context }) => {
@@ -16,7 +17,7 @@ export const createScanCheckout = createServerFn({ method: "POST" }).middleware(
     if (available) return { error: "A scan for this business is already available. Close checkout and run your check." };
     const prices = await stripe.prices.list({ lookup_keys: [SCAN_PRICE_ID] });
     const price = prices.data[0];
-    if (!price || price.unit_amount !== SCAN_AMOUNT || price.currency !== "gbp" || price.type !== "one_time") throw new Error("The £2.99 scan price is not configured correctly.");
+    if (!price || price.unit_amount !== SCAN_AMOUNT || price.currency !== "gbp" || price.type !== "one_time") throw new Error(`The ${PRICE_LABELS.outshineScan} scan price is not configured correctly.`);
     const product = await stripe.products.retrieve(typeof price.product === "string" ? price.product : price.product.id);
     const email = (context.claims as { email?: string }).email;
     const customer = await resolveOrCreateCustomer(stripe, { userId: context.userId, ...(email && { email }) });

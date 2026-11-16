@@ -1,4 +1,4 @@
-import { FIX_PACK, GOLDMINE_SCAN, WORKFLOW_AUDIT, CONSULTATION_HOURLY } from "@/lib/home-prices";
+import { PRICE_LABELS as P } from "@/lib/pricing";
 import { ProductSlider } from "@/components/ProductSlider";
 import { WorkflowShowcase } from "@/components/WorkflowShowcase";
 import { createFileRoute } from "@tanstack/react-router";
@@ -30,7 +30,7 @@ const faqEntries: { q: string; a: string }[] = [
   },
   {
     q: "How much does it cost?",
-    a: `Goldmine is £${GOLDMINE_SCAN} per scan. The Outshine scan is free, and the Done-for-You Fix Pack is £${FIX_PACK}. A Workflow Audit is £${WORKFLOW_AUDIT}, a 1:1 consultation is £${CONSULTATION_HOURLY} per hour, and when we do the work for you it is priced on the outcome, which we agree with you before we start.`,
+    a: `Goldmine is ${P.goldmineScan} per scan. The Outshine scan is free, and the Done-for-You Fix Pack is ${P.fixPack}. A Workflow Audit is ${P.workflowAudit}, a 1:1 consultation is ${P.consultationHourly} per hour, and when we do the work for you it is priced on the outcome, which we agree with you before we start.`,
   },
   {
     q: "What happens in a Workflow Audit?",
@@ -51,13 +51,13 @@ const serviceOfferings = [
     name: "Workflow Audit",
     description:
       "A one-time review of one repetitive process, ending with a plain English plan of what to connect, what to automate and which tools to use.",
-    price: String(WORKFLOW_AUDIT),
+    price: String(P.workflowAudit),
   },
   {
     name: "1:1 Consultation",
     description:
       "An hour-long session on your software setup, the tools worth buying and small no-code builds.",
-    price: String(CONSULTATION_HOURLY),
+    price: String(P.consultationHourly),
   },
 ];
 
@@ -113,14 +113,14 @@ const tiers = [
   {
     label: "One-time",
     title: "Workflow Audit",
-    price: `£${WORKFLOW_AUDIT}`,
+    price: `${P.workflowAudit}`,
     body: "Pick one job that eats your week, such as chasing quotes, updating spreadsheets or sending the same report. We go deep into how it works today, then hand you a step-by-step fix covering what to change, how to do it and why. You can stop there and do it yourself, or ask us to do it for you.",
     cta: "Enquire about an audit",
   },
   {
     label: "1:1",
     title: "Consultation",
-    price: `£${CONSULTATION_HOURLY} per hour`,
+    price: `${P.consultationHourly} per hour`,
     body: "An hour with us on your software setup, the tools worth paying for and the ones you can cancel, or a small build you have in mind. You leave knowing exactly what to do next, and who can do it.",
     cta: "Enquire about a consultation",
   },

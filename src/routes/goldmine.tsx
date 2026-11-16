@@ -1,3 +1,4 @@
+import { PRICE_LABELS as P } from "@/lib/pricing";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
@@ -213,7 +214,7 @@ function Goldmine() {
 
             <Reveal className="mx-auto mt-12 max-w-[620px] text-center">
               <p className="text-[16px] text-muted-paper">
-                The pilot scan costs £49 and tests each business through Gemini, OpenAI and
+                The pilot scan costs {P.goldmineScan} and tests each business through Gemini, OpenAI and
                 Claude. Questions about the product are welcome at{" "}
                 <a
                   href="mailto:hello@quietcrew.ai"

@@ -1,6 +1,7 @@
+import { PRICES_PENCE } from "../pricing";
 export const GUEST_FREE_SCANS = 1;
 export const ACCOUNT_FREE_SCANS = 3;
-export const SCAN_AMOUNT = 299;
+export const SCAN_AMOUNT = PRICES_PENCE.outshineScan;
 export const SCAN_PRICE_ID = "outshine_scan_single";
 export const REPORT_TTL_MS = 48 * 60 * 60 * 1000;
 

@@ -1,3 +1,4 @@
+import { PRICE_LABELS } from "../pricing";
 import {
   Body,
   Container,
@@ -33,7 +34,7 @@ export function EnquiryConfirmation({
           </Heading>
           <Text style={{ color: '#6B6880', fontSize: '16px', lineHeight: 1.6 }}>
             We will read it properly and reply within one working day with an honest view:
-            whether one of our ready-made tools already covers it, whether the £99 workflow
+            whether one of our ready-made tools already covers it, whether the {PRICE_LABELS.workflowAudit} workflow
             audit is the right next step, or whether you do not need us at all.
           </Text>
           {manualWork ? (

@@ -1,3 +1,4 @@
+import { PRICE_LABELS as P } from "@/lib/pricing";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
@@ -20,7 +21,7 @@ export const Route = createFileRoute("/outshine/")({
   head: () => ({
     meta: [
       { title: "Outshine by Quietcrew · Free online presence audit for UK trades" },
-      { name: "description", content: "Compare your UK trade business with nearby rivals in a free online presence audit, then get a Done-for-You Fix Pack for £19.99 (was £24.99)." },
+      { name: "description", content: `Compare your UK trade business with nearby rivals in a free online presence audit, then get a Done-for-You Fix Pack for ${P.fixPack} (was ${P.fixPackWas}).` },
       { property: "og:title", content: "Outshine by Quietcrew · Free online presence audit for UK trades" },
       { property: "og:description", content: "Compare your public business profile with nearby businesses and download a practical report." },
       { property: "og:type", content: "website" },
@@ -47,8 +48,8 @@ function Home() {
   const search = useServerFn(searchBusinesses);
   const discover = useServerFn(discoverBusinesses);
   const allowance = useServerFn(outshineAllowance);
-  const [scanNote, setScanNote] = useState("One free guest scan, three free scans total with an account, then £2.99 per scan.");
-  useEffect(() => { let active = true; void allowance({ data: { environment: getStripeEnvironment() } }).then(a => { if (active) setScanNote(a.signedIn ? `${a.remaining} of your three free scans remain. Further scans cost £2.99 each.` : "One free guest scan, three free scans total with an account, then £2.99 per scan."); }).catch(() => {}); return () => { active = false; }; }, [allowance]);
+  const [scanNote, setScanNote] = useState(`One free guest scan, three free scans total with an account, then ${P.outshineScan} per scan.`);
+  useEffect(() => { let active = true; void allowance({ data: { environment: getStripeEnvironment() } }).then(a => { if (active) setScanNote(a.signedIn ? `${a.remaining} of your three free scans remain. Further scans cost ${P.outshineScan} each.` : `One free guest scan, three free scans total with an account, then ${P.outshineScan} per scan.`); }).catch(() => {}); return () => { active = false; }; }, [allowance]);
 
   useEffect(() => {
     const s = q.trim();
@@ -158,7 +159,7 @@ function Home() {
           <div className="mx-auto max-w-3xl px-5">
             <p className="inline-block rounded-full bg-card/10 px-4 py-1.5 text-sm font-semibold text-muted-on-violet">What the audit does</p>
             <h2 id="how-title" className="mt-4 font-display text-3xl font-extrabold md:text-5xl">Your first scan is free. <span className="text-peach">The fix list is there when you want the answers.</span></h2>
-            <p className="mt-5 text-lg text-muted-on-violet">Your first scan includes your grade and rival comparison without payment. Signing in gives you three free scans total, including your guest scan; further scans cost £2.99 each. When you would rather not work out the fixes yourself, the detailed report tells you exactly what to change and how, for £19.99 instead of £24.99 for a limited time.</p>
+            <p className="mt-5 text-lg text-muted-on-violet">Your first scan includes your grade and rival comparison without payment. Signing in gives you three free scans total, including your guest scan; further scans cost {P.outshineScan} each. When you would rather not work out the fixes yourself, the detailed report tells you exactly what to change and how, for {P.fixPack} instead of {P.fixPackWas} for a limited time.</p>
             <ol className="mt-12">
               {[
                 { n: "Your first scan is free", k: "Scan your business", d: "In under a minute you get your grade, the gaps on your public profile, and how you stack up against the nearby businesses in your trade.", bg: "bg-card",
@@ -167,7 +168,7 @@ function Home() {
                       <li key={a} className="flex items-center gap-3"><span className="w-16 shrink-0 font-semibold">{a}</span><span className="h-3 flex-1 overflow-hidden rounded-full bg-secondary"><span className={`block h-full rounded-full ${c}`} style={{ width: w }} /></span><span className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold text-card ${c}`}>{g}</span></li>
                     ))}
                   </ul> },
-                { n: "When you are ready · £19.99, was £24.99", k: "Get your exact fix list", d: "A detailed report written for your business: what to fix first, step-by-step guides, ready-to-paste wording and a PDF you keep. It is the list a consultant would charge you for, at a fraction of the price.", bg: "bg-violet-tint",
+                { n: `When you are ready · ${P.fixPack}, was ${P.fixPackWas}`, k: "Get your exact fix list", d: "A detailed report written for your business: what to fix first, step-by-step guides, ready-to-paste wording and a PDF you keep. It is the list a consultant would charge you for, at a fraction of the price.", bg: "bg-violet-tint",
                   art: <div className="rounded-xl bg-card p-4 text-sm">
                     <p className="text-xs font-semibold text-violet">Review reply, ready to paste</p>
                     <p className="mt-2 text-muted-foreground">“Thank you for taking the time to write this. We are sorry the visit ran late, and we would like to put it right…”</p>
@@ -234,7 +235,7 @@ function Home() {
         <section className="mt-14 grid gap-8 rounded-[20px] soft-shadow bg-card p-8 md:grid-cols-[1.3fr_1fr] md:p-12">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-fix">From findings to fixes</p>
-            <h2 className="mt-3 font-display text-3xl font-extrabold md:text-4xl">Your exact fix list for <span className="mr-2 text-2xl text-muted-foreground line-through md:text-3xl">£24.99</span><span className="text-violet">£19.99</span>.</h2>
+            <h2 className="mt-3 font-display text-3xl font-extrabold md:text-4xl">Your exact fix list for <span className="mr-2 text-2xl text-muted-foreground line-through md:text-3xl">{P.fixPackWas}</span><span className="text-violet">{P.fixPack}</span>.</h2>
             <p className="mt-4 max-w-md text-muted-foreground">
               Your free scan shows where you fall behind. The Done-for-You Fix Pack tells you exactly what to fix for your business, in what order, with the wording ready to paste, so an afternoon is all it takes. One payment, no subscription.
             </p>
@@ -242,7 +243,7 @@ function Home() {
           <ul className="flex flex-col justify-center gap-3">
             {[
               <>One guest scan free, three free scans total with an account</>,
-              <>Done-for-You Fix Pack · <s className="text-muted-foreground">£24.99</s> £19.99 one-off</>,
+              <>Done-for-You Fix Pack · <s className="text-muted-foreground">{P.fixPackWas}</s> {P.fixPack} one-off</>,
               <>Step-by-step guides and copyable wording</>,
               <>Downloadable PDF to keep</>,
             ].map((t, i) => (

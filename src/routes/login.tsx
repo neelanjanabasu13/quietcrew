@@ -1,3 +1,4 @@
+import { PRICE_LABELS as P } from "@/lib/pricing";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -153,7 +154,7 @@ function Login() {
       </h1>
       <p className="mt-3 text-[17px] leading-[1.6] text-muted-paper">
         {isGoldmine
-          ? "An account keeps your Goldmine preview safe and is where the full scan lives once you buy it for £49. Your free preview comes with you."
+          ? `An account keeps your Goldmine preview safe and is where the full scan lives once you buy it for ${P.goldmineScan}. Your free preview comes with you.`
           : "Sign in to your Quietcrew account, or create one if this is your first visit."}
       </p>
 

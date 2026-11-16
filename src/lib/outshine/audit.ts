@@ -227,10 +227,6 @@ export function topProblems(findings: Finding[], n = 5): Finding[] {
     .slice(0, n);
 }
 
-export const PRICE_BUNDLE = 29.99;
-export const PRICE_DIY = 19.99;
-export const WAS_DIY = 24.99;
-export const WAS_BUNDLE = 49.99;
 
 /** An illustrative industry target, never presented as a real nearby business. */
 export function benchmarkFindings(trade: Trade): Finding[] {
@@ -246,12 +242,6 @@ export function benchmarkFindings(trade: Trade): Finding[] {
 /** What-if projection only. Selected findings meet their benchmark, not a live re-grade. */
 export function projectFindings(findings: Finding[], selectedIds: string[]): Finding[] {
   return findings.map((f) => selectedIds.includes(f.id) ? { ...f, score: 1 } : f);
-}
-
-export function checkoutPrice(item: string): number {
-  if (item === "all") return PRICE_BUNDLE;
-  if (item === "diy") return PRICE_DIY;
-  throw new Error("Unknown purchase item");
 }
 
 /** Rough monthly revenue going to better-looking rivals. Placeholder model until real call data exists:

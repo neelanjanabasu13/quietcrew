@@ -1,3 +1,4 @@
+import { PRICE_LABELS as P } from "@/lib/pricing";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
@@ -501,7 +502,7 @@ export function GoldmineLive() {
         </div>
         <div className="rounded-[16px] bg-white p-4">
           <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-violet">Full scan</p>
-          <p className="mt-1 text-[1.4rem] font-extrabold text-ink">£49, one payment</p>
+          <p className="mt-1 text-[1.4rem] font-extrabold text-ink">{P.goldmineScan}, one payment</p>
           <p className="mt-1 text-[14px] text-muted-paper">
             Goldmine checks up to 50 businesses per scan. Some areas have fewer businesses in the category you choose, and not every business qualifies as a prospect. Your preview shows exactly how many more results you can unlock before you pay.
           </p>
@@ -518,7 +519,7 @@ export function GoldmineLive() {
       </button>
 
       <p className="mt-3 text-center text-[14px] text-muted-paper">
-        Nothing is charged to run the preview. You only pay £49 if you decide to open the rest of
+        Nothing is charged to run the preview. You only pay {P.goldmineScan} if you decide to open the rest of
         the list, and you will need a free account at that point so the purchase is yours.
       </p>
 
@@ -603,7 +604,7 @@ export function GoldmineLive() {
           ) : null}
 
           {!unlocked && (snapshot.status === "pending" || snapshot.status === "partial") ? (
-            <p className="mt-4 text-[15px] font-semibold text-ink">Full scan · £49. Available once the scan finishes.</p>
+            <p className="mt-4 text-[15px] font-semibold text-ink">Full scan · {P.goldmineScan}. Available once the scan finishes.</p>
           ) : null}
           {lockedCount > 0 && snapshot.status === "completed" ? (
                   <div className="mt-4 rounded-[20px] bg-violet-deep p-6 text-white soft-shadow-lg md:col-span-2">
@@ -616,7 +617,7 @@ export function GoldmineLive() {
                         : `${lockedCount} more businesses in this scan`}
                     </h3>
                     <p className="mt-3 text-[15px] text-muted-on-violet">
-                      {visibleBusinesses.length} in your free preview. £49 unlocks {lockedCount} more, plus the full CSV, assistant checks and outreach drafts.
+                      {visibleBusinesses.length} in your free preview. {P.goldmineScan} unlocks {lockedCount} more, plus the full CSV, assistant checks and outreach drafts.
                     </p>
                     {signedIn === false ? (
                       <>
@@ -625,7 +626,7 @@ export function GoldmineLive() {
                             href="/login?next=/goldmine&mode=signup"
                             className="pill-btn inline-flex bg-white px-6 py-3 text-[15px] font-semibold text-ink"
                           >
-                            Unlock full scan · £49
+                            Unlock full scan · {P.goldmineScan}
                           </a>
                           <a
                             href="/login?next=/goldmine&mode=signin"
@@ -657,14 +658,14 @@ export function GoldmineLive() {
                             }}
                             className="pill-btn mt-5 bg-white px-6 py-3 text-[15px] font-semibold text-ink"
                           >
-                            Unlock full scan · £49
+                            Unlock full scan · {P.goldmineScan}
                           </button>
                         )}
                         {checkoutError ? (
                           <p role="alert" className="mt-3 text-[14px] text-peach">{checkoutError}</p>
                         ) : null}
                         <p className="mt-3 text-[14px] text-muted-on-violet">
-                          One payment of £49 unlocks every business in this scan, and the results
+                          One payment of {P.goldmineScan} unlocks every business in this scan, and the results
                           stay in your account.
                         </p>
                       </>
@@ -700,7 +701,7 @@ export function GoldmineLive() {
               <p className="mt-3 text-[15px] text-muted-paper">
                 {scanTotal === 0
                   ? "This completed scan did not return a business with a Gold opportunity score above zero. This does not prove there is no opportunity, especially where assistant checks were unavailable."
-                  : "All positive-score prospects from this scan are included in your free preview, so there is nothing more to unlock for £49."}
+                  : `All positive-score prospects from this scan are included in your free preview, so there is nothing more to unlock for ${P.goldmineScan}.`}
                 {" "}Try another area for {snapshot.category}. These suggestions are alternatives, not a prediction of better results.
               </p>
               <div className="mt-4 flex flex-wrap gap-2" aria-label="Alternative areas">

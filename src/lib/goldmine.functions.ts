@@ -108,7 +108,7 @@ export const claimGuestGoldmineOrder = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-/** Opens a £49 checkout for one owned order. */
+/** Opens a Goldmine full-scan checkout for one owned order. */
 export const createGoldmineCheckout = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) =>

@@ -1,3 +1,4 @@
+import { PRICE_LABELS as P } from "@/lib/pricing";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CopyDraftButton } from "@/components/CopyDraftButton";
 import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
@@ -425,7 +426,7 @@ export function GoldmineResults() {
               <p className="mt-3 text-[15px] text-muted-on-violet">
                 The first two results are open so you can judge the quality of the work. The rest of
                 the list, with every reputation figure, each assistant check and the outreach drafts
-                for each business, comes with the full scan at £49.
+                for each business, comes with the full scan at {P.goldmineScan}.
               </p>
             </li>
           ) : null}
