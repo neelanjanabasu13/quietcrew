@@ -1,28 +1,34 @@
-# Promo codes and test purchases: findings (read-only)
+# Search launch checklist for quietcrew.ai
 
-## What was recommended in this project
-- 12 Oct (chat #197) and 13 Nov (chat #565): no codes. Test in the preview with Stripe's test card 4242 4242 4242 4242, any future expiry, any CVC. Promo codes were offered as a later option and never built.
-- Nothing in this project has created a coupon or promotion code.
+## Where things stand (checked on the live site today)
 
-## Sandbox vs live
-- Preview uses the sandbox (test) Stripe account. The published site uses the live account. Each checkout passes `environment` ("sandbox" or "live"), and Outshine purchases are stored separately per environment.
-- A Stripe coupon or promotion code exists in only one environment. A code made in the test account does nothing on the live site.
+| Item | Status |
+|---|---|
+| Site published publicly | Done |
+| quietcrew.ai connected and primary | Done |
+| SEO review, no high-impact findings | Last review passed, but it predates recent changes. Needs a fresh run |
+| Unique title and description per page | Done on all 6 pages |
+| Social preview per page | Titles are per page, but Goldmine, Outshine, Company, Privacy and Terms share one generic preview image |
+| Search Console connected, verified, sitemap sent | Not connected to this project |
+| Homepage headline says what we do | Not yet. "Ready-made tools, and a builder you can talk to." does not say what the products do |
+| Images have alt text | 9 images on Outshine have none |
+| One search intent per page | Not researched yet |
+| Key facts in page text | Done. Prices, FAQs and offers are written as text |
+| Plan for first five backlinks | Not started |
 
-## Where codes would be made and typed
-- Made: in the Stripe dashboard for the chosen account (Product catalogue, Coupons, then add a promotion code). I cannot see whether any exist.
-- Typed: nowhere at the moment. No checkout turns on `allow_promotion_codes` or passes `discounts`, so Stripe shows no "Add promotion code" box:
-  - Goldmine: `src/lib/goldmine.functions.ts`, `checkout.sessions.create`
-  - Outshine Fix Pack: `src/lib/outshine/payments.functions.ts`, `checkout.sessions.create`
-- There is no separate test-unlock mechanism. The only test route is the sandbox test card.
+## Steps, in order
 
-## What a 100% discount would do (if the box is turned on)
-Stripe then marks the session `payment_status: "no_payment_required"` with `amount_total: 0`.
-- Goldmine: `src/routes/api/public/payments/webhook.ts` fulfils whenever `payment_status !== "unpaid"`, then `markOrderPaid` in `src/lib/goldmine/orders.server.ts` sets the order to paid with no check on the amount. So a 100% code would unlock the scan.
-- Outshine Fix Pack: `isPaidDiySession` in `src/lib/outshine/payment-rules.ts` requires `payment_status === "paid"` and `amount_total === DIY_AMOUNT` (999). A free session fails, and the pack stays locked.
-- Outshine £2.99 scan: `isPaidScanSession` in `src/lib/outshine/scan-rules.ts` has the same strict checks, so it stays locked too.
+1. **Fresh SEO review** and fix anything high-impact it finds.
+2. **Homepage headline.** I propose three plain options for you to pick from (for example "Find local clients and fix your Google profile, without the manual work"). Nothing changes until you choose.
+3. **Alt text on Outshine.** Add short descriptions to the 9 images, or mark them decorative where they carry no meaning.
+4. **Per-page social images.** One preview image each for Goldmine and Outshine in the Quietcrew violet style. Legal pages keep the main Quietcrew image.
+5. **Search Console.** You click Connect on the card I show, sign in with the Workspace account, then I add the verification tag, publish once, verify, and submit the sitemap.
+6. **Keyword intent.** One search check per page (homepage, Goldmine, Outshine) to give each page a single main search phrase, then small wording tweaks to titles and headings.
+7. **Five backlinks plan.** A short, saved list of real places to get listed (UK startup directories, product launch sites, agency and trade communities), each checked and dated, with a ready-to-send message.
+8. **Publish once** at the end.
 
-## What I could not check
-Whether any coupons exist in either Stripe account, and what Lovable's own tooling says about promo codes. If she saw promo codes created somewhere, they were not wired into this checkout.
-
-## Optional next step (needs approval, not done)
-If she wants working codes, I would turn on `allow_promotion_codes` for both checkouts. The Outshine checks would then accept the amount after the discount, still matching the user, business, environment and metadata, and Goldmine would also get an amount check. Tests would be added for each rule.
+## Technical details
+- Social images: new `og:image` and `twitter:image` per route `head()` using absolute URLs.
+- Alt text: `src/components/outshine/*` image elements.
+- Search Console: standard connector link, META tag in `__root` head, then verify, add site, submit `/sitemap.xml`.
+- Keywords: Semrush keyword research (uk database). Backlinks: marketing research subagent, saved to Project Files.
