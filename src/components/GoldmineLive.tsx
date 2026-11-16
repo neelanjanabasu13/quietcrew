@@ -25,6 +25,12 @@ import { nearbyAreas, opportunitySnapshot } from "@/lib/goldmine/opportunities";
 import { Button } from "@/components/ui/button";
 
 const LAST_ORDER_KEY = "goldmine.lastOrder";
+const RESUME_KEY = "goldmine.resume";
+
+function markResume() {
+  const id = window.localStorage.getItem(LAST_ORDER_KEY);
+  if (id) window.sessionStorage.setItem(RESUME_KEY, id);
+}
 import { PROVIDERS, type ProviderCheck, type ProviderName, type ScanSnapshot } from "@/lib/goldmine/types";
 
 /**
@@ -280,6 +286,11 @@ export function GoldmineLive() {
     const id = window.localStorage.getItem(LAST_ORDER_KEY);
     if (!id) return;
     const returning = new URLSearchParams(window.location.search).has("session_id");
+    // Only resume after checkout or after signing in to unlock. A normal visit
+    // always starts on a clean intake form.
+    const resuming = window.sessionStorage.getItem(RESUME_KEY) === id;
+    window.sessionStorage.removeItem(RESUME_KEY);
+    if (!returning && !resuming) return;
     (async () => {
       try {
         if (signedIn) {
@@ -624,12 +635,14 @@ export function GoldmineLive() {
                         <div className="mt-5 flex flex-wrap gap-3">
                           <a
                             href="/login?next=/goldmine&mode=signup"
+                            onClick={markResume}
                             className="pill-btn inline-flex bg-white px-6 py-3 text-[15px] font-semibold text-ink"
                           >
                             Unlock full scan · {P.goldmineScan}
                           </a>
                           <a
                             href="/login?next=/goldmine&mode=signin"
+                            onClick={markResume}
                             className="pill-btn inline-flex px-6 py-3 text-[15px] font-semibold text-white ring-1 ring-white/40"
                           >
                             I already have an account
