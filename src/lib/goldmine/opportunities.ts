@@ -38,3 +38,13 @@ export function nearbyAreas(locality: string, groups: { areas: string[] }[]): st
     .sort((a, b) => Math.abs(areas.indexOf(a) - index) - Math.abs(areas.indexOf(b) - index))
     .slice(0, 3);
 }
+/** Scores at or above this line are visibility-gap prospects; below it, defence prospects. */
+export const GAP_TIER_MIN = 50;
+
+export type OpportunityTier = { key: "gap" | "defend"; label: string; pitch: string };
+
+export function opportunityTier(gold: number): OpportunityTier {
+  return gold >= GAP_TIER_MIN
+    ? { key: "gap", label: "Visibility gap", pitch: "Strong reviews, rarely named by AI assistants. Pitch getting them recommended." }
+    : { key: "defend", label: "Hold the ground", pitch: "Already named by some assistants. Pitch consistency across all three and defence against rivals." };
+}

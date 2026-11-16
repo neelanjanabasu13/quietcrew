@@ -21,7 +21,7 @@ import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
 import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 import { GoldmineContrast } from "@/components/GoldmineContrast";
 import { businessesToCsv } from "@/lib/goldmine/csv";
-import { nearbyAreas, opportunitySnapshot } from "@/lib/goldmine/opportunities";
+import { GAP_TIER_MIN, nearbyAreas, opportunitySnapshot, opportunityTier } from "@/lib/goldmine/opportunities";
 import { Button } from "@/components/ui/button";
 
 const LAST_ORDER_KEY = "goldmine.lastOrder";
@@ -740,6 +740,16 @@ export function GoldmineLive() {
             </p>
           ) : (
             <div className="mt-6">
+              {snapshot.status === "completed" && !open ? (
+                <div className="mb-4 grid gap-3 sm:grid-cols-2">
+                  <p className="rounded-[14px] bg-violet-tint px-4 py-3 text-[14px] text-ink">
+                    <strong>Visibility gap ({GAP_TIER_MIN} and above).</strong> Well reviewed but rarely named by AI assistants, so the clearest first outreach.
+                  </p>
+                  <p className="rounded-[14px] bg-cream px-4 py-3 text-[14px] text-ink">
+                    <strong>Hold the ground (below {GAP_TIER_MIN}).</strong> Already named by some assistants, so pitch keeping that lead and closing the gaps between them.
+                  </p>
+                </div>
+              ) : null}
               <ul className={open ? "hidden" : "grid gap-4 md:grid-cols-2"}>
                 {opportunities.map((b, index) => {
                   const locked = !unlocked && index >= FREE_PREVIEW_COUNT;
@@ -774,6 +784,12 @@ export function GoldmineLive() {
                           <p className="text-[22px] font-extrabold text-violet">{b.gold}<span className="text-[13px] font-semibold text-muted-paper"> / 100</span></p>
                         </div>
                       </div>
+
+                      {snapshot.status === "completed" ? (
+                        <p className={`mt-3 rounded-[12px] px-3 py-2 text-[13px] ${opportunityTier(b.gold).key === "gap" ? "bg-violet-tint text-ink" : "bg-cream text-ink"}`}>
+                          <strong>{opportunityTier(b.gold).label}.</strong> {opportunityTier(b.gold).pitch}
+                        </p>
+                      ) : null}
 
                       <div className="mt-4">
                         <GoldmineContrast business={b} />

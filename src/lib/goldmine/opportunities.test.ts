@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { fixtureSnapshot } from "./fixtures";
-import { canUnlockOpportunities, nearbyAreas, opportunitySnapshot } from "./opportunities";
+import { canUnlockOpportunities, nearbyAreas, opportunitySnapshot, opportunityTier } from "./opportunities";
 
 function scan(scores: number[], status: "completed" | "partial" = "completed") {
   const base = fixtureSnapshot("Soho & Carnaby", "Dental");
@@ -47,4 +47,10 @@ it("counts only positive-score prospects by search area and preserves totals in 
   expect(full.discovery?.prospectsByArea).toEqual({ Highgate: 1, "Crouch End": 1 });
   const preview = opportunitySnapshot({ ...full, businesses: full.businesses.slice(0, 1), lockedCount: 1 });
   expect(preview.discovery?.prospectsByArea).toEqual(full.discovery?.prospectsByArea);
+});
+
+it("puts a score of 50 in the visibility gap tier and 49 in hold the ground", () => {
+  expect(opportunityTier(50).key).toBe("gap");
+  expect(opportunityTier(49).key).toBe("defend");
+  expect(opportunityTier(5).key).toBe("defend");
 });
