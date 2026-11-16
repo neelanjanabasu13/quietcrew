@@ -1,3 +1,4 @@
+import { allowedOrigin } from "@/lib/return-origin";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestUrl } from "@tanstack/react-start/server";
 import { z } from "zod";
@@ -28,7 +29,7 @@ export const createScanCheckout = createServerFn({ method: "POST" }).middleware(
     }
     const { data: credit, error } = await db.from("outshine_scan_credits").insert({ user_id: context.userId, business_id: data.businessId, environment: data.environment }).select("id").single();
     if (error || !credit) throw error ?? new Error("Could not save the scan purchase.");
-    const origin = data.returnOrigin ?? new URL(getRequestUrl()).origin;
+    const origin = allowedOrigin(data.returnOrigin ?? new URL(getRequestUrl()).origin);
     const session = await stripe.checkout.sessions.create({ mode: "payment", ui_mode: "embedded_page", customer, adaptive_pricing: { enabled: false }, line_items: [{ price: price.id, quantity: 1 }], return_url: `${origin}/outshine/scan/${encodeURIComponent(data.businessId)}?scan_payment={CHECKOUT_SESSION_ID}`, payment_intent_data: { description: product.name }, metadata: { outshineScanCreditId: credit.id, userId: context.userId, businessId: data.businessId, environment: data.environment } }, { idempotencyKey: `outshine-scan-${credit.id}` });
     const { error: saveError } = await db.from("outshine_scan_credits").update({ stripe_session_id: session.id }).eq("id", credit.id);
     if (saveError) throw saveError;

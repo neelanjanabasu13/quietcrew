@@ -1,3 +1,4 @@
+import { allowedOrigin } from "@/lib/return-origin";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestUrl } from "@tanstack/react-start/server";
 import { z } from "zod";
@@ -72,7 +73,7 @@ export const createDiyCheckout = createServerFn({ method: "POST" })
       }
       const { data: purchase, error } = await supabaseAdmin.from("outshine_purchases").upsert({ user_id: context.userId, business_id: business.id, environment: data.environment, amount: DIY_AMOUNT, business_snapshot: JSON.parse(JSON.stringify(business)) }, { onConflict: "user_id,business_id,environment" }).select("id").single();
       if (error || !purchase) throw error ?? new Error("Could not save your purchase.");
-      const origin = data.returnOrigin ?? new URL(getRequestUrl()).origin;
+      const origin = allowedOrigin(data.returnOrigin ?? new URL(getRequestUrl()).origin);
       const session = await stripe.checkout.sessions.create({
         mode: "payment", ui_mode: "embedded_page", customer, adaptive_pricing: { enabled: false },
         line_items: [{ price: price.id, quantity: 1 }],

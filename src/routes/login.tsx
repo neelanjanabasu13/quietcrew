@@ -7,7 +7,12 @@ const NEXT_KEY = "quietcrew.authNext";
 
 function safeNext(value: unknown): string {
   if (typeof value !== "string") return "/";
-  if (!value.startsWith("/") || value.startsWith("//")) return "/";
+  if (!value.startsWith("/") || value.startsWith("//") || value.includes("\\") || /[\u0000-\u001f]/.test(value)) return "/";
+  try {
+    if (new URL(value, "https://quietcrew.ai").origin !== "https://quietcrew.ai") return "/";
+  } catch {
+    return "/";
+  }
   return value;
 }
 

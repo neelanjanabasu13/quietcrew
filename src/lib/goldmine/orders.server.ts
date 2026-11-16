@@ -61,7 +61,7 @@ export async function loadOwnedOrder(
   const scoped =
     "userId" in owner
       ? query.eq("user_id", owner.userId)
-      : query.eq("guest_token", owner.guestToken);
+      : query.eq("guest_token", owner.guestToken).is("user_id", null);
   const { data, error } = await scoped.maybeSingle();
 
   if (error) {

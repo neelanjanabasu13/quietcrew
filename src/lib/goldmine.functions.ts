@@ -1,3 +1,4 @@
+import { assertAllowedReturnUrl } from "./return-origin";
 /**
  * Goldmine server functions.
  *
@@ -100,7 +101,7 @@ export const claimGuestGoldmineOrder = createServerFn({ method: "POST" })
     const email = (context.claims as { email?: string } | undefined)?.email ?? "";
     await supabaseAdmin
       .from("goldmine_orders")
-      .update({ user_id: context.userId, customer_email: email })
+      .update({ user_id: context.userId, customer_email: email, guest_token: null })
       .eq("id", data.orderId)
       .eq("guest_token", data.guestToken)
       .is("user_id", null);
@@ -150,7 +151,7 @@ export const createGoldmineCheckout = createServerFn({ method: "POST" })
         line_items: [{ price: price.id, quantity: 1 }],
         mode: "payment",
         ui_mode: "embedded_page",
-        return_url: data.returnUrl,
+        return_url: assertAllowedReturnUrl(data.returnUrl),
         customer: customerId,
         payment_intent_data: { description: "Goldmine by Quietcrew Scan" },
         metadata: { userId, goldmineOrderId: order.id },
