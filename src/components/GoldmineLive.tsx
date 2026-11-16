@@ -22,7 +22,7 @@ import { GoldmineLockedCard } from "@/components/GoldmineLockedCard";
 import { PoweredByGoogle } from "@/components/PoweredByGoogle";
 import { GoldmineContrast } from "@/components/GoldmineContrast";
 import { businessesToCsv } from "@/lib/goldmine/csv";
-import { GAP_TIER_MIN, nearbyAreas, opportunitySnapshot, opportunityTier } from "@/lib/goldmine/opportunities";
+import { EVIDENCE_GROUPS, evidenceGroup, nearbyAreas, opportunitySnapshot } from "@/lib/goldmine/opportunities";
 import { Button } from "@/components/ui/button";
 
 const LAST_ORDER_KEY = "goldmine.lastOrder";
@@ -628,7 +628,7 @@ export function GoldmineLive() {
                         : `${lockedCount} more businesses in this scan`}
                     </h3>
                     <p className="mt-3 text-[15px] text-muted-on-violet">
-                      {visibleBusinesses.length} in your free preview. {P.goldmineScan} unlocks {lockedCount} more, plus the full CSV, assistant checks and outreach drafts.
+                      {visibleBusinesses.length} in your free preview. Unlock the other {lockedCount} and the full CSV for {P.goldmineScan}, with assistant checks and outreach drafts for every business.
                     </p>
                     {signedIn === false ? (
                       <>
@@ -720,13 +720,13 @@ export function GoldmineLive() {
             <section className="mt-6 rounded-[20px] bg-violet-tint p-5 sm:p-6" aria-labelledby="goldmine-low-yield">
               <h3 id="goldmine-low-yield" className="text-[1.2rem] text-ink">
                 {scanTotal === 0
-                  ? `No positive-score prospects found in ${snapshot.locality}`
-                  : `Only ${scanTotal === 1 ? "one prospect" : "two prospects"} found in ${snapshot.locality}`}
+                  ? `No businesses were checked in ${snapshot.locality}`
+                  : `Only ${scanTotal === 1 ? "one business" : "two businesses"} checked in ${snapshot.locality}`}
               </h3>
               <p className="mt-3 text-[15px] text-muted-paper">
                 {scanTotal === 0
-                  ? "This completed scan did not return a business with a Gold opportunity score above zero. This does not prove there is no opportunity, especially where assistant checks were unavailable."
-                  : `All positive-score prospects from this scan are included in your free preview, so there is nothing more to unlock for ${P.goldmineScan}.`}
+                  ? "This completed scan did not return any businesses in this category. This does not prove there is no opportunity in the area."
+                  : `Every business checked in this scan is in your free preview, so there is nothing to buy for this scan.`}
                 {" "}Try another area for {snapshot.category}. These suggestions are alternatives, not a prediction of better results.
               </p>
               <div className="mt-4 flex flex-wrap gap-2" aria-label="Alternative areas">
@@ -753,13 +753,12 @@ export function GoldmineLive() {
           ) : (
             <div className="mt-6">
               {snapshot.status === "completed" && !open ? (
-                <div className="mb-4 grid gap-3 sm:grid-cols-2">
-                  <p className="rounded-[14px] bg-violet-tint px-4 py-3 text-[14px] text-ink">
-                    <strong>Visibility gap ({GAP_TIER_MIN} and above).</strong> Well reviewed but rarely named by AI assistants, so the clearest first outreach.
-                  </p>
-                  <p className="rounded-[14px] bg-cream px-4 py-3 text-[14px] text-ink">
-                    <strong>Hold the ground (below {GAP_TIER_MIN}).</strong> Already named by some assistants, so pitch keeping that lead and closing the gaps between them.
-                  </p>
+                <div className="mb-4 grid gap-3 sm:grid-cols-3">
+                  {Object.values(EVIDENCE_GROUPS).map((g) => (
+                    <p key={g.key} className={`rounded-[14px] px-4 py-3 text-[14px] text-ink ${g.key === "win" ? "bg-violet-tint" : "bg-cream"}`}>
+                      <strong>{g.label}.</strong> {g.pitch}
+                    </p>
+                  ))}
                 </div>
               ) : null}
               <ul className={open ? "hidden" : "grid gap-4 md:grid-cols-2"}>
@@ -798,8 +797,8 @@ export function GoldmineLive() {
                       </div>
 
                       {snapshot.status === "completed" ? (
-                        <p className={`mt-3 rounded-[12px] px-3 py-2 text-[13px] ${opportunityTier(b.gold).key === "gap" ? "bg-violet-tint text-ink" : "bg-cream text-ink"}`}>
-                          <strong>{opportunityTier(b.gold).label}.</strong> {opportunityTier(b.gold).pitch}
+                        <p className={`mt-3 rounded-[12px] px-3 py-2 text-[13px] ${evidenceGroup(b).key === "win" ? "bg-violet-tint text-ink" : "bg-cream text-ink"}`}>
+                          <strong>{evidenceGroup(b).label}.</strong> {evidenceGroup(b).pitch}
                         </p>
                       ) : null}
 
