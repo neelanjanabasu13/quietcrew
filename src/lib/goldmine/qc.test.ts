@@ -25,6 +25,6 @@ describe("Goldmine QC rules", () => {
     } as unknown as ScanSnapshot;
     const out = opportunitySnapshot(snap).businesses;
     expect(out.map((b) => b.id)).toEqual(["b", "a"]);
-    expect(out[1].outsideArea).toBe(true);
+    expect(out[1]?.outsideArea).toBe(true);
   });
 });

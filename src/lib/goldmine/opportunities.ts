@@ -109,13 +109,13 @@ export const AREA_DISTRICTS: Record<string, string[]> = {
 
 function areaDistricts(locality: string): string[] | null {
   const key = Object.keys(AREA_DISTRICTS).find((area) => locality === area || locality.startsWith(`${area},`));
-  return key ? AREA_DISTRICTS[key] : null;
+  return key ? AREA_DISTRICTS[key] ?? null : null;
 }
 
 /** True when the address has no readable postcode or its district is listed. */
 function inDistricts(address: string, districts: string[]): boolean {
   const match = address.toUpperCase().match(/\b([A-Z]{1,2}\d[A-Z\d]?)\s*\d[A-Z]{2}\b/);
-  return match ? districts.includes(match[1]) : true;
+  return match?.[1] ? districts.includes(match[1]) : true;
 }
 
 const GYM = /\b(gym|fitness|health club|leisure centre|crossfit|nuffield health|puregym|virgin active|david lloyd|the gym group)\b/i;
