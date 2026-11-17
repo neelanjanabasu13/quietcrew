@@ -20,6 +20,8 @@ export type ScanBusiness = {
   area: string;
   category: string;
   searchArea?: { name: string; nearby: boolean };
+  /** Set when the address postcode falls outside the chosen area's districts. */
+  outsideArea?: boolean;
   reputation: { rating: number; reviews: number };
   gold: number;
   why: string;

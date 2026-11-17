@@ -96,6 +96,13 @@ function checkFromQueries(queries: unknown[], provider: ProviderName): ProviderC
   return { status: "pending" };
 }
 
+/** Engine percentiles (0 to 100, higher is better) as plain words, never "top 0" or "top 99". */
+export function percentilePhrase(pct: number): string {
+  const p = Math.min(100, Math.max(0, pct));
+  if (p >= 50) return `top ${Math.max(1, Math.round(100 - p))} per cent`;
+  return `bottom ${Math.max(1, Math.round(p))} per cent`;
+}
+
 function businessFromResult(raw: unknown, index: number, locality: string, category: string): ScanBusiness {
   const result = asDict(raw);
   const ai = asDict(result["ai"]);
@@ -122,7 +129,7 @@ function businessFromResult(raw: unknown, index: number, locality: string, categ
   const parts: string[] = [];
   if (ratingPct !== null && volumePct !== null) {
     parts.push(
-      `Its customer rating sits in the top ${Math.round(100 - ratingPct)} per cent and its review volume in the top ${Math.round(100 - volumePct)} per cent of the ${cohort ?? 0} businesses compared.`,
+      `Its customer rating sits in the ${percentilePhrase(ratingPct)} and its review volume in the ${percentilePhrase(volumePct)} of the ${cohort ?? 0} businesses compared.`,
     );
   }
   if (visibility !== null) {

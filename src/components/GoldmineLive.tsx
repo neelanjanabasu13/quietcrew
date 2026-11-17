@@ -784,6 +784,9 @@ export function GoldmineLive() {
                         <div>
                           <h3 className="text-[1.1rem]">{b.name}</h3>
                           <p className="mt-1 text-[14px] text-muted-paper">{b.area}</p>
+                          {b.outsideArea ? (
+                            <p className="mt-1 text-[13px] font-semibold text-violet">Nearby, outside {snapshot?.locality}</p>
+                          ) : null}
                           {b.searchArea ? (
                             <p className="mt-1 text-[13px] font-semibold text-violet">
                               {b.searchArea.nearby ? "Nearby · " : ""}AI checks for {b.searchArea.name}
